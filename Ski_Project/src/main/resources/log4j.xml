@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+
+<!-- 
+	* log4j.xml 파일
+	- log4j 의 설정 파일로
+	  언제, 어디서, 어떤 식으로 로그를 남길 건지에 대한 설정을 기술한다.
+	  src/main 또는 src/test 를 잘 구분해서 사용해야됨!!
+	  
+	1. log4j 의 메세지 레벨 (수준)
+	: 기록되는 로그 메세지의 중요도를 매기는 개념 (총 6단계 존재)
+	  1단계로 갈수록 자주 일어남, 6단계로 갈수록 중요도가 높아짐!!
+	- 1단계 : TRACE
+			 프로그램 내에서 발생하는 모든 사소한 작업으로 다 기록
+			 (제일 시시콜콜한 나머지 개발자가 쓸 수 없게 막아둠)
+	- 2단계 : DEBUG
+			 개발할 때 필요에 의해서 확인해야할 부분에 대한 기록
+			 (말 그대로 개발 단계에서 개발자가 오류를 찾기 위해 사용)
+			 배포 시에는 필요가 없음!!
+	- 3단계 : INFO
+			 프로그램 구동 시 사용자에게 알려줘야 할 정보에 대한 기록
+			 (배포 후 운영 단계에서는 info 수준으로 정보를 출력해야함)
+	- 4단계 : WARN
+			 프로그램 구동 시 실행은 되지만
+			 추후에 문제가 생길 소지가 있을 경우에 대한 기록
+	- 5단계 : ERROR
+			 프로그램 구동 중 어떠한 문제에 의해서
+			 실행이 아예 안되는 경우에 대한 기록
+	- 6단계 : FATAL
+			 시스템에 치명적인 오류에 대한 기록
+			 (너무 중요한 나머지 개발자가 쓸 수 없게 막아둠)
+	
+	2. 각 설정 태그와 역할
+	- logger 태그 : 로깅을 수행하기 위한 Logger 객체에 대한 설정을 기술
+	- root 태그 : 전반적인 로깅에 대한 설정을 담당하는 부분
+				 (위의 logger 태그에서 설정하고 남은 코드들에 대한
+				  것들의 로깅 설정)
+	- appender 태그 : 로깅을 어디에 어떻게 할지 디테일한 설정을 기술
+	
+	3. 메세지 레이아웃 (포맷)
+	- %p : 메세지 레벨 (priority)
+		   -5p 는 해당 메세지 레벨을 5칸 왼쪽에다가 찍겠다 라는 뜻
+	- %c : 로깅이 발생한 대상에 대한 정보
+	- %m : 메세지 내용, 실제 로깅 메세지 정보
+	- %n : 개행 (\n 을 의미)
+	- %d : 날짜 및 시간 정보 (date)
+		   자바의 SimpleDateFormat 의 형식 그대로 사용
+		   단, {} 안에 커스터마이징 해야 함!!
+		   
+	4. 사용 가능한 Appender
+	- ConsoleAppender : 콘솔에 출력해주는 객체 타입
+	- FileAppender : 파일로 출력해주는 객체 타입
+	- DailyRollingFileAppender : 날짜별로 파일에 출력해주는 객체 타입
+	- RollingFileAppender : 파일 용량별로 구분하여 파일에 출력해주는 객체 타입
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<!-- 
+		Appender 는 여러개 등록 가능하다. 
+		기본적으로 ConsoleAppender 가 등록되어있다. (콘솔에 출력해주는 도구)
+	-->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<!-- 내부적으로 System.out 과 같은 역할을 수행하겠다. (콘솔에 찍겠다) -->
+		
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+		<!-- 
+			layout 태그로 메세지의 포맷을 지정한다.
+			%-5p : %c 						  - %m		 %n
+			DEBUG: com.kh.spring.LogTestClass - 난 debug야
+			
+			%-5p : %c 						  - %m		 (%d{yyyy-MM-dd HH:mm:ss})%n
+			DEBUG: com.kh.spring.LogTestClass - 난 debug야(2024-11-21 14:53:20)
+		-->
+	</appender>
+	
+	<!-- Appender 등록해보기 -->
+	<!-- 1. 파일로 출력해주는 Appender -->
+	<!-- xml 파일 형식으로 출력해주는 도구 등록 -->
+	<appender name="xml" class="org.apache.log4j.FileAppender">
+		<param name="file" value="log.xml" /> 
+		<!-- 파일명 (파일명만 제시할 경우 현재 작업중인 프로젝트 폴더 내부에 생김) -->
+		<param name="append" value="true" /> 
+		<!-- 이어쓰기 여부 (true : 이어쓰기, false : 덮어쓰기) -->
+		<layout class="org.apache.log4j.xml.XMLLayout" />
+		<!-- log4j 에서 제공하는 xml 파일 형식을 쓰겠다. -->
+	</appender>
+	
+	<!-- 2. 파일로 출력해주는 Appender -->
+	<!-- 내가 원하는 형식으로 만들 수도 있음 -->
+	<appender name="out" class="org.apache.log4j.FileAppender">
+		<param name="file" value="log.out" />
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" 
+				   value="%-5p: %c - %m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+	</appender>
+	
+	<!-- 3. 날짜별로 파일이 바뀌는 Appender -->
+	<!-- 로그 파일을 날짜별로 알아서 끊어서 만들어줌 -->
+	<appender name="daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="C:/mylog/daily" />
+		<param name="append" value="true" />
+		<!-- 날짜 패턴 지정 (파일명에 붙을 패턴) -->
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" 
+				   value="%-5p: %c - %m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+	</appender>
+	
+	<!-- Application Loggers -->
+	<!-- 
+		Application Loggers 는
+		"내가 직접 짠 코드 (com.kh.spring)" 에 대해서 
+		로깅을 어떻게 남길건지에 대한 설정
+		안쪽의 level value="info" 는
+		내가 직접 짠 com.kh.spring 패키지 하위의 모든 코드에 대해
+		로깅을 수행할 때 info 수준 이상만 출력해주겠다 라는 뜻!!
+	-->
+	<!-- 
+	<logger name="com.kh.spring">
+		<level value="info" />
+	</logger>
+	-->
+	
+	<!-- 3rdparty Loggers -->
+	<!-- 
+		3rdparty Loggers 는
+		"제 3자 (남) 가 만든 코드" 에 대한 로깅에 대한 설정을 하는 부분
+		여기서 남이 만든 코드는 org.springframework.xxx 하위 코드를 지칭
+		모두 기본 설정이 info 수준 이상부터 찍겠다고 되어있음!!
+	-->
+	<!-- 
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>	
+	
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+	-->
+
+	<!-- Root Logger -->
+	<!-- 
+		Root Logger 는
+		위의 logger 태그들에 의한 설정을 제외한
+		나머지 코드들에 대해 어떻게 로깅을 수행할건지 설정하는 부분
+		참고로, 위의 logger 태그들을 싹 다 지워버리게 되면
+		이 Root Logger 가 내가 짠 코드, spring 에서 제공하는 코드,
+		및 기타 모듈 코드들에 대한 로깅 설정을 한번에 다 해준다!!
+		(전반적인 로깅 설정)
+	-->
+	<root>
+		<priority value="debug" />
+		<!-- priority 에서 제시한 수준 이상부터만 기록하겠다. -->
+		<appender-ref ref="console" />
+		<appender-ref ref="out" />
+		<!-- 
+			appender-ref 는 어디에 로깅을 할지 
+			로깅할 매체를 지정하는 부분 
+			원하는 만큼 추가 가능
+		-->
+	</root>
+	
+	<!-- 
+		개발 단계에서는 로깅 수준을 debug 로 잡고,
+		실제 디버깅 또한 logger.debug() 메소드 구문으로 수행한 뒤,
+		배포 단계에서는 로깅 수준을 info 로 잡으면
+		굳이 디버깅 구문들을 찾아다니면서 지울 필요가 없어진다!!
+	-->
+	
+</log4j:configuration>
