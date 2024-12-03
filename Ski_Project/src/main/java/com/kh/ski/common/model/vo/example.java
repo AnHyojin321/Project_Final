@@ -1,4 +1,4 @@
-package com.kh.ski.common.interceptor;
+package com.kh.ski.common.model.vo;
 
 public class example {
 	
