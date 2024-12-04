@@ -1,5 +1,5 @@
 package com.kh.admin.locker.model.vo;
 
-public class exam {
+public class Locker {
 
 }

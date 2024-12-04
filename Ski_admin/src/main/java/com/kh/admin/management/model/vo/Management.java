@@ -1,5 +1,5 @@
 package com.kh.admin.management.model.vo;
 
-public class exam {
+public class Management {
 
 }

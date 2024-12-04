@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+이건 관리자용 main
 </body>
 </html>

@@ -19,21 +19,21 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.ski.member.model.vo.Member" alias="member" />
-		<typeAlias type="com.kh.ski.member.model.vo.Lift" alias="lift" />
-		<typeAlias type="com.kh.ski.member.model.vo.LiftOrder" alias="liftorder" />
-		<typeAlias type="com.kh.ski.member.model.vo.LiftPay" alias="liftpay" />
-		<typeAlias type="com.kh.ski.member.model.vo.Lesson" alias="lesson" />
-		<typeAlias type="com.kh.ski.member.model.vo.Room" alias="room" />
-		<typeAlias type="com.kh.ski.member.model.vo.RoomImg" alias="roomimg" />
-		<typeAlias type="com.kh.ski.member.model.vo.RoomPay" alias="roompay" />
-		<typeAlias type="com.kh.ski.member.model.vo.Notice" alias="notice" />
-		<typeAlias type="com.kh.ski.member.model.vo.Locker" alias="locker" />
-		<typeAlias type="com.kh.ski.member.model.vo.LockerPay" alias="lockerpay" />
-		<typeAlias type="com.kh.ski.member.model.vo.LostItem" alias="lostitem" />
-		<typeAlias type="com.kh.ski.member.model.vo.LostItemImg" alias="lostitemimg" />
-		<typeAlias type="com.kh.ski.member.model.vo.Package" alias="package" />
-		<typeAlias type="com.kh.ski.member.model.vo.PackagePay" alias="packagepay" />
-		<typeAlias type="com.kh.ski.member.model.vo.Management" alias="management" />
+		<typeAlias type="com.kh.ski.lift.model.vo.Lift" alias="lift" />
+		<typeAlias type="com.kh.ski.lift.model.vo.LiftOrder" alias="liftorder" />
+		<typeAlias type="com.kh.ski.lift.model.vo.LiftPay" alias="liftpay" />
+		<typeAlias type="com.kh.ski.lesson.model.vo.Lesson" alias="lesson" />
+		<typeAlias type="com.kh.ski.room.model.vo.Room" alias="room" />
+		<typeAlias type="com.kh.ski.room.model.vo.RoomImg" alias="roomimg" />
+		<typeAlias type="com.kh.ski.room.model.vo.RoomPay" alias="roompay" />
+		<typeAlias type="com.kh.ski.notice.model.vo.Notice" alias="notice" />
+		<typeAlias type="com.kh.ski.locker.model.vo.Locker" alias="locker" />
+		<typeAlias type="com.kh.ski.locker.model.vo.LockerPay" alias="lockerpay" />
+		<typeAlias type="com.kh.ski.lostitem.model.vo.LostItem" alias="lostitem" />
+		<typeAlias type="com.kh.ski.lostitem.model.vo.LostItemImg" alias="lostitemimg" />
+		<typeAlias type="com.kh.ski.pack.model.vo.Package" alias="package" />
+		<typeAlias type="com.kh.ski.pack.model.vo.PackagePay" alias="packagepay" />
+		<typeAlias type="com.kh.ski.management.model.vo.Management" alias="management" />
 	</typeAliases>
 	
 	<mappers>

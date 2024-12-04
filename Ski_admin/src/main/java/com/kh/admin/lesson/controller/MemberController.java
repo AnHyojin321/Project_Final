@@ -1,5 +1,5 @@
 package com.kh.admin.lesson.controller;
 
-public class exam {
+public class MemberController {
 
 }

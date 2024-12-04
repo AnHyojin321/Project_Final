@@ -1,5 +1,5 @@
 package com.kh.admin.pack.model.vo;
 
-public class exam {
+public class Package {
 
 }
