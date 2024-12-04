@@ -2,7 +2,7 @@ package com.kh.ski.common.model.vo;
 
 public class PageInfo {
 	
-	// 페이징처리를 위한 7개의 변수를 필드로 지정
+	// 페이징처리를 위한 7개의 변수를 필드로 지정 (보여주기용 수정)
 	private int listCount;
 	private int currentPage;
 	private int pageLimit;
