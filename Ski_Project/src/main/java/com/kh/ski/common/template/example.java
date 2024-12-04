@@ -1,4 +1,4 @@
-package com.kh.ski.common.interceptor;
+package com.kh.ski.common.template;
 
 public class example {
 	
