@@ -309,7 +309,7 @@ p {
         });
     
         // 원이 천천히 따라오도록 애니메이션
-        function animateCircle() {
+        function animateCircle() { 
             circleX += (mouseX - circleX) * 0.1; // 부드러운 이동
             circleY += (mouseY - circleY) * 0.1;
     
