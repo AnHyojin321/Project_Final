@@ -52,12 +52,12 @@
         }
 
         #btn1 {
-    margin-right: 94%;
+    margin-right: 93%;
     background-color: #0B3E74; /* 초기 색상 */
     color: white;
     transform: rotate(270deg);
-    width: 190px;
-    height: 50px;
+    width: 200px;
+    height: 60px;
     margin-top: 40px;
     position: absolute;
     z-index: 1;
@@ -139,8 +139,8 @@
 
         .snow-image {
             position: absolute;
-            top: 285px;
-            left: 10px;
+            top: 325px;
+            left: 14px;
             width: 30px;
             transform: rotate(280deg);
             margin-right: 95%;
@@ -271,14 +271,14 @@ p {
                 background: url('resources/images/menu.png') no-repeat center center; 
                 background-size: cover; 
                 border: none; 
-                margin-left: 640px; 
+                margin-left: 720px; 
                 margin-top: 20px;
                 cursor: pointer;
                 transition: transform 0.2s ease, opacity 0.2s ease;">
             </button>
-            <div style="margin-left: 660px; color: white;">MENU</div>
+            <div style="margin-left: 735px; color: white;">MENU</div>
             
-            <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
+            <div style="display: flex; align-items: center; margin-left: 540px; margin-bottom: 50px; position: relative;">
                 <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 45px; bottom: 80px; z-index: 2;">
                 <button id="qna"   style="background-color: #004AAD; color: white; border: none; 
                     width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 30px; bottom: 70px;">
@@ -373,6 +373,16 @@ const introVideo = document.getElementById('introVideo');
 introVideo.src = 'resources/images/thumnail.mp4'; // 동영상 파일 경로 설정
 
 introVideo.addEventListener('ended', () => {
+    introVideo.style.display = 'none'; // 동영상 숨김
+    const container = document.querySelector('.container');
+    container.style.display = 'flex'; // 화면 표시
+    setTimeout(() => {
+        container.classList.add('visible'); // 부드럽게 나타나도록 클래스 추가
+    }, 10);
+});
+
+// 동영상을 클릭하면 스킵되도록 처리
+introVideo.addEventListener('click', () => {
     introVideo.style.display = 'none'; // 동영상 숨김
     const container = document.querySelector('.container');
     container.style.display = 'flex'; // 화면 표시
