@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	깃허브에 폴더 올리기 위해 임시로 생성한 jsp 파일
+	<h1 >에러페이지</h1>
 </body>
 </html>

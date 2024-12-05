@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	깃허브에 폴더 올리기 위해 임시로 생성한 jsp 파일
+	객실 목록 페이지
 </body>
 </html>

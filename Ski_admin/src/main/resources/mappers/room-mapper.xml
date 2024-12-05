@@ -1,5 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="room">
+<mapper namespace="roomMapper">
+
+	<insert id="insertRoom" parameterType="room">
+		INSERT INTO ROOM(ROOM_NO
+					   , ROOM_NAME
+					   , ROOM_DESC
+					   , ROOM_TYPE
+					   , CAPACITY
+					   , ROOM_PRICE)
+		VALUES(SEQ_ROOM_NO.NEXTVAL
+			 , #{roomName}
+			 , #{roomDesc}
+			 , #{roomType}
+			 , #{capacity}
+			 , #{roomPrice})			  	
+	</insert>
+	
+	<insert id="insertRoomImg" parameterType="roomImg">
+		INSERT INTO ROOM_IMG(ROOM_IMG_NO
+						   , ROOM_NO
+						   , ROOM_ORIGIN_NAME
+						   , ROOM_CHANGE_NAME
+						   , ROOM_IMG_PATH
+						   , ROOM_THUMBNAIL)	
+		VALUES(SEQ_ROOM_IMG_NO.NEXTVAL
+			 , SEQ_ROOM_NO.CURRVAL
+			 , #{roomOriginName}
+			 , #{roomChangeName}
+			 , #{roomImgPath}
+			 , #{roomThumbnail})	   
+	</insert>
+	
+
+
+
+
+
+
+
+
 
 </mapper>
