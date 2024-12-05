@@ -192,7 +192,7 @@ p {
 
     @keyframes moveHorizontal {
         0%, 100% {
-            transform: translateX(0); /* 원래 위치 */
+            transform: translateX(0); /* 원래 위치 */ 
         }
         50% {
             transform: translateX(80px); /* 오른쪽으로 80px 이동 */
@@ -247,7 +247,7 @@ p {
                 <p>Premium Adventure Shop</p>
               </div>
             <img src="resources/images/snow.png" class="snow-image"> 
-            <button id="btn1" style="font-size: 21px;">찾아오는 길&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길</a></button>
             
             <div id="top1">
                 <p style="font-size: 25px;">[Adv:nture]</p> 
