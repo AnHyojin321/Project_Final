@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-이건 관리자용 main
+	이건 관리자용 main
+	<br>
+	<a href="list.ro">객실목록</a>
+	<a href="roomEnrollForm.ro">객실등록</a>
 </body>
 </html>
