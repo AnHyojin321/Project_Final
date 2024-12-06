@@ -18,4 +18,19 @@ public interface MemberService {
 	
 	// 아이디 중복체크 서비스 (select)
 	int idCheck(String checkId);
+	
+	// 이메일 인증번호 생성
+	int sendCertNo(String email);
+	
+	// 이메일 인증번호 대조
+	int validate(String email, String certNo);
+	
+	// 이메일 인증번호 데이터 삽입
+	int insertEmailCert(String email, String certNo);
+	
+	// 카카오
+    Member findByEmail(String email); // 이메일로 회원 조회
+    
+    int updateKakaoLogin(Member member); // 카카오 로그인 정보 업데이트
+	
 }

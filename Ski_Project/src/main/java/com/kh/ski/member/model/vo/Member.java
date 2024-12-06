@@ -8,10 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 // 24/12/05 김동준
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class Member {
 	
 
@@ -28,7 +24,130 @@ public class Member {
 	private String googleLogin;//	GOOGLE_LOGIN	VARCHAR2(30 BYTE)
 	private String memberStatus;//	MEMBER_STATUS	CHAR(1 BYTE)
 	
-	
+	public Member() {}
+
+	public Member(int memberNo, String memberId, String memberPwd, String memberName, String email, String phone,
+			Date birthDate, String address, Date createDate, String kakaoLogin, String googleLogin,
+			String memberStatus) {
+		super();
+		this.memberNo = memberNo;
+		this.memberId = memberId;
+		this.memberPwd = memberPwd;
+		this.memberName = memberName;
+		this.email = email;
+		this.phone = phone;
+		this.birthDate = birthDate;
+		this.address = address;
+		this.createDate = createDate;
+		this.kakaoLogin = kakaoLogin;
+		this.googleLogin = googleLogin;
+		this.memberStatus = memberStatus;
+	}
+
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getMemberPwd() {
+		return memberPwd;
+	}
+
+	public void setMemberPwd(String memberPwd) {
+		this.memberPwd = memberPwd;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getKakaoLogin() {
+		return kakaoLogin;
+	}
+
+	public void setKakaoLogin(String kakaoLogin) {
+		this.kakaoLogin = kakaoLogin;
+	}
+
+	public String getGoogleLogin() {
+		return googleLogin;
+	}
+
+	public void setGoogleLogin(String googleLogin) {
+		this.googleLogin = googleLogin;
+	}
+
+	public String getMemberStatus() {
+		return memberStatus;
+	}
+
+	public void setMemberStatus(String memberStatus) {
+		this.memberStatus = memberStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
+				+ memberName + ", email=" + email + ", phone=" + phone + ", birthDate=" + birthDate + ", address="
+				+ address + ", createDate=" + createDate + ", kakaoLogin=" + kakaoLogin + ", googleLogin=" + googleLogin
+				+ ", memberStatus=" + memberStatus + "]";
+	}
+
 	
 	
 	

@@ -17,6 +17,12 @@
 		<result column="MEMBER_STATUS" property="memberStatus" />
 	</resultMap>
 	
+	<resultMap id="emailCertResultSet" type="emailCert">
+		<id column="CERT_NO" property="certNo" />
+		<result column="EMAIL" property="email" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+	
 	<select id="loginMember" 
 			parameterType="member"
 			resultMap="memberResultSet">
@@ -26,28 +32,28 @@
 		   AND MEMBER_STATUS = 'Y'
 	</select>
 	
-	<insert id="insertMember" parameterType="member">
-	    INSERT INTO MEMBER (
-	        MEMBER_NO, 
-	        MEMBER_ID, 
-	        MEMBER_PWD, 
-	        MEMBER_NAME, 
-	        EMAIL, 
-	        BIRTH_DATE, 
-	        PHONE,
-	        ADDRESS
-	    )
-	    VALUES (
-	        SEQ_MEMBER_NO.NEXTVAL, 
-	        #{memberId}, 
-	        #{memberPwd}, 
-	        #{memberName}, 
-	        #{email}, 
-	        #{birthDate}, 
-	        #{phone},
-	        #{address}
-	    )
-	</insert>
+		<insert id="insertMember" parameterType="member">
+		    INSERT INTO MEMBER (
+		        MEMBER_NO, 
+		        MEMBER_ID, 
+		        MEMBER_PWD, 
+		        MEMBER_NAME, 
+		        EMAIL, 
+		        BIRTH_DATE, 
+		        PHONE,
+		        ADDRESS
+		    )
+		    VALUES (
+		        SEQ_MEMBER_NO.NEXTVAL, 
+		        #{memberId}, 
+		        #{memberPwd}, 
+		        #{memberName}, 
+		        #{email}, 
+		        #{birthDate}, 
+		        #{phone},
+		        #{address}
+		    )
+		</insert>
 	
 	<select id="idCheck" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
@@ -55,10 +61,49 @@
 		 WHERE MEMBER_ID = #{checkId}
 	</select>
 	
+	<insert id="sendCertNo" parameterType="emailCert">
+		INSERT INTO EMAIL_CERT(EMAIL
+							 , CERT_NO
+							 , CREATE_TIME)
+					 VALUES(#{email}
+					 	  , #{certNo}
+					 	  , #{createTime})
+	</insert>
+				
+		<select id="validate" resultMap="emailCertResultSet">
+		    SELECT EMAIL, CERT_NO, CREATE_TIME
+		    FROM EMAIL_CERT
+		    WHERE EMAIL = #{email}
+		      AND CERT_NO = #{checkNo}
+		      AND CREATE_TIME >= SYSDATE - (3 / 1440)
+		</select>
+
+	<insert id="emailCertResultSet" parameterType="map">
+		    INSERT INTO EMAIL_CERT (
+		        EMAIL,
+		        CERT_NO,
+		        CREATE_TIME
+		    ) VALUES (
+		        #{email},
+		        #{certNo},
+		        #{createTime}
+		    )
+		</insert>
 	
 	
+    <!-- 카카오 ID로 회원 정보 조회 -->
+	<!-- 이메일로 회원 조회 -->
+		<select id="selectByEmail" parameterType="string" resultMap="memberResultSet">
+		    SELECT * FROM MEMBER WHERE EMAIL = #{email}
+		</select>
+
 	
-	
+	<!-- 카카오 로그인 정보 업데이트 -->
+	<update id="updateKakaoLogin" parameterType="member">
+	    UPDATE MEMBER SET KAKAO_LOGIN = #{kakaoLogin} WHERE EMAIL = #{email}
+	</update>
+
+
 	
 	
 	

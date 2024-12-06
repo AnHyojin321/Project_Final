@@ -226,10 +226,13 @@
                 <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호" required>
                 <button type="submit">로그인</button>
                 <div class="social-login">
-                    <button class="kakao">
-                        <img src="resources/images/kakao-talk.png" alt="카카오톡">
-                        카카오 로그인
-                    </button>
+				<button class="kakao">
+				    <img src="resources/images/kakao-talk.png" alt="카카오톡">
+					    <a href="https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${kakaoRedirectUri}&response_type=code">
+					        카카오 로그인
+					    </a>
+				</button>
+
                     <button class="google">
                         <img src="resources/images/google.png" alt="구글">
                         구글 로그인
@@ -261,6 +264,7 @@
         }
 
         createSnowflake();
+        
     </script>
 </body>
 </html>

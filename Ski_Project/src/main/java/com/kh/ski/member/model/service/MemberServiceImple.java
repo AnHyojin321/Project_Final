@@ -49,4 +49,38 @@ public class MemberServiceImple implements MemberService {
 		return memberDao.idCheck(sqlSession, checkId);
 	}
 
+	@Override
+	public int sendCertNo(String email) {
+		
+		return memberDao.sendCertNo(sqlSession, email);
+	}
+
+	@Override
+	public int validate(String email, String certNo) {
+		
+		return memberDao.validate(sqlSession, email, certNo);
+	}
+	
+	@Override
+	@Transactional
+	public int insertEmailCert(String email, String certNo) {
+	    System.out.println("Service - 이메일: " + email);
+	    System.out.println("Service - 인증번호: " + certNo);
+
+	    return memberDao.insertEmailCert(sqlSession, email, certNo);
+	}
+
+    // 카카오 관련 메서드 구현
+    // 이메일로 회원 조회
+    @Override
+    public Member findByEmail(String email) {
+        return memberDao.findByEmail(sqlSession, email);
+    }
+
+    // 카카오 로그인 정보 업데이트
+    @Override
+    public int updateKakaoLogin(Member member) {
+        return memberDao.updateKakaoLogin(sqlSession, member);
+    }
+
 }

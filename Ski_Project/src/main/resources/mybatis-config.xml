@@ -19,6 +19,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.ski.member.model.vo.Member" alias="member" />
+		<typeAlias type="com.kh.ski.member.model.vo.EmailCert" alias="emailCert" /> 
 		<typeAlias type="com.kh.ski.lift.model.vo.Lift" alias="lift" />
 		<typeAlias type="com.kh.ski.lift.model.vo.LiftOrder" alias="liftorder" />
 		<typeAlias type="com.kh.ski.lift.model.vo.LiftPay" alias="liftpay" />
