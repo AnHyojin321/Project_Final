@@ -1,5 +1,6 @@
 package com.kh.admin.room.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,6 +11,11 @@ import com.kh.admin.room.model.vo.RoomImg;
 
 @Repository
 public class RoomDao {
+	
+	public ArrayList<Room> selectList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("roomMapper.selectList");
+	}
+	
 	
 	public int insertRoom(SqlSessionTemplate sqlSession, Room r) {
 		return sqlSession.insert("roomMapper.insertRoom", r);

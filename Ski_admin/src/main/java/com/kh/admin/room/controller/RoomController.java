@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,10 +29,28 @@ public class RoomController {
 	
 	// 객실 목록 페이지 요청
 	@GetMapping("list.ro")
-	public ModelAndView selectList(ModelAndView mv) {
-		mv.setViewName("room/roomList");
-		return mv;
+	public String selectList(Model model) {
+		
+		ArrayList<Room> list = roomService.selectList();
+		model.addAttribute("list", list);
+		return "room/roomList";
+		
 	}
+	
+	// 객실 상세 페이지 - 스탠다드
+	@GetMapping("roomDetail.ro")
+	public ModelAndView roomDetail(@RequestParam("roomType") String roomType, ModelAndView mv) {
+	    if ("standard".equals(roomType)) {
+	        mv.setViewName("room/standardDetail");
+	    }else if("suite".equals(roomType)) {
+	    	mv.setViewName("room/sutieDetail");
+	    } else {
+	    	mv.setViewName("room/deluxeDetail");
+	    }
+	    return mv;
+	}
+
+	
 	
 	// 객실 등록 페이지 요청
 	@GetMapping("roomEnrollForm.ro")
@@ -84,6 +103,7 @@ public class RoomController {
 	        int result = roomService.insertRoom(r, imgList);  // Room과 RoomImg 리스트를 전달
 
 	        if (result > 0) { // 성공
+	        	
 	            mv.setViewName("redirect:/list.ro");
 	        } else { // 실패
 	            mv.setViewName("common/errorPage");
@@ -91,6 +111,13 @@ public class RoomController {
 	    }
 
 	    return mv;
+	}
+	
+	// 객실 예약 페이지 요청 - step1
+	@GetMapping("payStep1.ro")
+	public ModelAndView roomPayStep1(ModelAndView mv) {
+		mv.setViewName("room/roomPayStep1");
+		return mv;
 	}
 
 	

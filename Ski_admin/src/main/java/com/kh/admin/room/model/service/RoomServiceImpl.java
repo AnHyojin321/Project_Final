@@ -1,5 +1,6 @@
 package com.kh.admin.room.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -19,6 +20,13 @@ public class RoomServiceImpl implements RoomService {
 	
 	@Autowired
 	private RoomDao roomDao;
+	
+	
+	  @Override
+	  public ArrayList<Room> selectList() {
+		  return roomDao.selectList(sqlSession);
+	  }
+		
 	
 	  @Override
 	  @Transactional
