@@ -368,147 +368,94 @@
 
 <script>
 $(function () {
-    // 아이디 입력 필드
     const $idInput = $("#memberId");
-    // 중복 체크 결과 메시지
     const $checkResult = $("#checkResult");
-    // 회원가입 버튼
     const $submitButton = $(".submit");
 
-    // 비밀번호 입력 필드와 메시지
     const $passwordInput = $("#memberPwd");
     const $passwordCheckInput = $("#checkPwd");
     const $passwordMessage = $("#passwordMessage");
     const $passwordCheckMessage = $("#passwordCheckMessage");
 
-    // 비밀번호 정규표현식 (영문 소문자, 대문자, 숫자, 특수문자 포함 8 ~ 20자)
+    // 정규식: 아이디는 5~20자의 영어 대소문자, 숫자만 허용
+    const idRegex = /^[a-zA-Z0-9]{5,20}$/;
+    // 비밀번호 정규식
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
 
-    // 비밀번호 입력 이벤트
+    let isEmailValidated = false; // 이메일 인증 여부를 확인하기 위한 변수
+
+    function checkFormValidity() {
+        const idValid = idRegex.test($idInput.val());
+        const passwordValid = passwordRegex.test($passwordInput.val());
+        const passwordCheckValid = $passwordInput.val() === $passwordCheckInput.val();
+
+        if (idValid && passwordValid && passwordCheckValid && isEmailValidated) {
+            $submitButton.prop("disabled", false); // 모든 조건 만족 시 활성화
+        } else {
+            $submitButton.prop("disabled", true); // 조건 불충족 시 비활성화
+        }
+    }
+
+    // 아이디 입력 이벤트
+    $idInput.on("keyup", function () {
+        const idValue = $(this).val();
+
+        if (idRegex.test(idValue)) {
+            // 아이디 중복 체크 Ajax 요청
+            $.ajax({
+                url: "idCheck.me",
+                type: "get",
+                data: { checkId: idValue },
+                success: function (result) {
+                    if (result.trim() === "NNNNN") {
+                        $checkResult.text("중복된 아이디가 이미 존재합니다. 다시 입력해 주세요.")
+                            .css("color", "red")
+                            .show();
+                        $submitButton.prop("disabled", true); // 버튼 비활성화
+                    } else {
+                        $checkResult.text("멋진 아이디네요!").css("color", "green").show();
+                        checkFormValidity(); // 폼 유효성 확인
+                    }
+                },
+                error: function () {
+                    $checkResult.text("중복 체크 중 문제가 발생했습니다.").css("color", "red").show();
+                    $submitButton.prop("disabled", true);
+                },
+            });
+        } else {
+            $checkResult.text("아이디는 5~20자의 영어 대소문자와 숫자만 가능합니다.")
+                .css("color", "red")
+                .show();
+            $submitButton.prop("disabled", true); // 버튼 비활성화
+        }
+    });
+
     $passwordInput.on("keyup", function () {
         const password = $(this).val();
-        
+
         if (passwordRegex.test(password)) {
-            $passwordMessage
-                .text("사용 가능한 비밀번호입니다.")
-                .css("color", "green") // 조건에 맞으면 초록색
-                .show();
+            $passwordMessage.text("사용 가능한 비밀번호입니다.").css("color", "green").show();
         } else {
             $passwordMessage
                 .text("비밀번호는 8~20자이며, 최소 하나의 영문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
-                .css("color", "red") // 조건에 맞지 않으면 빨간색
+                .css("color", "red")
                 .show();
         }
         checkFormValidity();
     });
 
-    // 비밀번호 확인 입력 이벤트
     $passwordCheckInput.on("keyup", function () {
         const password = $passwordInput.val();
         const passwordCheck = $(this).val();
 
         if (password === passwordCheck) {
-            $passwordCheckMessage
-                .text("비밀번호가 일치합니다.")
-                .css("color", "green") // 일치하면 초록색
-                .show();
+            $passwordCheckMessage.text("비밀번호가 일치합니다.").css("color", "green").show();
         } else {
-            $passwordCheckMessage
-                .text("비밀번호가 일치하지 않습니다.")
-                .css("color", "red") // 일치하지 않으면 빨간색
-                .show();
+            $passwordCheckMessage.text("비밀번호가 일치하지 않습니다.").css("color", "red").show();
         }
         checkFormValidity();
     });
 
-    // 아이디 입력 필드에서 입력 값 변경 시 이벤트 발생
-    $idInput.on("keyup", function () {
-        const checkId = $(this).val();
-
-        if (checkId.length >= 5) {
-            // 5글자 이상일 경우 중복 체크 Ajax 요청
-            $.ajax({
-                url: "idCheck.me", // 서버의 중복 체크 URL
-                type: "get",
-                data: { checkId: checkId },
-                success: function (result) {
-                    if (result.trim() === "NNNNN") {
-                        $checkResult
-                            .text("중복된 아이디가 이미 존재합니다. 다시 입력해 주세요.")
-                            .css("color", "red")
-                            .show();
-                        $submitButton.prop("disabled", true); // 버튼 비활성화
-                    } else {
-                        $checkResult
-                            .text("멋진 아이디네요!")
-                            .css("color", "green")
-                            .show();
-                        $submitButton.prop("disabled", false); // 버튼 활성화
-                    }
-                },
-                error: function () {
-                    $checkResult
-                        .text("중복 체크 중 문제가 발생했습니다.")
-                        .css("color", "red")
-                        .show();
-                    $submitButton.prop("disabled", true); // 버튼 비활성화
-                },
-            });
-        } else {
-            $checkResult.hide();
-            $submitButton.prop("disabled", true); // 버튼 비활성화
-        }
-    });
-
-    // 폼의 유효성 체크
-    function checkFormValidity() {
-        const passwordValid = passwordRegex.test($passwordInput.val());
-        const passwordCheckValid = $passwordInput.val() === $passwordCheckInput.val();
-        
-        if (passwordValid && passwordCheckValid && $idInput.val().length >= 5) {
-            $submitButton.prop("disabled", false); // 조건을 모두 만족하면 버튼 활성화
-        } else {
-            $submitButton.prop("disabled", true); // 조건을 만족하지 않으면 버튼 비활성화
-        }
-    }
-});
-
-function createSnowflake() {
-    var snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-    snowflake.textContent = '❄'; // 눈송이 모양
-    snowflake.style.left = Math.random() * 100 + 'vw'; // 랜덤 위치
-    snowflake.style.animationDuration = (15 + Math.random() * 15) + 's'; // 애니메이션 속도
-    snowflake.style.fontSize = (10 + Math.random() * 10) + 'px'; // 눈송이 크기
-    document.body.appendChild(snowflake);
-
-    snowflake.addEventListener('animationend', function() {
-        snowflake.remove();
-    });
-
-    setTimeout(createSnowflake, 1000); // 눈송이 생성 간격
-}
-
-createSnowflake();
-
-$(function() {
-    // 눈 모양 클릭 시 비밀번호 표시/숨기기
-    $('.toggle-password').on('click', function() {
-        const $passwordInput = $(this).siblings('input'); // 같은 `.password-wrapper` 내의 `input` 선택
-        const inputType = $passwordInput.attr('type');
-        
-        if (inputType === 'password') {
-            $passwordInput.attr('type', 'text'); // 비밀번호 보이기
-            $(this).removeClass('fa-eye').addClass('fa-eye-slash'); // 눈 모양 변경
-        } else {
-            $passwordInput.attr('type', 'password'); // 비밀번호 숨기기
-            $(this).removeClass('fa-eye-slash').addClass('fa-eye'); // 눈 모양 변경
-        }
-    });
-});
-
-//이메일 인증 요청
-$(document).ready(function () {
     $("#cert").on("click", function () {
         let email = $("#email").val();
 
@@ -518,15 +465,9 @@ $(document).ready(function () {
             data: { email: email },
             success: function (result) {
                 alert(result);
-
-                // 인증번호 입력란과 인증 버튼 표시
                 $("#cert-area").show();
-
-                // 인증번호 입력란과 버튼 활성화
                 $("#certNo").attr("disabled", false);
                 $("#validate").attr("disabled", false);
-
-                // 이메일 입력란과 인증 요청 버튼 비활성화
                 $("#email").attr("readonly", true);
                 $("#cert").attr("disabled", true);
             },
@@ -536,50 +477,66 @@ $(document).ready(function () {
         });
     });
 
-    // 인증번호 대조
     $("#validate").on("click", function () {
         let email = $("#email").val();
-        let certNo = $("#certNo").val(); // checkNo → certNo로 변경
+        let certNo = $("#certNo").val();
 
         $.ajax({
             url: "validate.do",
             type: "post",
-            data: {
-                email: email,
-                certNo: certNo, // 데이터 키도 certNo로 변경
-            },
+            data: { email: email, certNo: certNo },
             success: function (result) {
-                $("#result").text(result);
-
                 if (result === "인증 성공") {
-                    $("#result").css("color", "green");
-
-                    // 인증 성공 후 인증 관련 요소들 비활성화
+                    isEmailValidated = true; // 인증 성공
+                    $("#result").text("이메일 인증이 완료되었습니다!").css("color", "green");
                     $("#certNo").attr("disabled", true);
                     $("#validate").attr("disabled", true);
                 } else {
-                    $("#result").css("color", "red");
-
-                    // 인증 실패 시 재인증 할 수 있도록 유도
-                    $("#email").attr("disabled", false);
-                    $("#cert").attr("disabled", false);
-
-                    $("#certNo").attr("disabled", true);
-                    $("#validate").attr("disabled", true);
-
-                    $("#email").val("");
-                    $("#certNo").val("");
+                    isEmailValidated = false; // 인증 실패
+                    $("#result").text("인증번호가 일치하지 않습니다.").css("color", "red");
                 }
+                checkFormValidity(); // 폼 상태 재확인
             },
             error: function () {
-                console.log("인증번호 대조용 ajax 통신 실패!");
+                console.log("인증번호 확인용 ajax 통신 실패!");
             },
         });
     });
+
+    $(".toggle-password").on("click", function () {
+        const $passwordInput = $(this).siblings("input");
+        const inputType = $passwordInput.attr("type");
+
+        if (inputType === "password") {
+            $passwordInput.attr("type", "text");
+            $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+        } else {
+            $passwordInput.attr("type", "password");
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+        }
+    });
+
+    function createSnowflake() {
+        var snowflake = document.createElement("div");
+        snowflake.classList.add("snowflake");
+        snowflake.textContent = "❄";
+        snowflake.style.left = Math.random() * 100 + "vw";
+        snowflake.style.animationDuration = 15 + Math.random() * 15 + "s";
+        snowflake.style.fontSize = 10 + Math.random() * 10 + "px";
+        document.body.appendChild(snowflake);
+
+        snowflake.addEventListener("animationend", function () {
+            snowflake.remove();
+        });
+
+        setTimeout(createSnowflake, 1000);
+    }
+
+    createSnowflake();
 });
 
-
 </script>
+
 
 </body>
 </html>

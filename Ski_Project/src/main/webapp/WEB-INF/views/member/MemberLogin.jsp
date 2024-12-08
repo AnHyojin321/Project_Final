@@ -228,10 +228,9 @@
                 <div class="social-login">
 				<button class="kakao">
 				    <img src="resources/images/kakao-talk.png" alt="카카오톡">
-					    <a href="https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${kakaoRedirectUri}&response_type=code">
-					        카카오 로그인
-					    </a>
+				    <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f2efc5913b287d02f1ca471e0572580f&redirect_uri=http://localhost:8090/ski/ " class="kakao">카카오 로그인</a>
 				</button>
+
 
                     <button class="google">
                         <img src="resources/images/google.png" alt="구글">

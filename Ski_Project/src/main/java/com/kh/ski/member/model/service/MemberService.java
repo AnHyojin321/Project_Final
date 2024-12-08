@@ -1,5 +1,7 @@
 package com.kh.ski.member.model.service;
 
+import java.util.Map;
+
 import com.kh.ski.member.model.vo.Member;
 
 public interface MemberService {
@@ -9,7 +11,7 @@ public interface MemberService {
 	
 	// 회원가입 서비스 (insert)
 	int insertMember(Member m);
-	
+	 	
 	// 회원정보수정 서비스 (update)
 	int updateMember(Member m);
 	
@@ -27,10 +29,10 @@ public interface MemberService {
 	
 	// 이메일 인증번호 데이터 삽입
 	int insertEmailCert(String email, String certNo);
-	
-	// 카카오
-    Member findByEmail(String email); // 이메일로 회원 조회
-    
-    int updateKakaoLogin(Member member); // 카카오 로그인 정보 업데이트
+
+	// 카카오 관련 메서드
+
+
+
 	
 }

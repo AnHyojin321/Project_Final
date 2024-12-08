@@ -34,7 +34,8 @@ import com.kh.ski.member.model.vo.Member;
 @Controller
 public class MemberController {
 
-	private Map<String, String> certNoList = Collections.synchronizedMap(new HashMap<>());
+	
+	private static Map<String, String> certNoList = Collections.synchronizedMap(new HashMap<>());
 
 	
 	@Autowired
@@ -150,23 +151,27 @@ public class MemberController {
 
 	    int result = memberService.insertMember(m);
 	    if (result > 0) {
-	        String email = m.getEmail().trim(); // 공백 제거
-	        String certNo = certNoList.get(email); // 인증번호 조회
+	        // 세션에서 이메일과 인증번호 가져오기
+	        String sessionEmail = (String) session.getAttribute("email");
+	        String sessionCertNo = (String) session.getAttribute("certNo");
 
-	        System.out.println("certNoList 상태: " + certNoList);
-	        System.out.println("이메일: " + email);
-	        System.out.println("인증번호: " + certNo);
+	        System.out.println("Controller - 세션 이메일: " + sessionEmail);
+	        System.out.println("Controller - 세션 인증번호: " + sessionCertNo);
 
-	        if (certNo != null) {
-	            int emailCertResult = memberService.insertEmailCert(email, certNo);
+	        // 입력된 이메일과 인증번호 비교
+	        if (sessionEmail != null && sessionEmail.equals(m.getEmail().trim().toLowerCase())
+	                && sessionCertNo != null) {
+	            int emailCertResult = memberService.insertEmailCert(sessionEmail, sessionCertNo);
+
 	            if (emailCertResult > 0) {
-	                certNoList.remove(email); // 인증번호 삭제
+	                session.removeAttribute("certNo"); // 인증번호 삭제
+	                session.removeAttribute("email"); // 이메일 삭제
 	                session.setAttribute("alertMsg", "회원가입 성공! 이메일 인증 데이터 저장 완료.");
 	            } else {
 	                session.setAttribute("alertMsg", "회원가입 성공! 이메일 인증 데이터 저장 실패.");
 	            }
 	        } else {
-	            session.setAttribute("alertMsg", "회원가입 성공! 인증번호가 존재하지 않습니다.");
+	            session.setAttribute("alertMsg", "회원가입 성공! 인증번호가 유효하지 않습니다.");
 	        }
 	        return "redirect:/";
 	    } else {
@@ -174,6 +179,8 @@ public class MemberController {
 	        return "member/MemberEnrollForm";
 	    }
 	}
+
+
 
 
 
@@ -210,13 +217,24 @@ public class MemberController {
 	}
 */
 	@ResponseBody
-	@PostMapping(value="cert.do", produces="text/html; charset=UTF-8")
-	public String sendCertNo(String email) {
-	    String trimmedEmail = email.trim().toLowerCase();
-	    int random = (int) (Math.random() * 900000 + 100000);
-	    certNoList.put(trimmedEmail, String.valueOf(random));
-	    System.out.println("certNoList에 저장됨: " + certNoList);
+	@PostMapping(value = "cert.do", produces = "text/html; charset=UTF-8")
+	public String sendCertNo(String email, HttpSession session) {
+	    // 이메일 정리 (공백 제거 및 소문자 변환)
+	    String normalizedEmail = email.trim().toLowerCase();
 
+	    // 인증번호 생성
+	    int random = (int) (Math.random() * 900000 + 100000);
+
+	    // 인증번호를 세션에 저장
+	    session.setAttribute("certNo", String.valueOf(random));
+	    session.setAttribute("email", normalizedEmail); // 이메일도 세션에 저장
+
+	    // 디버깅 로그
+	    System.out.println("sendCertNo - 저장된 이메일: " + normalizedEmail);
+	    System.out.println("sendCertNo - 생성된 인증번호: " + random);
+	    System.out.println("sendCertNo - 세션 상태: " + session.getAttribute("certNo"));
+
+	    // 이메일 전송
 	    SimpleMailMessage message = new SimpleMailMessage();
 	    message.setSubject("[SEOLLENEUN RESORT] 이메일 인증 번호입니다.");
 	    message.setText("인증 번호: " + random);
@@ -228,43 +246,33 @@ public class MemberController {
 
 
 
+
+
 	
 	@ResponseBody
-	@PostMapping(value="validate.do",
-				 produces="text/html; charset=UTF-8")
-	public String validate(String email, String certNo) {
-			
-		// certNoList 로 부터
-		// email 과 checkNo 이 정확하게 모두 일치하는 것을 찾아주면 됨!!
-		
-		String result = "";
-		
-		// CERT 테이블에서 SELECT
-		// SELECT * FROM CERT WHERE 이메일, 인증번호 모두 일치하고 
-		// 그리고 SYSDATE < CREATE_DATE + 3분
-		// > 3분 이내라면 조회가 되고, 3분 이후라면 null
-		if(certNoList.get(email) != null && 
-				certNoList.get(email).equals(certNo)) {
-			
-			result = "인증 성공";
-			
-		} else {
-			
-			result = "인증 실패";
-		}
-		
-		// 인증번호 대조작업 완료 후 주의할점 이라고 한다면
-		// 인증번호는 "1회성" 임!!
-		// > 대조에 성공했든, 실패했든 간에 인증번호 발급 내역을
-		//   꼭 지워줘야 한다라는 것!!
-		certNoList.remove(email);
-		
-		// CERT 테이블 DELETE
-		
-		// System.out.println(certNoList);
-		
-		return result;
+	@PostMapping(value = "validate.do", produces = "text/html; charset=UTF-8")
+	public String validate(String email, String certNo, HttpSession session) {
+	    // 세션에서 인증번호 가져오기
+	    String sessionCertNo = (String) session.getAttribute("certNo");
+	    String sessionEmail = (String) session.getAttribute("email");
+
+	    // 입력값 정리
+	    String normalizedEmail = email.trim().toLowerCase();
+
+	    System.out.println("validate - 세션 이메일: " + sessionEmail);
+	    System.out.println("validate - 세션 인증번호: " + sessionCertNo);
+	    System.out.println("validate - 입력 이메일: " + normalizedEmail);
+	    System.out.println("validate - 입력 인증번호: " + certNo);
+
+	    // 인증번호와 이메일 비교
+	    if (sessionCertNo != null && sessionCertNo.equals(certNo) 
+	            && sessionEmail != null && sessionEmail.equals(normalizedEmail)) {
+	        return "인증 성공";
+	    } else {
+	        return "인증 실패";
+	    }
 	}
+
 	
 	// 카카오
 

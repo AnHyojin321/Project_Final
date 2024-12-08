@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+
 import com.kh.ski.member.model.vo.Member;
 
 @Repository
@@ -61,35 +62,15 @@ public class MemberDao {
 	}
 
 
-	public int insertEmailCert(SqlSessionTemplate sqlSession, String email, String certNo) {
-	    Map<String, Object> paramMap = new HashMap<>();
-	    paramMap.put("email", email);
-	    paramMap.put("certNo", certNo);
-	    paramMap.put("createTime", new java.util.Date()); // 현재 시간 추가
+	public int insertEmailCert(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+	    System.out.println("DAO - 파라미터 맵: " + paramMap); // 디버깅 출력
 
-	    System.out.println("DAO - 이메일: " + email);
-	    System.out.println("DAO - 인증번호: " + certNo);
-	    System.out.println("DAO - 파라미터: " + paramMap);
-
-	    return sqlSession.insert("member.emailCertResultSet", paramMap);
+	    return sqlSession.insert("member.insertEmailCert", paramMap);
 	}
 
 
-    // 이메일로 회원 조회
-    public Member findByEmail(SqlSessionTemplate sqlSession, String email) {
-        return sqlSession.selectOne("member.selectByEmail", email);
-    }
 
-    // 카카오 로그인 정보 업데이트
-    public int updateKakaoLogin(SqlSessionTemplate sqlSession, Member member) {
-        return sqlSession.update("member.updateKakaoLogin", member);
-    }
-
-
-
-		
 }
-	
 	
 	
 	
