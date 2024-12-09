@@ -250,7 +250,7 @@ public class MemberController {
 
 	
 	@ResponseBody
-	@PostMapping(value = "validate.do", produces = "text/html; charset=UTF-8")
+	@GetMapping(value = "validate.do", produces = "text/html; charset=UTF-8")
 	public String validate(String email, String certNo, HttpSession session) {
 	    // 세션에서 인증번호 가져오기
 	    String sessionCertNo = (String) session.getAttribute("certNo");
@@ -274,9 +274,27 @@ public class MemberController {
 	}
 
 	
-	// 카카오
+	@RequestMapping(value = "findId.me", method = {RequestMethod.GET, RequestMethod.POST})
+	public String findId(
+	    @RequestParam(value = "memberName", required = false) String memberName,
+	    @RequestParam(value = "memberEmail", required = false) String memberEmail,
+	    Model model) {
 
-	
-	
-	
+	    if (memberName == null || memberEmail == null) {
+	        return "member/MemberFindId"; // GET 요청: 페이지 이동
+	    }
+
+	    // POST 요청: 아이디 찾기 처리
+	    String memberId = memberService.findId(memberName, memberEmail);
+	    if (memberId != null) {
+	        model.addAttribute("resultMsg", "고객님의 아이디는 **" + memberId + "** 입니다.");
+	    } else {
+	        model.addAttribute("resultMsg", "일치하는 회원 정보를 찾을 수 없습니다.");
+	    }
+
+	    return "member/MemberFindId"; // 결과 메시지 포함하여 같은 페이지로 반환
+	}
+
+
+
 }

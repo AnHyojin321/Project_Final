@@ -76,5 +76,10 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.insertEmailCert(sqlSession, paramMap);
     }
 
+    @Override
+    public String findId(String memberName, String email) {
+        return memberDao.findId(sqlSession, memberName, email);
+    }
+
 
 }

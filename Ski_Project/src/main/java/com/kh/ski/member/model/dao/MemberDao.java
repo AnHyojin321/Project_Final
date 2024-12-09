@@ -63,11 +63,18 @@ public class MemberDao {
 
 
 	public int insertEmailCert(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
-	    System.out.println("DAO - 파라미터 맵: " + paramMap); // 디버깅 출력
+	    // System.out.println("DAO - 파라미터 맵: " + paramMap); // 디버깅 출력
 
 	    return sqlSession.insert("member.insertEmailCert", paramMap);
 	}
 
+    public String findId(SqlSessionTemplate sqlSession, String memberName, String email) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("memberName", memberName);
+        paramMap.put("email", email);
+
+        return sqlSession.selectOne("member.findId", paramMap);
+    }
 
 
 }

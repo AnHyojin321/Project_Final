@@ -30,8 +30,8 @@ public interface MemberService {
 	// 이메일 인증번호 데이터 삽입
 	int insertEmailCert(String email, String certNo);
 
-	// 카카오 관련 메서드
-
+	// 아이디 찾기 
+	String findId(String MemberName, String email);;
 
 
 	
