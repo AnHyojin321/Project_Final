@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="roomMapper">
-
-	<resultMap id="roomResultSet" type="room">
-		<id column="ROOM_NO" property="roomNo" />
-		<result column="ROOM_NAME" property="roomName" />
-		<result column="ROOM_DESC" property="roomDesc" />
-		<result column="ROOM_TYPE" property="roomType" />
-		<result column="CAPACITY" property="capacity" />
-		<result column="ROOM_PRICE" property="roomPrice" />
-	</resultMap>
-
-	<select id="selectList" resultMap="roomResultSet">
-		SELECT * FROM ROOM
-	</select>
-
 	<insert id="insertRoom" parameterType="room">
 		INSERT INTO ROOM(ROOM_NO
 					   , ROOM_NAME
@@ -44,14 +30,4 @@
 			 , #{roomImgPath}
 			 , #{roomThumbnail})	   
 	</insert>
-	
-
-
-
-
-
-
-
-
-
 </mapper>

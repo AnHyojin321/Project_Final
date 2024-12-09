@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.admin.room.model.dao.RoomDao;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -23,12 +24,6 @@ public class RoomServiceImpl implements RoomService {
 	
 	
 	  @Override
-	  public ArrayList<Room> selectList() {
-		  return roomDao.selectList(sqlSession);
-	  }
-		
-	
-	  @Override
 	  @Transactional
 	    public int insertRoom(Room r, List<RoomImg> roomImgList) {
 	        
@@ -38,7 +33,6 @@ public class RoomServiceImpl implements RoomService {
 	       
 	        return result1*result2;
 	    }
-	
-	
+
 
 }
