@@ -7,17 +7,20 @@ public class Room {
 	private String roomDesc;
 	private String roomType;
 	private int capacity;
+	private String status;  // 예약가능여부
 	private int roomPrice;
 	
 	public Room() {}
 
-	public Room(int roomNo, String roomName, String roomDesc, String roomType, int capacity, int roomPrice) {
+	public Room(int roomNo, String roomName, String roomDesc, String roomType, int capacity, String status,
+			int roomPrice) {
 		super();
 		this.roomNo = roomNo;
 		this.roomName = roomName;
 		this.roomDesc = roomDesc;
 		this.roomType = roomType;
 		this.capacity = capacity;
+		this.status = status;
 		this.roomPrice = roomPrice;
 	}
 
@@ -61,6 +64,14 @@ public class Room {
 		this.capacity = capacity;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public int getRoomPrice() {
 		return roomPrice;
 	}
@@ -68,13 +79,14 @@ public class Room {
 	public void setRoomPrice(int roomPrice) {
 		this.roomPrice = roomPrice;
 	}
+	
 
 	@Override
 	public String toString() {
 		return "Room [roomNo=" + roomNo + ", roomName=" + roomName + ", roomDesc=" + roomDesc + ", roomType=" + roomType
-				+ ", capacity=" + capacity + ", roomPrice=" + roomPrice + "]";
+				+ ", capacity=" + capacity + ", status=" + status + ", roomPrice=" + roomPrice + "]";
 	}
-	
+
 	
 
 	

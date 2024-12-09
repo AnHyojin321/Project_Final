@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 public interface RoomService {
 	
-	ArrayList<Room> selectList();
-	
+
 	int insertRoom(Room r, List<RoomImg> roomImgList);
+	
 }

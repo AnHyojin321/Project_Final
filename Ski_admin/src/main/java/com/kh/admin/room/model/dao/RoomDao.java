@@ -8,14 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 @Repository
 public class RoomDao {
-	
-	public ArrayList<Room> selectList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("roomMapper.selectList");
-	}
-	
 	
 	public int insertRoom(SqlSessionTemplate sqlSession, Room r) {
 		return sqlSession.insert("roomMapper.insertRoom", r);
@@ -33,6 +29,4 @@ public class RoomDao {
 	    return result;
 	}
 
-	
-	
 }

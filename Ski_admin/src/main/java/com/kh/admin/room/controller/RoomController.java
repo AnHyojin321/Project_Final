@@ -14,12 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.admin.room.model.service.RoomService;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 @Controller
 public class RoomController {
@@ -27,28 +30,8 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 	
-	// 객실 목록 페이지 요청
-	@GetMapping("list.ro")
-	public String selectList(Model model) {
-		
-		ArrayList<Room> list = roomService.selectList();
-		model.addAttribute("list", list);
-		return "room/roomList";
-		
-	}
+
 	
-	// 객실 상세 페이지 - 스탠다드
-	@GetMapping("roomDetail.ro")
-	public ModelAndView roomDetail(@RequestParam("roomType") String roomType, ModelAndView mv) {
-	    if ("standard".equals(roomType)) {
-	        mv.setViewName("room/standardDetail");
-	    }else if("suite".equals(roomType)) {
-	    	mv.setViewName("room/sutieDetail");
-	    } else {
-	    	mv.setViewName("room/deluxeDetail");
-	    }
-	    return mv;
-	}
 
 	
 	
@@ -113,14 +96,7 @@ public class RoomController {
 	    return mv;
 	}
 	
-	// 객실 예약 페이지 요청 - step1
-	@GetMapping("payStep1.ro")
-	public ModelAndView roomPayStep1(ModelAndView mv) {
-		mv.setViewName("room/roomPayStep1");
-		return mv;
-	}
 
-	
 	// ----- 일반메소드 -----
 	
 	public String saveFile(MultipartFile upfile,

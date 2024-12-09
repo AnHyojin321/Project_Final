@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="room">
+<mapper namespace="roomMapper">
+
+	<resultMap id="roomResultSet" type="room">
+		<id column="ROOM_NO" property="roomNo" />
+		<result column="ROOM_NAME" property="roomName" />
+		<result column="ROOM_DESC" property="roomDesc" />
+		<result column="ROOM_TYPE" property="roomType" />
+		<result column="CAPACITY" property="capacity" />
+		<result column="STATUS" property="status" />
+		<result column="ROOM_PRICE" property="roomPrice" />
+	</resultMap>
+
+	<select id="selectList" resultMap="roomResultSet">
+		SELECT * FROM ROOM
+	</select>
+
+	
+	
+	  <!-- 사용자가 선택한 체크인/체크아웃 날짜에 예약 가능한 객실 조회 -->
+		<select id="selectAvailableRoom" parameterType="roompay" resultMap="roomResultSet">
+		    SELECT R.ROOM_NO, R.ROOM_NAME, R.ROOM_TYPE, R.ROOM_PRICE, R.CAPACITY, R.STATUS
+		    FROM ROOM R
+		    LEFT JOIN ROOM_RESERV RP
+		    ON R.ROOM_NO = RP.ROOM_NO
+		       AND RP.PAY_STATUS = 'Y'
+		       AND (
+		           TO_DATE(#{checkInDate}, 'YYYY-MM-DD') &lt; TO_DATE(RP.CHECK_OUT_DATE, 'YYYY-MM-DD')
+		           AND TO_DATE(#{checkOutDate}, 'YYYY-MM-DD') &gt; TO_DATE(RP.CHECK_IN_DATE, 'YYYY-MM-DD')
+		       )
+		    WHERE R.ROOM_TYPE = '스탠다드'
+		    ORDER BY R.ROOM_NO ASC
+		</select>
+ 
 
 </mapper>
