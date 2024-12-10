@@ -251,7 +251,17 @@ p {
             
             <div id="top1">
                 <p style="font-size: 25px;">[Adv:nture]</p> 
-                <p>MAKE YOUR </p>      
+                <p>MAKE YOUR </p>
+				<%-- 
+				<c:choose>
+				    <c:when test="${ !empty sessionScope.loginMember }">
+				        <a href="${ pageContext.request.contextPath }/myPage.me">마이페이지</a>
+				    </c:when>
+				    <c:otherwise>
+				        로그인 정보가 없습니다.
+				    </c:otherwise>
+				</c:choose>
+					--%>
             </div>
 
             <div style="top: 140px; position: relative; font-size: 15px; left: 20px; display: flex; align-items: center;">

@@ -24,21 +24,22 @@ public class MemberDao {
 		// insert 문 : insert 메소드
 		return sqlSession.insert("member.insertMember", m);
 	}
-	/*
+	
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 
 		// update 문 : update 메소드
-		return sqlSession.update("memberMapper.updateMember", m);
+		return sqlSession.update("member.updateMember", m);
 	}
 
-	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
+	
+	public int deleteMember(SqlSessionTemplate sqlSession, String memberId) {
 
 		// update 문 : update 메소드
-		return sqlSession.update("memberMapper.deleteMember", userId);
+		return sqlSession.update("member.deleteMember", memberId);
 	}
 
 		
-	*/
+	
 
 	public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
 		// select 문 (단일행) : selectOne 메소드
@@ -77,6 +78,49 @@ public class MemberDao {
     }
 
 
+	public String findPwd(SqlSessionTemplate sqlSession, String memberId, String email) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("memberId", memberId);
+        paramMap.put("email", email);
+
+        return sqlSession.selectOne("member.findPwd", paramMap);
+	}
+
+
+	public int updatePassword(SqlSessionTemplate sqlSession, String memberId, String encTempPwd) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberId", memberId);
+	    paramMap.put("tempPwd", encTempPwd);
+
+	    System.out.println("updatePassword - memberId: " + memberId + ", 암호화된 임시 비밀번호: " + encTempPwd);
+
+	    return sqlSession.update("member.updatePassword", paramMap);
+	}
+
+
+
+
+	
+
+    /**
+     * 카카오 사용자 조회
+     */
+//    public Member findKakaoMember(SqlSessionTemplate sqlSession, String kakaoId) {
+//        return sqlSession.selectOne("member.findKakaoMember", kakaoId);
+//    }
+//
+//    /**
+//     * 카카오 사용자 삽입
+//     */
+//    public int insertKakaoMember(SqlSessionTemplate sqlSession, Member newMember) {
+//        return sqlSession.insert("member.insertKakaoMember", newMember);
+//    }
+
+    // 카카오
+    
+    
+    
+    
 }
 	
 	

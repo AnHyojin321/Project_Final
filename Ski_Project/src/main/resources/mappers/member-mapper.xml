@@ -8,6 +8,7 @@
 		<result column="MEMBER_PWD" property="memberPwd" />
 		<result column="MEMBER_NAME" property="memberName" />
 		<result column="EMAIL" property="email" />
+		<result column="TEMP_PWD" property ="tempPwd" />
 		<result column="BIRTH_DATE" property="birthDate" />
 		<result column="PHONE" property="phone" />
 		<result column="ADDRESS" property="address" />
@@ -99,6 +100,39 @@
           AND EMAIL = #{email}
     </select>
 	
+	
+    <select id="findPwd" parameterType="map" resultType="string">
+        SELECT MEMBER_PWD
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+          AND EMAIL = #{email}
+    </select>
+	
+			
+		<update id="updatePassword" parameterType="map">
+		    UPDATE MEMBER
+		       SET TEMP_PWD = #{tempPwd}
+		     WHERE MEMBER_ID = #{memberId}
+		</update>
+		
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER 
+		   SET MEMBER_NAME = #{memberName}
+		       , EMAIL = #{email}
+		       , BIRTH_DATE = #{birthDate}
+		       , PHONE = #{phone}
+		       , ADDRESS = #{address}
+		    WHERE MEMBER_ID = #{memberId}
+		      AND MEMBER_STATUS = 'Y'
+	</update>
+
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		   SET MEMBER_STATUS = 'N'
+		 WHERE MEMBER_ID = #{memberId}
+		   AND MEMBER_STATUS = 'Y'
+	</update>
+
 	
 	
 </mapper>

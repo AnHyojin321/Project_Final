@@ -23,12 +23,14 @@ public class Member {
 	private String kakaoLogin;//	KAKAO_LOGIN	VARCHAR2(30 BYTE)
 	private String googleLogin;//	GOOGLE_LOGIN	VARCHAR2(30 BYTE)
 	private String memberStatus;//	MEMBER_STATUS	CHAR(1 BYTE)
+	private String tempPwd;
 	
 	public Member() {}
 
+
 	public Member(int memberNo, String memberId, String memberPwd, String memberName, String email, String phone,
-			Date birthDate, String address, Date createDate, String kakaoLogin, String googleLogin,
-			String memberStatus) {
+			Date birthDate, String address, Date createDate, String kakaoLogin, String googleLogin, String memberStatus,
+			String tempPwd) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -42,7 +44,9 @@ public class Member {
 		this.kakaoLogin = kakaoLogin;
 		this.googleLogin = googleLogin;
 		this.memberStatus = memberStatus;
+		this.tempPwd = tempPwd;
 	}
+
 
 	public int getMemberNo() {
 		return memberNo;
@@ -140,13 +144,25 @@ public class Member {
 		this.memberStatus = memberStatus;
 	}
 
+
+	public String getTempPwd() {
+		return tempPwd;
+	}
+
+
+	public void setTempPwd(String tempPwd) {
+		this.tempPwd = tempPwd;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
 				+ memberName + ", email=" + email + ", phone=" + phone + ", birthDate=" + birthDate + ", address="
 				+ address + ", createDate=" + createDate + ", kakaoLogin=" + kakaoLogin + ", googleLogin=" + googleLogin
-				+ ", memberStatus=" + memberStatus + "]";
+				+ ", memberStatus=" + memberStatus + ", tempPwd=" + tempPwd + "]";
 	}
+
 
 	
 	

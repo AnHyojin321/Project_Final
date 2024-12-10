@@ -1,7 +1,6 @@
 package com.kh.ski.member.model.service;
 
-import java.util.Map;
-
+import com.kh.ski.member.model.vo.Kakao;
 import com.kh.ski.member.model.vo.Member;
 
 public interface MemberService {
@@ -33,6 +32,18 @@ public interface MemberService {
 	// 아이디 찾기 
 	String findId(String MemberName, String email);;
 
-
+	// 카카오 관련 
+	//    Member processKakaoUser(Map<String, Object> userInfo);
+//	public String getAccessToken(String authorize_code);
+//
+//	public Kakao getUserInfo(String access_Token);
+//	
+	
+	String findPwd(String MemberId, String email);
+	
+	int updatePassword(String MemberId, String tempPwd);
+	
+	
+	
 	
 }

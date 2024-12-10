@@ -43,13 +43,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public int updateMember(Member m) {
-        return 0;
+        return memberDao.updateMember(sqlSession, m);
     }
 
     @Override
-    public int deleteMember(String userId) {
-        return 0;
+    @Transactional
+    public int deleteMember(String memberId) {
+        return memberDao.deleteMember(sqlSession, memberId);
     }
 
     @Override
@@ -81,5 +83,43 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.findId(sqlSession, memberName, email);
     }
 
+	@Override
+	public String findPwd(String memberId, String email) {
+		// TODO Auto-generated method stub
+		return memberDao.findPwd(sqlSession, memberId, email);
+	}
 
+	@Override
+	public int updatePassword(String memberId, String tempPwd) {
+		// TODO Auto-generated method stub
+		return memberDao.updatePassword(sqlSession, memberId, tempPwd);
+	}
+
+	
+//    @Override
+//    @Transactional
+//    public Member processKakaoUser(Map<String, Object> userInfo) {
+//        String kakaoId = String.valueOf(userInfo.get("id"));
+//        String email = (String) userInfo.get("email");
+//        String nickname = (String) userInfo.get("nickname");
+//
+//        // 기존 카카오 로그인 사용자 확인
+//        Member existingMember = memberDao.findKakaoMember(sqlSession, kakaoId);
+//
+//        if (existingMember == null) {
+//            // 신규 사용자
+//            Member newMember = new Member();
+//            newMember.setKakaoLogin(kakaoId); // 카카오 고유 ID 저장
+//            newMember.setEmail(email);
+//            newMember.setMemberName(nickname);
+//            newMember.setMemberStatus("Y");
+//            memberDao.insertKakaoMember(sqlSession, newMember);
+//            return newMember;
+//        } else {
+//            // 기존 사용자 반환
+//            return existingMember;
+//        }
+//    }
+    
+    
 }
