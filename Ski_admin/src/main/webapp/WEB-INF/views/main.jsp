@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	ÀÌ°Ç °ü¸®ÀÚ¿ë main
+	ì´ê±´ ê´€ë¦¬ììš© main
 	<br>
-	<a href="list.ro">°´½Ç¸ñ·Ï</a>
-	<a href="roomEnrollForm.ro">°´½Çµî·Ï</a>
+	<a href="packageList.pk">íŒ¨í‚¤ì§€ ëª©ë¡</a> <br>
+	<a href="roomEnrollForm.ro">ê°ì‹¤ë“±ë¡</a>
 </body>
 </html>
