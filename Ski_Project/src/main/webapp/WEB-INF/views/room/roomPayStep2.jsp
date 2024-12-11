@@ -103,6 +103,33 @@
 	    border: 1px solid #ddd;
 	    padding: 15px;
 	}
+	
+	/* 전화번호 입력 필드 스타일 */
+	.customer-info-table input[type="text"] {
+	    width: 50%; /* 입력 필드가 테이블 셀의 너비를 차지하도록 설정 */
+	    padding: 10px; /* 입력 필드 안의 내용에 여백 추가 */
+	    border: 1px solid #ccc; /* 기본 테두리 */
+	    border-radius: 5px; /* 둥근 모서리 */
+	    font-size: 16px; /* 텍스트 크기 */
+	    color: #333; /* 텍스트 색상 */
+	    background-color: #f9f9f9; /* 입력 필드 배경색 */
+	    outline: none; /* 클릭 시 기본 파란 테두리 제거 */
+	    transition: border-color 0.3s, background-color 0.3s; /* 부드러운 전환 효과 */
+	}
+	
+	/* 입력 필드에 포커스가 있을 때 스타일 */
+	.customer-info-table input[type="text"]:focus {
+	    border-color: #007bff; /* 포커스 시 테두리 색상 변경 */
+	    background-color: #fff; /* 포커스 시 배경색 변경 */
+	    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 외곽선 효과 */
+	}
+	
+	/* 입력 필드가 비활성화된 상태 */
+	.customer-info-table input[type="text"]:disabled {
+	    background-color: #e9ecef; /* 비활성화된 필드 배경색 */
+	    color: #6c757d; /* 비활성화된 필드 텍스트 색상 */
+	    cursor: not-allowed; /* 커서 표시 */
+	}
 
 	
 	.reservation-info h2 {
@@ -360,6 +387,81 @@ button:hover {
     cursor: not-allowed;
 }
 
+/* 투숙인원 영역 관련 css */
+    .guest-container {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
+        border-collapse: collapse;
+        font-size: 18px;
+    }
+
+    .guest-header {
+        background-color: #f5f5f5;
+        color: #333;
+        font-size : 18px;
+        padding: 10px 15px;
+        font-weight: bold;
+        text-align: left;
+        border-top: 2px solid black; /* 맨 위 테두리 검정색 */
+    }
+
+    .guest-row {
+        display: flex;
+        justify-content: space-between;
+        font-size : 16px;
+        align-items: center;
+        padding: 10px 15px;
+        border-left: none; /* 왼쪽 테두리 제거 */
+        border-right: none; /* 오른쪽 테두리 제거 */
+    }
+    
+     /* 두 번째 guest-row의 마지막 테두리 추가 */
+    .guest-row:last-child {
+        border-bottom: 2px solid black; /* 맨 아래 테두리 검정색 */
+    }
+
+    .guest-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+.guest-controls button {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px; /* 글씨 크기 조정 */
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+    .guest-controls button:disabled {
+        color: #ccc;
+        border-color: #eee;
+        cursor: not-allowed;
+    }
+
+    .guest-controls button:hover:not(:disabled) {
+        background-color: #f0f0f0;
+    }
+
+    .guest-number {
+        min-width: 50px;
+        text-align: center;
+        font-size: 14px;
+        color: #000;
+        visibility: visible; /* 보이도록 설정 */
+    }
+
+        
+
 
 
 </style>
@@ -395,7 +497,7 @@ button:hover {
     <div class="reservation-steps">
 	    <span class="step">STEP1. 객실/날짜 선택</span>
 	    <span class="step active">STEP2. 예약정보 입력</span>
-	    <span class="step">STEP3. 결제정보 입력</span>
+	    <span class="step">STEP3. 예약정보 확인</span>
 	    <span class="step">STEP4. 예약완료</span>
     </div>
 
@@ -412,7 +514,7 @@ button:hover {
                 </tr>
                 <tr>
                     <th>휴대전화</th>
-                    <td><input type="text" /></td>
+                    <td><input type="text" name="phone" placeholder=" - 포함"/></td>
                 </tr>
                 <tr>
                     <th>이메일</th>
@@ -420,6 +522,27 @@ button:hover {
                 </tr>
             </table>
         </div>
+        
+        
+    <div class="guest-container">
+        <div class="guest-header">투숙 인원</div>
+        <div class="guest-row">
+            <span>성인</span>
+            <div class="guest-controls">
+                <button id="adultMinus" disabled>-</button>
+                <span id="adultCount" class="guest-number">0명</span>
+                <button id="adultPlus">+</button>
+            </div>
+        </div>
+        <div class="guest-row">
+            <span>어린이</span>
+            <div class="guest-controls">
+                <button id="childMinus" disabled>-</button>
+                <span id="childCount" class="guest-number">0명</span>
+                <button id="childPlus">+</button>
+            </div>
+        </div>
+    </div>        
 
         <!-- 예약 취소 규정 -->
         <div class="reservation-cancel-container">
@@ -513,7 +636,7 @@ button:hover {
 		        </li>
 		        <li>
 		            <span>투숙인원</span>
-		            <span class="right">총 2명</span>
+		            <span class="right">${r.capacity}인</span>
 		        </li>
 		    </ul>
         </div>
@@ -521,14 +644,13 @@ button:hover {
         <div class="info-section">
             <h3>02. 객실</h3>
             <ul>
-                <li>스탠다드 트윈</li>
-                <li>2024-12-14</li>
-                <li>235,700 ₩ (VAT 23,570)</li>
+                <li>${r.roomType} ${r.roomName}</li>
+                <li>${r.roomPrice} X ${stayDays}박</li>
             </ul>
         </div>
         <div class="total-amount">
             <p>요금합계</p>
-            <strong>₩ 259,270</strong>
+            <strong id="totalPrice"></strong>
             <span>(VAT 포함)</span>
         </div>
     </div>
@@ -561,11 +683,143 @@ button:hover {
             <button class="next-btn" id="nextButton" disabled>다음단계</button>
         </div>
     </div>
+    
+    <form id="reservationForm" action="payStep3.ro" method="post">
+    	<input type="hidden" id="checkInDate" name="checkInDate" value="${checkInDate}">
+    	<input type="hidden" id="checkOutDate" name="checkOutDate" value="${checkOutDate}">
+    	<input type="hidden" id="stayDays" name="stayDays" value="${stayDays}">
+    	<input type="hidden" id="phone" name="phone" value="">
+    	<input type="hidden" id="adult" name="adult" value="">
+    	<input type="hidden" id="child" name="child" value="">
+   		<input type="hidden" id="roomNo" name="roomNo" value="${r.roomNo}">
+	</form>
     <script>
+    	// 객실 전체 가격에 콤마 찍기 
+	    // 총 가격 계산
+	    const totalPrice = ${r.roomPrice * stayDays};
+	
+	    // 세 자리마다 콤마 추가
+	    const formattedPrice = totalPrice.toLocaleString() + "원";
+	
+	    // HTML에 표시
+	    document.getElementById("totalPrice").textContent = formattedPrice;    	
+	    
+    
         // 약관 동의 여부에 따라 버튼 활성화/비활성화
         document.getElementById('agreeCheckbox').addEventListener('change', function() {
             document.getElementById('nextButton').disabled = !this.checked;
         });
+        
+     // 객실의 최대 투숙 인원을 설정 (예: 4명)
+		// 최대 투숙 인원 설정
+		const maxCapacity = ${r.capacity};
+		
+		// 초기 인원 설정
+		let adultCount = 0;
+		let childCount = 0;
+		
+		// DOM 요소 가져오기
+		const adultMinus = document.getElementById("adultMinus");
+		const adultPlus = document.getElementById("adultPlus");
+		const childMinus = document.getElementById("childMinus");
+		const childPlus = document.getElementById("childPlus");
+		const adultCountSpan = document.getElementById("adultCount");
+		const childCountSpan = document.getElementById("childCount");
+		
+		// 인원 업데이트 함수
+		function updateCounts() {
+		    const totalGuests = adultCount + childCount;
+		
+		    // 마이너스 버튼 비활성화 조건
+		    adultMinus.disabled = adultCount === 0;
+		    childMinus.disabled = childCount === 0;
+		
+		    // 플러스 버튼 비활성화 조건
+		    adultPlus.disabled = totalGuests >= maxCapacity;
+		    childPlus.disabled = totalGuests >= maxCapacity;
+		
+		    // 화면에 인원 업데이트
+		    adultCountSpan.textContent = adultCount + "명";
+		    childCountSpan.textContent = childCount + "명";
+		}
+		
+		// 이벤트 리스너 추가
+		adultPlus.addEventListener("click", function () {
+		    if (adultCount + childCount < maxCapacity) {
+		        adultCount++;
+		        updateCounts();
+		    }
+		});
+		
+		adultMinus.addEventListener("click", function () {
+		    if (adultCount > 0) {
+		        adultCount--;
+		        updateCounts();
+		    }
+		});
+		
+		childPlus.addEventListener("click", function () {
+		    if (adultCount + childCount < maxCapacity) {
+		        childCount++;
+		        updateCounts();
+		    }
+		});
+		
+		childMinus.addEventListener("click", function () {
+		    if (childCount > 0) {
+		        childCount--;
+		        updateCounts();
+		    }
+		});
+		
+		// 초기 상태 업데이트
+		updateCounts();
+		
+		
+		// 다음단계 버튼 클릭 시 전화번호랑 투숙인원 데이터 넘기면서 컨트롤러로 요청
+$(document).ready(function () {
+    $('#nextButton').on('click', function () {
+        // 입력된 데이터 가져오기
+        const phone = $('.customer-info-table input[type="text"]').val().trim(); // 전화번호 입력값
+        const adult = adultCount; // 
+        const child = childCount;
+
+        const roomNo = $('#roomNo').val(); // 숨겨진 필드에서 객실 번호 가져오기
+        const checkInDate = $('#checkInDate').val();
+        const checkOutDate = $('#checkOutDate').val();
+        const stayDays = $('#stayDays').val();
+
+        // 유효성 검사
+        if (!phone) {
+            alert("전화번호를 입력해주세요.");
+            return;
+        }
+        if (adult === 0 && child === 0) {
+            alert("투숙 인원을 선택해주세요.");
+            return;
+        }
+        if (!roomNo) {
+            alert("객실 번호가 누락되었습니다.");
+            return;
+        }
+
+        // 숨겨진 필드 업데이트
+        $('#phone').val(phone); 
+        $('#adult').val(adult);
+        $('#child').val(child);
+        $('#roomNo').val(roomNo);
+        $('#checkInDate').val(checkInDate);
+        $('#checkOutDate').val(checkOutDate);
+        $('#stayDays').val(stayDays);
+
+        // 폼 제출 (POST 방식)
+       $('#reservationForm').submit();
+    });
+});
+
+ 
+
+
     </script>
 
 </body>

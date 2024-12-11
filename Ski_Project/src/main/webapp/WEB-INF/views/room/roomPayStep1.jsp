@@ -214,7 +214,7 @@
   <div class="reservation-steps">
     <span class="step active">STEP1. 객실/날짜 선택</span>
     <span class="step">STEP2. 예약정보 입력</span>
-    <span class="step">STEP3. 결제정보 입력</span>
+    <span class="step">STEP3. 얘약정보 확인</span>
     <span class="step">STEP4. 예약완료</span>
   </div>
   
@@ -223,135 +223,173 @@
 	  <div id="calendar" style="margin: 50px;"></div>
 	</div>  
 	<div class="info2">	
-	 <div class="date-info">
-	    <p class="date-label">Check in — Check out</p>
-	    <div class="date-value">
-	        <span id="checkInDate"></span> ~
-	        <span id="checkOutDate"></span>
-	    </div>
-	 </div>
-     
-      	<button id="searchRooms" class="minimal-button">SEARCH</button>
-		<div id="roomResults" style="height:190px"></div>
-		<button id="nextButton" class="minimal-button" style="margin-top: 20px;">다음 예약 페이지로</button>
-
+		 <div class="date-info">
+		    <p class="date-label">Check in — Check out</p>
+		    <div class="date-value">
+		        <span id="checkIn"></span> ~
+		        <span id="checkOut"></span>
+		    </div>
+		 </div>
+		 <!-- 숨겨진 폼 -->
+		<form id="reservationForm" action="payStep2.ro" method="post">
+		    <input type="hidden" id="roomNo" name="roomNo" value=""> <!-- 예: 객실 번호 -->
+		    <input type="hidden" id="checkInDate" name="checkInDate" value=""> <!-- 체크인 날짜 -->
+		    <input type="hidden" id="checkOutDate" name="checkOutDate" value=""> <!-- 체크아웃 날짜 -->
+		</form> 
+	
+	     
+	      	<button id="searchRooms" class="minimal-button">SEARCH</button>
+			<div id="roomResults" style="height:190px"></div>
+			<button id="nextButton" class="minimal-button" style="margin-top: 20px;">다음 예약 페이지로</button>
+     </div>
     </div>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-	  var calendarEl = document.getElementById('calendar');
-	  var checkInDate = null; // 시작 날짜
-	  var checkOutDate = null;   // 끝 날짜
+  let checkInDate = null;
+  let checkOutDate = null;
+  let selectedRoomNo = null;
+  
+  document.addEventListener('DOMContentLoaded', function () {
 
-	  var calendar = new FullCalendar.Calendar(calendarEl, {
-	    initialView: 'dayGridMonth',
-	    locale: 'ko',
-	    headerToolbar: {
-	      left: 'prev,next today',
-	      center: 'title',
-	      right: 'dayGridMonth'
-	    },
-	    dateClick: function(info) {
-	      if (!checkInDate) {
-	    	  checkInDate = info.dateStr;
-	        document.getElementById('checkInDate').innerText = checkInDate;
-	       //  alert("시작 날짜가 선택되었습니다: " + checkInDate);
-	      } else if (!checkOutDate) {
-	        checkOutDate = info.dateStr;
+	    // FullCalendar 초기화
+	    const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+	        initialView: 'dayGridMonth',
+	        locale: 'ko',
+	        headerToolbar: {
+	            left: 'prev,next today',
+	            center: 'title',
+	            right: 'dayGridMonth'
+	        },
+	        dateClick: function (info) {
+	            if (!checkInDate) {
+	                checkInDate = info.dateStr;
+	                console.log(checkInDate);
+	                // $('#checkInDate').val(checkInDate); // 숨겨진 필드 업데이트
+	                document.getElementById('checkIn').innerText = checkInDate;
+	            } else if (!checkOutDate) {
+	                checkOutDate = info.dateStr;
 
-	        if (new Date(checkOutDate) < new Date(checkInDate)) {
-	          alert("체크아웃 날짜는 체크인 날짜보다 이후여야 합니다!");
-	          checkOutDate = null;
-	          return;
+	                if (new Date(checkOutDate) <= new Date(checkInDate)) {
+	                    alert("체크아웃 날짜는 체크인 날짜보다 이후여야 합니다!");
+	                    checkOutDate = null;
+	                    return;
+	                }
+
+	                // $('#checkOutDate').val(checkOutDate); // 숨겨진 필드 업데이트
+	                console.log(checkOutDate);
+	                document.getElementById('checkOut').innerText = checkOutDate;
+	            } else {
+	                alert("날짜를 다시 선택하려면 체크인 날짜를 다시 선택하세요.");
+	                checkInDate = null;
+	                checkOutDate = null;
+	                $('#checkInDate').val("");
+	                $('#checkOutDate').val("");
+	                document.getElementById('checkInDate').innerText = "";
+	                document.getElementById('checkOutDate').innerText = "";
+	            }
+	        }
+	    });
+
+	    calendar.render();
+
+	    // "SEARCH" 버튼 클릭 이벤트
+	    $('#searchRooms').click(function () {
+	        if (!checkInDate || !checkOutDate) {
+	            alert("체크인/체크아웃 기간을 지정해주세요.");
+	            return;
 	        }
 
-	        document.getElementById('checkOutDate').innerText = checkOutDate;
-	        // alert("끝 날짜가 선택되었습니다: " + checkOutDate);
-	      } else {
-	        alert("날짜를 다시 선택하려면 시작 날짜를 선택하세요.");
-	        checkInDate = null;
-	        checkOutDate = null;
-	        document.getElementById('checkInDate').innerText = "";
-	        document.getElementById('checkOutDate').innerText = "";
-	      }
-	    }
-	  });
+	        console.log("체크인 날짜:", checkInDate);
+	        console.log("체크아웃 날짜:", checkOutDate);
 
-	  calendar.render();
+	        const roomType = '${roomType}'; // 서버에서 제공된 roomType 변수
 
-	  // 조회하기 버튼 클릭 이벤트
-	  $('#searchRooms').click(function() {
-	    if (!checkInDate || !checkOutDate) {
-	      alert("체크인/체크아웃 기간을 지정해주세요.");
-	      return;
-	    }
-	    console.log(checkInDate);
-	    console.log(checkOutDate);
+	        // AJAX 요청
+	        $.ajax({
+	            url: 'searchRoom.ro', // 서버에서 매핑된 URL
+	            type: 'post',
+	            data: {
+	                checkInDate: checkInDate,
+	                checkOutDate: checkOutDate,
+	                roomType: roomType
+	            },
+	            success: function (result) {
+	                console.log('서버 응답 성공:', result);
 
-	    // AJAX 요청
-	    $.ajax({
-	    	  url: 'searchRoom.ro', // 서버에서 매핑된 URL
-	    	  type: 'post',
-	    	  data: { 
-	    	    checkInDate: checkInDate,
-	    	    checkOutDate: checkOutDate
-	    	  },
-	    	  success: function(result) {
-	    		    console.log('서버 응답 성공:', result);
+	                // roomResults 영역 선택
+	                const roomResultsContainer = $('#roomResults');
 
-	    		    // roomResults 영역 선택
-	    		    const roomResultsContainer = $('#roomResults');
+	                // 기존 데이터 초기화
+	                roomResultsContainer.empty();
 
-	    		    // 기존 데이터 초기화
-	    		    roomResultsContainer.empty();
+	                // 결과 데이터 순회
+	                result.forEach(function (room) {
+	                    // STATUS가 'N'이면 버튼 비활성화
+	                    const isDisabled = room.status === 'N' ? 'disabled' : '';
 
-	    		    // 결과 데이터 순회
-	    		    result.forEach(function(room) {
-	    		        // STATUS가 'N'이면 버튼 비활성화
-	    		        const isDisabled = room.status === 'N' ? 'disabled' : '';
+	                    // 버튼 생성 (roomNo를 data-roomno 속성으로 추가)
+	                    const button = '<button style="margin: 5px; padding: 10px; cursor: pointer;" '
+	                        + isDisabled + ' data-roomno="' + room.roomNo + '">'
+	                        + room.roomName
+	                        + '</button>';
+	                    roomResultsContainer.append(button);
+	                });
+	            },
+	            error: function (error) {
+	                console.error('객실 조회 실패:', error);
+	                alert("객실 조회 중 오류가 발생했습니다.");
+	            }
+	        });
+	    });
 
-	    		        // 버튼 생성 (roomNo를 data-roomno 속성으로 추가)
-	    		        const button = '<button style="margin: 5px; padding: 10px; cursor: pointer;" '
-	    		                     + isDisabled + ' data-roomno="' + room.roomNo + '">'
-	    		                     + room.roomName
-	    		                     + '</button>';
-	    		        roomResultsContainer.append(button);
-	    		    });
+	    // 동적으로 생성된 객실 버튼 클릭 이벤트
+	    $(document).on('click', '#roomResults button', function () {
+	        if (!$(this).attr('disabled')) {
+	            $('#roomResults button').removeClass('selected'); // 기존 선택된 버튼 스타일 제거
+	            $(this).addClass('selected'); // 현재 선택된 버튼에 스타일 추가
 
-	    		    // 객실 버튼 클릭 이벤트
-	    		    $('#roomResults button').click(function() {
-	    		        if (!$(this).attr('disabled')) {
-	    		            // 선택된 버튼 스타일 변경
-	    		            $('#roomResults button').removeClass('selected'); // 기존 선택된 버튼 스타일 제거
-	    		            $(this).addClass('selected'); // 현재 선택된 버튼에 스타일 추가
+	            // 선택된 객실 번호 저장 및 숨겨진 필드 업데이트
+	            selectedRoomNo = $(this).data('roomno');
+	            $('#roomNo').val(selectedRoomNo); // 숨겨진 필드 업데이트
+	            console.log('선택된 객실 번호:', selectedRoomNo);
+	            
 
-	    		            // 선택된 객실 번호 저장
-	    		            selectedRoomNo = $(this).data('roomno');
-	    		            console.log('선택된 객실 번호:', selectedRoomNo);
-	    		        }
-	    		    });
-	    		},
+                console.log(checkInDate);
 
-	    	  error: function(error) {
-	    	    console.error('객실 조회 실패:', error);
-	    	    alert("객실 조회 중 오류가 발생했습니다.");
-	    	  }
-	    	});
-	  });
-	  
-	  let selectedRoomNo = null; // 선택된 객실 번호 저장 변수
-	 // 다음 버튼 클릭 이벤트
-	  $('#nextButton').click(function() {
-		    if (selectedRoomNo && checkInDate && checkOutDate) {
-		        // 선택한 객실 번호, 체크인 날짜, 체크아웃 날짜를 URL 파라미터로 전달
-		        window.location.href = 'payStep2.ro?roomNo=' + selectedRoomNo + '&checkInDate=' + checkInDate + '&checkOutDate=' + checkOutDate;
-		    } else {
-		        alert('객실과 체크인/체크아웃 날짜를 모두 선택하세요.');
-		    }
-		});
+                console.log(checkOutDate);
+                
+                console.log($('#checkInDate'));
+                console.log($('#checkOutDate'));
+	            
+		        $('#checkInDate').val(checkInDate);
+		        $('#checkOutDate').val(checkOutDate);
+	        }
+	    });
 
+	    // "다음 예약 페이지로" 버튼 클릭 이벤트
+	    $('#nextButton').click(function () {
+	        // const roomNo = $('#roomNo').val(); // 숨겨진 필드에서 객실 번호 가져오기
+	        // const checkInDate = $('#checkInDate').val(); // 숨겨진 필드에서 체크인 날짜 가져오기
+	        // const checkOutDate = $('#checkOutDate').val(); // 숨겨진 필드에서 체크아웃 날짜 가져오기
+
+	        console.log("숨겨진 필드 값 확인:");
+	        console.log("객실 번호:", roomNo);
+	        console.log("체크인 날짜:", checkInDate);
+	        console.log("체크아웃 날짜:", checkOutDate);
+	        
+	        // $('#checkInDate').val(checkInDate);
+	        // $('#checkOutDate').val(checkOutDate);
+
+	        // 유효성 검사
+	        if (roomNo && checkInDate && checkOutDate) {
+	             $('#reservationForm').submit(); // 폼 제출
+	        } else {
+	            alert('객실과 체크인/체크아웃 날짜를 모두 선택하세요.');
+	        }
+	    });
 	});
 
   </script>
+
   
 </body>
 </html>

@@ -318,9 +318,10 @@
 		        </div>
 		
 
-		        <div class="button-group">
-		            <button class="reserve-btn" onclick="payStep();">객실 예약</button>
-		        </div>
+				<div class="button-group">
+				    <button class="reserve-btn" data-roomtype="스위트" onclick="payStep(this);">객실 예약</button>
+				</div>
+
 	<!-- location.href='payStep1.ro' -->
 		    </div>
 			<hr>
@@ -338,15 +339,21 @@
     </div>
     
     <script>
-    	function payStep() {
-    		
-    		if(${empty session.loginUsesr}){
-    			location.href="payStep1.ro";  // 일단 임시로 걍 에약 페이지로 넘겨버리기
-    			// alert("로그인 후 이용가능합니다.");  로그인되면 그때 다시 주석 풀기
-    		}else {
-    			location.href="payStep1.ro";
-    		}
-    	}
+	    function payStep(button) {
+	        // 버튼에서 data-roomtype 값을 가져오기
+	        const roomType = button.getAttribute("data-roomtype");
+	
+	        // 로그인 여부 확인 및 데이터 전송
+	        if (${empty session.loginUser}) {
+	        	location.href = "payStep1.ro?roomType=" + encodeURIComponent(roomType);
+	           //  alert("로그인 후 이용 가능합니다.");
+	          //   location.href = ""; // 로그인 페이지로 리다이렉트
+	        } else {
+	           // roomType 데이터를 컨트롤러로 전달
+	           // location.href = "payStep1.ro?roomType=" + encodeURIComponent(roomType);
+	        }
+	    }
+
     </script>
 </body>
 </html>

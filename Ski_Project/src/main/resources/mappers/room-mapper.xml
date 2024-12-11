@@ -29,9 +29,14 @@
 		           TO_DATE(#{checkInDate}, 'YYYY-MM-DD') &lt; TO_DATE(RP.CHECK_OUT_DATE, 'YYYY-MM-DD')
 		           AND TO_DATE(#{checkOutDate}, 'YYYY-MM-DD') &gt; TO_DATE(RP.CHECK_IN_DATE, 'YYYY-MM-DD')
 		       )
-		    WHERE R.ROOM_TYPE = '스탠다드'
+		    WHERE R.ROOM_TYPE = #{roomType}
 		    ORDER BY R.ROOM_NO ASC
 		</select>
- 
-
+		
+	<!-- 사용자가 선택한 객실의 수용인원 조회 -->
+	<select id="selectRoomDetails" parameterType="_int" resultMap="roomResultSet">
+		SELECT ROOM_NO, ROOM_NAME, CAPACITY, ROOM_PRICE, ROOM_TYPE
+		FROM ROOM
+		WHERE ROOM_NO = #{roomNo}
+	</select>
 </mapper>

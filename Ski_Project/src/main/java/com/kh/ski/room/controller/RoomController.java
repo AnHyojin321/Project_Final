@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.room.model.service.RoomService;
 import com.kh.ski.room.model.vo.Room;
-import com.kh.ski.room.model.vo.RoomImg;
 import com.kh.ski.room.model.vo.RoomPay;
 
 @Controller
@@ -66,91 +65,48 @@ public class RoomController {
 	}
 	
 	
-	// 객실 등록 요청
-	@PostMapping("insert.ro")
-	public ModelAndView insertRoom(Room r,
-	                               MultipartFile[] upfiles,  // MultipartFile 배열로 변경
-	                               HttpSession session,
-	                               ModelAndView mv) {
-
-	    // 첨부파일이 있는 경우 처리
-	    if (upfiles != null && upfiles.length > 0) {
-	        ArrayList<RoomImg> imgList = new ArrayList<RoomImg>();  // RoomImg 객체를 담을 리스트
-
-	        // 첨부파일 처리
-	        for (int i = 0; i < upfiles.length; i++) {
-	            MultipartFile upfile = upfiles[i];
-	            if (!upfile.isEmpty()) {  // 빈 파일이 아닐 경우에만 처리
-	                // 파일명 출력
-	                System.out.println("업로드된 파일명: " + upfile.getOriginalFilename());
-
-	                // 파일 저장
-	                String changeName = saveFile(upfile, session);
-
-	                // RoomImg 객체 생성 및 정보 설정
-	                RoomImg roomImg = new RoomImg();
-	                roomImg.setRoomOriginName(upfile.getOriginalFilename());  // 원본 파일명
-	                roomImg.setRoomChangeName("resources/uploadFiles/room/" + changeName);  // 저장된 파일명
-	                roomImg.setRoomImgPath("resources/uploadFiles/room/");  // 파일 경로 설정
-
-	                // 썸네일 이미지 처리
-	                if (i == 0) {
-	                    roomImg.setRoomThumbnail("Y");  // 첫 번째 파일은 썸네일 이미지로 설정
-	                } else {
-	                    roomImg.setRoomThumbnail("N");  // 나머지 파일들은 썸네일이 아님
-	                }
-
-	                // RoomImg 객체 리스트에 추가
-	                imgList.add(roomImg);
-	            }
-	        }
-
-	        // Room 객체와 RoomImg 리스트를 서비스에 전달
-	        int result = roomService.insertRoom(r, imgList);  // Room과 RoomImg 리스트를 전달
-
-	        if (result > 0) { // 성공
-	        	
-	            mv.setViewName("redirect:/list.ro");
-	        } else { // 실패
-	            mv.setViewName("common/errorPage");
-	        }
-	    }
+	
+	// 객실 예약 페이지 요청 - step1
+	@RequestMapping(value="payStep1.ro")
+	public ModelAndView reservPayStep(@RequestParam("roomType") String roomType, ModelAndView mv) {
+	    System.out.println("선택한 객실 타입: " + roomType);
+	    
+	    // 선택한 객실 타입 데이터를 JSP로 전달
+	    mv.addObject("roomType", roomType);
+	    mv.setViewName("room/roomPayStep1");
 
 	    return mv;
 	}
-	
-	// 객실 예약 페이지 요청 - step1
-	@GetMapping("payStep1.ro")
-	public ModelAndView roomPayStep1(ModelAndView mv) {
-		mv.setViewName("room/roomPayStep1");
-		return mv;
-	}
+
 	
 	
 	// 날짜별 이용가능한 객실 조회
 	@ResponseBody
 	@PostMapping(value = "searchRoom.ro", produces = "application/json; charset=UTF-8")
-	public ArrayList<Room> selectAvailableRoom(RoomPay rp) {
+	public ArrayList<Room> selectAvailableRoom(RoomPay rp, String roomType) {
 	    System.out.println("호출되나???????");
 	    System.out.println("------------------------");
 	    System.out.println("체크인 날짜: " + rp.getCheckInDate());
 	    System.out.println("체크아웃 날짜: " + rp.getCheckOutDate());
+	    System.out.println("객실 타입 : " + roomType);
 	    
-	     ArrayList<Room> list = roomService.selectAvailableRoom(rp);
-	    
+	     ArrayList<Room> list = roomService.selectAvailableRoom(rp, roomType);
+	    System.out.println("조회해온 객실 : " + list);
 	     return list;
 	}
 	
 	
 	// 이용가능한 객실 선택 후 예약자 정보 입력 받는 페이지로 요청
-	@RequestMapping(value="payStep2.ro")
+	@PostMapping(value="payStep2.ro")
 	public ModelAndView reservInfoInput(@RequestParam("roomNo") int roomNo, 
 									    @RequestParam("checkInDate") String checkInDate, 
 									    @RequestParam("checkOutDate") String checkOutDate, 
 									    ModelAndView mv) {
-//	    System.out.println("선택한 객실 번호: " + roomNo);
-//	    System.out.println("체크인 : " + checkInDate);
-//	    System.out.println("체크아웃 : " + checkOutDate);
+	    System.out.println("선택한 객실 번호: " + roomNo);
+	    System.out.println("체크인 : " + checkInDate);
+	    System.out.println("체크아웃 : " + checkOutDate);
+		Room r = null;
+		r = roomService.selectRoomDetails(roomNo);
 	    
 	    // 날짜 형식 지정
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -167,11 +123,50 @@ public class RoomController {
 	    mv.addObject("checkInDate", checkInDate);
 	    mv.addObject("checkOutDate", checkOutDate);
 	    mv.addObject("stayDays", days);
-	    
+	    mv.addObject("r", r);
+	    System.out.println(r);
 	    mv.setViewName("room/roomPayStep2");
 
 	    return mv;
 	}
+	
+	// 전화번호, 투숙인원 응답데이터 받아와서 최종 예약자 정보 출력하기
+	@PostMapping("payStep3.ro")
+	public String processPayStep3(@RequestParam("phone") String phone,
+	                              @RequestParam("adult") int adult,
+	                              @RequestParam("child") int child,
+	                              @RequestParam("roomNo") int roomNo,
+	                              @RequestParam("checkInDate") String checkInDate,
+	                              @RequestParam("checkOutDate") String checkOutDate,
+	                              @RequestParam("stayDays") String stayDays,
+	                              Model model) {
+	    // 받은 데이터 출력 (디버깅용)
+	    System.out.println("전화번호: " + phone);
+	    System.out.println("성인 투숙 인원: " + adult);
+	    System.out.println("어린이 투숙 인원: " + child);
+	    System.out.println("객실번호 : " + roomNo);
+	    System.out.println("체크인 : " + checkInDate);
+	    System.out.println("체크아웃 : " + checkOutDate);
+	    System.out.println("숙박일 : " + stayDays);
+	    
+	     Room r = null;
+		 r = roomService.selectRoomDetails(roomNo);
+
+	    // 받은 데이터를 다음 페이지에 전달
+	    model.addAttribute("phone", phone);
+	    model.addAttribute("adult", adult);
+	    model.addAttribute("child", child);
+	    model.addAttribute("checkInDate", checkInDate);
+	    model.addAttribute("checkOutDate", checkOutDate);
+	    model.addAttribute("stayDays", stayDays);
+	    model.addAttribute("r", r);
+	    
+ 
+
+	    // 다음 페이지로 이동
+	    return "room/roomPayStep3"; // JSP 또는 Thymeleaf 뷰 파일 이름
+	}
+
 
 	
 	

@@ -29,20 +29,15 @@ public class RoomServiceImpl implements RoomService {
 	  }
 		
 	
-	  @Override
-	  @Transactional
-	    public int insertRoom(Room r, List<RoomImg> roomImgList) {
-	        
-	        int result1 = roomDao.insertRoom(sqlSession, r);
-
-	        int result2 = roomDao.insertRoomImg(sqlSession, roomImgList);
-	       
-	        return result1*result2;
-	    }
 	  
 	@Override
-	public ArrayList<Room> selectAvailableRoom(RoomPay rp) {
-		return roomDao.selectAvailableRoom(sqlSession, rp);
+	public ArrayList<Room> selectAvailableRoom(RoomPay rp, String roomType) {
+		return roomDao.selectAvailableRoom(sqlSession, rp, roomType);
+	}
+	
+	// 예약하고자하는 객실의 수용인원 조회
+	public Room selectRoomDetails(int roomNo) {
+		return roomDao.selectRoomDetails(sqlSession, roomNo);
 	}
 
 }
