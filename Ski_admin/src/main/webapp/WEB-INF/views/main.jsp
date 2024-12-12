@@ -9,7 +9,7 @@
 <body>
 	이건 관리자용 main
 	<br>
-	<a href="packageList.pk">패키지 목록</a> <br>
+	<a href="list.pk">패키지 목록</a> <br>
 	<a href="roomEnrollForm.ro">객실등록</a>
 </body>
 </html>

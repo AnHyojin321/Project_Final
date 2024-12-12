@@ -32,7 +32,7 @@
 		<typeAlias type="com.kh.ski.locker.model.vo.LockerPay" alias="lockerpay" />
 		<typeAlias type="com.kh.ski.lostitem.model.vo.LostItem" alias="lostitem" />
 		<typeAlias type="com.kh.ski.lostitem.model.vo.LostItemImg" alias="lostitemimg" />
-		<typeAlias type="com.kh.ski.pack.model.vo.Package" alias="package" />
+		<typeAlias type="com.kh.ski.pack.model.vo.Pack" alias="package" />
 		<typeAlias type="com.kh.ski.pack.model.vo.PackagePay" alias="packagepay" />
 		<typeAlias type="com.kh.ski.management.model.vo.Management" alias="management" />
 	</typeAliases>

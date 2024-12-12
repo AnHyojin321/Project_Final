@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -21,9 +22,6 @@
     .container {
         width: 90%;
         max-width: 1200px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 20px;
         overflow-x: auto;
     }
@@ -42,7 +40,7 @@
     }
 
     table thead {
-        background-color: #007BFF;
+        background-color: #85caed;
         color: #fff;
     }
 
@@ -86,12 +84,21 @@
     .btn-delete:hover {
         background-color: #a71d2a;
     }
+    
+    table tbody tr {
+	    transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+	}
+	
+	table tbody tr:hover {
+	    background-color: lightgray; /* 마우스 오버 시 배경색 변경 */
+	    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+	}
 </style>
 </head>
 <body>
     <div class="container">
         <h1>패키지 상품 목록</h1>
-        <table>
+        <table id="packageList">
             <thead>
                 <tr>
                     <th>상품 번호</th>
@@ -104,14 +111,13 @@
             </thead>
             <tbody>
             	<c:forEach var="p" items="${list}">
-                <tr>
+                <tr data-packageno="${p.packageNo}">
                     <td>${p.packageNo}</td>
                     <td>
 				        <c:choose>
 				            <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
 				            <c:when test="${p.packageSet == 2}">리프트+락커</c:when>
-				            <c:when test="${p.packageSet == 3}">객실+리프트+락커</c:when>
-				            <c:otherwise>알 수 없음</c:otherwise>
+				            <c:otherwise>객실+리프트+락커</c:otherwise>
 				        </c:choose>
 				    </td>
                     <td>${p.packageName}</td>
@@ -124,5 +130,20 @@
         </table>
         <a href="packEnrollForm.pk" class="btn">새 패키지 등록</a>
     </div>
-</body></body>
+    <script>
+	    // 카드 하나를 클릭했을 때 이벤트를 처리
+	    $(function() {
+	        $("#packageList>tbody>tr").click(function() {
+	            // 상품 번호 가져오기
+	            let pno = $(this).data("packageno");
+	            
+				// console.log(pno);
+	            // 상세 페이지로 이동
+	            location.href = "package/" + pno;
+
+	        });
+	    });
+	</script>
+    
+</body>
 </html>

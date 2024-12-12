@@ -278,7 +278,7 @@
 </head>
 <body>
 
-
+	<jsp:include page="../common/header.jsp" />
 
   <div class="hero">
     <div class="overlay">
@@ -402,6 +402,6 @@
   </div>
 </div>
 
-
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

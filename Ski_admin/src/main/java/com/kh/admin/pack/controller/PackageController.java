@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +26,7 @@ public class PackageController {
 	private PackageService packageService;
 	
 	// 패키지 목록 페이지 요청
-	@GetMapping("packageList.pk")
+	@GetMapping("list.pk")
 	public ModelAndView selectPackageList(Pack p, ModelAndView mv) {
 		
 		ArrayList<Pack> list = packageService.selectPackageList(p);
@@ -67,8 +68,8 @@ public class PackageController {
 	    // 3. 결과에 따른 처리
 	    if (result > 0) { // 성공
 	    	// System.out.println("패키지상품 등록 성공");
-	       // session.setAttribute("alertMsg", "패키지 등록 성공");
-	        mv.setViewName("redirect:/packageList.pk"); // 리스트 페이지로 리다이렉트
+	        session.setAttribute("alertMsg", "패키지 등록 성공");
+	        mv.setViewName("redirect:/list.pk"); // 리스트 페이지로 리다이렉트
 	    } else { // 실패
 	    	System.out.println("패키지 상픔 등록 실패");
 	      //  mv.addObject("errorMsg", "패키지 등록 실패")
@@ -76,6 +77,19 @@ public class PackageController {
 	    }
 
 	    return mv;
+	}
+	
+	// 패키지 상품 상세 정보 조회
+	@GetMapping("package/{packageNo}")
+	public ModelAndView selectPackageDetail(@PathVariable(value="packageNo")int pno,
+											ModelAndView mv) {
+		Pack p = packageService.selectPackageDetail(pno);
+		
+		//
+		mv.addObject("p", p)
+		  .setViewName("pack/packageDetail");
+		
+		return mv;
 	}
 		
 	

@@ -216,6 +216,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
     <div class="wrap">
         <div class="roomDescription1">
             <div class="desc1">
@@ -348,5 +349,6 @@
 	    }
 
     </script>
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

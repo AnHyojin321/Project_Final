@@ -7,11 +7,7 @@
 <title>Insert title here</title>
     <style>
 
-        .wrap {
-            /*  border: 1px solid black; */
-            width: 1000px;
-            height: 900px;
-        }
+
 
         div {
            /* border: 1px solid red; */
@@ -216,6 +212,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
     <div class="wrap">
         <div class="roomDescription1">
             <div class="desc1">
@@ -347,5 +344,6 @@
 	    }
 
     </script>
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

@@ -33,5 +33,10 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.insertPackage(sqlSession, p);
 	}
 	
+	// 패키지 상품 상세 조회
+	@Override
+	public Pack selectPackageDetail(int packageNo) {
+		return packageDao.selectPackageDetail(sqlSession, packageNo);
+	}
 
 }

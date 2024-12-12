@@ -184,6 +184,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
 	  <div class="reservation-menu">
 	    <div class="menu-item active">
 	      <div class="icon">
@@ -271,7 +272,7 @@
 	    document.getElementById("totalPrice").textContent = formattedPrice;    
     </script>
 	
-	
+<jsp:include page="../common/footer.jsp" />
 
 </body>
 </html>

@@ -19,5 +19,10 @@ public class PackageDao {
 	public int insertPackage(SqlSessionTemplate sqlSession, Pack p) {
 		return sqlSession.insert("packageMapper.insertPackage", p);
 	}
+	
+	// 패키지 상품 상세 조회
+	public Pack selectPackageDetail(SqlSessionTemplate sqlSession, int packageNo) {
+		return sqlSession.selectOne("packageMapper.selectPackageDetail", packageNo);
+	}
 
 }

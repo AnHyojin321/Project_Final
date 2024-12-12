@@ -11,5 +11,8 @@ public interface PackageService {
 	
 	// 패키지 상품 등록 서비스
 	int insertPackage(Pack p);
+	
+	// 패키지 상품 상세 조회
+	Pack selectPackageDetail(int packageNo);
 
 }

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="packageMapper">
-
+	
 	<resultMap id="packResultSet" type="package">
 		<id column="PACKAGE_NO" property="packageNo" />
-		<result column="PACKAGE_SET" property="packageSet" />
 		<result column="PACKAGE_NAME" property="packageName" />
 		<result column="AVAILABLE_START_DATE" property="availableStartDate" />
 		<result column="AVAILABLE_END_DATE" property="availableEndDate" />
 		<result column="PACKAGE_STATUS" property="packageStatus" />
+		<result column="PACK_CHANGE_NAME" property="packChangeName" />
+		<result column="PACK_IMG_PATH" property="packImgPath" />
+		<result column="PACKAGE_PRICE" property="packagePrice" />
+		<result column="PRODUCT_COMPOSIT" property="productComposit" />
+		<result column="PACKAGE_SET" property="packageSet" />
 	</resultMap>
 
 	<!-- 패키지 상품 목록 조회용 쿼리문 -->
@@ -20,6 +24,7 @@
 			 , AVAILABLE_END_DATE
 			 , PACKAGE_STATUS
 		FROM PACKAGE_INFO
+		ORDER BY PACKAGE_NO DESC
 	</select>
 
 	<!-- 패키지 상품 등록용 쿼리문 -->
@@ -45,5 +50,19 @@
 			 , #{packChangeName}
 			 , #{packImgPath})
 	</insert>
+	
+	<select id="selectPackageDetail" parameterType="_int" resultMap="packResultSet">
+		SELECT PACKAGE_NO
+              , PACKAGE_NAME
+              , PACKAGE_PRICE
+              , AVAILABLE_START_DATE
+              , AVAILABLE_END_DATE
+              , PRODUCT_COMPOSIT
+              , PACKAGE_SET
+              , PACKAGE_STATUS
+              , PACK_IMG_PATH
+		FROM PACKAGE_INFO
+		WHERE PACKAGE_NO = #{packageNo}
+	</select>
 
 </mapper>
