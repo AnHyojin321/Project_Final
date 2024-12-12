@@ -271,7 +271,9 @@
 .validate-btn:hover {
     background-color: #1e7e34;
 }
-
+#pwd_hint {
+	font-size : 11px;
+}
 
     </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
@@ -311,6 +313,7 @@
                             <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
                         </div>
                         <div id="passwordMessage" class="message"></div> <!-- 비밀번호 메시지 -->
+                        <span id="pwd_hint" style="color:red;"></span>
                     </div>
                     
 
@@ -380,7 +383,7 @@ $(function () {
     // 정규식: 아이디는 5~20자의 영어 대소문자, 숫자만 허용
     const idRegex = /^[a-zA-Z0-9]{5,20}$/;
     // 비밀번호 정규식
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&])[0-9a-zA-Z!@#$%^&]{8,15}$/;
 
     let isEmailValidated = false; // 이메일 인증 여부를 확인하기 위한 변수
 
@@ -534,6 +537,17 @@ $(function () {
 
     createSnowflake();
 });
+document.querySelector('input[name=memberPwd]').addEventListener('keyup', function(e){
+    if (e.getModifierState){
+        if (e.getModifierState('CapsLock')) {
+            $("#pwd_hint").html('CAPS LOCK 켜져 있습니다.');
+            $("#pwd_hint").css('display', 'block');
+        }else {
+            $("#pwd_hint").css('display', 'none');
+        }
+        
+    }
+  });
 
 </script>
 

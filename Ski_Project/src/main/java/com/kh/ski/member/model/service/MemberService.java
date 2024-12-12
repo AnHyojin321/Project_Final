@@ -30,7 +30,7 @@ public interface MemberService {
 	int insertEmailCert(String email, String certNo);
 
 	// 아이디 찾기 
-	String findId(String MemberName, String email);;
+	String findId(String memberName, String email);;
 
 	// 카카오 관련 
 	//    Member processKakaoUser(Map<String, Object> userInfo);
@@ -39,11 +39,13 @@ public interface MemberService {
 //	public Kakao getUserInfo(String access_Token);
 //	
 	
-	String findPwd(String MemberId, String email);
+	String findPwd(String memberId, String email);
 	
-	int updatePassword(String MemberId, String tempPwd);
+	int updatePassword(String memberId, String tempPwd);
 	
+	int changePwd(int memberNo, String newPwd, String currentPwd);
 	
+	String selectEncPw(int memberNo);
 	
-	
+    String selectTempPw(int memberNo);
 }

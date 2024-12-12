@@ -133,6 +133,25 @@
 		   AND MEMBER_STATUS = 'Y'
 	</update>
 
+	<update id="changePwd" parameterType="map">
+		UPDATE MEMBER
+		   SET MEMBER_PWD = #{memberPwd}
+		     , TEMP_PWD = NULL
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND MEMBER_STATUS = 'Y'
+	</update>
+
+	
+	<select id="selectEncPw" parameterType="_int" resultType="string">
+		SELECT MEMBER_PWD
+		  FROM MEMBER
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+	<select id="selectTempPw" parameterType="_int" resultType="string">
+    SELECT TEMP_PWD
+      FROM MEMBER
+     WHERE MEMBER_NO = #{memberNo}
+</select>
 	
 	
 </mapper>

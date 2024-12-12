@@ -351,10 +351,10 @@ public class MemberController {
 	    // 입력값 정리
 	    String normalizedEmail = email.trim().toLowerCase();
 
-	    System.out.println("validate - 세션 이메일: " + sessionEmail);
-	    System.out.println("validate - 세션 인증번호: " + sessionCertNo);
-	    System.out.println("validate - 입력 이메일: " + normalizedEmail);
-	    System.out.println("validate - 입력 인증번호: " + certNo);
+//	    System.out.println("세션 이메일: " + sessionEmail);
+//	    System.out.println("세션 인증번호: " + sessionCertNo);
+//	    System.out.println("입력 이메일: " + normalizedEmail);
+//	    System.out.println("입력 인증번호: " + certNo);
 
 	    // 인증번호와 이메일 비교
 	    if (sessionCertNo != null && sessionCertNo.equals(certNo) 
@@ -513,11 +513,66 @@ public class MemberController {
 	    }
 	}
 
+	/*
+	@PostMapping("changePwd.me")
+	public String changePassword(@RequestParam("currentPwd") String currentPwd,
+	                             @RequestParam("newPwd") String newPwd,
+	                             HttpSession session, Model model) {
+
+	    // 로그인된 사용자 정보 가져오기
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        model.addAttribute("alertMsg", "로그인이 필요합니다.");
+	        return "redirect:/login.me";
+	    }
+
+	    int memberNo = loginMember.getMemberNo();
+
+	    // 서비스 계층에서 비밀번호 변경 수행
+	    int result = memberService.changePwd(memberNo, newPwd, currentPwd);
+
+	    if (result == 1) {
+	        session.setAttribute("alertMsg", "비밀번호가 성공적으로 변경되었습니다.");
+	        return "redirect:/myPage.me";
+	    } else if (result == 0) {
+	        model.addAttribute("alertMsg", "현재 비밀번호가 일치하지 않습니다.");
+	    } else {
+	        model.addAttribute("alertMsg", "비밀번호 변경에 실패했습니다.");
+	    }
+
+	    return "member/myPage";
+	}
+*/
 	
-	
-	
-	
-	
+	@PostMapping("changePwd.me")
+	public String changePassword(@RequestParam("currentPwd") String currentPwd,
+	                             @RequestParam("newPwd") String newPwd,
+	                             HttpSession session, Model model) {
+
+	    // 로그인된 사용자 정보 가져오기
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        model.addAttribute("alertMsg", "로그인이 필요합니다.");
+	        return "redirect:/login.me";
+	    }
+
+	    int memberNo = loginMember.getMemberNo();
+
+	    // 서비스 계층에서 비밀번호 변경 수행
+	    int result = memberService.changePwd(memberNo, newPwd, currentPwd);
+
+	    if (result > 0) {
+	        session.setAttribute("alertMsg", "비밀번호가 성공적으로 변경되었습니다.");
+	        return "redirect:/myPage.me";
+	    } else {
+	        model.addAttribute("alertMsg", "현재 비밀번호가 일치하지 않거나 변경에 실패했습니다.");
+	        return "member/myPage";
+	    }
+	}
+
+
 	
 	
 	

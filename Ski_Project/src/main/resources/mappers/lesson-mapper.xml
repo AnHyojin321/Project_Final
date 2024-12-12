@@ -2,4 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lesson">
 
+	<resultMap id="lessonResultSet" type="lesson">
+		<id column="RES_NO" property="resNo" />
+		<result column="LESSON_DATE" property="lessonDate" />
+		<result column="LESSON_TIME" property="lessonTime" />
+		<result column="LESSON_TYPE" property="lessonType" />
+		<result column="RES_STATUS" property="resStatus" />
+		<result column="LESSON_TITLE" property="lessonTitle" />
+		<result column="LESSON_RES_COUNT" property="lessonResCount" />
+		<result column="LESSON_RES_DATE" property="lessonResDate" />
+		<result column="LR_REFUND_STATUS" property="lrRefundStatus" />
+		<result column="LR_REFUND_DATE" property="lrRefundDate" />
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM LESSON_RESERVATION
+	</select>
+	
+	<select id="selectList" resultMap="lessonResultSet">
+		SELECT RES_NO
+			 , RES_STATUS
+			 , LESSON_TITLE
+			 , LESSON_TYPE
+			 , LESSON_TIME
+			 , LESSON_DATE
+			 , LESSON_RES_DATE
+		 FROM LESSON_RESERVATION
+		 ORDER BY RES_NO DESC
+	</select>
+	
+	
+
+
+
 </mapper>

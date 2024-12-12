@@ -213,6 +213,7 @@
                 <input type="text" name="memberId" placeholder="아이디" required>
                 <input type="email" name="email" placeholder="이메일" required>
                 <button type="submit">비밀번호 초기화</button>
+
                 <div class="links">
                     <a href="${pageContext.request.contextPath}/login.me">로그인으로 돌아가기</a> | 
                     <a href="MemberFindId.jsp">아이디 찾기</a>

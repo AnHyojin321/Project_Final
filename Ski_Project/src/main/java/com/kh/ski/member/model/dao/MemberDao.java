@@ -97,6 +97,36 @@ public class MemberDao {
 	    return sqlSession.update("member.updatePassword", paramMap);
 	}
 
+/*
+	public int changePwd(SqlSessionTemplate sqlSession, int memberNo, String newPwd, String currentPwd) {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<>();	
+		paramMap.put("memberNo", memberNo);
+		paramMap.put("newPwd", newPwd);
+		paramMap.put("currentPwd", currentPwd);
+		
+		return sqlSession.update("member.changePwd", paramMap);
+	}
+*/
+	
+	public int changePwd(SqlSessionTemplate sqlSession, int memberNo, String newPwd) {
+	    // 파라미터 맵 생성
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", memberNo);
+	    paramMap.put("memberPwd", newPwd); // 쿼리에서 #{memberPwd}와 매핑
+
+	    System.out.println("Param Map: " + paramMap); // 디버깅용 로그 출력
+	    return sqlSession.update("member.changePwd", paramMap);
+	}
+
+	public String selectEncPw(SqlSessionTemplate sqlSession, int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("member.selectEncPw", memberNo);
+	}
+
+	public String selectTempPw(SqlSessionTemplate sqlSession, int memberNo) {
+	    return sqlSession.selectOne("member.selectTempPw", memberNo);
+	}
 
 
 
