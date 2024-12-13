@@ -1,5 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="locker">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<mapper namespace="locker">
+<select id="findLockersByRange" parameterType="map" resultType="com.kh.ski.locker.model.vo.Locker">
+    SELECT LOCKER_NO AS lockerNo, LOCKER_PRICE AS lockerPrice
+    FROM LOCKER
+    WHERE LOCKER_NO BETWEEN #{startNo} AND #{endNo}
+</select>
+
+    <!-- 특정 락커 정보 가져오기 -->
+    <select id="findLockerById" parameterType="int" resultType="locker">
+        SELECT 
+            LOCKER_NO AS lockerNo, 
+            LOCKER_PRICE AS lockerPrice
+        FROM LOCKER
+        WHERE LOCKER_NO = #{lockerNo}
+    </select>
 </mapper>
