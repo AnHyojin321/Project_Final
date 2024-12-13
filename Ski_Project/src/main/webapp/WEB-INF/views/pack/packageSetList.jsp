@@ -178,7 +178,7 @@ header p {
 
     <hr style="width:500px;">
     <div class="category-menu">
-        <span class="active" onclick="location.href='list.pk?cpage=1'">전체</span>
+        <span onclick="location.href='list.pk?cpage=1'">전체</span>
         <span data-packageSet="1">객실+리프트</span>
         <span data-packageSet="2">리프트+락커</span>
         <span data-packageSet="3">객실+리프트+락커</span>
@@ -190,10 +190,31 @@ header p {
         // 카테고리 클릭 이벤트
         $(".category-menu span").slice(1).on("click", function () {
             var packageSet = $(this).data("packageset"); // 선택한 카테고리 번호
-			
+
             location.href = "packageList.pk?packageSet=" + packageSet; // URL 생성과 동시에 이동	
 
             
+        });
+    });
+    
+    $(document).ready(function () {
+        // URL에서 packageSet 값을 가져옴
+        const urlParams = new URLSearchParams(window.location.search);
+        const packageSet = urlParams.get("packageSet");
+
+        // 기본 active 설정
+        if (packageSet) {
+            $(".category-menu span").removeClass("active"); // 모든 active 제거
+            $(".category-menu span[data-packageset='" + packageSet + "']").addClass("active"); // 해당 packageSet에 active 추가
+        } else {
+            $(".category-menu span").removeClass("active");
+            $(".category-menu span:first-child").addClass("active"); // "전체"를 기본 active로 설정
+        }
+
+        // 클릭 이벤트 처리
+        $(".category-menu span").on("click", function () {
+            $(".category-menu span").removeClass("active"); // 기존 active 제거
+            $(this).addClass("active"); // 현재 클릭한 요소에 active 추가
         });
     });
 

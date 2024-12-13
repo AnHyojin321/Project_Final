@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 body {
     font-family: 'Arial', sans-serif;
@@ -19,8 +20,7 @@ body {
 }
 
 .card-container {
-    width: 100%;
-    max-width: 800px;
+    width: 800px;
     background-color: #fff;
     overflow: hidden;
     display: flex;
@@ -184,10 +184,24 @@ body {
         </div>
 
         <footer class="card-footer">
-       		<a href="/editPackage.pk?packageNo=" class="btn edit">수정</a>
-			<a href="/deletePackage.pk?packageNo=" class="btn delete">삭제</a>
+       		<a class="btn edit" onclick="packageFormSubmit(1);">수정</a>
+			<a class="btn delete" onclick="packageFormSubmit(2);">삭제</a>
 			<a href="/admin/list.pk" class="btn back">목록</a>
         </footer>
+        
+        <form id="packageForm" action="" method="post">
+        	<input type="hidden" name="pno" value="${p.packageNo}">
+        	<input type="hidden" name="filePath" value="${p.packImgPath}">
+        </form>
     </div>
+    <script>
+    	function packageFormSubmit(num) {
+    		if(num == 1) {
+    			$("#packageForm").attr("action", "../updateForm.pk").submit();
+    		} else {
+    			$("#packageForm").attr("action", "../deletePackage.pk").submit();
+    		}
+    	}
+    </script>
 </body>
 </html>

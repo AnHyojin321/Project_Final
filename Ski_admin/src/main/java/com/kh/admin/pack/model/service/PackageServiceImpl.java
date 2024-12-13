@@ -38,5 +38,12 @@ public class PackageServiceImpl implements PackageService {
 	public Pack selectPackageDetail(int packageNo) {
 		return packageDao.selectPackageDetail(sqlSession, packageNo);
 	}
+	
+	
+	// 패키지 상품 정보 수정 
+	@Override
+	public int updatePackageForm(Pack p) {
+		return packageDao.updatePackageForm(sqlSession, p);
+	}
 
 }

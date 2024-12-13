@@ -15,11 +15,13 @@
 		<result column="PACKAGE_SET" property="packageSet" />
 	</resultMap>
 
+	<!-- 패키지 상품 전체 갯수 조회용 쿼리문 -->
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)
 		  FROM PACKAGE_INFO
 	</select>
 	
+	<!-- 패키지 상품 전체 목록 조회용 쿼리문 -->
 	<select id="selectPackageList" resultMap="packageResultSet">
 		SELECT  PACKAGE_NO
               , PACKAGE_NAME
@@ -32,6 +34,7 @@
 		ORDER BY PACKAGE_NO DESC
 	</select>
 	
+	<!-- 해당 패키지 상품 상세 조회용 쿼리문 -->
 	<select id="selectPackageDetail" parameterType="_int" resultMap="packageResultSet">
 		SELECT PACKAGE_NO
               , PACKAGE_NAME
@@ -43,6 +46,61 @@
               , PACKAGE_STATUS
 		FROM PACKAGE_INFO
 		WHERE PACKAGE_NO = #{packageNo}
+	</select>
+	
+	<!-- 특정 패키지 상품의 이전 패키지 상품글 조회용 쿼리문 -->
+	<select id="selectPrevPackage" parameterType="_int" resultMap="packageResultSet">
+		SELECT PACKAGE_NO, PACKAGE_NAME
+		FROM (
+		    SELECT 
+		        PACKAGE_NO, 
+		        PACKAGE_NAME
+		    FROM 
+		        PACKAGE_INFO
+		    WHERE 
+		        PACKAGE_NO &lt; #{packageNo}
+		    ORDER BY 
+		        PACKAGE_NO DESC
+		)
+		WHERE ROWNUM = 1		
+	</select>
+	
+	<!-- 특정 패키지 상품의 다음 패키지 상품글 조회용 쿼리문 -->
+	<select id="SelectNextPackage" parameterType="_int" resultMap="packageResultSet">
+		SELECT PACKAGE_NO, PACKAGE_NAME
+		FROM (
+		    SELECT 
+		        PACKAGE_NO, 
+		        PACKAGE_NAME
+		    FROM 
+		        PACKAGE_INFO
+		    WHERE 
+		        PACKAGE_NO &gt; #{packageNo}
+		    ORDER BY 
+		        PACKAGE_NO ASC
+		)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 패키지 상품 구성 번호에 따른 패키지 상품 목록 조회 -->
+	<select id="selectPackageSet" parameterType="_int" resultMap="packageResultSet">
+		SELECT  PACKAGE_NO
+              , PACKAGE_NAME
+              , AVAILABLE_START_DATE
+              , AVAILABLE_END_DATE
+              , PACKAGE_STATUS
+              , PACK_CHANGE_NAME
+              , PACK_IMG_PATH
+		FROM PACKAGE_INFO
+		WHERE PACKAGE_SET = #{packageSet}
+		ORDER BY PACKAGE_NO DESC	
+	</select>
+	
+	<!-- 패키지 상품 구성에 따른 패키지 상품 갯수 조회 -->
+	<select id="selectPackageSetCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PACKAGE_INFO
+		WHERE PACKAGE_SET = #{packageSet}
 	</select>
 
 </mapper>

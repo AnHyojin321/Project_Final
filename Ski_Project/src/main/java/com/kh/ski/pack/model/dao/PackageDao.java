@@ -33,4 +33,31 @@ public class PackageDao {
 	public Pack selectPackageDetail(SqlSessionTemplate sqlSession, int packageNo) {
 		return sqlSession.selectOne("packageMapper.selectPackageDetail", packageNo);
 	}
+	
+	// 해당 패키지 상품의 이전 패키지 상품글 조회
+	public Pack selectPrevPackage(SqlSessionTemplate sqlSession, int packageNo) {
+		return sqlSession.selectOne("packageMapper.selectPrevPackage", packageNo);
+	}
+	
+	// 해당 패키지 상품의 다음 패키지 상품글 조회
+	public Pack selectNextPackage(SqlSessionTemplate sqlSession, int packageNo) {
+		return sqlSession.selectOne("packageMapper.SelectNextPackage", packageNo);
+	}
+	
+	// 패키지 구성 번호에 따른 패키지 상품 목록 조회
+	public ArrayList<Pack> selectPackageSet(SqlSessionTemplate sqlSession, int packageSet, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds 
+				= new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("packageMapper.selectPackageSet", packageSet , rowBounds);
+	}
+	
+	// 패키지 구성별 상품 갯수
+	public int selectPackageSetCount(SqlSessionTemplate sqlSession, int packageSet) {
+		return sqlSession.selectOne("packageMapper.selectPackageSetCount", packageSet);
+	}
 }

@@ -220,6 +220,11 @@ body {
     color: #fff;
 }
 
+.navigation-table tr td a {
+	text-decoration : none;
+	color : black;
+}
+
 </style>
 </head>
 <body>
@@ -305,22 +310,49 @@ body {
         </div>
     </div>
     
-       <div class="navigation-container">
-	        <table class="navigation-table">
-	            <tr>
-	                <th>다음글</th>
-	                <td>1인 종일권 (춘/추계)</td>
-	            </tr>
-	            <tr>
-	                <th>이전글</th>
-	                <td>이전 티켓상품이 없습니다.</td>
-	            </tr>
-	        </table>
-	        <div class="button-container">
-	            <button class="back-btn">
+	<div class="navigation-container">
+	    <table class="navigation-table">
+	        <tr>
+	            <th>다음글</th>
+	            <td>
+	                <c:choose>
+	                    <%-- 다음글이 있을 때 --%>
+	                    <c:when test="${not empty next.packageNo}">
+	                        <a href="/ski/package/${next.packageNo}">
+	                            ${next.packageName}
+	                        </a>
+	                    </c:when>
+	                     <%-- 다음글이 없을 때 --%>
+	                    <c:otherwise>
+	                        다음 패키지 상품이 없습니다.
+	                    </c:otherwise>
+	                </c:choose>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>이전글</th>
+	            <td>
+	                <c:choose>
+	                    <%-- 이전글이 있을 때 --%>
+	                    <c:when test="${not empty prev.packageNo}">
+	                        <a href="/ski/package/${prev.packageNo}">
+	                            ${prev.packageName}
+	                        </a>
+	                    </c:when>
+	                    <%-- 이전글이 없을 때 --%>
+	                    <c:otherwise>
+	                        이전 패키지 상품이 없습니다.
+	                    </c:otherwise>
+	                </c:choose>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="button-container">
+	        <button class="back-btn">
 	            <a href="../list.pk">목록</a>
-	            </button>
-	        </div>
+	        </button>
 	    </div>
+	</div>
+  
 </body>
 </html>

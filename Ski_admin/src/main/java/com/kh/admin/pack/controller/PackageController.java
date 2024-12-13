@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +91,32 @@ public class PackageController {
 		  .setViewName("pack/packageDetail");
 		
 		return mv;
+	}
+	
+	@PostMapping("updateForm.pk")
+	public String updateFOrm(int pno, Model model) {
+		Pack p = packageService.selectPackageDetail(pno);
+		model.addAttribute("p", p);
+		return "pack/packageUpdateForm";
+	}
+	
+	/**
+	 * 패키지 상품 정보 수정
+	 * @param pno
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("update.pk")
+	public void updatePackageForm(Pack p,MultipartFile reupfile, HttpSession session, Model model) {
+		/*
+		if(!p.getPackOriginName().equals("")) {
+			String realPath = session.getServletContext().getRealPath(p.getPackImgPath());
+			new File(realPath).delete();	
+		}
+		*/
+		System.out.println(p);
+		System.out.println(reupfile);
+		//return "pack/packageUpdateForm";
 	}
 		
 	

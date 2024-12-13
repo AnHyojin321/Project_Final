@@ -15,4 +15,8 @@ public interface PackageService {
 	// 패키지 상품 상세 조회
 	Pack selectPackageDetail(int packageNo);
 
+	
+	// 패키지 상품 정보 수정
+	int updatePackageForm(Pack p);
+
 }

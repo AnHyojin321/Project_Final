@@ -24,5 +24,10 @@ public class PackageDao {
 	public Pack selectPackageDetail(SqlSessionTemplate sqlSession, int packageNo) {
 		return sqlSession.selectOne("packageMapper.selectPackageDetail", packageNo);
 	}
+	
+	// 패키지 상품 정보 수정
+	public int updatePackageForm(SqlSessionTemplate sqlSession, Pack p) {
+		return sqlSession.update("packageMapper.updatePackageForm", p);
+	}
 
 }
