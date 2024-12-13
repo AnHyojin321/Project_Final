@@ -34,21 +34,21 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public int insertLesson(Lesson l) {
+	public int insertLesson(Lesson les) {
 		// TODO Auto-generated method stub
-		return 0;
+		return lessonDao.insertLesson(sqlSession, les);
 	}
 
 	@Override
 	public Lesson selectLesson(int resNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return lessonDao.selectLesson(sqlSession, resNo);
 	}
 
 	@Override
-	public int updateLesson(Lesson l) {
+	public int updateLesson(Lesson les) {
 		// TODO Auto-generated method stub
-		return 0;
+		return lessonDao.updateLesson(sqlSession, les);
 	}
 
 	@Override

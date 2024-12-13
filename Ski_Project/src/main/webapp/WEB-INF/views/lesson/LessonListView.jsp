@@ -90,14 +90,18 @@
             border: none;
             cursor: pointer;
         }
+        #lessonList {
+        	cursor : pointer;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <h1>강습예약</h1>
 
     <div style="overflow-x: auto;">
-        <table>
+        <table id="lessonList">
             <thead>
                 <tr>
                     <th>번호</th>
@@ -110,63 +114,76 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="l" items="${requestScope.list}">
+                <c:forEach var="les" items="${requestScope.list}">
                     <tr>
-                        <td class="resNo">${ l.resNo }</td>
+                        <td class="resNo">${ les.resNo }</td>
                         <td><span class="reservation-status">예약상태</span></td>
-                        <td>${ l.lessonTitle } 예약안내</td>
-                        <td>${ l.lessonType }</td>
-                        <td>${ l.lessonTime }</td>
-                        <td>${ l.lessonDate }</td>
-                        <td>${ l.lessonResDate }</td>
+                        <td>${ les.lessonTitle }</td>
+                        <td>${ les.lessonType }</td>
+                        <td>${ les.lessonTime }</td>
+                        <td>${ les.lessonResDate }</td>
+                        <td>${ les.lessonDate }</td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
+                
+            <script>
+            	// 게시글 하나를 나타내는 tr 태그에 클릭이벤트 걸기
+// 게시글 하나를 나타내는 tr 태그에 클릭 이벤트 걸기
+				$(function() {
+				    $("#lessonList>tbody>tr").click(function() {
+				        // 글번호 뽑기
+				        let resNo = $(this).children(".resNo").text().trim(); // 클래스 이름을 정확히 지정
+				        if (resNo) {
+				            // Path Variable 방식으로 이동
+				            location.href = "lesson/" + resNo;
+				        } else {
+				            console.error("글 번호를 가져올 수 없습니다.");
+				        }
+				    });
+				});
+
+            </script>
 
     <!-- 페이징 바 -->
-    <div class="pagination">
-        <!-- Previous 버튼 -->
-        <c:if test="${requestScope.pi.currentPage > 1}">
-            <li class="page-item">
-                <a class="page-link" href="list.le?cpage=${requestScope.pi.currentPage - 1}">&lt;</a>
-            </li>
-        </c:if>
-        <c:if test="${requestScope.pi.currentPage eq 1}">
-            <li class="page-item disabled">
-                <a class="page-link" href="#">&lt;</a>
-            </li>
-        </c:if>
+<div class="pagination">
+    <c:if test="${pi.currentPage > 1}">
+        <li class="page-item">
+            <a class="page-link" href="list.le?currentPage=${pi.currentPage - 1}">&lt;</a>
+        </li>
+    </c:if>
 
-        <!-- 페이지 번호 -->
-        <c:forEach var="p" begin="${requestScope.pi.startPage}" end="${requestScope.pi.endPage}">
-            <c:choose>
-                <c:when test="${p eq requestScope.pi.currentPage}">
-                    <li class="page-item active">
-                        <a class="page-link" href="#">${p}</a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <li class="page-item">
-                        <a class="page-link" href="list.le?cpage=${p}">${p}</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
+    <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+        <c:choose>
+            <c:when test="${p eq pi.currentPage}">
+                <li class="page-item active">
+                    <a class="page-link" href="#">${p}</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item">
+                    <a class="page-link" href="list.le?currentPage=${p}">${p}</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
 
-        <!-- Next 버튼 -->
-        <c:if test="${requestScope.pi.currentPage < requestScope.pi.maxPage}">
-            <li class="page-item">
-                <a class="page-link" href="list.le?cpage=${requestScope.pi.currentPage + 1}">&gt;</a>
-            </li>
-        </c:if>
-        <c:if test="${requestScope.pi.currentPage eq requestScope.pi.maxPage}">
-            <li class="page-item disabled">
-                <a class="page-link" href="#">&gt;</a>
-            </li>
-        </c:if>
+    <c:if test="${pi.currentPage < pi.maxPage}">
+        <li class="page-item">
+            <a class="page-link" href="list.le?currentPage=${pi.currentPage + 1}">&gt;</a>
+        </li>
+    </c:if>
+</div>
+
+	
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <button onclick="location.href='addLessonForm.le'" style="margin-left: auto; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            강습예약
+        </button>
     </div>
+
 
     <!-- 검색 바 -->
     <div class="search-bar">

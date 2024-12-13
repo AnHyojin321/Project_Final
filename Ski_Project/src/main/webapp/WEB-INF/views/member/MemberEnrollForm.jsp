@@ -383,7 +383,8 @@ $(function () {
     // 정규식: 아이디는 5~20자의 영어 대소문자, 숫자만 허용
     const idRegex = /^[a-zA-Z0-9]{5,20}$/;
     // 비밀번호 정규식
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&])[0-9a-zA-Z!@#$%^&]{8,15}$/;
+	const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%*^&])[A-Za-z0-9!@#$%^*&]{8,20}$/;
+
 
     let isEmailValidated = false; // 이메일 인증 여부를 확인하기 위한 변수
 
@@ -435,10 +436,13 @@ $(function () {
 
     $passwordInput.on("keyup", function () {
         const password = $(this).val();
+        console.log("Password input:", password);
 
         if (passwordRegex.test(password)) {
+            console.log("Regex test passed");
             $passwordMessage.text("사용 가능한 비밀번호입니다.").css("color", "green").show();
         } else {
+            console.log("Regex test failed");
             $passwordMessage
                 .text("비밀번호는 8~20자이며, 최소 하나의 영문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
                 .css("color", "red")
@@ -446,6 +450,7 @@ $(function () {
         }
         checkFormValidity();
     });
+
 
     $passwordCheckInput.on("keyup", function () {
         const password = $passwordInput.val();

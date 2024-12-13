@@ -14,13 +14,13 @@ public interface LessonService {
 	ArrayList<Lesson> selectList(PageInfo pi);
 	
 	// 강습 예약 작성하기 서비스
-	int insertLesson(Lesson l);
+	int insertLesson(Lesson les);
 	
 	// 예약(본인) 게시글 상세 조회
 	Lesson selectLesson(int resNo);
 	
 	// 예약 게시글 수정
-	int updateLesson(Lesson l);
+	int updateLesson(Lesson les);
 	
 	// 예약 게시글 삭제
 	int deleteLesson(int resNo);

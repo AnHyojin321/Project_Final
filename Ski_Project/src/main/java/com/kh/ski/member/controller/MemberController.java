@@ -458,28 +458,24 @@ public class MemberController {
 	
 	@PostMapping("update.me")
 	public String updateMember(Member m, HttpSession session, Model model) {
-		
-		int result = memberService.updateMember(m);
-		
-		if(result > 0) {
-			
-			Member updateMem = memberService.loginMember(m);
-			
-			session.setAttribute("loginMember", updateMem);
-			
-			session.setAttribute("alertMsg", "회원정보 변경 선공");
-			
-			return "redirect:/myPage.me";
-			
-			
-		} else {
-			
-			model.addAttribute("alertMsg", "회원정보 변경 실패");
-			
-			return "redricet:/myPage.me";
-		}
-		
+	    // 비밀번호는 업데이트 대상에서 제외
+	    m.setMemberPwd(null);
+
+	    int result = memberService.updateMember(m);
+
+	    if (result > 0) {
+	        Member updateMem = memberService.loginMember(m);
+
+	        session.setAttribute("loginMember", updateMem);
+	        session.setAttribute("alertMsg", "회원정보 변경 성공");
+
+	        return "redirect:/myPage.me";
+	    } else {
+	        model.addAttribute("alertMsg", "회원정보 변경 실패");
+	        return "redirect:/myPage.me";
+	    }
 	}
+
 	
 	@PostMapping("delete.me")
 	public String deleteMember(String memberPwd, String memberId, HttpSession session,

@@ -11,8 +11,11 @@
 		<result column="LESSON_TITLE" property="lessonTitle" />
 		<result column="LESSON_RES_COUNT" property="lessonResCount" />
 		<result column="LESSON_RES_DATE" property="lessonResDate" />
+		<result column="LESSON_PHONE" property="lessonPhone" />
 		<result column="LR_REFUND_STATUS" property="lrRefundStatus" />
 		<result column="LR_REFUND_DATE" property="lrRefundDate" />
+		<result column="LESSON_ACTIVITE" property="lessonActivite" />
+		<result column="LESSON_RES_CONTENT" property="lessonResContent" />
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -32,7 +35,62 @@
 		 ORDER BY RES_NO DESC
 	</select>
 	
-	
+	<insert id="insertLesson" parameterType="lesson">
+	    INSERT INTO LESSON_RESERVATION(
+	        RES_NO,
+	        LESSON_TYPE,
+	        LESSON_PHONE,
+	        LESSON_ACTIVITE,
+	        LESSON_TIME,
+	        LESSON_DATE,               
+	        LESSON_RES_DATE,
+	        LESSON_RES_COUNT,
+	        LESSON_RES_CONTENT,
+	        LESSON_TITLE,
+	        MEMBER_NO
+	    )
+	    VALUES (
+	        SEQ_RES_NO.NEXTVAL,
+	        #{lessonType},
+	        #{lessonPhone},
+	        #{lessonActivite},
+	        #{lessonTime},
+	        #{lessonDate},
+	        SYSDATE,                
+	        #{lessonResCount},
+	        #{lessonResContent},
+	        #{lessonTitle},
+	        #{memberNo}
+	    )
+	</insert>
+
+		<select id="selectLesson" parameterType="int" resultMap="lessonResultSet">
+		    SELECT RES_NO,
+		           MEMBER_NO,
+		           LESSON_DATE,
+		           LESSON_TIME,
+		           LESSON_TYPE,
+		           LESSON_RES_COUNT,
+		           LESSON_PHONE,
+		           LESSON_ACTIVITE,
+		           LESSON_RES_CONTENT
+		      FROM LESSON_RESERVATION
+		     WHERE RES_NO = #{resNo}
+		</select>
+
+	<update id="updateLesson" parameterType="lesson">
+		UPDATE LESSON_RESERVATION
+		   SET LESSON_DATE = #{lessonDate}
+		     , LESSON_TIME = #{lessonTime}
+		     , LESSON_TYPE = #{lessonType}
+		     , LESSON_RES_COUNT = #{lessonResCount}
+		     , LESSON_PHONE = #{lessonPhone}
+		     , LESSON_ACTIVITE = #{lessonActivite}
+		     , LESSON_RES_CONTENT = #{lessonResContent}
+		   WHERE MEMBER_NO = #{memberNo}
+	</update>
+
+
 
 
 

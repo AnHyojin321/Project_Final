@@ -130,7 +130,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email :</label>
-                    <input type="email" class="form-control" id="email" value="${sessionScope.loginMember.email}" name="email">
+                    <input type="email" class="form-control" id="email" value="${sessionScope.loginMember.email}" name="email" readonly>
                 </div>
                 <div class="form-group">
                     <label for="birthDate">Birth Date :</label>
@@ -234,24 +234,34 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-
     $(function () {
+        // 초기 메시지 숨김
+        $("#pwd_hint").hide();
+        $("#newPasswordMessage").hide();
+        $("#checkPasswordMessage").hide();
+
         const $newPwdInput = $("#newPwd");
         const $checkPwdInput = $("#checkPwd");
         const $newPasswordMessage = $("#newPasswordMessage");
         const $checkPasswordMessage = $("#checkPasswordMessage");
-
-        // 비밀번호 정규식
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
 
+        const $hintElement = $("#pwd_hint");
+        const $currentPwdInput = $("#currentPwd");
+	
+
         // 비밀번호 유효성 검사 함수
-        function validatePassword() {
+        function validateNewPassword() {
             const newPwd = $newPwdInput.val();
+            if (newPwd === "") {
+                $newPasswordMessage.hide(); // 비어 있을 경우 메시지 숨김
+                return;
+            }
             if (passwordRegex.test(newPwd)) {
                 $newPasswordMessage.text("사용 가능한 비밀번호입니다.").css("color", "green").show();
             } else {
                 $newPasswordMessage
-                    .text("비밀번호는 8~20자이며, 최소 하나의 영문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
+                    .text("비밀번호는 8~20자이며, 최소 하나의 영문 대문자, 소문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
                     .css("color", "red")
                     .show();
             }
@@ -262,6 +272,11 @@
             const newPwd = $newPwdInput.val();
             const checkPwd = $checkPwdInput.val();
 
+            if (checkPwd === "") {
+                $checkPasswordMessage.hide(); // 확인 입력이 없을 경우 메시지 숨김
+                return;
+            }
+
             if (newPwd === checkPwd) {
                 $checkPasswordMessage.text("비밀번호가 일치합니다.").css("color", "green").show();
             } else {
@@ -271,7 +286,7 @@
 
         // 이벤트 연결
         $newPwdInput.on("keyup", function () {
-            validatePassword(); // 비밀번호 유효성 검사
+            validateNewPassword(); // 비밀번호 유효성 검사
             checkPasswordMatch(); // 비밀번호 확인 일치 여부 확인
         });
 
@@ -279,40 +294,7 @@
             checkPasswordMatch(); // 비밀번호 확인 일치 여부 확인
         });
 
-        // 폼 제출 시 최종 검증
-        $("form").on("submit", function (e) {
-            const newPwd = $newPwdInput.val();
-            const checkPwd = $checkPwdInput.val();
-
-            if (!passwordRegex.test(newPwd)) {
-                alert("비밀번호가 유효하지 않습니다.");
-                e.preventDefault(); // 폼 전송 중단
-                return false;
-            }
-
-            if (newPwd !== checkPwd) {
-                alert("비밀번호가 일치하지 않습니다.");
-                e.preventDefault(); // 폼 전송 중단
-                return false;
-            }
-
-            return true; // 폼 전송 허용
-        });
-    });
-
-        // 비밀번호 확인 로직
-        function validatePassword() {
-            const newPwd = document.getElementById('newPwd').value;
-            const checkNewPwd = document.getElementById('checkPwd').value;
-
-            if (newPwd !== checkNewPwd) {
-                alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
-                return false; // 폼 전송 중단
-            }
-            return true; // 폼 전송 진행
-        }
-        
-        // 비밀번호 토글 기능
+        // 비밀번호 입력란 토글 기능 (비밀번호 보이기/숨기기)
         $(".toggle-password").on("click", function () {
             const $passwordInput = $(this).siblings("input");
             const inputType = $passwordInput.attr("type");
@@ -325,35 +307,31 @@
                 $(this).removeClass("fa-eye-slash").addClass("fa-eye");
             }
         });
-        $(function () {
-            const hintElement = $("#pwd_hint");
-            const currentPwdInput = document.querySelector('input[name="currentPwd"]');
 
-            // 페이지 로드 시 Caps Lock 상태 초기화
-            $(document).ready(function () {
-                hintElement.css("display", "none"); // 초기에는 숨김
-            });
+        // 비밀번호 변경 폼 검증
+        $("#changePwdForm").on("submit", function (e) {
+            const newPwd = $newPwdInput.val();
+            const checkPwd = $checkPwdInput.val();
 
-            // Caps Lock 상태 확인 함수
-            function checkCapsLock(event) {
-                if (event.getModifierState && event.getModifierState("CapsLock")) {
-                    hintElement.html("CAPS LOCK 켜져 있습니다.");
-                    hintElement.css("display", "block");
-                    $(".modal-body").css("padding-bottom", "20px");
-                } else {
-                    hintElement.css("display", "none");
-                    $(".modal-body").css("padding-bottom", "10px"); // 원래 간격으로 복원
-                }
+            // 비밀번호 유효성 검사
+            if (!passwordRegex.test(newPwd)) {
+                alert("비밀번호는 8~20자이며, 최소 하나의 영문 대문자, 소문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.");
+                e.preventDefault();
+                return false;
             }
 
-            // 입력 필드에서 Caps Lock 상태 감지
-            currentPwdInput.addEventListener("keyup", checkCapsLock);
-            currentPwdInput.addEventListener("focus", checkCapsLock); // 포커스가 들어올 때도 체크
-            currentPwdInput.addEventListener("blur", function () {
-                hintElement.css("display", "none"); // 입력 필드에서 포커스가 나가면 숨김
-            });
+            // 비밀번호 확인
+            if (newPwd !== checkPwd) {
+                alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+                e.preventDefault();
+                return false;
+            }
+
+            return true; // 폼 전송 허용
         });
-        
+    });
+
+
     </script>
 </body>
 </html>

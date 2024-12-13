@@ -12,12 +12,17 @@ public class Lesson {
 	private String lessonResCount;	//	LESSON_RES_COUNT	VARCHAR2(30 BYTE)
 	private Date lessonResDate;	//	LESSON_RES_DATE	DATE
 	private String lrRefundStatus;	//	LR_REFUND_STATUS	CHAR(1 BYTE)
+	private String lessonPhone;
 	private Date lrRefundDate;	//	LR_REFUND_DATE	DATE
-
+	private String lessonActivite;
+	private String lessonResContent;
+	private int memberNo;
+	
 	public Lesson() {}
 
 	public Lesson(int resNo, Date lessonDate, String lessonTime, String lessonType, String resStatus,
-			String lessonTitle, String lessonResCount, Date lessonResDate, String lrRefundStatus, Date lrRefundDate) {
+			String lessonTitle, String lessonResCount, Date lessonResDate, String lrRefundStatus, String lessonPhone,
+			Date lrRefundDate, String lessonActivite, String lessonResContent, int memberNo) {
 		super();
 		this.resNo = resNo;
 		this.lessonDate = lessonDate;
@@ -28,7 +33,11 @@ public class Lesson {
 		this.lessonResCount = lessonResCount;
 		this.lessonResDate = lessonResDate;
 		this.lrRefundStatus = lrRefundStatus;
+		this.lessonPhone = lessonPhone;
 		this.lrRefundDate = lrRefundDate;
+		this.lessonActivite = lessonActivite;
+		this.lessonResContent = lessonResContent;
+		this.memberNo = memberNo;
 	}
 
 	public int getResNo() {
@@ -103,6 +112,14 @@ public class Lesson {
 		this.lrRefundStatus = lrRefundStatus;
 	}
 
+	public String getLessonPhone() {
+		return lessonPhone;
+	}
+
+	public void setLessonPhone(String lessonPhone) {
+		this.lessonPhone = lessonPhone;
+	}
+
 	public Date getLrRefundDate() {
 		return lrRefundDate;
 	}
@@ -111,15 +128,41 @@ public class Lesson {
 		this.lrRefundDate = lrRefundDate;
 	}
 
+	public String getLessonActivite() {
+		return lessonActivite;
+	}
+
+	public void setLessonActivite(String lessonActivite) {
+		this.lessonActivite = lessonActivite;
+	}
+
+	public String getLessonResContent() {
+		return lessonResContent;
+	}
+
+	public void setLessonResContent(String lessonResContent) {
+		this.lessonResContent = lessonResContent;
+	}
+
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Lesson [resNo=" + resNo + ", lessonDate=" + lessonDate + ", lessonTime=" + lessonTime + ", lessonType="
 				+ lessonType + ", resStatus=" + resStatus + ", lessonTitle=" + lessonTitle + ", lessonResCount="
 				+ lessonResCount + ", lessonResDate=" + lessonResDate + ", lrRefundStatus=" + lrRefundStatus
-				+ ", lrRefundDate=" + lrRefundDate + "]";
+				+ ", lessonPhone=" + lessonPhone + ", lrRefundDate=" + lrRefundDate + ", lessonActivite="
+				+ lessonActivite + ", lessonResContent=" + lessonResContent + ", memberNo=" + memberNo + "]";
 	}
 
-	
+
+
 
 }
 

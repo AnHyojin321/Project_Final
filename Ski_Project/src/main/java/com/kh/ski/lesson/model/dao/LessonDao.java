@@ -28,6 +28,21 @@ public class LessonDao {
 		return (ArrayList)sqlSession.selectList("lesson.selectList", null, rowBounds);
 	}
 
+	public int insertLesson(SqlSessionTemplate sqlSession, Lesson les) {
+		
+		return sqlSession.insert("lesson.insertLesson", les);
+	}
+
+	public Lesson selectLesson(SqlSessionTemplate sqlSession, int resNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("lesson.selectLesson", resNo);
+	}
+
+	public int updateLesson(SqlSessionTemplate sqlSession, Lesson les) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("lesson.updqteLesson", les);
+	}
+
 	
 	
 	
