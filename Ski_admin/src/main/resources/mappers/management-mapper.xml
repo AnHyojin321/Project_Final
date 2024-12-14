@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 <mapper namespace="management">
+
+    <!-- 스키장 오픈 결과 매핑 -->
+    <resultMap id="skiResortOpenResultSet" type="skiResortOpen">
+        <result column="SKI_RESORT_IS_OPEN" property="skiResortIsOpen"/>
+        <result column="SKI_RESORT_DATE" property="skiResortDate"/>
+        <result column="SKI_RESORT_DAY" property="skiResortDay"/>
+    </resultMap>
+
+    <!-- 슬로프 오픈 결과 매핑 -->
+    <resultMap id="slopeOpenResultSet" type="slopeOpen">
+        <id column="SLOPE_NO" property="slopeNo"/>
+        <result column="SLOPE_NAME" property="slopeName"/>
+        <result column="SLOPE_LEVEL" property="slopeLevel"/>
+        <result column="SLOPE_IS_OPEN" property="slopeIsOpen"/>
+        <result column="SLOPE_NOTE" property="slopeNote"/>
+    </resultMap>
+    
+    <!-- 스키장 오픈 조회 쿼리문 -->
+    <select id="selectSkiResort" resultMap="skiResortOpenResultSet">
+        SELECT SKI_RESORT_IS_OPEN, 
+		       TO_CHAR(SKI_RESORT_DATE, 'YYYY-MM-DD') AS SKI_RESORT_DATE,
+		       SKI_RESORT_DAY
+		FROM SKI_RESORT_OPEN
+		ORDER BY SKI_RESORT_DATE
+    </select>
+    
+    <!-- 슬로프 오픈 조회 쿼리문 -->
+    <select id="selectSlope" resultMap="slopeOpenResultSet">
+        SELECT * FROM SLOPE_OPEN
+    </select>
+    
+    <update id="updateSkiResort" parameterType="skiResortOpen">
+	    UPDATE SKI_RESORT_OPEN
+	       SET SKI_RESORT_IS_OPEN = #{skiResortIsOpen}
+	     WHERE SKI_RESORT_DAY = #{skiResortDay}
+	</update>
+	
+	<update id="updateSlope" parameterType="slopeOpen">
+        UPDATE SLOPE_OPEN
+        SET SLOPE_IS_OPEN = #{s.slopeIsOpen}, 
+            SLOPE_NOTE = #{s.slopeNote}
+        WHERE SLOPE_NO = #{s.slopeNo}
+	</update>
+
+
 
 </mapper>

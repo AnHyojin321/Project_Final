@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lift">
 
+	<resultMap id="liftResultSet" type="lift">
+		<id column="LIFT_NO" property="liftNo"/>
+		<result column="LIFT_TYPE" property="liftType"/>
+		<result column="LIFT_PRICE" property="liftPrice"/>
+		<result column="LIFT_AGE" property="liftAge"/>
+	</resultMap>
+	
+	<resultMap id="liftOrderResultSet" type="liftOrder">
+		<id column="LIFT_ORDER_NO" property="liftOrderNo"/>
+		<result column="LIFT_COUNT" property="liftCount" />
+		<result column="LIFT_TOTAL_PRICE" property="liftTotalPrice"/>
+		<result column="LIFT_NO" property="liftNo"/>
+		<result column="LIFT_PURCHASE_NO" property="liftPurchaseNO"/>
+	</resultMap>
+	
+	<resultMap id="liftPayResultSet" type="liftPay">
+		<id column="LIFT_PURCHASE_NO" property="liftPurchaseNo"/>
+		<result column="LIFT_PRUCHASE_DATE" property="liftPurchaseDate"/>
+		<result column="LIFT_PURCHASE_STATUS" property="liftPurchaseStatus"/>
+		<result column="PACK_LIFT_USED" property="packLiftUsed"/>
+		<result column="LIFT_PAY_TOKEN" property="liftPayToken"/>
+		<result column="LIFT_PAY_CODE" property="liftPayCode"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
+	</resultMap>
+	
+	<select id="selectDayPass" resultType="lift">
+		SELECT * 
+		FROM LIFT
+		WHERE LIFT_TYPE != '시즌권'
+	</select>
+	
+	<select id="selectSeasonPass" resultType="lift">
+		SELECT * 
+		FROM LIFT
+		WHERE LIFT_TYPE = '시즌권'
+	</select>
 </mapper>

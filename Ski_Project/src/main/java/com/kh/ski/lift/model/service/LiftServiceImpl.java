@@ -18,21 +18,23 @@ public class LiftServiceImpl implements LiftService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
-	@Override
-	public ArrayList<Lift> selectLiftList() {
-		return liftDao.selectLiftList(sqlSession);
-	}
-	
-	@Override
-	public Lift selectLift(int liftNo) {
-		return liftDao.selectLift(sqlSession, liftNo);
-	}
 
+	@Override
+	public Lift selectDayPass() {
+		return liftDao.selectDayPass(sqlSession);
+	}
+	
+	@Override
+	public Lift selectSeasonPass() {
+		return liftDao.selectSeasonPass(sqlSession);
+	}
+	
+	
 	@Override
 	public LiftOrder liftOrder(int liftNo) {
 		return liftDao.orderLift(sqlSession, liftNo);
 	}
+
 	
 
 }

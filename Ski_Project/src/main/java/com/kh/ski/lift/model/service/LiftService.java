@@ -7,11 +7,11 @@ import com.kh.ski.lift.model.vo.LiftOrder;
 
 public interface LiftService {
 	
-	// 리프트권 목록 조회 서비스
-	ArrayList<Lift> selectLiftList();
+	// 일일권 조회 서비스
+	Lift selectDayPass();
 	
-	// 리프트권 상세 조회 서비스
-	Lift selectLift(int liftNo);
+	// 시즌권 조회 서비스
+	Lift selectSeasonPass();
 	
     // 리프트권 주문요청 서비스
     LiftOrder liftOrder(int liftNo);

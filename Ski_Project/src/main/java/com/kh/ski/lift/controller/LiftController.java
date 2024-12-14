@@ -22,30 +22,25 @@ public class LiftController {
 	@Autowired
 	private LiftService liftService;
 	
-	// 리프트권 목록 조회 controller
+	// 리프트권 조회 controller
 	@GetMapping("liftList.li")
 	public ModelAndView selectLiftList(ModelAndView mv) {
-		
-		// 리프트권 전체 목록 조회
-        ArrayList<Lift> list = liftService.selectLiftList();
-
-        // ModelAndView에 값 담기
-        mv.addObject("list", list).setViewName("lift/liftListView");
-        return mv;
-        
+		mv.setViewName("lift/liftFirstPage");
+		return mv;
 	}
 	
-	// 리프트권 상세 조회 controller
-	@GetMapping("lift/{liftNo}")
-	public ModelAndView selectLift(@PathVariable("liftNo") int liftNo, ModelAndView mv) {
-		
-		// 리프트권 상세 정보 조회
-        Lift lift = liftService.selectLift(liftNo);
-        
-        // ModelAndView에 담기
-        mv.addObject("lift", lift).setViewName("lift/liftDetailView");
-        return mv; 
-        
+	// 일일권 상세 조회
+	@GetMapping("dayPass.li")
+	public ModelAndView selectDayPass(ModelAndView mv) {
+		mv.setViewName("lift/dayPass");
+		return mv;
+	}
+	
+	// 시즌권 상세 조회
+	@GetMapping("seasonPass.li")
+	public ModelAndView selectSeasonPass(ModelAndView mv) {
+		mv.setViewName("lift/seasonPass");
+		return mv;
 	}
 	
 	// 리프트권 주문 ajax controller

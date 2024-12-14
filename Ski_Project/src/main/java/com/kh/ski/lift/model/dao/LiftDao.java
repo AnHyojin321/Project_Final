@@ -11,16 +11,14 @@ import com.kh.ski.lift.model.vo.LiftOrder;
 @Repository
 public class LiftDao {
 	
-	// 리프트권 목록 조회 DAO
-	public ArrayList<Lift> selectLiftList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("liftMapper.selectLiftList");
+	public Lift selectDayPass(SqlSessionTemplate sqlSession) {
+		return (Lift)sqlSession.selectList("liftMapper.selectDayPass");
 	}
 	
-	// 리프트권 상세 조회 DAO
-	public Lift selectLift(SqlSessionTemplate sqlSession, int liftNo) {
-		return (Lift)sqlSession.selectOne("liftMapper.selectLift");
+	public Lift selectSeasonPass(SqlSessionTemplate sqlSession) {
+		return (Lift)sqlSession.selectList("liftMapper.selectSeasonPass");
 	}
-	
+
 	// 리프트권 주문 DAO
 	public LiftOrder liftOrder(SqlSessionTemplate sqlSession, int liftNo) {
 		return (LiftOrder)sqlSession.selectOne("liftMapper.liftOrder");
@@ -30,5 +28,6 @@ public class LiftDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }
