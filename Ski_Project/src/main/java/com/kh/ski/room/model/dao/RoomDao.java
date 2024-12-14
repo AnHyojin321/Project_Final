@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ski.member.model.vo.Member;
 import com.kh.ski.room.model.vo.Room;
 import com.kh.ski.room.model.vo.RoomPay;
 
@@ -30,6 +31,12 @@ public class RoomDao {
 	// 선택된 객실의 수용인원 조회
 	public Room selectRoomDetails(SqlSessionTemplate sqlSession, int roomNo) {
 		return sqlSession.selectOne("roomMapper.selectRoomDetails", roomNo);
+	}
+	
+	
+	// 예약 단계에서 보여질 회원의 정보 조회
+	public Member selectMember(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("roomMapper.selectMember", memberNo);
 	}
  
 	

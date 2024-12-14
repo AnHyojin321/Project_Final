@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.ski.member.model.service.MemberService;
+import com.kh.ski.member.model.vo.Member;
 import com.kh.ski.room.model.service.RoomService;
 import com.kh.ski.room.model.vo.Room;
 import com.kh.ski.room.model.vo.RoomPay;
@@ -31,6 +33,32 @@ public class RoomController {
 	
 	@Autowired
 	private RoomService roomService;
+	
+	// 결제 성공 페이지 요청
+	@PostMapping("pay")
+	public ModelAndView paySuccess(
+	        @RequestParam("authResultCode") String authResultCode,  // 인증 결과 코드
+	        @RequestParam("authResultMsg") String authResultMsg,    // 인증 결과 메시지
+	        @RequestParam("tid") String tid,                       // 결제 고유 번호
+	        ModelAndView mv) {
+
+	    // 결제 결과 로그 (개발 확인용)
+	    System.out.println("Auth Result Code: " + authResultCode);
+	    System.out.println("Auth Result Msg: " + authResultMsg);
+	    System.out.println("TID: " + tid);
+
+	    // 결제 성공 여부 확인
+	    if ("0000".equals(authResultCode)) { // 성공 코드
+	        mv.setViewName("room/paysuccess"); // 성공 페이지로 이동
+	    } else {
+	        mv.setViewName("room/payfail"); // 실패 페이지로 이동
+	        mv.addObject("message", authResultMsg);
+	    }
+
+	    return mv;
+	}
+
+	
 	
 	// 객실 목록 페이지 요청
 	@GetMapping("list.ro")
@@ -44,7 +72,15 @@ public class RoomController {
 	
 	// 객실 상세 페이지 - 스탠다드
 	@GetMapping("roomDetail.ro")
-	public ModelAndView roomDetail(@RequestParam("roomType") String roomType, ModelAndView mv) {
+	public ModelAndView roomDetail(@RequestParam("roomType") String roomType, 
+								   ModelAndView mv,
+								   HttpSession session) {
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+	    System.out.println(loginMember);
+	    
+	    mv.addObject("loginMember", loginMember);
+		
 	    if ("standard".equals(roomType)) {
 	        mv.setViewName("room/standardDetail");
 	    }else if("suite".equals(roomType)) {
@@ -68,10 +104,15 @@ public class RoomController {
 	
 	// 객실 예약 페이지 요청 - step1
 	@RequestMapping(value="payStep1.ro")
-	public ModelAndView reservPayStep(@RequestParam("roomType") String roomType, ModelAndView mv) {
+	public ModelAndView reservPayStep(@RequestParam("roomType") String roomType, 
+									  int memberNo,
+									  ModelAndView mv) {
+		System.out.println("회원번호 : " + memberNo);
+
 	    System.out.println("선택한 객실 타입: " + roomType);
 	    
 	    // 선택한 객실 타입 데이터를 JSP로 전달
+	    mv.addObject("memberNo", memberNo);
 	    mv.addObject("roomType", roomType);
 	    mv.setViewName("room/roomPayStep1");
 
@@ -101,10 +142,14 @@ public class RoomController {
 	public ModelAndView reservInfoInput(@RequestParam("roomNo") int roomNo, 
 									    @RequestParam("checkInDate") String checkInDate, 
 									    @RequestParam("checkOutDate") String checkOutDate, 
+									    @RequestParam("memberNo") int memberNo,
 									    ModelAndView mv) {
 	    System.out.println("선택한 객실 번호: " + roomNo);
 	    System.out.println("체크인 : " + checkInDate);
 	    System.out.println("체크아웃 : " + checkOutDate);
+	    
+	    Member m = roomService.selectMember(memberNo);
+	   
 		Room r = null;
 		r = roomService.selectRoomDetails(roomNo);
 	    
@@ -119,6 +164,7 @@ public class RoomController {
 	    long days = ChronoUnit.DAYS.between(checkIn, checkOut);
 	    
 	    // 데이터를 ModelAndView에 추가
+	    mv.addObject("m", m);
 	    mv.addObject("roomNo", roomNo);
 	    mv.addObject("checkInDate", checkInDate);
 	    mv.addObject("checkOutDate", checkOutDate);
@@ -132,7 +178,8 @@ public class RoomController {
 	
 	// 전화번호, 투숙인원 응답데이터 받아와서 최종 예약자 정보 출력하기
 	@PostMapping("payStep3.ro")
-	public String processPayStep3(@RequestParam("phone") String phone,
+	public String processPayStep3(@RequestParam("memberNo") int memberNo,
+								  @RequestParam("phone") String phone,
 	                              @RequestParam("adult") int adult,
 	                              @RequestParam("child") int child,
 	                              @RequestParam("roomNo") int roomNo,
@@ -153,6 +200,7 @@ public class RoomController {
 		 r = roomService.selectRoomDetails(roomNo);
 
 	    // 받은 데이터를 다음 페이지에 전달
+		model.addAttribute("memberNo", memberNo);
 	    model.addAttribute("phone", phone);
 	    model.addAttribute("adult", adult);
 	    model.addAttribute("child", child);

@@ -511,7 +511,7 @@ button:hover {
             <table class="customer-info-table">
                 <tr>
                     <th>성명 (한글)</th>
-                    <td>안효진</td>
+                    <td>${m.memberName}</td>
                 </tr>
                 <tr>
                     <th>휴대전화</th>
@@ -519,7 +519,7 @@ button:hover {
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td>anhj321@naver.com</td>
+                    <td>${m.email}</td>
                 </tr>
             </table>
         </div>
@@ -686,6 +686,7 @@ button:hover {
     </div>
     
     <form id="reservationForm" action="payStep3.ro" method="post">
+   		<input type="hidden" id="memberNo" name="memberNo" value="${m.memberNo}">
     	<input type="hidden" id="checkInDate" name="checkInDate" value="${checkInDate}">
     	<input type="hidden" id="checkOutDate" name="checkOutDate" value="${checkOutDate}">
     	<input type="hidden" id="stayDays" name="stayDays" value="${stayDays}">

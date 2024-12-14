@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -310,9 +311,17 @@
 		         
 		        </div>
 		
-		        <div class="button-group">
-		            <button class="reserve-btn" data-roomtype="디럭스" onclick="payStep(this);">객실 예약</button>
-		        </div>
+				<form id="reservationForm" action="payStep1.ro" method="post">
+				    <!-- 객실 타입 -->
+				    <input type="hidden" name="roomType" id="roomType" value="">
+				    <!-- 회원 번호 -->
+				    <input type="hidden" name="memberNo" id="memberNo" value="">
+				</form>
+				
+				<div class="button-group">
+				    <button class="reserve-btn" data-roomtype="디럭스" onclick="payStep(this);">객실 예약</button>
+				</div>
+		        
 		    </div>
 			<hr>
 		    <div class="info2">
@@ -328,20 +337,35 @@
 		</div>
     </div>
         <script>
-	    function payStep(button) {
-	        // 버튼에서 data-roomtype 값을 가져오기
-	        const roomType = button.getAttribute("data-roomtype");
-	
-	        // 로그인 여부 확인 및 데이터 전송
-	        if (${empty session.loginUser}) {
-	        	location.href = "payStep1.ro?roomType=" + encodeURIComponent(roomType);
-	           //  alert("로그인 후 이용 가능합니다.");
-	          //   location.href = ""; // 로그인 페이지로 리다이렉트
-	        } else {
-	            // roomType 데이터를 컨트롤러로 전달
-	           location.href = "payStep1.ro?roomType=" + encodeURIComponent(roomType);
-	        }
-	    }
+		// 서버에서 로그인 상태를 JavaScript 변수로 전달
+		// 서버에서 로그인 상태를 JavaScript 변수로 전달
+		const memberNo = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberNo : null}";
+
+		function payStep(button) {
+			console.log("payStep 함수 호출됨");
+
+		    // 버튼에서 data-roomtype 값을 가져오기
+		    const roomType = button.getAttribute("data-roomtype");
+		    
+		    console.log(roomType);
+		    // 로그인 여부 확인
+		    if (${empty sessionScope.loginMember}) { // 문자열 비교로 "false"와 비교
+		        alert("로그인 후 이용 가능합니다.");
+		         location.href = "login.me"; // 로그인 페이지로 리다이렉트
+		    } else {
+		        // roomType 데이터를 컨트롤러로 전달
+		        // 폼의 hidden input 값 설정
+		        document.getElementById("roomType").value = roomType;
+		        document.getElementById("memberNo").value = memberNo;
+		
+		        // 디버그용 콘솔 출력
+		        console.log("Room Type:", roomType);
+		        console.log("Member No:", memberNo);
+		
+		        // 폼 제출
+		        document.getElementById("reservationForm").submit();
+		    }
+		}
 
     </script>
 <jsp:include page="../common/footer.jsp" />

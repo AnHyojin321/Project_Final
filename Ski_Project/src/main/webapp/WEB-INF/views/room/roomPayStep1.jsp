@@ -233,6 +233,7 @@
 		 </div>
 		 <!-- 숨겨진 폼 -->
 		<form id="reservationForm" action="payStep2.ro" method="post">
+			<input type="hidden" id="memberNo" name="memberNo" value="${memberNo}"> 
 		    <input type="hidden" id="roomNo" name="roomNo" value=""> <!-- 예: 객실 번호 -->
 		    <input type="hidden" id="checkInDate" name="checkInDate" value=""> <!-- 체크인 날짜 -->
 		    <input type="hidden" id="checkOutDate" name="checkOutDate" value=""> <!-- 체크아웃 날짜 -->

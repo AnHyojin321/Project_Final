@@ -1,4 +1,4 @@
-package com.kh.ski.common.controlelr;
+package com.kh.ski.common.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

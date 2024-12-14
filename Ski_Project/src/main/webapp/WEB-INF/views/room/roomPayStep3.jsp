@@ -5,6 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
+<script>
+function serverAuth() {
+
+  AUTHNICE.requestPay({
+    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
+    method: 'card',
+    orderId: '02e16b8c-779d-497f-b54d-07521212175d',
+    amount: 1004,
+    goodsName: '나이스페이-상품',
+    returnUrl: 'http://localhost:8090/ski/pay', //API를 호출할 Endpoint 입력
+    fnError: function (result) {
+      alert('개발자확인용 : ' + result.errorMsg + '')
+    }
+ });
+}
+</script>
+
 <style>
 	/* step1 과 공통 css 영역 */
 	.reservation-menu {
@@ -252,7 +270,7 @@
         <p class="info-message">예약 정보를 확인하신 후, 결제를 진행해 주세요.</p>
         <div class="button-group">
             <button class="prev-btn">이전단계</button>
-            <button class="pay-btn">결제하기</button>
+            <button class="pay-btn" onclick="serverAuth()">결제하기</button>
         </div>
     </div>
     
@@ -271,6 +289,7 @@
 	    // HTML에 표시
 	    document.getElementById("totalPrice").textContent = formattedPrice;    
     </script>
+    
 	
 <jsp:include page="../common/footer.jsp" />
 
