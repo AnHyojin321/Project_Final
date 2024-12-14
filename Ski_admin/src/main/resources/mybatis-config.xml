@@ -27,8 +27,10 @@
 		<typeAlias type="com.kh.admin.notice.model.vo.Notice" alias="notice" />
 		<typeAlias type="com.kh.admin.locker.model.vo.Locker" alias="locker" />
 		<typeAlias type="com.kh.admin.lostitem.model.vo.LostItem" alias="lostitem" />
-		<typeAlias type="com.kh.admin.pack.model.vo.Pack" alias="package" />
+		<typeAlias type="com.kh.admin.pack.model.vo.Package" alias="package" />
 		<typeAlias type="com.kh.admin.management.model.vo.Management" alias="management" />
+		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
+		<typeAlias type="com.kh.admin.management.model.vo.SlopeOpen" alias="slopeOpen" />
 	</typeAliases>
 	
 	<mappers>
