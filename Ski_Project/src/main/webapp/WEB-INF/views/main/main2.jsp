@@ -589,20 +589,22 @@ p {
                 </button>
             </div>
 
-            <div id="moveimg">
-                <div class="image-container">
-                    <img src="resources/images/ski1.png" style="width: 430px; ">
-                    <div class="overlay-text">
-                        <p style="font-weight: bold; font-size: 40px;">DIVERSITY</p>
-                        <br>
-                      
-
-                        <p style="font-size: 18px;">5가지 슬로프</p>
-                        <br>
-                        <br>
-                        Detail View
-                    </div>
-                </div>
+            <div id="moveimg"> 
+				<a href="liftList.li">			
+	                <div class="image-container">
+	                    <img src="resources/images/ski1.png" style="width: 430px; ">
+	                    <div class="overlay-text">
+	                        <p style="font-weight: bold; font-size: 40px;">DIVERSITY</p>
+	                        <br>
+	                      
+	
+	                        <p style="font-size: 18px;">5가지 슬로프</p>
+	                        <br>
+	                        <br>
+	                        Detail View
+	                    </div>
+	                </div>
+				</a>
                 <div class="image-container">
                     <img src="resources/images/room.png" style="width: 430px;">
                     <div class="overlay-text">

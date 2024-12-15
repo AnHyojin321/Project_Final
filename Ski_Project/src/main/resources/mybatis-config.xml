@@ -35,8 +35,8 @@
 		<typeAlias type="com.kh.ski.pack.model.vo.Pack" alias="package" />
 		<typeAlias type="com.kh.ski.pack.model.vo.PackagePay" alias="packagepay" />
 		<typeAlias type="com.kh.ski.management.model.vo.Management" alias="management" />
-		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
-		<typeAlias type="com.kh.admin.management.model.vo.SlopeOpen" alias="slopeOpen" />
+		<typeAlias type="com.kh.ski.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
+		<typeAlias type="com.kh.ski.management.model.vo.SlopeOpen" alias="slopeOpen" />
 	</typeAliases>
 	
 	<mappers>
