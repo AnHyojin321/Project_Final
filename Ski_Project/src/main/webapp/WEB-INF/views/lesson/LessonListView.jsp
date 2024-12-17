@@ -131,19 +131,20 @@
                 
             <script>
             	// 게시글 하나를 나타내는 tr 태그에 클릭이벤트 걸기
-// 게시글 하나를 나타내는 tr 태그에 클릭 이벤트 걸기
-				$(function() {
-				    $("#lessonList>tbody>tr").click(function() {
-				        // 글번호 뽑기
-				        let resNo = $(this).children(".resNo").text().trim(); // 클래스 이름을 정확히 지정
-				        if (resNo) {
-				            // Path Variable 방식으로 이동
-				            location.href = "lesson/" + resNo;
-				        } else {
-				            console.error("글 번호를 가져올 수 없습니다.");
-				        }
-				    });
-				});
+			// 게시글 하나를 나타내는 tr 태그에 클릭 이벤트 걸기
+			$(function() {
+			    $("#lessonList>tbody>tr").click(function() {
+			        // 글번호 뽑기
+			        let resNo = $(this).children(".resNo").text().trim(); // 클래스 이름을 정확히 지정
+			        if (resNo) {
+			            // Path Variable 방식으로 이동
+			            location.href = "lesson/" + resNo;
+			        } else {
+			            console.error("글 번호를 가져올 수 없습니다.");
+			        }
+			    });
+			});
+
 
             </script>
 

@@ -215,7 +215,7 @@
                 <button type="submit">아이디 찾기</button>
                 <div class="links">
                     <a href="${pageContext.request.contextPath}/login.me">로그인으로 돌아가기</a> | 
-                    <a href="findPwd.jsp">비밀번호 찾기</a>
+                    <a href="${pageContext.request.contextPath}/findPwd.me">비밀번호 찾기</a>
                 </div>
             </form>
         </div>

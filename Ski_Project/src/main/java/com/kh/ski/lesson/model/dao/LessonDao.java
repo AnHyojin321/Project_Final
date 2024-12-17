@@ -40,7 +40,12 @@ public class LessonDao {
 
 	public int updateLesson(SqlSessionTemplate sqlSession, Lesson les) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("lesson.updqteLesson", les);
+		return sqlSession.update("lesson.updateLesson", les);
+	}
+
+	public int deleteLesson(SqlSessionTemplate sqlSession, int resNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("lesson.deleteLesson", resNo);
 	}
 
 	

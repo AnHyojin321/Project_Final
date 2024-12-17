@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.lesson.model.dao.LessonDao;
@@ -34,6 +35,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
+	@Transactional
 	public int insertLesson(Lesson les) {
 		// TODO Auto-generated method stub
 		return lessonDao.insertLesson(sqlSession, les);
@@ -46,6 +48,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
+	@Transactional
 	public int updateLesson(Lesson les) {
 		// TODO Auto-generated method stub
 		return lessonDao.updateLesson(sqlSession, les);
@@ -54,7 +57,7 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public int deleteLesson(int resNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return lessonDao.deleteLesson(sqlSession, resNo);
 	}
 
 

@@ -205,16 +205,30 @@
                 <div class="detail-value">${ requestScope.les.lessonResContent }</div>
             </div>
 		
-		 <div class="button-group">
-				<form action="updateForm.le" method="get">
+			<div class="button-group">
+			    <form action="${pageContext.request.contextPath}/lesson/updateForm" method="get">
+			        <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
+			        <button class="edit-btn" type="submit">예약 수정</button>
+			    </form>
+			    
+				<form action="${pageContext.request.contextPath}/delete.le" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
 				    <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
-				    <button class="edit-btn" type="submit">예약 수정</button>
+				    <button class="danger-btn" type="submit">게시글 삭제</button>
 				</form>
 
-		    <button class="cancel-btn" onclick="history.back()">예약 취소</button>
-		</div>
+			    <button class="cancel-btn" onclick="history.back()">예약 취소</button>
+			</div>
+
 
         </div>
     </div>
+    
+    <script>
+    function deletePost() {
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            window.location.href = '${pageContext.request.contextPath}/delete.le?resNo=${requestScope.les.resNo}';
+        }
+    }
+</script>
 </body>
 </html>

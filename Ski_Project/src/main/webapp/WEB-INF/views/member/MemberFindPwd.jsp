@@ -216,7 +216,7 @@
 
                 <div class="links">
                     <a href="${pageContext.request.contextPath}/login.me">로그인으로 돌아가기</a> | 
-                    <a href="MemberFindId.jsp">아이디 찾기</a>
+                    <a href="${pageContext.request.contextPath}/findId.me">아이디 찾기</a>
                 </div>
             </form>
         </div>

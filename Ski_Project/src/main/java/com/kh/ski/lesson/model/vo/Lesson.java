@@ -16,13 +16,16 @@ public class Lesson {
 	private Date lrRefundDate;	//	LR_REFUND_DATE	DATE
 	private String lessonActivite;
 	private String lessonResContent;
+	private String lessonStatus;
 	private int memberNo;
 	
 	public Lesson() {}
 
+
+
 	public Lesson(int resNo, Date lessonDate, String lessonTime, String lessonType, String resStatus,
 			String lessonTitle, String lessonResCount, Date lessonResDate, String lrRefundStatus, String lessonPhone,
-			Date lrRefundDate, String lessonActivite, String lessonResContent, int memberNo) {
+			Date lrRefundDate, String lessonActivite, String lessonResContent, String lessonStatus, int memberNo) {
 		super();
 		this.resNo = resNo;
 		this.lessonDate = lessonDate;
@@ -37,8 +40,11 @@ public class Lesson {
 		this.lrRefundDate = lrRefundDate;
 		this.lessonActivite = lessonActivite;
 		this.lessonResContent = lessonResContent;
+		this.lessonStatus = lessonStatus;
 		this.memberNo = memberNo;
 	}
+
+
 
 	public int getResNo() {
 		return resNo;
@@ -152,15 +158,29 @@ public class Lesson {
 		this.memberNo = memberNo;
 	}
 
+
+
+	public String getLessonStatus() {
+		return lessonStatus;
+	}
+
+
+
+	public void setLessonStatus(String lessonStatus) {
+		this.lessonStatus = lessonStatus;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Lesson [resNo=" + resNo + ", lessonDate=" + lessonDate + ", lessonTime=" + lessonTime + ", lessonType="
 				+ lessonType + ", resStatus=" + resStatus + ", lessonTitle=" + lessonTitle + ", lessonResCount="
 				+ lessonResCount + ", lessonResDate=" + lessonResDate + ", lrRefundStatus=" + lrRefundStatus
 				+ ", lessonPhone=" + lessonPhone + ", lrRefundDate=" + lrRefundDate + ", lessonActivite="
-				+ lessonActivite + ", lessonResContent=" + lessonResContent + ", memberNo=" + memberNo + "]";
+				+ lessonActivite + ", lessonResContent=" + lessonResContent + ", lessonStatus=" + lessonStatus
+				+ ", memberNo=" + memberNo + "]";
 	}
-
 
 
 

@@ -16,6 +16,7 @@
 		<result column="LR_REFUND_DATE" property="lrRefundDate" />
 		<result column="LESSON_ACTIVITE" property="lessonActivite" />
 		<result column="LESSON_RES_CONTENT" property="lessonResContent" />
+		<result column="LESSON_STATUS" property="lessonStatus" />
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -32,6 +33,7 @@
 			 , LESSON_DATE
 			 , LESSON_RES_DATE
 		 FROM LESSON_RESERVATION
+		 WHERE LESSON_STATUS = 'Y'
 		 ORDER BY RES_NO DESC
 	</select>
 	
@@ -64,32 +66,39 @@
 	    )
 	</insert>
 
-		<select id="selectLesson" parameterType="int" resultMap="lessonResultSet">
-		    SELECT RES_NO,
-		           MEMBER_NO,
-		           LESSON_DATE,
-		           LESSON_TIME,
-		           LESSON_TYPE,
-		           LESSON_RES_COUNT,
-		           LESSON_PHONE,
-		           LESSON_ACTIVITE,
-		           LESSON_RES_CONTENT
-		      FROM LESSON_RESERVATION
-		     WHERE RES_NO = #{resNo}
-		</select>
+<select id="selectLesson" parameterType="int" resultMap="lessonResultSet">
+    SELECT RES_NO,
+           LESSON_DATE,
+           LESSON_TIME,
+           LESSON_TYPE,
+           LESSON_RES_COUNT,
+           LESSON_PHONE,
+           LESSON_ACTIVITE,
+           LESSON_RES_CONTENT,
+           LESSON_TITLE,
+           MEMBER_NO
+      FROM LESSON_RESERVATION
+     WHERE RES_NO = #{resNo}
+</select>
 
-	<update id="updateLesson" parameterType="lesson">
+
+		<update id="updateLesson" parameterType="lesson">
+		    UPDATE LESSON_RESERVATION
+		       SET LESSON_DATE = #{lessonDate}
+		         , LESSON_TIME = #{lessonTime}
+		         , LESSON_TYPE = #{lessonType}
+		         , LESSON_RES_COUNT = #{lessonResCount}
+		         , LESSON_PHONE = #{lessonPhone}
+		         , LESSON_ACTIVITE = #{lessonActivite}
+		         , LESSON_RES_CONTENT = #{lessonResContent}
+		     WHERE RES_NO = #{resNo} AND MEMBER_NO = #{memberNo}
+		</update>
+
+	<update id="deleteLesson" parameterType="_int">
 		UPDATE LESSON_RESERVATION
-		   SET LESSON_DATE = #{lessonDate}
-		     , LESSON_TIME = #{lessonTime}
-		     , LESSON_TYPE = #{lessonType}
-		     , LESSON_RES_COUNT = #{lessonResCount}
-		     , LESSON_PHONE = #{lessonPhone}
-		     , LESSON_ACTIVITE = #{lessonActivite}
-		     , LESSON_RES_CONTENT = #{lessonResContent}
-		   WHERE MEMBER_NO = #{memberNo}
+		   SET LESSON_STATUS = 'N'
+		 WHERE RES_NO = #{resNo}
 	</update>
-
 
 
 
