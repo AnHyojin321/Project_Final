@@ -111,7 +111,7 @@ header {
         </div>
         <div class="header-right">
             <button class="btn-contact">
-                <img src="your-image-path.png" alt="돋보기 아이콘" class="icon"> 문의하기
+                <img src="resources/images/question.png" alt="돋보기 아이콘" class="icon"> 문의하기
             </button>
             
             <div class="menu-icon">

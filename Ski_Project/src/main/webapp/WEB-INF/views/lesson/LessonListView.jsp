@@ -98,6 +98,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
     <h1>강습예약</h1>
 
     <div style="overflow-x: auto;">

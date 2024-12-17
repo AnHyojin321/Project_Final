@@ -569,8 +569,12 @@ public class MemberController {
 	    }
 	}
 
-
-	
+	@GetMapping("myPage1.me")
+	public String myPage1() {
+		
+		return "mypage/myPage1";
+		
+	}
 	
 	
 	
