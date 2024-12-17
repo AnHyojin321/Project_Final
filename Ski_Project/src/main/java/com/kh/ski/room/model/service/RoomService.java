@@ -19,4 +19,10 @@ public interface RoomService {
 	 
 	 // 예약 단계에서 로그인한 회원 정보 조회하기
 	 Member selectMember(int memberNo);
+	 
+	 // 결제 완료 시 객실 상태 변경
+	 int updateRoomStatus(int roomNo);
+	 
+	 // 결제 정보 데이터에 저장
+	 int insertPayInfo(RoomPay rp);
 }

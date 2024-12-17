@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ski.member.model.vo.Member;
 import com.kh.ski.room.model.dao.RoomDao;
@@ -44,5 +45,18 @@ public class RoomServiceImpl implements RoomService {
 	public Member selectMember(int memberNo) {
 		return roomDao.selectMember(sqlSession, memberNo);
 	}
+	
+	// 결제 완료 시 객실 상태 변경
+	@Override
+	@Transactional
+	public int updateRoomStatus(int roomNo) {
+		return roomDao.updateRoomStatus(sqlSession, roomNo);
+	}
 
+	// 결제 정보 데이터 담기
+	@Override
+	@Transactional
+	public int insertPayInfo(RoomPay rp) {
+		return roomDao.insertPayInfo(sqlSession, rp);
+	}
 }

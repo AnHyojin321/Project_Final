@@ -173,6 +173,7 @@ public class MemberController {
 	        
 	        if (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
 	            session.setAttribute("loginMember", loginMember);
+	            System.out.println("로그인 정보 : " + loginMember);
 	            session.setAttribute("alertMsg", "로그인 성공!");
 	            mv.setViewName("redirect:/");
 	        } 

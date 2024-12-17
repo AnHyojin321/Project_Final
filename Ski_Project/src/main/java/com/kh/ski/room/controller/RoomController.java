@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.ski.member.model.service.MemberService;
 import com.kh.ski.member.model.vo.Member;
 import com.kh.ski.room.model.service.RoomService;
 import com.kh.ski.room.model.vo.Room;
@@ -34,29 +35,90 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 	
-	// 결제 성공 페이지 요청
-	@PostMapping("pay")
-	public ModelAndView paySuccess(
-	        @RequestParam("authResultCode") String authResultCode,  // 인증 결과 코드
-	        @RequestParam("authResultMsg") String authResultMsg,    // 인증 결과 메시지
-	        @RequestParam("tid") String tid,                       // 결제 고유 번호
-	        ModelAndView mv) {
+	@PostMapping("storeSessionData.ro")
+	@ResponseBody
+	public Map<String, String> storeSessionData(
+	        @RequestParam("memberNo") String memberNo,
+	        @RequestParam("roomNo") String roomNo,
+	        @RequestParam("checkInDate") String checkInDate,
+	        @RequestParam("checkOutDate") String checkOutDate,
+	        @RequestParam("totalPrice") String totalPrice,
+	        HttpSession session) {
 
-	    // 결제 결과 로그 (개발 확인용)
-	    System.out.println("Auth Result Code: " + authResultCode);
-	    System.out.println("Auth Result Msg: " + authResultMsg);
-	    System.out.println("TID: " + tid);
+	    // 세션에 데이터 저장
+	    session.setAttribute("memberNo", memberNo);
+	    session.setAttribute("roomNo", roomNo);
+	    session.setAttribute("checkInDate", checkInDate);
+	    session.setAttribute("checkOutDate", checkOutDate);
+	    session.setAttribute("totalPrice", totalPrice);
 
-	    // 결제 성공 여부 확인
-	    if ("0000".equals(authResultCode)) { // 성공 코드
-	        mv.setViewName("room/paysuccess"); // 성공 페이지로 이동
-	    } else {
-	        mv.setViewName("room/payfail"); // 실패 페이지로 이동
-	        mv.addObject("message", authResultMsg);
-	    }
 
-	    return mv;
+	    // 성공 응답 반환
+	    Map<String, String> response = new HashMap<>();
+	    response.put("status", "success");
+	    return response;
 	}
+	
+	@PostMapping("payResult.ro")
+	public String payResult(@RequestParam("authResultCode") String authResultCode,
+	                        @RequestParam("authResultMsg") String authResultMsg,
+	                        @RequestParam("tid") String tid,
+	                        HttpSession session,
+	                        Model model) {
+
+	    // 세션에서 데이터 가져오기
+	    String memberNo = (String) session.getAttribute("memberNo");
+	    String roomNo = (String) session.getAttribute("roomNo");
+	    String checkInDate = (String) session.getAttribute("checkInDate");
+	    String checkOutDate = (String) session.getAttribute("checkOutDate");
+	    String totalPrice = (String) session.getAttribute("totalPrice");
+
+	    // 결제 결과 검증
+	    if ("0000".equals(authResultCode)) {
+	        model.addAttribute("tid", tid);
+	        model.addAttribute("memberNo", memberNo);
+	        model.addAttribute("roomNo", roomNo);
+	        model.addAttribute("checkInDate", checkInDate);
+	        model.addAttribute("checkOutDate", checkOutDate);
+	        model.addAttribute("totalPrice", totalPrice);
+
+	        return "room/autoPostForm";
+	    } else {
+	        model.addAttribute("message", authResultMsg);
+	        return "room/payfail";
+	    }
+	}
+	
+	@PostMapping("/payConfirm.ro")
+    public ModelAndView payConfirm(RoomPay rp,
+    								ModelAndView mv) {
+
+            // 요청된 데이터 출력 (개발 확인용)
+            System.out.println("TID: " + rp.getTid());
+            System.out.println("Member No: " + rp.getMemberNo());
+            System.out.println("Room No: " + rp.getRoomNo());
+            System.out.println("Check-In: " + rp.getCheckInDate());
+            System.out.println("Check-Out: " + rp.getCheckOutDate());
+            System.out.println("Total Price: " + rp.getTotalPrice());
+            
+            int roomNo = rp.getRoomNo();
+            
+            int result1 = roomService.updateRoomStatus(roomNo);
+            int result2 = roomService.insertPayInfo(rp);
+            
+            if(result1*result2 > 0) {
+            	// 성공 시 결과 페이지로 이동
+            	mv.setViewName("room/paysuccess");
+            } else {
+            	// 오류 발생 시 실패 페이지로 이동
+            	mv.setViewName("room/payfail");
+            }
+
+        return mv;
+    }
+
+	
+
 
 	
 	
@@ -196,11 +258,13 @@ public class RoomController {
 	    System.out.println("체크아웃 : " + checkOutDate);
 	    System.out.println("숙박일 : " + stayDays);
 	    
+	    Member m = roomService.selectMember(memberNo);
+	    
 	     Room r = null;
 		 r = roomService.selectRoomDetails(roomNo);
 
 	    // 받은 데이터를 다음 페이지에 전달
-		model.addAttribute("memberNo", memberNo);
+		model.addAttribute("m", m);
 	    model.addAttribute("phone", phone);
 	    model.addAttribute("adult", adult);
 	    model.addAttribute("child", child);

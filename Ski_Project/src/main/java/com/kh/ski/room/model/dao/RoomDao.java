@@ -38,6 +38,16 @@ public class RoomDao {
 	public Member selectMember(SqlSessionTemplate sqlSession, int memberNo) {
 		return sqlSession.selectOne("roomMapper.selectMember", memberNo);
 	}
+	
+	// 결제 완료 시 객실 상태 변경
+	public int updateRoomStatus(SqlSessionTemplate sqlSession, int roomNo) {
+		return sqlSession.update("roomMapper.updateRoomStatus", roomNo);
+	}
+	
+	// 결제 정보 태이블에 데이터 담기
+	public int insertPayInfo(SqlSessionTemplate sqlSession, RoomPay rp) {
+		return sqlSession.insert("roomMapper.insertPayInfo", rp);
+	}
  
 	
 }

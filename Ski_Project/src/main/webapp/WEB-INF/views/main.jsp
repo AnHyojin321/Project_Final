@@ -563,12 +563,7 @@ p {
                 </button>
             </div>            
         </div>
-<<<<<<< Updated upstream
-        
-=======
 
-
->>>>>>> Stashed changes
     <div class="circle" id="circle"></div>
 
     <script>

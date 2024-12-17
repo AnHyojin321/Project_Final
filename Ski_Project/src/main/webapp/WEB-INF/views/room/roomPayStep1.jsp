@@ -324,15 +324,12 @@
 	                roomResultsContainer.empty();
 
 	                // 결과 데이터 순회
+	             // 결과 데이터 순회 (조회된 객실만큼 버튼 출력)
 	                result.forEach(function (room) {
-	                    // STATUS가 'N'이면 버튼 비활성화
-	                    const isDisabled = room.status === 'N' ? 'disabled' : '';
-
-	                    // 버튼 생성 (roomNo를 data-roomno 속성으로 추가)
-	                    const button = '<button style="margin: 5px; padding: 10px; cursor: pointer;" '
-	                        + isDisabled + ' data-roomno="' + room.roomNo + '">'
-	                        + room.roomName
-	                        + '</button>';
+	                    const button = '<button style="margin: 5px; padding: 10px; cursor: pointer;" ' +
+	                                   'data-roomno="' + room.roomNo + '">' +
+	                                   room.roomName +
+	                                   '</button>';
 	                    roomResultsContainer.append(button);
 	                });
 	            },

@@ -6,21 +6,54 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function serverAuth() {
+    // HTML에서 totalPrice 값을 가져오기
+    var totalPrice = document.getElementById("totalPrice").innerText.trim();
 
-  AUTHNICE.requestPay({
-    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
-    method: 'card',
-    orderId: '02e16b8c-779d-497f-b54d-07521212175d',
-    amount: 1004,
-    goodsName: '나이스페이-상품',
-    returnUrl: 'http://localhost:8090/ski/pay', //API를 호출할 Endpoint 입력
-    fnError: function (result) {
-      alert('개발자확인용 : ' + result.errorMsg + '')
-    }
- });
+    // 숫자 값만 추출
+    totalPrice = parseInt(totalPrice.replace(/[^0-9]/g, ''), 10);
+
+   
+    // 세션에 데이터 저장을 요청 (FormData 형태로 전송)
+    $.ajax({
+        url: 'storeSessionData.ro', // 서버 URL
+        type: 'POST', // 요청 방식
+        data: {
+            memberNo: ${m.memberNo},
+            roomNo: ${r.roomNo},
+            checkInDate: '${checkInDate}',
+            checkOutDate: '${checkOutDate}',
+            totalPrice: totalPrice
+        },
+        success: function(data) {
+            if (data.status === 'success') {
+                // 세션 저장 성공 후 결제 요청 실행
+                AUTHNICE.requestPay({
+                    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
+                    method: 'card',
+                    orderId: '02e16b8c-779d-497f-b54d-07521212175d',
+                    amount: totalPrice,
+                    goodsName: "${r.roomType} ${r.roomName}",
+                    returnUrl: "http://localhost:8090/ski/payResult.ro",
+                    fnError: function(result) {
+                        alert('결제 실패: ' + result.errorMsg);
+                    }
+                });
+            } else {
+                alert('세션 데이터 저장 실패: ' + data.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX 오류: ", error);
+            alert('서버와의 통신 중 오류가 발생했습니다.');
+        }
+    });
 }
+
+
+
 </script>
 
 <style>
@@ -261,9 +294,9 @@ function serverAuth() {
             <div class="customer-info">
                 <h2>고객 정보</h2>
                 <ul>
-                    <li>· 성명(한글) <span>안효진</span></li>
+                    <li>· 성명(한글) <span>${m.memberName}</span></li>
                     <li>· 휴대전화 <span>${phone}</span></li>
-                    <li>· 이메일 <span>anhj321@naver.com</span></li>
+                    <li>· 이메일 <span>${m.email}</span></li>
                 </ul>
             </div>
         </div>
@@ -276,9 +309,7 @@ function serverAuth() {
     
     <script>
 	 	// 객실 전체 가격에 콤마 찍기
-	    // 예제 데이터
-	    const r = { roomPrice: 100000 }; // 객실 가격
-	    const stayDays = 3; // 숙박일 수
+
 	
 	    // 총 가격 계산
 	    const totalPrice = ${r.roomPrice * stayDays};
