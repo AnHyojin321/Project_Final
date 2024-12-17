@@ -38,12 +38,30 @@
 	     WHERE SKI_RESORT_DAY = #{skiResortDay}
 	</update>
 	
-	<update id="updateSlope" parameterType="slopeOpen">
-        UPDATE SLOPE_OPEN
-        SET SLOPE_IS_OPEN = #{s.slopeIsOpen}, 
-            SLOPE_NOTE = #{s.slopeNote}
-        WHERE SLOPE_NO = #{s.slopeNo}
+	<update id="updateSlope" parameterType="java.util.List">
+	    UPDATE SLOPE_OPEN
+	    SET SLOPE_IS_OPEN = CASE SLOPE_NO
+	        <foreach collection="list" item="s" separator=" ">
+	            WHEN #{s.slopeNo} THEN #{s.slopeIsOpen}
+	        </foreach>
+	    END,
+	    SLOPE_NOTE = CASE SLOPE_NO
+	        <foreach collection="list" item="s" separator=" ">
+	            WHEN #{s.slopeNo} THEN #{s.slopeNote}
+	        </foreach>
+	    END
+	    WHERE SLOPE_NO IN
+	    <foreach collection="list" item="s" open="(" close=")" separator=",">
+	        #{s.slopeNo}
+	    </foreach>
 	</update>
+
+
+
+
+
+
+
 
 
 

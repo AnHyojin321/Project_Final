@@ -8,7 +8,7 @@ public class ManageController {
 
 	@GetMapping("search.map")
 	public String myPage() {
-		return "management/map";
+		return "management/mapView";
 	}
 	
 }

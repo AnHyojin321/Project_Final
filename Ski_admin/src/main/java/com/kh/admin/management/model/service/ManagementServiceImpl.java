@@ -35,7 +35,7 @@ public class ManagementServiceImpl implements ManagementService {
 	}
 
 	@Override
-	public int updateSlope(ArrayList<SlopeOpen> so) {
-	    return managementDao.updateSlope(sqlSession, so);
-	}
+    public int updateSlope(ArrayList<SlopeOpen> slopeList) {
+        return managementDao.updateSlope(sqlSession, slopeList);
+    }
 }

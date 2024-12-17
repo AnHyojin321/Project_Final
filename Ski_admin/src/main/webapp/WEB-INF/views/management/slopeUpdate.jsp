@@ -67,7 +67,6 @@
 <body>
     <div id="title">
         <h1>슬로프 오픈 관리</h1>
-        <h2>2024-12-09 (Monday)</h2>
     </div>
     <div>
     	<form action="slopeUpdateControl.sm" id="slopeForm" method="post">
@@ -80,28 +79,41 @@
 	                    <th>Open</th>
 	                    <th>Reason</th>
 	                </tr>
-	                <c:forEach var="so" items="${ requestScope.list }">                    
-		                <tr>
-		                    <th>
-		                    	${ so.slopeNo }
-		                        <input type="hidden" name="so[${status.index}].slopeNo" value="${so.slopeNo}" />
-		                    </th>
-		                    <th>${ so.slopeName }</th>
-		                    <th>${ so.slopeLevel }</th>
-		                    <th>
-		                        <input type="button" class="openBtn" name="so[${status.index}].slopeIsOpen" value="${ so.slopeIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" name="slopeIsOpen"></input>
-		                    </th>
-		                    <th>
-		                        <select name="so[${status.index}].slopeNote">
-		                            <option value="" disabled>사유선택</option>
-		                            <option value="눈상태" ${ so.slopeNote == "눈상태" ? "selected" : "" }>눈상태</option>
-		                            <option value="점검" ${ so.slopeNote == "점검" ? "selected" : "" }>점검</option>
-		                            <option value="날씨" ${ so.slopeNote == "날씨" ? "selected" : "" }>날씨</option>
-		                            <option value="대회" ${ so.slopeNote == "대회" ? "selected" : "" }>대회</option>
-		                        </select>
-		                    </th>
-		                </tr>
-		            </c:forEach>
+	                <c:forEach var="so" items="${requestScope.list}" varStatus="status">
+					    <tr>
+					        <!-- Slope Number -->
+					        <td>
+					            ${so.slopeNo}
+					            <input type="hidden" name="so[${status.index}].slopeNo" value="${so.slopeNo}" />
+					        </td>
+					        <!-- Slope Name -->
+					        <td>
+					            ${so.slopeName}
+					            <input type="hidden" name="so[${status.index}].slopeName" value="${so.slopeName}" />
+					        </td>
+					        <!-- Slope Level -->
+					        <td>
+					            ${so.slopeLevel}
+					            <input type="hidden" name="so[${status.index}].slopeLevel" value="${so.slopeLevel}" />
+					        </td>
+					        <!-- Open/Close 상태 -->
+					        <td>
+					            <input type="button" class="openBtn" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" />
+					            <input type="hidden" class="slopeIsOpen" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen}" />
+					        </td>
+					        <!-- 사유 선택 -->
+					        <td>
+					            <select name="so[${status.index}].slopeNote">
+					                <option value="" ${so.slopeNote == '' ? 'selected' : '' } disabled>사유선택</option>
+					                <option value="눈상태" ${so.slopeNote == '눈상태' ? 'selected' : ''}>눈상태</option>
+					                <option value="점검" ${so.slopeNote == '점검' ? 'selected' : ''}>점검</option>
+					                <option value="날씨" ${so.slopeNote == '날씨' ? 'selected' : ''}>날씨</option>
+					                <option value="대회" ${so.slopeNote == '대회' ? 'selected' : ''}>대회</option>
+					            </select>
+					        </td>
+					    </tr>
+					</c:forEach>
+
 	            </thead>
 	        </table>
 	        <div>
@@ -109,13 +121,14 @@
 	        </div>
     	</form>
     </div>
+    
 
     <script>
 	    $(document).ready(function() {
 	        // 페이지 로드 시 초기 상태 설정
 	        $('tr').each(function() {
-	            const btn = $(this).find('.openBtn'); // 현재 행의 버튼
-	            const selectTag = $(this).find('select'); // 현재 행의 select 태그
+	            const btn = $(this).find('.openBtn'); 
+	            const selectTag = $(this).find('select'); 
 	
 	            if (btn.length && selectTag.length) {
 	                if (btn.val() === "OPEN") {
@@ -127,25 +140,22 @@
 	                }
 	            }
 	        });
-	        
-	        $('.openBtn').on('click', function() {
-	            const btn = $(this); // 클릭된 버튼
-	            const row = btn.closest('tr'); // 버튼이 속한 행
-	            const selectTag = row.find('select'); // 해당 행의 select 태그
-	            const hiddenInput = row.find('.slopeIsOpen'); // hidden 필드
 
-	            if (btn.val() === "OPEN") {
-	                btn.val("CLOSE");
-	                btn.css('background-color', 'rgb(255, 194, 194)');
-	                selectTag.show().focus();
-	                hiddenInput.val('N'); // hidden 필드 값 변경
-	            } else {
-	                btn.val("OPEN");
-	                btn.css('background-color', 'rgb(194, 220, 255)');
-	                selectTag.hide();
-	                hiddenInput.val('Y'); // hidden 필드 값 변경
-	            }
-	        });
+	        $('.openBtn').on('click', function() {
+                const btn = $(this);
+                const row = btn.closest('tr');
+                const hiddenInput = row.find('.slopeIsOpen');
+
+                if (btn.val() === "OPEN") {
+                    btn.val("CLOSE").css('background-color', 'rgb(255, 194, 194)');
+                    hiddenInput.val('N');
+                    row.find('select').show();
+                } else {
+                    btn.val("OPEN").css('background-color', 'rgb(194, 220, 255)');
+                    hiddenInput.val('Y');
+                    row.find('select').hide();
+                }
+            });
 
 	    });
 	</script>

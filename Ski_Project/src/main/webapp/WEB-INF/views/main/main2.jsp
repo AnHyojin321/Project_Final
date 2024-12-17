@@ -594,14 +594,14 @@ p {
 	                <div class="image-container">
 	                    <img src="resources/images/ski1.png" style="width: 430px; ">
 	                    <div class="overlay-text">
-	                        <p style="font-weight: bold; font-size: 40px;">DIVERSITY</p>
+	                        <p style="font-weight: bold; font-size: 40px;">LIFT-PASS</p>
 	                        <br>
 	                      
 	
-	                        <p style="font-size: 18px;">5가지 슬로프</p>
+	                        <p style="font-size: 18px;">12가지 슬로프</p>
 	                        <br>
 	                        <br>
-	                        Detail View
+	                        리프트권 구매하기
 	                    </div>
 	                </div>
 				</a>

@@ -240,7 +240,7 @@
                     Grooming Time (14:00-16:00)<br>
                 </span>
             </span>
-            <img src="image/ski1.jpg">
+            <img src="resources/images/liftImage1.jpg"> 
         </div>
         <div class="purchaseDiv">
 		    <div>

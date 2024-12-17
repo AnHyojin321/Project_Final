@@ -23,7 +23,7 @@ public class ManagementDao {
 		return sqlSession.update("management.updateSkiResort", sro);
 	}
 
-	public int updateSlope(SqlSessionTemplate sqlSession, ArrayList<SlopeOpen> so) {
-	    return sqlSession.update("management.updateSlope", so);
+	public int updateSlope(SqlSessionTemplate sqlSession, ArrayList<SlopeOpen> slopeList) {
+	    return sqlSession.update("management.updateSlope", slopeList);
 	}
 }

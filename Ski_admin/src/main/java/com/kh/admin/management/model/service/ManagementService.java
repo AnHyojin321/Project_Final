@@ -13,6 +13,6 @@ public interface ManagementService {
 
 	int updateSkiResort(SkiResortOpen sro);
 
-	int updateSlope(ArrayList<SlopeOpen> so);
+	int updateSlope(ArrayList<SlopeOpen> slopeList);
 	
 }

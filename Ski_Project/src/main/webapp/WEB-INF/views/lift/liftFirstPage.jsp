@@ -78,7 +78,7 @@
                         Grooming Time (14:00-16:00)<br>
                     </span>
                 </span>
-                <img src="image/ski1.jpg">
+                <img src="resources/images/liftImage1.jpg"> 
             </a>
         </div>
         <div class="liftDiv">
@@ -90,7 +90,7 @@
                         Grooming Time (14:00-16:00)<br>
                     </span>
                 </span>
-                <img src="image/ski2.jpg">
+                <img src="resources/images/liftImage2.jpg"> 
             </a>
         </div>
     </div>

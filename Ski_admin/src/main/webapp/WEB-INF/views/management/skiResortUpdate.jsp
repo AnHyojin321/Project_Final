@@ -54,14 +54,6 @@
 	<div id="title">
         <h1>스키장 오픈 관리</h1>
     </div>
-    <div>
-	    <svg class="icon"><use xlink:href="#iconSun"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconCloud"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconSemiCloud"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconSnow"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconRain"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconMist"></use></svg>
-	</div>
     <div id="outer">
        	<c:forEach var="sro" items="${ requestScope.list }">
         	<table border="1px solid black">
@@ -69,12 +61,12 @@
         		<tr><th colspan="2">${ sro.skiResortDay }</th></tr>
         		<tr>
         			<th colspan="2">
-        				날씨이미지
+	    <svg class="icon"><use xlink:href="#iconSun"></use></svg>
         			</th>
         		</tr>
         		<tr>
 	        		<th colspan="2">
-	        			날씨상태
+	        			맑음
 	        		</th>
 	        	</tr>
         		<tr>
@@ -113,6 +105,13 @@
 	    <input type="hidden" id="skiResortDay" name="skiResortDay" />
 	    <input type="hidden" id="skiResortIsOpen" name="skiResortIsOpen" />
 	</form>
+	
+	<div>
+	    <svg class="icon"><use xlink:href="#iconSemiCloud"></use></svg>
+	    <svg class="icon"><use xlink:href="#iconSnow"></use></svg>
+	    <svg class="icon"><use xlink:href="#iconRain"></use></svg>
+	    <svg class="icon"><use xlink:href="#iconMist"></use></svg>
+	</div>
 
 
     <script>
