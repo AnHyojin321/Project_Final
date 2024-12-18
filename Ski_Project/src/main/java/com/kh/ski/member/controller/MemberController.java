@@ -174,14 +174,12 @@ public class MemberController {
 	        if (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
 	            session.setAttribute("loginMember", loginMember);
 	            System.out.println("로그인 정보 : " + loginMember);
-	            session.setAttribute("alertMsg", "로그인 성공!");
 	            mv.setViewName("redirect:/");
 	        } 
 	       
 	        else if (loginMember.getTempPwd() != null && 
 	                 bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getTempPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            session.setAttribute("alertMsg", "임시 비밀번호로 로그인 성공! 비밀번호를 변경해주세요.");
 	            mv.setViewName("redirect:/");
 	        } 
 	        // 3. 비밀번호 불일치
@@ -391,7 +389,7 @@ public class MemberController {
 	@GetMapping("myPage.me")
 	public String myPage() {
 		
-		return "member/myPage";
+		return "mypage/myPage";
 	}
 	
 //	@GetMapping("findPwd.me")
@@ -481,34 +479,37 @@ public class MemberController {
 	@PostMapping("delete.me")
 	public String deleteMember(String memberPwd, String memberId, HttpSession session,
 	                           Model model) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
 
-	    // 현재 로그인한 회원의 암호화된 비밀번호 가져오기
-	    String encPwd = ((Member) session.getAttribute("loginMember")).getMemberPwd();
+	    if (loginMember == null) {
+	        System.out.println("세션에 로그인 정보가 없습니다.");
+	        session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
+	        return "redirect:/loginPage.me";
+	    }
 
-	    // 입력된 비밀번호와 암호화된 비밀번호 비교
+	    String encPwd = loginMember.getMemberPwd();
+
 	    System.out.println("입력된 비밀번호: " + memberPwd);
 	    System.out.println("암호화된 비밀번호: " + encPwd);
-	    System.out.println("비밀번호 비교 결과: " + bcryptPasswordEncoder.matches(memberPwd, encPwd));
 
+	    // 입력된 비밀번호와 암호화된 비밀번호 비교
 	    if (bcryptPasswordEncoder.matches(memberPwd, encPwd)) {
 	        int result = memberService.deleteMember(memberId);
 
 	        if (result > 0) {
-	            // 회원 탈퇴 성공
 	            session.removeAttribute("loginMember");
 	            session.setAttribute("alertMsg", "회원 탈퇴 성공");
 	            return "redirect:/";
 	        } else {
-	            // 회원 탈퇴 실패
-	            model.addAttribute("errortMsg", "회원 탈퇴 실패");
+	            model.addAttribute("errorMsg", "회원 탈퇴 실패");
 	            return "common/errorPage";
 	        }
 	    } else {
-	        // 비밀번호 불일치
 	        session.setAttribute("alertMsg", "비밀번호가 일치하지 않습니다.");
 	        return "redirect:/myPage.me";
 	    }
 	}
+
 
 	/*
 	@PostMapping("changePwd.me")
@@ -542,6 +543,13 @@ public class MemberController {
 	}
 */
 	
+	@GetMapping("PwdChange.me")
+	public String pwdChange() {
+		
+		return "member/PwdChange";
+	}
+
+	
 	@PostMapping("changePwd.me")
 	public String changePassword(@RequestParam("currentPwd") String currentPwd,
 	                             @RequestParam("newPwd") String newPwd,
@@ -565,7 +573,7 @@ public class MemberController {
 	        return "redirect:/myPage.me";
 	    } else {
 	        model.addAttribute("alertMsg", "현재 비밀번호가 일치하지 않거나 변경에 실패했습니다.");
-	        return "member/myPage";
+	        return "mypage/myPage";
 	    }
 	}
 
@@ -576,8 +584,15 @@ public class MemberController {
 		
 	}
 	
+	@GetMapping("idDelete.me")
+	public String idDelete() {
+		return "member/DeleteId";
+	}
+
 	
-	
-	
+	@GetMapping("lessonPay.le")
+	public String lessonPay() {
+		return "lesson/LessonPay";
+	}
 	
 }

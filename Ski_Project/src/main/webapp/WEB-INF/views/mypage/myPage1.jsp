@@ -9,24 +9,35 @@
 <title>설레눈 리조트 내 정보 관리</title>
 <style>
 /* Reset */
+/* Reset */
 body {
     margin: 0;
+    background-color: #f0f8ff; /* 전체 배경색 통일 */
 }
 
 html, body {
     height: 100%;
 }
 
+/* Header Styles */
+header {
+    background-color: #f0f8ff; /* 헤더와 오버레이 배경 통일 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+}
+
 /* Main Content Styles */
 .main-content {
-	flex: 1;
-    max-width: 1500px;
+    flex: 1;
+    max-width: 2000px;
     margin: 0 auto;
     padding: 20px;
- min-height: calc(100vh - 240px); /* 화면 높이에서 푸터와 헤더를 뺀 값 */
+    background-color: #f0f8ff; /* 배경색 통일 */
+    min-height: calc(100vh - 240px);
     margin-bottom: 0;
 }
 
+/* Menu Button */
 .menu-button {
     display: flex;
     align-items: center;
@@ -35,26 +46,37 @@ html, body {
     cursor: pointer;
     border: none;
     background: none;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
 }
 
 .menu-button::before {
-    content: "☰";
+    content: "☰"; /* 초기 아이콘 ☰ */
     font-size: 18px;
+    transition: content 0.3s; /* 아이콘 변경 시 부드럽게 */
 }
+
+.menu-button.active::before {
+    content: "✕"; /* 메뉴가 열렸을 때 아이콘 ✕ */
+}
+
 
 .page-title {
     text-align: center;
     font-size: 24px;
-    margin-bottom: 40px;
+    margin-bottom: 80px; /* 제목과 메뉴 리스트 사이 간격 추가 */
 }
 
+/* Menu List */
 .menu-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
     max-width: 400px;
     margin: 0 auto;
+    justify-content: center; /* 메뉴 리스트를 중앙에 배치 */
 }
 
 .menu-item {
@@ -62,32 +84,41 @@ html, body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    background-color: #ffffff; /* 메뉴 항목 흰색 */
     border: 1px solid #ddd;
     border-radius: 8px;
-    cursor: pointer;
+    color: black;
+    text-decoration: none; /* 링크 밑줄 제거 */
     transition: background-color 0.2s;
 }
 
 .menu-item:hover {
-    background-color: #f5f5f5;
+    background-color: #f0f0f0; /* 호버 시 배경색 변경 */
+}
+
+.menu-item span {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item span img {
+    margin-right: 10px; /* 아이콘과 글자 사이 여백 */
 }
 
 .menu-item span:last-child {
     color: #999;
 }
 
-/* Menu Overlay Styles */
+/* Menu Overlay */
 .menu-overlay {
-    position: fixed;
-    top: 0;
+    position: absolute;
     left: 0;
     width: 100%;
-    height: 50%;
-    background: white;
+    background-color: rgba(249, 249, 249, 0.95); /* 불투명한 배경 */
     z-index: 1000;
     display: none;
     padding: 20px;
-    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .menu-overlay.active {
@@ -96,7 +127,7 @@ html, body {
 
 .menu-close {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 20px;
     background: none;
     border: none;
@@ -107,11 +138,10 @@ html, body {
 
 .menu-content {
     max-width: 1200px;
-    margin: 60px auto 0;
+    margin: 20px auto;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 30px;
-    padding: 0 20px;
 }
 
 .menu-section {
@@ -130,10 +160,11 @@ html, body {
     color: #666;
     text-decoration: none;
     font-size: 14px;
+    transition: color 0.2s;
 }
 
 .menu-section-item:hover {
-    color: #333;
+    color: #333; /* 호버 시 색상 변경 */
 }
 
 /* Responsive Design */
@@ -148,6 +179,8 @@ html, body {
         grid-template-columns: 1fr;
     }
 }
+
+
 </style>
 </head>
 
@@ -155,72 +188,76 @@ html, body {
 <jsp:include page="../common/header.jsp" />
 
     <main class="main-content">
-        <button class="menu-button">MENU</button>
+        <button class="menu-button" id="menu-toggle">MENU</button>
 
         <h1 class="page-title">내 정보 관리</h1>
+		<div class="menu-list">
+		    <a href="${pageContext.request.contextPath}/myPage.me" class="menu-item">
+		        <span>
+		            <img src="resources/images/mypage.png" style="width: 25px; height: 25px; margin-right: 10px;">
+		            회원정보 변경
+		        </span>
+		        <span>›</span>
+		    </a>
+		    <a href="${pageContext.request.contextPath}/PwdChange.me" class="menu-item">
+		        <span>
+		     	   <img src="resources/images/changepwd.png" style="width: 25px; height: 25px; margin-right: 10px;">
+		        	비밀번호 변경
+		       	</span>
+		        <span>›</span>
+		    </a>
+		    <a href="${pageContext.request.contextPath}/idDelete.me" class="menu-item">
+		        <span>
+		        	<img src="resources/images/deleteid.png" style="width: 25px; height: 25px; margin-right: 10px;">	
+			   	    회원탈퇴 안내
+		        </span>
+		        <span>›</span>
+		    </a>
+		</div>
 
-        <div class="menu-list">
-            <div class="menu-item">
-                <span>회원정보 변경</span>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <span>비밀번호 변경</span>
-                <span>›</span>
-            </div>
-            <div class="menu-item">
-                <span>회원탈퇴 안내</span>
-                <span>›</span>
-            </div>
-        </div>
     </main>
 
     <div class="menu-overlay">
-        <button class="menu-close">✕ CLOSE</button>
         <div class="menu-content">
-            <div class="menu-section">
-                <div class="menu-section-title">매장소개</div>
-                <a href="#" class="menu-section-item">브랜드</a>
-                <a href="#" class="menu-section-item">오시는길</a>
-                <a href="#" class="menu-section-item">SONO</a>
-                <a href="#" class="menu-section-item">GW</a>
-            </div>
-            <div class="menu-section">
-                <div class="menu-section-title">이용안내</div>
-                <a href="#" class="menu-section-item">주차안내</a>
-                <a href="#" class="menu-section-item">편의시설</a>
-            </div>
-            <div class="menu-section">
-                <div class="menu-section-title">장비대여</div>
-                <a href="#" class="menu-section-item">스노보드 대여</a>
-            </div>
-            <div class="menu-section">
-                <div class="menu-section-title">내 정보 관리</div>
-                <a href="#" class="menu-section-item">회원정보 변경</a>
-                <a href="#" class="menu-section-item">비밀번호 변경</a>
-                <a href="#" class="menu-section-item">회원탈퇴 안내</a>
-            </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">내 정보 관리</div>
+            <a href="${pageContext.request.contextPath}/myPage.me" class="menu-section-item">회원정보 변경</a>
+            <a href="${pageContext.request.contextPath}/PwdChange.me" class="menu-section-item">비밀번호 변경</a>
+            <a href="${pageContext.request.contextPath}/idDelete.me" class="menu-section-item">회원탈퇴 안내</a>
+        </div>
             <div class="menu-section">
                 <div class="menu-section-title">나의 정보</div>
                 <a href="#" class="menu-section-item">나의 예약</a>
                 <a href="#" class="menu-section-item">나의 문의</a>
             </div>
-            <div class="menu-section">
-                <div class="menu-section-title">패키지 예약</div>
-                <a href="#" class="menu-section-item">패키지 예약하기</a>
-            </div>
+                    <div class="menu-section">
+            <div class="menu-section-title">강습 </div>
+            <a href="#" class="menu-section-item">강습 가격 표</a>
+            <a href="#" class="menu-section-item">강습 예약 게시판</a>            
+        </div>
         </div>
     </div>
+    
+    
 
     <script>
         // Menu toggle functionality
-        document.querySelector('.menu-button').addEventListener('click', function() {
-            document.querySelector('.menu-overlay').classList.add('active');
-        });
+const menuButton = document.getElementById('menu-toggle');
+const overlay = document.querySelector('.menu-overlay');
 
-        document.querySelector('.menu-close').addEventListener('click', function() {
-            document.querySelector('.menu-overlay').classList.remove('active');
-        });
+// 메뉴 버튼 클릭 이벤트
+menuButton.addEventListener('click', function () {
+    const rect = menuButton.getBoundingClientRect();
+    overlay.style.top = rect.bottom + 'px'; // 메뉴 버튼의 아래에서 시작
+    
+    // 메뉴 오버레이 토글
+    overlay.classList.toggle('active');
+    menuButton.classList.toggle('active'); // 버튼에 active 클래스 추가/제거
+});
+
+
+
     </script>
     
     <jsp:include page="../common/footer.jsp" />
