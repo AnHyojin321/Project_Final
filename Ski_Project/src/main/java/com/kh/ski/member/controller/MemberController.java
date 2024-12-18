@@ -161,33 +161,38 @@ public class MemberController {
     
     
 	@RequestMapping(value = "login.me", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView loginMember(Member m,
-	                                ModelAndView mv,
-	                                HttpSession session,
-	                                HttpServletResponse response) {
+	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, HttpServletResponse response) {
+	    // 사용자가 로그인 폼에 접속하는 경우 (GET 요청)
+	    if (m.getMemberId() == null || m.getMemberPwd() == null) {
+	        mv.setViewName("member/MemberLogin"); // 로그인 페이지로 이동
+	        return mv;
+	    }
 
-	    // DB에서 사용자 정보 가져오기
+	    // POST 요청으로 로그인 처리
 	    Member loginMember = memberService.loginMember(m);
 
 	    if (loginMember != null) {
-	        
+	        // 1. 정규 비밀번호 확인
 	        if (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
 	            session.setAttribute("loginMember", loginMember);
 	            System.out.println("로그인 정보 : " + loginMember);
-	            mv.setViewName("redirect:/");
+	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
-	       
-	        else if (loginMember.getTempPwd() != null && 
-	                 bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getTempPwd())) {
+	        // 2. 임시 비밀번호 확인
+	        else if (loginMember.getTempPwd() != null 
+	                 && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getTempPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            mv.setViewName("redirect:/");
+	            System.out.println("임시 비밀번호로 로그인 성공 : " + loginMember);
+	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
 	        // 3. 비밀번호 불일치
 	        else {
 	            mv.addObject("alertMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	            mv.setViewName("member/MemberLogin");
 	        }
-	    } else {
+	    } 
+	    // 회원 정보 없음
+	    else {
 	        mv.addObject("alertMsg", "존재하지 않는 회원입니다.");
 	        mv.setViewName("member/MemberLogin");
 	    }
@@ -195,6 +200,23 @@ public class MemberController {
 	    return mv;
 	}
 
+	@GetMapping("logout.me") 
+	// 다른 옵션을 나열할 것이 아니라면 value= 은 생략 가능
+	public String logoutMember(HttpSession session) {
+		
+		// 로그아웃 구현 방법
+		// 1. removeAttribute 메소드 이용
+		session.removeAttribute("loginMember");
+		
+		// 2. 세션 무효화 (invalidate 메소드)
+		// session.invalidate();
+		
+		// + sessionScope 에 alertMsg 담기
+		// session.setAttribute("alertMsg", "로그아웃 성공");
+		
+		// 메인페이지로 url 재요청
+		return "redirect:/";
+	}
 	
 	@GetMapping("enrollForm.me")
 	public ModelAndView enrollForm(ModelAndView mv) {

@@ -23,17 +23,16 @@ public class LessonServiceImpl implements LessonService {
 	
 	
 	@Override
-	public int selectListCount() {
-		// TODO Auto-generated method stub
-		return lessonDao.selectListCount(sqlSession);
+	public int selectListCount(String keyword) {
+	    return lessonDao.selectListCount(sqlSession, keyword);
 	}
 
 	@Override
-	public ArrayList<Lesson> selectList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return lessonDao.selectList(sqlSession, pi);
+	public ArrayList<Lesson> selectList(PageInfo pi, String keyword) {
+	    return lessonDao.selectList(sqlSession, pi, keyword);
 	}
 
+	
 	@Override
 	@Transactional
 	public int insertLesson(Lesson les) {

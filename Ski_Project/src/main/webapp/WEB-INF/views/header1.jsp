@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,16 +133,28 @@
       </ul>
     </div>
     
-    <div class="sub-menu">
-      <ul>
-        <li>Project Request</li>
-        <li>Contact</li>
-        <li>Threeway Homepage</li>
-        <li>Company Brochure</li>
-        <li>Intranet</li>
-        <li>Extranet</li>
-      </ul>
-    </div>
+	<div class="sub-menu">
+	  <ul>
+	    <li>Project Request</li>
+	    <li>Contact</li>
+	    <li>Threeway Homepage</li>
+	    <li>Company Brochure</li>
+	    <li>Intranet</li>
+	    <li>Extranet</li>
+	
+	    <!-- 로그인 상태 확인 -->
+	    <c:if test="${not empty sessionScope.loginMember}">
+	      <!-- 로그인 상태일 때 (Logout과 MyPage 보이기) -->
+	      <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">MyPage</li>
+	      <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">Logout</li>
+	    </c:if>
+	    <c:if test="${empty sessionScope.loginMember}">
+	      <!-- 로그인 상태가 아닐 때 (Login 보이기) -->
+	      <li onclick="location.href='${pageContext.request.contextPath}/login.me'">Login</li>
+	    </c:if>
+	  </ul>
+	</div>
+
   </div>
 
   <script>

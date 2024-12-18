@@ -31,7 +31,7 @@ header {
     max-width: 2000px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f0f8ff;
+    background-color: white;
     min-height: calc(100vh - 240px);
 }
 

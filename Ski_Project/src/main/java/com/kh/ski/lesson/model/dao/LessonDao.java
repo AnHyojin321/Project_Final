@@ -12,21 +12,18 @@ import com.kh.ski.lesson.model.vo.Lesson;
 @Repository
 public class LessonDao {
 
-	public int selectListCount(SqlSessionTemplate sqlSession) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("lesson.selectListCount");
+	public int selectListCount(SqlSessionTemplate sqlSession, String keyword) {
+	    return sqlSession.selectOne("lesson.selectListCount", keyword);
 	}
 
-	public ArrayList<Lesson> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		// TODO Auto-generated method stub
-		
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		int limit = pi.getBoardLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return (ArrayList)sqlSession.selectList("lesson.selectList", null, rowBounds);
+	public ArrayList<Lesson> selectList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword) {
+	    int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    int limit = pi.getBoardLimit();
+
+	    RowBounds rowBounds = new RowBounds(offset, limit);
+	    return (ArrayList) sqlSession.selectList("lesson.selectList", keyword, rowBounds);
 	}
+
 
 	public int insertLesson(SqlSessionTemplate sqlSession, Lesson les) {
 		

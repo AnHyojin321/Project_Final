@@ -34,20 +34,25 @@ public class LessonController {
 	
 	
 	@GetMapping("list.le")
-	public String selectList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage, Model model) {
-	    
-	    int listCount = lessonService.selectListCount();
+	public String selectList(
+	    @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+	    @RequestParam(value = "keyword", required = false) String keyword,
+	    Model model) {
+
+	    int listCount = lessonService.selectListCount(keyword); // 검색 조건에 따른 게시글 총 개수
 	    int pageLimit = 10;
 	    int boardLimit = 10;
-	    
+
 	    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-	    ArrayList<Lesson> list = lessonService.selectList(pi);
-	    
+	    ArrayList<Lesson> list = lessonService.selectList(pi, keyword); // 검색어를 포함한 데이터 조회
+
 	    model.addAttribute("list", list);
 	    model.addAttribute("pi", pi);
-	    
-	    return "lesson/LessonListView";
+	    model.addAttribute("keyword", keyword); // 검색어를 JSP에 전달
+
+	    return "lesson/LessonListView"; // 기존 JSP 그대로 사용
 	}
+
 
 	@GetMapping("addLessonForm.le")
 	public ModelAndView addLessonForm(ModelAndView mv) {
@@ -111,23 +116,39 @@ public class LessonController {
 	}
 
 
-	@GetMapping("lesson/{resNo}") // 상세보기 경로
+	@GetMapping("lesson/{resNo}")
 	public ModelAndView selectLesson(@PathVariable("resNo") int resNo, 
 	                                 ModelAndView mv, 
 	                                 HttpSession session) {
-	    Lesson lesson = lessonService.selectLesson(resNo);
+	    // 로그인 정보 확인
 	    Member loginMember = (Member) session.getAttribute("loginMember");
+	    if (loginMember == null) {
+	        session.setAttribute("alertMsg", "로그인이 필요합니다.");
+	        mv.setViewName("redirect:/login");
+	        return mv;
+	    }
 
-	    if (lesson != null && loginMember != null) {
-	        mv.addObject("les", lesson);
-	        mv.addObject("loginMember", loginMember);
-	        mv.setViewName("lesson/LessonDetailForm");
+	    // 글 정보 조회
+	    Lesson lesson = lessonService.selectLesson(resNo);
+
+	    if (lesson != null) {
+	        System.out.println("게시글 작성자 ID: " + lesson.getMemberNo());
+	        System.out.println("로그인 사용자 ID: " + loginMember.getMemberNo());
+
+	        if (lesson.getMemberNo() == loginMember.getMemberNo()) {
+	            mv.addObject("les", lesson);
+	            mv.setViewName("lesson/LessonDetailForm");
+	        } else {
+	            session.setAttribute("alertMsg", "본인이 작성한 글만 확인할 수 있습니다.");
+	            mv.setViewName("redirect:/list.le");
+	        }
 	    } else {
 	        session.setAttribute("alertMsg", "해당 예약글이 존재하지 않습니다.");
 	        mv.setViewName("redirect:/list.le");
 	    }
 	    return mv;
 	}
+
 
 	@GetMapping("lesson/updateForm") // 수정 폼 경로
 	public String updateForm(@RequestParam("resNo") int resNo, 

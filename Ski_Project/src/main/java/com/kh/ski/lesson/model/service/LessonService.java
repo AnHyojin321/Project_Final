@@ -8,10 +8,10 @@ import com.kh.ski.lesson.model.vo.Lesson;
 public interface LessonService {
 	
 	// 게시글 총 갯수 조회
-	int selectListCount();
+	int selectListCount(String keyword);
 	
 	// 게시글 목록 조회
-	ArrayList<Lesson> selectList(PageInfo pi);
+	ArrayList<Lesson> selectList(PageInfo pi, String keyword);
 	
 	// 강습 예약 작성하기 서비스
 	int insertLesson(Lesson les);

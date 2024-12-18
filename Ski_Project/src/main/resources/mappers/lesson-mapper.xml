@@ -17,25 +17,34 @@
 		<result column="LESSON_ACTIVITE" property="lessonActivite" />
 		<result column="LESSON_RES_CONTENT" property="lessonResContent" />
 		<result column="LESSON_STATUS" property="lessonStatus" />
+	    <result column="MEMBER_NO" property="memberNo" /> 
 	</resultMap>
 	
-	<select id="selectListCount" resultType="_int">
-		SELECT COUNT(*)
-		  FROM LESSON_RESERVATION
-	</select>
-	
-	<select id="selectList" resultMap="lessonResultSet">
-		SELECT RES_NO
-			 , RES_STATUS
-			 , LESSON_TITLE
-			 , LESSON_TYPE
-			 , LESSON_TIME
-			 , LESSON_DATE
-			 , LESSON_RES_DATE
-		 FROM LESSON_RESERVATION
-		 WHERE LESSON_STATUS = 'Y'
-		 ORDER BY RES_NO DESC
-	</select>
+<select id="selectListCount" parameterType="string" resultType="_int">
+    SELECT COUNT(*)
+      FROM LESSON_RESERVATION
+     WHERE LESSON_STATUS = 'Y'
+       <if test="keyword != null and keyword != ''">
+           AND LESSON_TITLE LIKE '%' || #{keyword} || '%'
+       </if>
+</select>
+
+<select id="selectList" resultMap="lessonResultSet">
+    SELECT RES_NO,
+           RES_STATUS,
+           LESSON_TITLE,
+           LESSON_TYPE,
+           LESSON_TIME,
+           LESSON_DATE,
+           LESSON_RES_DATE
+      FROM LESSON_RESERVATION
+     WHERE LESSON_STATUS = 'Y'
+       <if test="keyword != null and keyword != ''">
+           AND LESSON_TITLE LIKE '%' || #{keyword} || '%'
+       </if>
+     ORDER BY RES_NO DESC
+</select>
+
 	
 	<insert id="insertLesson" parameterType="lesson">
 	    INSERT INTO LESSON_RESERVATION(

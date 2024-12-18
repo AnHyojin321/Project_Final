@@ -203,9 +203,33 @@
         .links a:hover {
             text-decoration: underline;
         }
-        
-    </style>
+        /* 모달 배경 */
+.modal {
+    display: none; /* 초기에는 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
     
+    </style>
+        
+    <!-- Alertify 라이브러리 연동 구문 (CDN) -->
+    <!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+	
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
 </head>
 <body>
     <div class="container">
@@ -249,11 +273,19 @@
             </form>
         </div>
     </div>
-<c:if test="${alertMsg != null && !alertMsg.isEmpty()}">
+    
+
+<c:if test="${not empty sessionScope.alertMsg}">
     <script>
-        alert("${alertMsg}");
+        alert("${sessionScope.alertMsg}");
     </script>
+    <%
+        // alertMsg 출력 후 세션에서 삭제
+        session.removeAttribute("alertMsg");
+    %>
 </c:if>
+
+
 
     
     <script>

@@ -32,7 +32,7 @@ header {
     max-width: 2000px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f0f8ff;
+    background-color: white;
     min-height: calc(100vh - 240px);
 }
 
@@ -75,6 +75,8 @@ header {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 8px;
+    border: 2px solid gray; /* 파란색 테두리 추가 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 테두리와 함께 그림자 추가 */
 }
 
 /* Form Groups */

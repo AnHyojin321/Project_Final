@@ -32,7 +32,7 @@ header {
     max-width: 2000px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f0f8ff; /* 배경색 통일 */
+    background-color:white; /* 배경색 통일 */
     min-height: calc(100vh - 240px);
     margin-bottom: 0;
 }
