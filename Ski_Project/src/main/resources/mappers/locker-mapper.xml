@@ -2,20 +2,37 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+	
+	
+	
 <mapper namespace="locker">
-<select id="findLockersByRange" parameterType="map" resultType="com.kh.ski.locker.model.vo.Locker">
-    SELECT LOCKER_NO AS lockerNo, LOCKER_PRICE AS lockerPrice
+<resultMap id="lockerResultMap" type="com.kh.ski.locker.model.vo.Locker">
+    <result property="lockerNo" column="LOCKER_NO"/>
+    <result property="lockerPrice" column="LOCKER_PRICE"/>
+</resultMap>
+    <!-- 모든 락커 조회 -->
+    <select id="findAllLockers" resultType="Locker">
+        SELECT * FROM LOCKER
+    </select>
+
+<select id="findLockerById" parameterType="int" resultMap="lockerResultMap">
+    SELECT LOCKER_NO, LOCKER_PRICE
     FROM LOCKER
-    WHERE LOCKER_NO BETWEEN #{startNo} AND #{endNo}
+    WHERE LOCKER_NO = #{lockerNo}
 </select>
 
-    <!-- 특정 락커 정보 가져오기 -->
-    <select id="findLockerById" parameterType="int" resultType="locker">
-        SELECT 
-            LOCKER_NO AS lockerNo, 
-            LOCKER_PRICE AS lockerPrice
-        FROM LOCKER
-        WHERE LOCKER_NO = #{lockerNo}
-    </select>
+
+<insert id="insertLockerReservation" parameterType="com.kh.ski.locker.model.vo.LockerReservation">
+    INSERT INTO LOCKER_RESERV (
+        LOCKER_RESERV_NO, LOCKER_START_DATE, LOCKER_END_DATE, 
+        LOCKER_TOTAL_PRICE, LOCKER_PAY_CODE, LOCKER_PAY_TOKEN, 
+        MEMBER_NO, LOCKER_NO
+    ) VALUES (
+        SEQ_LOCKER_RESERV_NO.NEXTVAL, #{lockerStartDate}, #{lockerEndDate}, 
+        #{lockerTotalPrice}, #{lockerPayCode}, #{lockerPayToken}, 
+        #{memberNo}, #{lockerNo}
+    )
+</insert>
+
+
 </mapper>
