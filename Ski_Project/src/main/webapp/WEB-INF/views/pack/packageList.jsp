@@ -17,17 +17,17 @@ body {
     box-sizing: border-box;
 }
 
-header {
+header1 {
     text-align: center;
     margin: 20px 0;
 }
 
-header h1 {
+header1 h1 {
     font-size: 2rem;
     margin-bottom: 10px;
 }
 
-header p {
+header1 p {
     font-size: 1rem;
     color: gray;
 }
@@ -171,10 +171,11 @@ header p {
 </style>
 </head>
 <body>
-    <header>
+<jsp:include page="../common/header.jsp" />
+    <header1>
         <h1>패키지상품</h1>
         <p>설레눈 리조트의 특별한 티켓상품을 만나보세요.</p>
-    </header>
+    </header1>
 
     <hr style="width:500px;">
     <div class="category-menu">
@@ -203,7 +204,7 @@ header p {
 <div id="packageList">
  <!-- 상품 목록과 페이징 버튼이 이곳에 동적으로 로드됩니다 -->
 
-    <div class="grid-container">
+    <div class="grid-container" style="cursor:pointer">
 	    <c:forEach var="pack" items="${list}">
 	        <div class="card" data-packageno="${pack.packageNo}"> 
 	            <img src="/admin/${pack.packImgPath}" class="card-image">
@@ -288,7 +289,6 @@ header p {
  
 
     </script>
-
-    
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

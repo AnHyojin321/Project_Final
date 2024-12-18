@@ -366,9 +366,9 @@
 
 	    // "다음 예약 페이지로" 버튼 클릭 이벤트
 	    $('#nextButton').click(function () {
-	        // const roomNo = $('#roomNo').val(); // 숨겨진 필드에서 객실 번호 가져오기
-	        // const checkInDate = $('#checkInDate').val(); // 숨겨진 필드에서 체크인 날짜 가져오기
-	        // const checkOutDate = $('#checkOutDate').val(); // 숨겨진 필드에서 체크아웃 날짜 가져오기
+	         const roomNo = $('#roomNo').val(); // 숨겨진 필드에서 객실 번호 가져오기
+	         const checkInDate = $('#checkInDate').val(); // 숨겨진 필드에서 체크인 날짜 가져오기
+	         const checkOutDate = $('#checkOutDate').val(); // 숨겨진 필드에서 체크아웃 날짜 가져오기
 
 	        console.log("숨겨진 필드 값 확인:");
 	        console.log("객실 번호:", roomNo);

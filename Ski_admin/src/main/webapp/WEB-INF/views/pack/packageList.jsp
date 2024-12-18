@@ -8,17 +8,6 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
     .container {
         width: 90%;
         max-width: 1200px;
@@ -40,7 +29,7 @@
     }
 
     table thead {
-        background-color: #85caed;
+        background-color: #90adca;
         color: #fff;
     }
 
@@ -65,7 +54,7 @@
         margin: 5px;
         font-size: 14px;
         color: #fff;
-        background-color: #007BFF;
+        background-color: #2c3e50;
         border: none;
         border-radius: 4px;
         cursor: pointer;
@@ -96,39 +85,42 @@
 </style>
 </head>
 <body>
-    <div class="container">
-        <h1>패키지 상품 목록</h1>
-        <table id="packageList">
-            <thead>
-                <tr>
-                    <th>상품 번호</th>
-                    <th>상품 구성</th>
-                    <th width="300">상품 이름</th>
-                    <th>시작 날짜</th>
-                    <th>마감 날짜</th>
-                    <th>판매여부</th>
-                </tr>
-            </thead>
-            <tbody>
-            	<c:forEach var="p" items="${list}">
-                <tr data-packageno="${p.packageNo}">
-                    <td>${p.packageNo}</td>
-                    <td>
-				        <c:choose>
-				            <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
-				            <c:when test="${p.packageSet == 2}">리프트+락커</c:when>
-				            <c:otherwise>객실+리프트+락커</c:otherwise>
-				        </c:choose>
-				    </td>
-                    <td>${p.packageName}</td>
-                    <td>${p.availableStartDate}</td>
-                    <td>${p.availableEndDate}</td>
-                    <td>${p.packageStatus}</td>
-                </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-        <a href="packEnrollForm.pk" class="btn">새 패키지 등록</a>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	    <div class="container">
+	        <h1>패키지 상품 목록</h1>
+	        <table id="packageList">
+	            <thead>
+	                <tr>
+	                    <th>상품 번호</th>
+	                    <th>상품 구성</th>
+	                    <th width="300">상품 이름</th>
+	                    <th>시작 날짜</th>
+	                    <th>마감 날짜</th>
+	                    <th>판매여부</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            	<c:forEach var="p" items="${list}">
+	                <tr data-packageno="${p.packageNo}">
+	                    <td>${p.packageNo}</td>
+	                    <td>
+					        <c:choose>
+					            <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
+					            <c:when test="${p.packageSet == 2}">리프트+락커</c:when>
+					            <c:otherwise>객실+리프트+락커</c:otherwise>
+					        </c:choose>
+					    </td>
+	                    <td>${p.packageName}</td>
+	                    <td>${p.availableStartDate}</td>
+	                    <td>${p.availableEndDate}</td>
+	                    <td>${p.packageStatus}</td>
+	                </tr>
+	                </c:forEach>
+	            </tbody>
+	        </table>
+	        <a href="packEnrollForm.pk" class="btn">새 패키지 등록</a>
+	    </div>
     </div>
     <script>
 	    // 카드 하나를 클릭했을 때 이벤트를 처리

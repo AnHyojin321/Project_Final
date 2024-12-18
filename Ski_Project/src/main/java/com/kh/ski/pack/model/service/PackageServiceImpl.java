@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.pack.model.dao.PackageDao;
 import com.kh.ski.pack.model.vo.Pack;
+import com.kh.ski.pack.model.vo.PackagePay;
 
 @Service
 public class PackageServiceImpl implements PackageService {
@@ -58,6 +60,14 @@ public class PackageServiceImpl implements PackageService {
 	@Override
 	public ArrayList<Pack> selectPackageSet(int packageSet, PageInfo pi) {
 		return packageDao.selectPackageSet(sqlSession, packageSet, pi);
+	}
+	
+	
+	// 패키지 구매 정보 테이블에 데이터 추가
+	@Override
+	@Transactional
+	public int insertPayInfo(PackagePay pp) {
+		return packageDao.insertPayInfo(sqlSession, pp);
 	}
 
 }

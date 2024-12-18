@@ -30,10 +30,12 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 	
+	@GetMapping("list.ro")
+	public ModelAndView selectRoomList(ModelAndView mv) {
+		mv.setViewName("room/roomList");
+		return mv;
+	}
 
-	
-
-	
 	
 	// 객실 등록 페이지 요청
 	@GetMapping("roomEnrollForm.ro")

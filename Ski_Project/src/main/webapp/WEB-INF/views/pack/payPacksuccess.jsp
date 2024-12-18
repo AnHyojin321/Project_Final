@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-객실 결제 실패 ㅜ
+패키지 상품 결제완료
 </body>
 </html>

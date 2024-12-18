@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.pack.model.vo.Pack;
+import com.kh.ski.pack.model.vo.PackagePay;
 
 @Repository
 public class PackageDao {
@@ -59,5 +60,10 @@ public class PackageDao {
 	// 패키지 구성별 상품 갯수
 	public int selectPackageSetCount(SqlSessionTemplate sqlSession, int packageSet) {
 		return sqlSession.selectOne("packageMapper.selectPackageSetCount", packageSet);
+	}
+	
+	// 패키지 구매 정보 테이블에 데이터 추가
+	public int insertPayInfo(SqlSessionTemplate sqlSession, PackagePay pp) {
+		return sqlSession.insert("packageMapper.insertPayInfo", pp);
 	}
 }

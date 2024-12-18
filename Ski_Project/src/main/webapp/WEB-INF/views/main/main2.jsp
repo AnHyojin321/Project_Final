@@ -605,7 +605,7 @@ p {
 	                    </div>
 	                </div>
 				</a>
-                <div class="image-container">
+                <div class="image-container" onclick="location.href='list.ro';" style="cursor: pointer; position: relative;">
                     <img src="resources/images/room.png" style="width: 430px;">
                     <div class="overlay-text">
 

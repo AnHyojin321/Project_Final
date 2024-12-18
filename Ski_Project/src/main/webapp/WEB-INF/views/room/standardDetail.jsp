@@ -340,7 +340,6 @@
 		</div>
     </div>
      <script>
-     <script>
 		// 서버에서 로그인 상태를 JavaScript 변수로 전달
 		// 서버에서 로그인 상태를 JavaScript 변수로 전달
 		const memberNo = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberNo : null}";
@@ -370,7 +369,6 @@
 		    }
 		}
 
- </script>
     </script>
 <jsp:include page="../common/footer.jsp" />
 </body>

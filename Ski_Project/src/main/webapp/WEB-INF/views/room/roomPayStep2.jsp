@@ -305,7 +305,7 @@
 .terms-container {
     max-width: 770px;
     margin: 0 auto;
-    margin-right : 620px;
+    margin-right : 550px;
     background-color: #ffffff;
     padding: 20px;
 }

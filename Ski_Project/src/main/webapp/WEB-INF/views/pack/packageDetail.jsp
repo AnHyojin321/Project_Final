@@ -13,7 +13,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: white;
 }
 
 .product-detail {
@@ -266,7 +265,12 @@ body {
 
             </tr>
         </table>
-        <button class="purchase-btn">구매</button>
+        <button class="purchase-btn" onclick="payStep(this);">구매</button>
+        
+        <form id="packagePayForm" action="${pageContext.request.contextPath}/packPayInfo.pk" method="post">
+        	<input type="hidden" id="packageNo" name="packageNo" value="${p.packageNo}" />
+        	<input type="hidden" id="memberNo" name="memberNo" value="" />
+        </form>
     </div>
 
     <div class="info-container">
@@ -354,5 +358,29 @@ body {
 	    </div>
 	</div>
   
+	  <script>
+	  // 서버에서 로그인 상태를 JavaScript 변수로 전달
+	    const memberNo = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberNo : null}";
+
+	    function payStep(button) {
+	        console.log("payStep 함수 호출됨");
+
+	        // 로그인 여부 확인
+	        if (!memberNo) { // 로그인 상태 확인
+	            alert("로그인 후 이용 가능합니다.");
+	            location.href = "/ski/login.me"; // 로그인 페이지로 리다이렉트
+	        } else {
+	            // roomType 데이터를 컨트롤러로 전달
+	            // 폼의 hidden input 값 설정
+	            document.getElementById("memberNo").value = memberNo;
+
+	            // 디버그용 콘솔 출력
+	            console.log("Member No:", memberNo);
+
+	            // 폼 제출
+	            document.getElementById("packagePayForm").submit();
+	        }
+	    }
+	  </script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.pack.model.vo.Pack;
+import com.kh.ski.pack.model.vo.PackagePay;
 
 public interface PackageService {
 	
@@ -27,6 +28,9 @@ public interface PackageService {
 	
 	// 패키지 구성 번호별 패키지 상품 목록 조회
 	ArrayList<Pack> selectPackageSet(int packageSet, PageInfo pi);
+	
+	// 패키지 상품 구매 정보 데이터 삽입
+	int insertPayInfo(PackagePay pp);
 	
 
 }

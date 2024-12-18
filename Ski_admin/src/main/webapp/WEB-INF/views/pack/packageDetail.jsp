@@ -8,19 +8,10 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #e2ebf0, #f7f9fc);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+
 
 .card-container {
-    width: 800px;
+    width: 80%;
     background-color: #fff;
     overflow: hidden;
     display: flex;
@@ -30,7 +21,7 @@ body {
 
 .card-header {
     padding: 20px;
-    background-color: #85caed;
+    background-color: #90adca;
     color: #fff;
     text-align: center;
 }
@@ -139,69 +130,72 @@ body {
 </style>
 </head>
 <body>
-    <div class="card-container">
-        <header class="card-header">
-            <h1>${p.packageName}</h1>
-            <p>상품 번호: #${p.packageNo}</p>
-        </header>
-
-        <div class="card-image-section">
-            <img src="../${p.packImgPath}" class="card-image">
-        </div>
-
-        <div class="card-details">
-            <div class="detail-row">
-                <span class="label">가격</span>
-                <span class="value">${p.packagePrice}원</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">판매 기간</span>
-                <span class="value">${p.availableStartDate} ~ ${p.availableEndDate}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">상품 구성</span>
-                <span class="value">${p.productComposit}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">패키지 세트</span>
-                <span class="value">
-                    <c:choose>
-                        <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
-                        <c:when test="${p.packageSet} == 2}">리프트+락커</c:when>
-                        <c:otherwise>객실+리프트+락커</c:otherwise>
-                    </c:choose>
-                </span>
-            </div>
-            <div class="detail-row">
-                <span class="label">상태</span>
-                <span class="value">
-                    <c:choose>
-                        <c:when test="${p.packageStatus == 'Y'}">판매중</c:when>
-                        <c:otherwise>판매종료</c:otherwise>
-                    </c:choose>
-                </span>
-            </div>
-        </div>
-
-        <footer class="card-footer">
-       		<a class="btn edit" onclick="packageFormSubmit(1);">수정</a>
-			<a class="btn delete" onclick="packageFormSubmit(2);">삭제</a>
-			<a href="/admin/list.pk" class="btn back">목록</a>
-        </footer>
-        
-        <form id="packageForm" action="" method="post">
-        	<input type="hidden" name="pno" value="${p.packageNo}">
-        	<input type="hidden" name="filePath" value="${p.packImgPath}">
-        </form>
-    </div>
-    <script>
-    	function packageFormSubmit(num) {
-    		if(num == 1) {
-    			$("#packageForm").attr("action", "../updateForm.pk").submit();
-    		} else {
-    			$("#packageForm").attr("action", "../deletePackage.pk").submit();
-    		}
-    	}
-    </script>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	    <div class="card-container">
+	        <header class="card-header">
+	            <h1>${p.packageName}</h1>
+	            <p>상품 번호: #${p.packageNo}</p>
+	        </header>
+	
+	        <div class="card-image-section">
+	            <img src="../${p.packImgPath}" class="card-image">
+	        </div>
+	
+	        <div class="card-details">
+	            <div class="detail-row">
+	                <span class="label">가격</span>
+	                <span class="value">${p.packagePrice}원</span>
+	            </div>
+	            <div class="detail-row">
+	                <span class="label">판매 기간</span>
+	                <span class="value">${p.availableStartDate} ~ ${p.availableEndDate}</span>
+	            </div>
+	            <div class="detail-row">
+	                <span class="label">상품 구성</span>
+	                <span class="value">${p.productComposit}</span>
+	            </div>
+	            <div class="detail-row">
+	                <span class="label">패키지 세트</span>
+	                <span class="value">
+	                    <c:choose>
+	                        <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
+	                        <c:when test="${p.packageSet} == 2}">리프트+락커</c:when>
+	                        <c:otherwise>객실+리프트+락커</c:otherwise>
+	                    </c:choose>
+	                </span>
+	            </div>
+	            <div class="detail-row">
+	                <span class="label">상태</span>
+	                <span class="value">
+	                    <c:choose>
+	                        <c:when test="${p.packageStatus == 'Y'}">판매중</c:when>
+	                        <c:otherwise>판매종료</c:otherwise>
+	                    </c:choose>
+	                </span>
+	            </div>
+	        </div>
+	
+	        <footer class="card-footer">
+	       		<a class="btn edit" onclick="packageFormSubmit(1);">수정</a>
+				<a class="btn delete" onclick="packageFormSubmit(2);">삭제</a>
+				<a href="/admin/list.pk" class="btn back">목록</a>
+	        </footer>
+	        
+	        <form id="packageForm" action="" method="post">
+	        	<input type="hidden" name="pno" value="${p.packageNo}">
+	        	<input type="hidden" name="filePath" value="${p.packImgPath}">
+	        </form>
+	    </div>
+	 </div>   
+	    <script>
+	    	function packageFormSubmit(num) {
+	    		if(num == 1) {
+	    			$("#packageForm").attr("action", "../updateForm.pk").submit();
+	    		} else {
+	    			$("#packageForm").attr("action", "../deletePackage.pk").submit();
+	    		}
+	    	}
+	    </script>
 </body>
 </html>
