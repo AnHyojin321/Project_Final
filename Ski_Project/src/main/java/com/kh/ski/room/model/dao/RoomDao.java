@@ -20,12 +20,8 @@ public class RoomDao {
 	
 	
 	// Map을 사용하여 파라미터 전달
-	public ArrayList<Room> selectAvailableRoom(SqlSessionTemplate sqlSession, RoomPay rp, String roomType) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("rp", rp);
-	    params.put("roomType", roomType);
-
-	    return (ArrayList) sqlSession.selectList("roomMapper.selectAvailableRoom", params);
+	public ArrayList<Room> selectAvailableRoom(SqlSessionTemplate sqlSession, RoomPay rp) {
+	    return (ArrayList) sqlSession.selectList("roomMapper.selectAvailableRoom", rp);
 	}
 	
 	// 선택된 객실의 수용인원 조회

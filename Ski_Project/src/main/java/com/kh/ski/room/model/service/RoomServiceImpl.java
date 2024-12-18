@@ -30,8 +30,8 @@ public class RoomServiceImpl implements RoomService {
 	
 	  
 	@Override
-	public ArrayList<Room> selectAvailableRoom(RoomPay rp, String roomType) {
-		return roomDao.selectAvailableRoom(sqlSession, rp, roomType);
+	public ArrayList<Room> selectAvailableRoom(RoomPay rp) {
+		return roomDao.selectAvailableRoom(sqlSession, rp);
 	}
 	
 	// 예약하고자하는 객실의 수용인원 조회

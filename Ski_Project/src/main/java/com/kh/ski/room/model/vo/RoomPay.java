@@ -17,6 +17,7 @@ public class RoomPay {
 	// 객식 조회 시 수용인원 필드 추가
 	private int roomNo;
 	private int memberNo;
+	private String roomType;
 	
 	public RoomPay() {}
 
@@ -37,6 +38,15 @@ public class RoomPay {
 		this.rRefundate = rRefundate;
 		this.roomNo = roomNo;
 		this.memberNo = memberNo;
+	}
+	
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
 	public int getRoomReservNo() {
@@ -148,8 +158,10 @@ public class RoomPay {
 		return "RoomPay [roomReservNo=" + roomReservNo + ", totalPrice=" + totalPrice + ", checkInDate=" + checkInDate
 				+ ", checkOutDate=" + checkOutDate + ", reservDate=" + reservDate + ", request=" + request + ", tid="
 				+ tid + ", payStatus=" + payStatus + ", packRoomUsed=" + packRoomUsed + ", rRefundStatus="
-				+ rRefundStatus + ", rRefundate=" + rRefundate + ", roomNo=" + roomNo + ", memberNo=" + memberNo + "]";
+				+ rRefundStatus + ", rRefundate=" + rRefundate + ", roomNo=" + roomNo + ", memberNo=" + memberNo
+				+ ", roomType=" + roomType + "]";
 	}
+
 	
 	
 	

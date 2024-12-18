@@ -24,23 +24,25 @@
 
 	
 	
-	  <!-- 사용자가 선택한 체크인/체크아웃 날짜에 예약 가능한 객실 조회 -->
-		<select id="selectAvailableRoom" parameterType="roompay" resultMap="roomResultSet">
-		   SELECT R.ROOM_NO, R.ROOM_NAME, R.ROOM_TYPE, R.ROOM_PRICE, R.CAPACITY, R.STATUS
-			FROM ROOM R
-			WHERE R.ROOM_TYPE = #{roomType} -- 객실 타입 필터링
-			AND NOT EXISTS (
-			    SELECT 1
-			    FROM ROOM_RESERV RP
-			    WHERE RP.ROOM_NO = R.ROOM_NO
-			      AND RP.PAY_STATUS = 'Y' -- 결제 완료 상태
-			      AND (
-			          #{checkInDate} &lt; TO_CHAR(RP.CHECK_OUT_DATE, 'YYYY-MM-DD') 
-			          AND #{checkOutDate} &gt; TO_CHAR(RP.CHECK_IN_DATE, 'YYYY-MM-DD') 
-			      )
-			)
-			ORDER BY R.ROOM_NO ASC
-		</select>
+<!-- 사용자가 선택한 체크인/체크아웃 날짜에 예약 가능한 객실 조회 -->
+<select id="selectAvailableRoom" parameterType="roompay" resultMap="roomResultSet">
+	SELECT R.ROOM_NO, R.ROOM_NAME, R.ROOM_TYPE, R.ROOM_PRICE, R.CAPACITY, R.STATUS
+	FROM ROOM R
+	WHERE R.ROOM_TYPE = #{roomType} 
+	AND NOT EXISTS (
+	    SELECT 1
+	    FROM ROOM_RESERV RP
+	    WHERE RP.ROOM_NO = R.ROOM_NO
+	      AND RP.PAY_STATUS = 'Y' 
+	      AND (
+	          TO_DATE(#{checkInDate}, 'YYYY-MM-DD') &lt; RP.CHECK_OUT_DATE
+	          AND TO_DATE(#{checkOutDate}, 'YYYY-MM-DD') &gt; RP.CHECK_IN_DATE
+	      )
+	)
+	ORDER BY R.ROOM_NO ASC
+</select>
+
+
 		
 	<!-- 사용자가 선택한 객실의 수용인원 조회 -->
 	<select id="selectRoomDetails" parameterType="_int" resultMap="roomResultSet">

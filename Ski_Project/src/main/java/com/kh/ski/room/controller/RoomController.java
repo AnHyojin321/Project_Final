@@ -186,15 +186,18 @@ public class RoomController {
 	// 날짜별 이용가능한 객실 조회
 	@ResponseBody
 	@PostMapping(value = "searchRoom.ro", produces = "application/json; charset=UTF-8")
-	public ArrayList<Room> selectAvailableRoom(RoomPay rp, String roomType) {
+	public ArrayList<Room> selectAvailableRoom(RoomPay rp) {
 	    System.out.println("호출되나???????");
 	    System.out.println("------------------------");
 	    System.out.println("체크인 날짜: " + rp.getCheckInDate());
 	    System.out.println("체크아웃 날짜: " + rp.getCheckOutDate());
-	    System.out.println("객실 타입 : " + roomType);
+	    System.out.println("객실 타입 : " + rp.getRoomType());
 	    
-	     ArrayList<Room> list = roomService.selectAvailableRoom(rp, roomType);
-	    System.out.println("조회해온 객실 : " + list);
+	     ArrayList<Room> list = roomService.selectAvailableRoom(rp);
+	    
+	     System.out.println("조회해온 객실 : " + list);
+	     
+	    
 	     return list;
 	}
 	

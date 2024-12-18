@@ -12,7 +12,7 @@ public interface RoomService {
 	
 	
 	// 날짜별 이용가능한 객실 조회
-	 ArrayList<Room> selectAvailableRoom(RoomPay rp, String roomType);
+	 ArrayList<Room> selectAvailableRoom(RoomPay rp);
 	 
 	 // 선택한 객실의 정보 조회
 	 Room selectRoomDetails(int roomNo);
