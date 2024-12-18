@@ -1,9 +1,9 @@
-package com.kh.ski.lostitem.model.service;
+package com.kh.admin.lostitem.model.service;
 
 import java.util.List;
 import java.util.Map;
 
-import com.kh.ski.lostitem.model.vo.LostItem;
+import com.kh.admin.lostitem.model.vo.LostItem;
 
 public interface LostItemService {
 

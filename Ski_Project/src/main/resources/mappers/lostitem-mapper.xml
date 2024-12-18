@@ -3,6 +3,80 @@
 <mapper namespace="lostItem">
 
 
+		
+	<resultMap id="lostItemResultMap" type="lostItem">
+    <id property="lostNo" column="LOST_NO" />
+    <result property="lostTitle" column="LOST_TITLE" />
+    <result property="lostLocation" column="LOST_LOCATION" />
+    <result property="lostContent" column="LOST_CONTENT" />
+    <result property="count" column="COUNT" />
+    <result property="createDate" column="CREATE_DATE" />
+    <result property="lostItemStatus" column="LOST_ITEM_STATUS" />
+	</resultMap>
+	
+		
+   <select id="selectListCount" resultType="int">
+        SELECT COUNT(*)
+        FROM LOST_ITEM
+        WHERE LOST_STATUS = 'Y'
+    </select>
+
+ <select id="selectLostListPaging" parameterType="map" resultMap="lostItemResultMap">
+    SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
+    FROM (
+        SELECT ROWNUM AS RNUM, A.*
+        FROM (
+            SELECT *
+            FROM LOST_ITEM
+            WHERE LOST_STATUS = 'Y'
+            ORDER BY CREATE_DATE DESC
+        ) A
+        WHERE ROWNUM &lt;= #{endRow}
+    )
+    WHERE RNUM &gt;= #{startRow}
+</select>
+
+    <!-- 분실물 등록 -->
+    <insert id="insertLostItem" parameterType="lostItem">
+             INSERT INTO LOST_ITEM (
+            LOST_NO,           
+            LOST_TITLE,
+            LOST_LOCATION,
+            LOST_CONTENT,
+            COUNT,
+            CREATE_DATE,
+            LOST_ITEM_STATUS,
+            LOST_STATUS
+        )
+        VALUES (
+            SEQ_LOST_NO.NEXTVAL,	
+            #{lostTitle},
+            #{lostLocation},
+            #{lostContent},
+            0,                  -- 초기 조회수
+            SYSDATE,            -- 현재 날짜
+            'Y',                -- 처리 여부
+            'Y'                 -- 삭제 여부
+        )
+    </insert>
+
+<select id="selectLostItemDetail" parameterType="int" resultMap="lostItemResultMap">
+    SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
+    FROM LOST_ITEM
+    WHERE LOST_NO = #{lostNo}
+</select>
+
+<update id="increaseViewCount" parameterType="int">
+    UPDATE LOST_ITEM
+    SET COUNT = COUNT + 1
+    WHERE LOST_NO = #{lostNo}
+</update>
+
+
+<delete id="deleteLostItem" parameterType="int">
+    DELETE FROM LOST_ITEM
+    WHERE LOST_NO = #{lostNo}
+</delete>
 
 
 </mapper>

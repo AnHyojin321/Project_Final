@@ -26,7 +26,9 @@
 		<typeAlias type="com.kh.admin.room.model.vo.RoomImg" alias="roomImg"/>
 		<typeAlias type="com.kh.admin.notice.model.vo.Notice" alias="notice" />
 		<typeAlias type="com.kh.admin.locker.model.vo.Locker" alias="locker" />
-		<typeAlias type="com.kh.admin.lostitem.model.vo.LostItem" alias="lostitem" />
+		<typeAlias type="com.kh.admin.lostitem.model.vo.LostItem" alias="lostItem" />
+				<typeAlias type="com.kh.admin.lostitem.model.vo.PageInfo" alias="PageInfo" />
+		
 		<typeAlias type="com.kh.admin.pack.model.vo.Pack" alias="package" />
 		<typeAlias type="com.kh.admin.management.model.vo.Management" alias="management" />
 		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />

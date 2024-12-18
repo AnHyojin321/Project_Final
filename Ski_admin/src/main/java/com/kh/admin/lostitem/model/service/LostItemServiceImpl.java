@@ -1,4 +1,4 @@
-package com.kh.ski.lostitem.model.service;
+package com.kh.admin.lostitem.model.service;
 
 
 import java.util.List;
@@ -8,8 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.ski.lostitem.model.dao.LostItemDao;
-import com.kh.ski.lostitem.model.vo.LostItem;
+import com.kh.admin.lostitem.model.dao.LostItemDao;
+import com.kh.admin.lostitem.model.vo.LostItem;
 
 @Service
 public class LostItemServiceImpl implements LostItemService {

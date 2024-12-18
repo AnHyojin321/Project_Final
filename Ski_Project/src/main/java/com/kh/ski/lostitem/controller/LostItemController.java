@@ -1,4 +1,4 @@
-package com.kh.admin.lostitem.controller;
+package com.kh.ski.lostitem.controller;
 
 
 import java.io.File;
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.admin.common.template.Pagination;
-import com.kh.admin.lostitem.model.service.LostItemService;
-import com.kh.admin.lostitem.model.vo.LostItem;
-import com.kh.admin.lostitem.model.vo.PageInfo;
+import com.kh.ski.common.template.Pagination1;
+import com.kh.ski.lostitem.model.service.LostItemService;
+import com.kh.ski.lostitem.model.vo.LostItem;
+import com.kh.ski.lostitem.model.vo.PageInfo;
 
 @Controller
 public class LostItemController {
@@ -71,7 +71,7 @@ public class LostItemController {
         // 2. 페이징 정보 계산
         int pageLimit = 5;   // 하단 페이지 번호 최대 개수
         int boardLimit = 10; // 한 페이지에 표시할 게시글 수
-        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+        PageInfo pi = Pagination1.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
         // 3. 페이징에 맞는 게시글 목록 조회
         Map<String, Integer> paramMap = new HashMap<>();
