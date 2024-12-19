@@ -5,446 +5,55 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-    }
-
-
-	.hero {
-	    position: relative;
-	    background: url('${pageContext.request.contextPath}/resources/images/locker/22.png') no-repeat center center;
-    	background-size: 100% 100%; /* 가로는 100%, 세로는 비율에 맞게 자동 조정 */
-	    height: 500px;
-	    display: flex;
-	    align-items: center;
-	    justify-content: center;
-	}
-
-
-  .overlay {
-    text-align: center;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-  }
-
-  .hero .overlay h1 {
-      font-size: 36px;
-      margin: 0;
-    }
-
-    .hero .overlay p {
-      font-size: 18px;
-      margin: 10px 0;
-    }
-
-  .search-box {
-    margin-top: 100px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    text-align: left;
-  }
-
-  .search-box form {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-group label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #333;
-  }
-
-  .input-group input,
-  .input-group select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-
-  .search-btn {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .search-btn:hover {
-    background-color: #555;
-  }
-
-    .content {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .content h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .content p {
-      color: #555;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-    
-    a {
-	    text-decoration: none; /* 밑줄 제거 */
-	    color: black; /* 글씨 색상을 검정색으로 */
-	}
-
-    .rooms {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .room {
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .room:hover {
-      transform: scale(1.05);
-    }
-
-    .room img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-    }
-
-    .room-details {
-      padding: 15px;
-    }
-
-    .room-details h3 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .room-details p {
-      color: #777;
-      font-size: 14px;
-      margin: 10px 0;
-    }
-
-    .room-details .btn {
-      display: inline-block;
-      background: #c9a53b;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    /*-------------------*/
-
-	.garden {
-	  display: flex;
-	  align-items: center;
-	  padding: 40px 20px;
-	  background-color: #f5f5f5;
-	}
-	
-	.garden-content {
-	  display: flex;
-	  gap: 20px;
-	  max-width: 1200px;
-	  margin: 0 auto;
-	  padding-left: 20px; /* 왼쪽 간격을 넓힘 */
-	}
-	
-	.garden-img {
-	  width: 50%;
-	  border-radius: 8px;
-	}
-	
-	.garden-text {
-	  padding-left : 20px;
-	  width: 50%;
-	  display: flex;
-  	  flex-direction: column;
-  	  justify-content: center; /* 텍스트 수직 중앙 정렬 */
-	}
-	
-	.garden-text h2 {
-	  font-size: 28px;
-	  margin-bottom: 10px;
-	}
-	
-	.garden-text p {
-	  
-	  font-size: 16px;
-	  color: #555;
-	  line-height: 1.8; /* 문장 간격을 넓힘 */
-	  letter-spacing: 0.5px; /* 문자 간격을 넓힘 */
-	}
-
-	.garden-text a {
-	    text-align : right;
-		padding-bottom : 10px;
-	}
-
-
-	
-	  .facilities {
-	    padding: 40px 20px;
-	    text-align: center;
-	  }
-	
-	  .facilities h2 {
-	    font-size: 28px;
-	    margin-bottom: 20px;
-	  }
-	
-  /* 슬라이드 편의시설 */
-  .carousel {
-    position: relative;
-    overflow: hidden;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .carousel-item {
-    min-width: 33.33%; /* 한 번에 3개씩 보여지도록 */
-    text-align: center;
-    padding: 10px;
-  }
-
-  .carousel-item img {
-    width: 100%;
-    height: 350px;
-    border-radius: 8px;
-  }
-
-  .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  .prev-btn {
-    left: 10px;
-  }
-
-  .next-btn {
-    right: 10px;
-  }
-	  .prev-btn {
-	    left: 10px;
-	  }
-	
-	  .next-btn {
-	    right: 10px;
-	  }
-	  
-	     .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 모달 내용 */
-        .modal-content {
-            background-color: #fff;
-            overflow: hidden;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-        }
-
-        /* 버튼 스타일 */
-        .button-section button {
-            background-color: #2a2a72;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .button-section button:hover {
-            background-color: white;
-            color: #2a2a72;
-        }
-
-        /* 성공 및 실패 모달 메시지 */
-        .success-message {
-            color: green;
-            font-size: 1.2rem;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 1.2rem;
-        }
-        
-          /* 이미지 섹션 */
-        .image-section img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        /* 화면 하단에 고정된 버튼 */
-.fixed-reserve-button {
-    position: fixed;
-    bottom: 0; /* 화면 하단에 고정 */
-    left: 0;
-    width: 100%; /* 전체 화면 너비 */
-    background-color: white; /* 버튼 배경색 */
-    color: #2a2a72;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
-}
-
-.fixed-reserve-button:hover {
-    background-color: #2a2a72; /* 호버 시 색상 변경 */
-    color:white;
-}
-        .room-info-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 두 개의 컬럼 */
-    gap: 20px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1200px;
-    border-radius: 10px;
-}
-
-.room-info-item {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-}
-
-.room-info-item strong {
-    font-size: 16px;
-    color: #2a2a72;
-    margin-bottom: 5px;
-}
-
-.room-info-item p {
-    font-size: 14px;
-    color: #555;
-    margin: 0;
-}
-        .info-container {
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1200px;
-    border-radius: 10px;
-}
-
-.info-container h3 {
-    font-size: 24px;
-    color: #2a2a72;
-    margin-bottom: 20px;
-}
-
-.info-section h4 {
-    font-size: 18px;
-    color: #333;
-    margin-top: 15px;
-}
-
-.info-section p {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-    margin: 5px 0;
-}
-        
-        .locker-gallery {
-    max-width: 1200px;
-    margin: 40px auto;
-    text-align: center;
-}
-
-.locker-gallery h3 {
-    font-size: 24px;
-    color: #2a2a72;
-    margin-bottom: 20px;
-}
-
-.locker-images {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 두 개의 이미지가 가로로 정렬 */
-    gap: 20px;
-}
-
-.locker-item {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-}
-
-.locker-item:hover {
-    transform: scale(1.05);
-}
-
-.locker-item img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    display: block;
-}
-        
-  </style>
+<link rel="stylesheet" href="resources/css/locker/locker.css">
+<script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+<script>
+function serverAuth() {
+    // 시작 날짜, 종료 날짜, 총 금액, 락커 번호, 회원 번호 가져오기
+    const lockerStartDate = document.getElementById("lockerStartDate").value;
+    const lockerEndDate = document.getElementById("lockerEndDate").value;
+    const lockerTotalPrice = document.getElementById("lockerTotalPrice").value;
+    const lockerNo = document.getElementById("lockerNo").value;
+    const memberNo = document.getElementById("memberNo").value;
+    console.log(lockerStartDate, lockerEndDate, lockerTotalPrice, lockerNo, memberNo);
+
+    // AJAX 요청
+    $.ajax({
+        url: 'storeSessionData.lo',
+        type: 'POST',
+        data: {
+            lockerStartDate: lockerStartDate,
+            lockerEndDate: lockerEndDate,
+            lockerTotalPrice: lockerTotalPrice,
+            lockerNo: lockerNo,
+            memberNo: memberNo
+        },
+        success: function(data) {
+            if (data.status === 'success') {
+                // 세션 저장 성공 후 결제 요청 실행
+                AUTHNICE.requestPay({
+                    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
+                    method: 'card',
+                    orderId: '02e16b8c-779d-497f-b54d-07521212175d',
+                    amount: lockerTotalPrice,
+                    goodsName: "설레눈리조트 락커",
+                    returnUrl: "http://localhost:8090/ski/payResult.lo",
+                    fnError: function(result) {
+                        alert('결제 실패: ' + result.errorMsg);
+                    }
+                });
+            } else {
+                alert('세션 데이터 저장 실패: ' + data.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX 오류: ", error);
+        }
+    });
+}
+</script>
 <body>
 
 	<jsp:include page="../common/header.jsp" />
@@ -462,25 +71,25 @@
             </div>
         
             <h2>락커 예약</h2>
-            <!-- 예약 폼 -->
-            <form id="reservationForm">
+            <!-- 예약 폼태그 잠시 보류 -->
+          <!-- <form id="reservationForm">    --> 
                 <p><strong>시작 날짜:</strong> 
-                    <input type="date" id="startDate" name="startDate" required>
+                    <input type="date" id="lockerStartDate" name="lockerStartDate" required>
                 </p>
                 <p><strong>종료 날짜:</strong> 
-                    <input type="date" id="endDate" name="endDate" required>
+                    <input type="date" id="lockerEndDate" name="lockerEndDate" required>
                 </p>
                 <p><strong>하루 가격:</strong> 5,000 원</p>
                 <p><strong>이용 일수:</strong> <span id="daysCount">0</span> 일</p>
                 <p><strong>총 금액:</strong> <span id="totalPrice">0</span> 원</p>
-                <input type="hidden" name="totalPrice" id="hiddenTotalPrice" value="0">
-                <input type="hidden" name="lockerNo" value="1"> <!-- 예시 락커 번호 -->
-				<input type="hidden" name="memberNo" value="${loginMember.memberNo}">
+                <input type="hidden" name="lockerTotalPrice" id="lockerTotalPrice" value="0">
+                <input type="hidden" name="lockerNo" id="lockerNo" value="1"> <!-- 예시 락커 번호 -->
+				<input type="hidden" name="memberNo" id="memberNo" value="${sessionScope.loginMember.memberNo}">
 
                 <div class="button-section">
-                    <button type="button" id="reserveBtn">예약하기</button>
+                    <button type="button" id="reserveBtn" onclick="serverAuth();">결제하기</button>
                 </div>
-            </form>
+           <!--  </form>  --> 
         </div>
     </div>
 
@@ -502,41 +111,35 @@
       총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
     </p>
 <button id="openModalBtn" class="fixed-reserve-button">락커 예약</button>
-      <p>
+
+<script>
+var isLoggedIn = ${sessionScope.loginMember != null};
+
+document.addEventListener("DOMContentLoaded", function () {
+    const openModalBtn = document.getElementById("openModalBtn");
+    const lockerModal = document.getElementById("lockerModal");
+
+    openModalBtn.addEventListener("click", function () {
+        if (isLoggedIn) {
+            lockerModal.style.display = "flex"; // 로그인 상태일 때 모달 열기
+        } else {
+            alert("로그인이 필요한 서비스입니다.");
+            // 로그인 페이지로 이동
+            window.location.href = "login.me";
+        }
+    });
+});
+
+
+</script>
+
+	<div style="height:600;">
+     <p>
       설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
       총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>
-      <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>  <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>
+    </p> 
+    </div>
+     
     <div class="locker-gallery">
     <h3>락커 이미지</h3>
     <div class="locker-images">
@@ -618,17 +221,18 @@
 <jsp:include page="../common/footer.jsp" />
 </body>
  <script>
+ 
         document.addEventListener("DOMContentLoaded", function () {
             const openModalBtn = document.getElementById("openModalBtn");
             const lockerModal = document.getElementById("lockerModal");
             const resultModal = document.getElementById("resultModal");
             const resultTitle = document.getElementById("resultTitle");
             const resultMessage = document.getElementById("resultMessage");
-            const startDateInput = document.getElementById("startDate");
-            const endDateInput = document.getElementById("endDate");
+            const startDateInput = document.getElementById("lockerStartDate");
+            const endDateInput = document.getElementById("lockerEndDate");
             const daysCount = document.getElementById("daysCount");
             const totalPrice = document.getElementById("totalPrice");
-            const hiddenTotalPrice = document.getElementById("hiddenTotalPrice");
+            const lockerTotalPrice = document.getElementById("lockerTotalPrice");
 
             const pricePerDay = 5000; // 하루 가격
 
@@ -637,8 +241,17 @@
 
             // 날짜 변경 시 가격 계산
             function calculatePrice() {
-                const startDate = new Date(startDateInput.value);
+            	const startDate = new Date(startDateInput.value);
                 const endDate = new Date(endDateInput.value);
+                
+                // 날짜를 YYYY-MM-DD 형식으로 변환 후 출력
+                if (startDateInput.value) {
+                    console.log("선택된 시작 날짜: " + formatDate(startDate));
+                }
+                if (endDateInput.value) {
+                    console.log("선택된 종료 날짜: " + formatDate(endDate));
+                }
+
 
                 if (startDate && endDate) {
                     if (startDate > endDate) {
@@ -650,44 +263,22 @@
                     daysCount.textContent = dayDiff;
                     const total = dayDiff * pricePerDay;
                     totalPrice.textContent = total.toLocaleString();
-                    hiddenTotalPrice.value = total;
+                    lockerTotalPrice.value = total;
                 }
+            }
+            
+         	// 날짜 포맷 변환 함수
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+                const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 변환
+                return year + "-" + month + "-" + day;
             }
 
             startDateInput.addEventListener("change", calculatePrice);
             endDateInput.addEventListener("change", calculatePrice);
-
-            // 예약 처리 (AJAX)
-            document.getElementById("reserveBtn").addEventListener("click", function () {
-                const formData = new FormData(document.getElementById("reservationForm"));
-                fetch("${pageContext.request.contextPath}/lockerReserve", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    lockerModal.style.display = "none"; // 기존 예약 모달 닫기
-                    resultModal.style.display = "flex"; // 결과 모달 열기
-
-                    if (data.success) {
-                        resultTitle.textContent = "예약 성공!";
-                        resultMessage.textContent = "락커 예약이 성공적으로 완료되었습니다.";
-                        resultTitle.className = "success-message";
-                    } else {
-                        resultTitle.textContent = "예약 실패";
-                        resultMessage.textContent = "예약 처리 중 오류가 발생했습니다. 다시 시도해주세요.";
-                        resultTitle.className = "error-message";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    lockerModal.style.display = "none";
-                    resultModal.style.display = "flex";
-                    resultTitle.textContent = "오류 발생";
-                    resultMessage.textContent = "서버와의 통신 중 문제가 발생했습니다.";
-                    resultTitle.className = "error-message";
-                });
-            });
+			
+           
 
             // 결과 모달 닫기
             window.closeResultModal = function () {

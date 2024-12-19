@@ -22,16 +22,21 @@
 </select>
 
 
-<insert id="insertLockerReservation" parameterType="com.kh.ski.locker.model.vo.LockerReservation">
-    INSERT INTO LOCKER_RESERV (
-        LOCKER_RESERV_NO, LOCKER_START_DATE, LOCKER_END_DATE, 
-        LOCKER_TOTAL_PRICE, LOCKER_PAY_CODE, LOCKER_PAY_TOKEN, 
-        MEMBER_NO, LOCKER_NO
-    ) VALUES (
-        SEQ_LOCKER_RESERV_NO.NEXTVAL, #{lockerStartDate}, #{lockerEndDate}, 
-        #{lockerTotalPrice}, #{lockerPayCode}, #{lockerPayToken}, 
-        #{memberNo}, #{lockerNo}
-    )
+<insert id="insertPayLocker" parameterType="lockerpay">
+    INSERT INTO LOCKER_RESERV (LOCKER_RESERV_NO
+                             , LOCKER_START_DATE
+                             , LOCKER_END_DATE
+                             , LOCKER_TOTAL_PRICE
+                             , TID
+                             , MEMBER_NO
+                             , LOCKER_NO)
+	VALUES(SEQ_LOCKER_RESERV_NO.NEXTVAL
+	               , #{lockerStartDate}
+	               , #{lockerEndDate}
+	               , #{lockerTotalPrice}
+	               , #{tid}
+	               , #{memberNo}
+	               , #{lockerNo})
 </insert>
 
 

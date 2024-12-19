@@ -17,7 +17,7 @@
 
 	.hero {
 	    position: relative;
-	    background: url('${pageContext.request.contextPath}/resources/images/room/mainResort.jpg') no-repeat center center;
+	    background: url('${pageContext.request.contextPath}/resources/images/room/roomMain.jpg') no-repeat center center;
 	    background-size: cover;
 	    height: 500px;
 	    display: flex;
@@ -25,72 +25,6 @@
 	    justify-content: center;
 	}
 
-
-  .overlay {
-    text-align: center;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-  }
-
-  .hero .overlay h1 {
-      font-size: 36px;
-      margin: 0;
-    }
-
-    .hero .overlay p {
-      font-size: 18px;
-      margin: 10px 0;
-    }
-
-  .search-box {
-    margin-top: 100px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    text-align: left;
-  }
-
-  .search-box form {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-group label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #333;
-  }
-
-  .input-group input,
-  .input-group select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-
-  .search-btn {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .search-btn:hover {
-    background-color: #555;
-  }
 
     .content {
       text-align: center;
@@ -280,34 +214,7 @@
 
 	<jsp:include page="../common/header.jsp" />
 
-  <div class="hero">
-    <div class="overlay">
-      <h1>seolleneun Resort</h1>
-      <p>이국적인 제주의 자연과 여유로운 낭만의 만남</p>
-      <div class="search-box">
-        <form>
-          <div class="input-group">
-            <label for="checkin">체크인</label>
-            <input type="date" id="checkin" name="checkin">
-          </div>
-          <div class="input-group">
-            <label for="checkout">체크아웃</label>
-            <input type="date" id="checkout" name="checkout">
-          </div>
-          <div class="input-group">
-            <label for="guests">인원</label>
-            <select id="guests" name="guests">
-              <option value="2">2명</option>
-              <option value="4">4명</option>
-              <option value="6">6명</option>
-            </select>
-          </div>
-          <button type="submit" class="search-btn">객실 조회</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
+  <div class="hero"></div>
 
 
   <div class="content">

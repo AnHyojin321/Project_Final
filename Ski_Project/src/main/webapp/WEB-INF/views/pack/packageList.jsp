@@ -289,6 +289,7 @@ header1 p {
  
 
     </script>
+<jsp:include page="../common/chat.jsp" />    
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

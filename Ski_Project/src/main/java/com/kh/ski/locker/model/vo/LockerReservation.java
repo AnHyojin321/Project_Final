@@ -4,36 +4,91 @@ import java.util.Date;
 
 public class LockerReservation {
     private int lockerReservNo;
-    private Date lockerStartDate;
-    private Date lockerEndDate;
+    private String lockerStartDate;
+    private String lockerEndDate;
     private int lockerTotalPrice;
-    private String lockerPayCode;
-    private String lockerPayToken;
+    private String tid;
     private int memberNo;
     private int lockerNo;
 
-    // Getters and Setters
-    public int getLockerReservNo() { return lockerReservNo; }
-    public void setLockerReservNo(int lockerReservNo) { this.lockerReservNo = lockerReservNo; }
+    public LockerReservation() {}
 
-    public Date getLockerStartDate() { return lockerStartDate; }
-    public void setLockerStartDate(Date lockerStartDate) { this.lockerStartDate = lockerStartDate; }
+	public LockerReservation(int lockerReservNo, String lockerStartDate, String lockerEndDate, int lockerTotalPrice,
+			String tid, int memberNo, int lockerNo) {
+		super();
+		this.lockerReservNo = lockerReservNo;
+		this.lockerStartDate = lockerStartDate;
+		this.lockerEndDate = lockerEndDate;
+		this.lockerTotalPrice = lockerTotalPrice;
+		this.tid = tid;
+		this.memberNo = memberNo;
+		this.lockerNo = lockerNo;
+	}
 
-    public Date getLockerEndDate() { return lockerEndDate; }
-    public void setLockerEndDate(Date lockerEndDate) { this.lockerEndDate = lockerEndDate; }
+	public int getLockerReservNo() {
+		return lockerReservNo;
+	}
 
-    public int getLockerTotalPrice() { return lockerTotalPrice; }
-    public void setLockerTotalPrice(int lockerTotalPrice) { this.lockerTotalPrice = lockerTotalPrice; }
+	public void setLockerReservNo(int lockerReservNo) {
+		this.lockerReservNo = lockerReservNo;
+	}
 
-    public String getLockerPayCode() { return lockerPayCode; }
-    public void setLockerPayCode(String lockerPayCode) { this.lockerPayCode = lockerPayCode; }
+	public String getLockerStartDate() {
+		return lockerStartDate;
+	}
 
-    public String getLockerPayToken() { return lockerPayToken; }
-    public void setLockerPayToken(String lockerPayToken) { this.lockerPayToken = lockerPayToken; }
+	public void setLockerStartDate(String lockerStartDate) {
+		this.lockerStartDate = lockerStartDate;
+	}
 
-    public int getMemberNo() { return memberNo; }
-    public void setMemberNo(int memberNo) { this.memberNo = memberNo; }
+	public String getLockerEndDate() {
+		return lockerEndDate;
+	}
 
-    public int getLockerNo() { return lockerNo; }
-    public void setLockerNo(int lockerNo) { this.lockerNo = lockerNo; }
+	public void setLockerEndDate(String lockerEndDate) {
+		this.lockerEndDate = lockerEndDate;
+	}
+
+	public int getLockerTotalPrice() {
+		return lockerTotalPrice;
+	}
+
+	public void setLockerTotalPrice(int lockerTotalPrice) {
+		this.lockerTotalPrice = lockerTotalPrice;
+	}
+
+	public String getTid() {
+		return tid;
+	}
+
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public int getLockerNo() {
+		return lockerNo;
+	}
+
+	public void setLockerNo(int lockerNo) {
+		this.lockerNo = lockerNo;
+	}
+
+	@Override
+	public String toString() {
+		return "LockerReservation [lockerReservNo=" + lockerReservNo + ", lockerStartDate=" + lockerStartDate
+				+ ", lockerEndDate=" + lockerEndDate + ", lockerTotalPrice=" + lockerTotalPrice + ", tid=" + tid
+				+ ", memberNo=" + memberNo + ", lockerNo=" + lockerNo + "]";
+	}
+    
+    
+    
+    
 }

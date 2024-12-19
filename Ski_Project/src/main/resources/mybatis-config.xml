@@ -30,7 +30,7 @@
 		<typeAlias type="com.kh.ski.notice.model.vo.Notice" alias="notice" />
 		<typeAlias type="com.kh.ski.locker.model.vo.Locker" alias="locker" />
 		<typeAlias type="com.kh.ski.locker.model.vo.LockerReservation" alias="LockerReservation" />
-		<typeAlias type="com.kh.ski.locker.model.vo.LockerPay" alias="lockerpay" />
+		<typeAlias type="com.kh.ski.locker.model.vo.LockerReservation" alias="lockerpay" />
 		<typeAlias type="com.kh.ski.lostitem.model.vo.LostItem" alias="lostitem" />
 		<typeAlias type="com.kh.ski.pack.model.vo.Pack" alias="package" />
 		<typeAlias type="com.kh.ski.pack.model.vo.PackagePay" alias="packagepay" />
