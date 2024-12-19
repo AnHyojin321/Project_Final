@@ -117,6 +117,21 @@
             display: block;
             margin-bottom: 20px;
         }
+            .reservation-status.success {
+        background-color: #28a745; /* 녹색 */
+        color: white;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+
+    .reservation-status.pending {
+        background-color: #ffc107; /* 주황색 */
+        color: black;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
     </style>
 </head>
 <body>
@@ -167,19 +182,29 @@
                     <th>시작일</th>
                 </tr>
             </thead>
-            <tbody>
-                <c:forEach var="les" items="${requestScope.list}">
-                    <tr>
-                        <td class="resNo">${les.resNo}</td>
-                        <td><span class="reservation-status">예약완료</span></td>
-                        <td>${les.lessonTitle}</td>
-                        <td>${les.lessonType}</td>
-                        <td>${les.lessonTime}</td>
-                        <td>${les.lessonResDate}</td>
-                        <td>${les.lessonDate}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
+			<tbody>
+			    <c:forEach var="les" items="${requestScope.list}">
+			        <tr>
+			            <td class="resNo">${les.resNo}</td>
+			            <td>
+			                <c:choose>
+			                    <c:when test="${les.lessonStatus == 'Y'}">
+			                        <span class="reservation-status success">예약 성공</span>
+			                    </c:when>
+			                    <c:otherwise>
+			                        <span class="reservation-status pending">예약 대기중</span>
+			                    </c:otherwise>
+			                </c:choose>
+			            </td>
+			            <td>${les.lessonTitle}</td>
+			            <td>${les.lessonType}</td>
+			            <td>${les.lessonTime}</td>
+			            <td>${les.lessonResDate}</td>
+			            <td>${les.lessonDate}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
         </table>
 
         <!-- 페이지네이션 -->

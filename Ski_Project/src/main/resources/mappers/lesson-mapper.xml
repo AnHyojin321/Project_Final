@@ -23,24 +23,23 @@
 <select id="selectListCount" parameterType="string" resultType="_int">
     SELECT COUNT(*)
       FROM LESSON_RESERVATION
-     WHERE LESSON_STATUS = 'Y'
        <if test="keyword != null and keyword != ''">
-           AND LESSON_TITLE LIKE '%' || #{keyword} || '%'
+           WHERE LESSON_TITLE LIKE '%' || #{keyword} || '%'
        </if>
 </select>
 
 <select id="selectList" resultMap="lessonResultSet">
     SELECT RES_NO,
            RES_STATUS,
+           LESSON_STATUS,
            LESSON_TITLE,
            LESSON_TYPE,
            LESSON_TIME,
            LESSON_DATE,
            LESSON_RES_DATE
       FROM LESSON_RESERVATION
-     WHERE LESSON_STATUS = 'Y'
        <if test="keyword != null and keyword != ''">
-           AND LESSON_TITLE LIKE '%' || #{keyword} || '%'
+           WHERE LESSON_TITLE LIKE '%' || #{keyword} || '%'
        </if>
      ORDER BY RES_NO DESC
 </select>

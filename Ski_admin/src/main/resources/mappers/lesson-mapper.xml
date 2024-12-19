@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lesson">
 
+	<resultMap id="lessonResultSet" type="lesson">
+		<id column="RES_NO" property="resNo" />
+		<result column="LESSON_DATE" property="lessonDate" />
+		<result column="LESSON_TIME" property="lessonTime" />
+		<result column="LESSON_TYPE" property="lessonType" />
+		<result column="RES_STATUS" property="resStatus" />
+		<result column="LESSON_TITLE" property="lessonTitle" />
+		<result column="LESSON_RES_COUNT" property="lessonResCount" />
+		<result column="LESSON_RES_DATE" property="lessonResDate" />
+		<result column="LESSON_PHONE" property="lessonPhone" />
+		<result column="LR_REFUND_STATUS" property="lrRefundStatus" />
+		<result column="LR_REFUND_DATE" property="lrRefundDate" />
+		<result column="LESSON_ACTIVITE" property="lessonActivite" />
+		<result column="LESSON_RES_CONTENT" property="lessonResContent" />
+		<result column="LESSON_STATUS" property="lessonStatus" />
+	    <result column="MEMBER_NO" property="memberNo" /> 
+	</resultMap>
+	
+	
+	    <select id="selectAllLessons" resultMap="lessonResultSet">
+        SELECT 
+            RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, LESSON_STATUS, 
+            LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
+        FROM LESSON_RESERVATION
+    </select>
+
+    <!-- 예약 상태 변경 -->
+    <update id="updateLessonStatus">
+        UPDATE LESSON_RESERVATION
+        SET LESSON_STATUS = #{lessonStatus}
+        WHERE RES_NO = #{resNo}
+    </update>
 </mapper>
