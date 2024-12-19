@@ -9,25 +9,17 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.member.model.service.MemberService;
@@ -61,6 +53,7 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	
 //    @Value("${kakao.client-id}")
@@ -158,6 +151,7 @@ public class MemberController {
 //        }
 //    }	
 //    
+
     
     
 	@RequestMapping(value = "login.me", method = {RequestMethod.GET, RequestMethod.POST})
@@ -175,14 +169,14 @@ public class MemberController {
 	        // 1. 정규 비밀번호 확인
 	        if (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            System.out.println("로그인 정보 : " + loginMember);
+	            // System.out.println("로그인 정보 : " + loginMember);
 	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
 	        // 2. 임시 비밀번호 확인
 	        else if (loginMember.getTempPwd() != null 
 	                 && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getTempPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            System.out.println("임시 비밀번호로 로그인 성공 : " + loginMember);
+	            // System.out.println("임시 비밀번호로 로그인 성공 : " + loginMember);
 	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
 	        // 3. 비밀번호 불일치

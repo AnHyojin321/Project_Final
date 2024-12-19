@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f4f7f9;
+            background-color: white;
             margin: 0;
             padding: 0;
             color: #333;
@@ -42,7 +42,7 @@
             border-bottom: 1px solid #e0e0e0;
         }
         .reservation-table th {
-            background-color: #3498db;
+   			background-color: #2c3e50;
             color: #fff;
             font-weight: 500;
             text-transform: uppercase;
@@ -78,7 +78,7 @@
             border-radius: 4px;
         }
         .pagination a.active {
-            background-color: #3498db;
+    background-color: #2c3e50;
             color: white;
             border: 1px solid #3498db;
         }
@@ -101,7 +101,7 @@
         .search-bar button, 
         .reservation-btn {
             padding: 10px 20px;
-            background-color: #3498db;
+    background-color: #2c3e50;
             color: white;
             border: none;
             border-radius: 4px;
@@ -123,26 +123,36 @@
     <jsp:include page="../common/header.jsp"/>
 
     <div class="container">
-        <h1>강습 예약</h1>
-
-        <button onclick="location.href='addLessonForm.le'" class="reservation-btn">
-            <i class="fas fa-plus"></i> 강습 예약하기
-        </button>
+            <h1>🎿 스키 강습 예약</h1>
 
 <div class="search-bar">
-    <!-- 전체 목록 버튼: 왼쪽 -->
+    <!-- 강습 가격보기 버튼: 맨 위 -->
+    <button type="button" onclick="location.href='lessonPay.le'" style="display: flex; align-items: center;">
+        <i class="fas fa-tag" style="margin-right: 5px;"></i> 강습 요금보기
+    </button>
+
+    <!-- 강습 예약하기 버튼: 오른쪽 -->
+    <button onclick="location.href='addLessonForm.le'" class="reservation-btn">
+        <i class="fas fa-plus"></i> 강습 예약하기
+    </button>
+</div>
+
+<div class="search-bar">
+    <!-- 전체 목록 버튼: 아래 -->
     <button type="button" onclick="location.href='list.le'" style="display: flex; align-items: center;">
         <i class="fas fa-list" style="margin-right: 5px;"></i> 전체 목록
     </button>
 
-    <!-- 검색 폼: 오른쪽 -->
-    <form action="list.le" method="get" style="display: flex; gap: 10px;">
+    <!-- 검색 폼 -->
+    <form action="list.le" method="get" style="display: flex; gap: 10px; margin-left: auto;">
         <input type="text" name="keyword" placeholder="제목 검색" value="${keyword}">
         <button type="submit">
             <i class="fas fa-search"></i> 검색
         </button>
     </form>
 </div>
+
+
 
         <!-- 예약 테이블 -->
         <table class="reservation-table">

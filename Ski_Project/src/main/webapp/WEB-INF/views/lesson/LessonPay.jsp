@@ -83,7 +83,7 @@
         }
 
         .step-header {
-            background: #4a90e2;
+            background: #86c1df;
             color: white;
             padding: 10px;
             border-radius: 5px;

@@ -5,21 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프리미엄 강습 예약 상세보기</title>
+    <title>설레눈 강습 예약 상세보기</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-        }
+
 
         .details-container {
             max-width: 900px;
@@ -30,7 +19,7 @@
             overflow: hidden;
         }
 
-        .header {
+        .header1 {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 30px;
@@ -143,13 +132,15 @@
                 margin-bottom: 5px;
             }
         }
+        
     </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
     <div class="details-container">
-        <div class="header">
-            <h1>프리미엄 강습 예약</h1>
-            <div class="reservation-number">예약 번호: RES12345678</div>
+        <div class="header1">
+            <h1>🎿 설레눈 강습 예약</h1>
+            <div class="reservation-number">예약 번호: ${ les.resNo }</div>
         </div>
 
         <div class="content">
@@ -216,7 +207,7 @@
 				    <button class="danger-btn" type="submit">게시글 삭제</button>
 				</form>
 
-			    <button class="cancel-btn" onclick="history.back()">예약 취소</button>
+			    <button class="cancel-btn" onclick="history.back()">뒤로</button>
 			</div>
 
 
@@ -230,5 +221,6 @@
         }
     }
 </script>
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

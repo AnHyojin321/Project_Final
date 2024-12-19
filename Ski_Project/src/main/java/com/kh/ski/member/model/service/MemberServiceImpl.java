@@ -1,17 +1,10 @@
 package com.kh.ski.member.model.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +15,6 @@ import com.kh.ski.member.model.vo.Member;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -183,4 +175,5 @@ public class MemberServiceImpl implements MemberService {
 //    }
     
     
+
 }

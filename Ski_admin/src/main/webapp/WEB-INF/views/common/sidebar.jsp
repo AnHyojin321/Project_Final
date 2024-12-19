@@ -70,7 +70,7 @@ body {
             <h2>관리자 메뉴</h2>
             <ul>
                 <li><a href="/admin">대시보드</a></li>
-                <li><a href="/admin/users">회원 관리</a></li>
+                <li><a href="/admin/members">회원 관리</a></li>
                 <li><a href="list.ro">객실 관리</a></li>
                 <li><a href="/admin/rooms">리프트권 관리</a></li>
                 <li><a href="/admin/rooms">락커 관리</a></li>
