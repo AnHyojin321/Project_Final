@@ -65,63 +65,65 @@
     </style>
 </head>
 <body>
-    <div id="title">
-        <h1>슬로프 오픈 관리</h1>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	    <div id="title">
+	        <h1>슬로프 오픈 관리</h1>
+	    </div>
+	    <div>
+	    	<form action="slopeUpdateControl.sm" id="slopeForm" method="post">
+		        <table border="1px solid black">
+		            <thead>
+		                <tr>
+		                    <th>SlopeNo</th>
+		                    <th>Name</th>
+		                    <th>Level</th>
+		                    <th>Open</th>
+		                    <th>Reason</th>
+		                </tr>
+		                <c:forEach var="so" items="${requestScope.list}" varStatus="status">
+						    <tr>
+						        <!-- Slope Number -->
+						        <td>
+						            ${so.slopeNo}
+						            <input type="hidden" name="so[${status.index}].slopeNo" value="${so.slopeNo}" />
+						        </td>
+						        <!-- Slope Name -->
+						        <td>
+						            ${so.slopeName}
+						            <input type="hidden" name="so[${status.index}].slopeName" value="${so.slopeName}" />
+						        </td>
+						        <!-- Slope Level -->
+						        <td>
+						            ${so.slopeLevel}
+						            <input type="hidden" name="so[${status.index}].slopeLevel" value="${so.slopeLevel}" />
+						        </td>
+						        <!-- Open/Close 상태 -->
+						        <td>
+						            <input type="button" class="openBtn" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" />
+						            <input type="hidden" class="slopeIsOpen" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen}" />
+						        </td>
+						        <!-- 사유 선택 -->
+						        <td>
+						            <select name="so[${status.index}].slopeNote">
+						                <option value="" ${so.slopeNote == '' ? 'selected' : '' } disabled>사유선택</option>
+						                <option value="눈상태" ${so.slopeNote == '눈상태' ? 'selected' : ''}>눈상태</option>
+						                <option value="점검" ${so.slopeNote == '점검' ? 'selected' : ''}>점검</option>
+						                <option value="날씨" ${so.slopeNote == '날씨' ? 'selected' : ''}>날씨</option>
+						                <option value="대회" ${so.slopeNote == '대회' ? 'selected' : ''}>대회</option>
+						            </select>
+						        </td>
+						    </tr>
+						</c:forEach>
+	
+		            </thead>
+		        </table>
+		        <div>
+		        	<input type="submit" id="submit" value="적용하기">
+		        </div>
+	    	</form>
+	    </div>
     </div>
-    <div>
-    	<form action="slopeUpdateControl.sm" id="slopeForm" method="post">
-	        <table border="1px solid black">
-	            <thead>
-	                <tr>
-	                    <th>SlopeNo</th>
-	                    <th>Name</th>
-	                    <th>Level</th>
-	                    <th>Open</th>
-	                    <th>Reason</th>
-	                </tr>
-	                <c:forEach var="so" items="${requestScope.list}" varStatus="status">
-					    <tr>
-					        <!-- Slope Number -->
-					        <td>
-					            ${so.slopeNo}
-					            <input type="hidden" name="so[${status.index}].slopeNo" value="${so.slopeNo}" />
-					        </td>
-					        <!-- Slope Name -->
-					        <td>
-					            ${so.slopeName}
-					            <input type="hidden" name="so[${status.index}].slopeName" value="${so.slopeName}" />
-					        </td>
-					        <!-- Slope Level -->
-					        <td>
-					            ${so.slopeLevel}
-					            <input type="hidden" name="so[${status.index}].slopeLevel" value="${so.slopeLevel}" />
-					        </td>
-					        <!-- Open/Close 상태 -->
-					        <td>
-					            <input type="button" class="openBtn" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" />
-					            <input type="hidden" class="slopeIsOpen" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen}" />
-					        </td>
-					        <!-- 사유 선택 -->
-					        <td>
-					            <select name="so[${status.index}].slopeNote">
-					                <option value="" ${so.slopeNote == '' ? 'selected' : '' } disabled>사유선택</option>
-					                <option value="눈상태" ${so.slopeNote == '눈상태' ? 'selected' : ''}>눈상태</option>
-					                <option value="점검" ${so.slopeNote == '점검' ? 'selected' : ''}>점검</option>
-					                <option value="날씨" ${so.slopeNote == '날씨' ? 'selected' : ''}>날씨</option>
-					                <option value="대회" ${so.slopeNote == '대회' ? 'selected' : ''}>대회</option>
-					            </select>
-					        </td>
-					    </tr>
-					</c:forEach>
-
-	            </thead>
-	        </table>
-	        <div>
-	        	<input type="submit" id="submit" value="적용하기">
-	        </div>
-    	</form>
-    </div>
-    
 
     <script>
 	    $(document).ready(function() {

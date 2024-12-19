@@ -79,47 +79,51 @@
 </style>
 </head>
 <body>
-    <div id="title">
-        <h1>리프트권 관리</h1>
-    </div>
-    <div>
-        <table id="liftTable" border="1px solid black">
-            <thead>
-                <tr>
-                    <th>LiftNo</th>
-                    <th>Type</th>
-                    <th>Age</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="li" items="${requestScope.list}" varStatus="status">
-				    <tr>
-				        <td>
-				            ${li.liftNo}
-				            <input type="hidden" value="${so.slopeNo}" />
-				        </td>
-				        <td>
-				            ${li.liftType}
-				            <input type="hidden" value="${so.slopeName}" />
-				        </td>
-				        <td>
-				            ${li.liftAge}
-				            <input type="hidden" value="${so.slopeLevel}" />
-				        </td>
-				        <td>
-				        	${li.liftPrice}
-				        </td>
-				    </tr>
-				</c:forEach>
-            </tbody>
-        </table>
-        <div>
-        	<a href="updateLiftView.li">					        	
-        		<input type="button" id="editBtn" value="금액 수정하기"/>
-        	</a>
-        </div>
-    </div>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	    <div id="title">
+	        <h1>리프트권 관리</h1>
+	    </div>
+	    <div>
+	        <table id="liftTable" border="1px solid black">
+	            <thead>
+	                <tr>
+	                    <th>LiftNo</th>
+	                    <th>Type</th>
+	                    <th>Age</th>
+	                    <th>Price</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <c:forEach var="li" items="${requestScope.list}" varStatus="status">
+					    <tr>
+					        <td>
+					            ${li.liftNo}
+					            <input type="hidden" value="${so.slopeNo}" />
+					        </td>
+					        <td>
+					            ${li.liftType}
+					            <input type="hidden" value="${so.slopeName}" />
+					        </td>
+					        <td>
+					            ${li.liftAge}
+					            <input type="hidden" value="${so.slopeLevel}" />
+					        </td>
+					        <td>
+					        	${li.liftPrice}
+					        </td>
+					    </tr>
+					</c:forEach>
+	            </tbody>
+	        </table>
+	        <div>
+	        	<a href="updateLiftView.li">					        	
+	        		<input type="button" id="editBtn" value="금액 수정하기"/>
+	        	</a>
+	        </div>
+	    </div>
+	
+	</div>
     <script>
 	    
 	</script>

@@ -51,68 +51,70 @@
 </style>
 </head>
 <body>     
-	<div id="title">
-        <h1>스키장 오픈 관리</h1>
-    </div>
-    <div id="outer">
-       	<c:forEach var="sro" items="${ requestScope.list }">
-        	<table border="1px solid black">
-        		<tr><th colspan="2">${ sro.skiResortDate }</th></tr>
-        		<tr><th colspan="2">${ sro.skiResortDay }</th></tr>
-        		<tr>
-        			<th colspan="2">
-	    <svg class="icon"><use xlink:href="#iconSun"></use></svg>
-        			</th>
-        		</tr>
-        		<tr>
-	        		<th colspan="2">
-	        			맑음
-	        		</th>
-	        	</tr>
-        		<tr>
-	        		<th>
-	        			최고
-	        		</th>
-	        		<th>
-	        			최저
-	        		</th>
-	        	</tr>
-        		<tr>
-	        		<th>
-	        			3
-	        		</th>
-	        		<th>
-	        			-3
-	        		</th>
-	        	</tr>
-        		<tr>
-		            <th colspan="2">
-		                <input 
-						    type="button" 
-						    class="openBtn" 
-						    style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgb(194, 220, 255)' : 'rgb(255, 194, 194)'};" 
-						    onclick="toggleOpen(this, '${sro.skiResortDay}', '${sro.skiResortIsOpen}');" 
-						    value="${ sro.skiResortIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" 
-						    name="skiResortIsOpen"
-						/>
-		            </th>
-		        </tr>
-	        </table>
-       	</c:forEach>
-    </div>
-
-    <form action="skiResortUpdateControl.sm" id="skiResortForm" method="post">
-	    <input type="hidden" id="skiResortDay" name="skiResortDay" />
-	    <input type="hidden" id="skiResortIsOpen" name="skiResortIsOpen" />
-	</form>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+		<div id="title">
+	        <h1>스키장 오픈 관리</h1>
+	    </div>
+	    <div id="outer">
+	       	<c:forEach var="sro" items="${ requestScope.list }">
+	        	<table border="1px solid black">
+	        		<tr><th colspan="2">${ sro.skiResortDate }</th></tr>
+	        		<tr><th colspan="2">${ sro.skiResortDay }</th></tr>
+	        		<tr>
+	        			<th colspan="2">
+		    <svg class="icon"><use xlink:href="#iconSun"></use></svg>
+	        			</th>
+	        		</tr>
+	        		<tr>
+		        		<th colspan="2">
+		        			맑음
+		        		</th>
+		        	</tr>
+	        		<tr>
+		        		<th>
+		        			최고
+		        		</th>
+		        		<th>
+		        			최저
+		        		</th>
+		        	</tr>
+	        		<tr>
+		        		<th>
+		        			3
+		        		</th>
+		        		<th>
+		        			-3
+		        		</th>
+		        	</tr>
+	        		<tr>
+			            <th colspan="2">
+			                <input 
+							    type="button" 
+							    class="openBtn" 
+							    style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgb(194, 220, 255)' : 'rgb(255, 194, 194)'};" 
+							    onclick="toggleOpen(this, '${sro.skiResortDay}', '${sro.skiResortIsOpen}');" 
+							    value="${ sro.skiResortIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" 
+							    name="skiResortIsOpen"
+							/>
+			            </th>
+			        </tr>
+		        </table>
+	       	</c:forEach>
+	    </div>
 	
-	<div>
-	    <svg class="icon"><use xlink:href="#iconSemiCloud"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconSnow"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconRain"></use></svg>
-	    <svg class="icon"><use xlink:href="#iconMist"></use></svg>
+	    <form action="skiResortUpdateControl.sm" id="skiResortForm" method="post">
+		    <input type="hidden" id="skiResortDay" name="skiResortDay" />
+		    <input type="hidden" id="skiResortIsOpen" name="skiResortIsOpen" />
+		</form>
+		
+		<div>
+		    <svg class="icon"><use xlink:href="#iconSemiCloud"></use></svg>
+		    <svg class="icon"><use xlink:href="#iconSnow"></use></svg>
+		    <svg class="icon"><use xlink:href="#iconRain"></use></svg>
+		    <svg class="icon"><use xlink:href="#iconMist"></use></svg>
+		</div>
 	</div>
-
 
     <script>
     

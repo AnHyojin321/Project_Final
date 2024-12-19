@@ -72,9 +72,11 @@ body {
                 <li><a href="/admin">대시보드</a></li>
                 <li><a href="/admin/members">회원 관리</a></li>
                 <li><a href="list.ro">객실 관리</a></li>
-                <li><a href="/admin/rooms">리프트권 관리</a></li>
+                <li><a href="liftSelect.li">리프트권 관리</a></li>
                 <li><a href="/admin/rooms">락커 관리</a></li>
                 <li><a href="list.pk">패키지 관리</a></li>
+                <li><a href="skiResortUpdate.sm">스키장 관리</a></li>
+                <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
                 <li><a href="/admin/reservations">예약 관리</a></li>
                 <li><a href="/admin/reports">통계 및 리포트</a></li>
                 <li><a href="/admin/settings">설정</a></li>

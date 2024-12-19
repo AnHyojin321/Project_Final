@@ -67,44 +67,47 @@
 </style>
 </head>
 <body>
-    <div id="title">
-        <h1>리프트권 관리</h1>
-    </div>
-    <div>
-    	<form action="updateLift.li" method="post">
-	        <table border="1px solid black">
-	            <thead>
-	                <tr>
-	                    <th>LiftNo</th>
-	                    <th>Type</th>
-	                    <th>Age</th>
-	                    <th>Price</th>
-	                </tr>
-	                <c:forEach var="li" items="${requestScope.list}" varStatus="status">
-					    <tr>
-					        <td>
-					            ${li.liftNo}
-					            <input type="hidden" name="li[${status.index}].liftNo" value="${li.liftNo}" />
-					        </td>
-					        <td>
-					            ${li.liftType}
-					            <input type="hidden" name="li[${status.index}].liftType" value="${li.liftType}" />
-					        </td>
-					        <td>
-					            ${li.liftAge}
-					            <input type="hidden" name="li[${status.index}].liftAge" value="${li.liftAge}" />
-					        </td>
-					        <td>
-					        	<input type="text" name="li[${status.index}].liftPrice" value="${li.liftPrice}" />
-					        </td>
-					    </tr>
-					</c:forEach>
-	            </thead>
-	        </table>
-	        <div>
-	        	<input type="submit" value="저장하기">
-	        </div>
-    	</form>
-    </div>
+	<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	    <div id="title">
+	        <h1>리프트권 관리</h1>
+	    </div>
+	    <div>
+	    	<form action="updateLift.li" method="post">
+		        <table border="1px solid black">
+		            <thead>
+		                <tr>
+		                    <th>LiftNo</th>
+		                    <th>Type</th>
+		                    <th>Age</th>
+		                    <th>Price</th>
+		                </tr>
+		                <c:forEach var="li" items="${requestScope.list}" varStatus="status">
+						    <tr>
+						        <td>
+						            ${li.liftNo}
+						            <input type="hidden" name="li[${status.index}].liftNo" value="${li.liftNo}" />
+						        </td>
+						        <td>
+						            ${li.liftType}
+						            <input type="hidden" name="li[${status.index}].liftType" value="${li.liftType}" />
+						        </td>
+						        <td>
+						            ${li.liftAge}
+						            <input type="hidden" name="li[${status.index}].liftAge" value="${li.liftAge}" />
+						        </td>
+						        <td>
+						        	<input type="text" name="li[${status.index}].liftPrice" value="${li.liftPrice}" />
+						        </td>
+						    </tr>
+						</c:forEach>
+		            </thead>
+		        </table>
+		        <div>
+		        	<input type="submit" value="저장하기">
+		        </div>
+	    	</form>
+	    </div>
+	</div>
 </body>
 </html>
