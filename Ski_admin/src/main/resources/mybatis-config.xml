@@ -20,6 +20,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.admin.member.model.vo.Member" alias="member" />
 		<typeAlias type="com.kh.admin.lift.model.vo.Lift" alias="lift" />
+		<typeAlias type="com.kh.admin.lift.model.vo.LiftOrder" alias="liftOrder" />
+		<typeAlias type="com.kh.admin.lift.model.vo.LiftPurchase" alias="liftPurchase" />
 		<typeAlias type="com.kh.admin.lesson.model.vo.Lesson" alias="lesson" />
 		<typeAlias type="com.kh.admin.room.model.vo.Room" alias="room" />
 		<typeAlias type="com.kh.admin.room.model.vo.RoomPay" alias="roompay" />
@@ -27,10 +29,8 @@
 		<typeAlias type="com.kh.admin.notice.model.vo.Notice" alias="notice" />
 		<typeAlias type="com.kh.admin.locker.model.vo.Locker" alias="locker" />
 		<typeAlias type="com.kh.admin.lostitem.model.vo.LostItem" alias="lostItem" />
-				<typeAlias type="com.kh.admin.lostitem.model.vo.PageInfo" alias="PageInfo" />
-		
+		<typeAlias type="com.kh.admin.lostitem.model.vo.PageInfo" alias="PageInfo" />
 		<typeAlias type="com.kh.admin.pack.model.vo.Pack" alias="package" />
-		<typeAlias type="com.kh.admin.management.model.vo.Management" alias="management" />
 		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
 		<typeAlias type="com.kh.admin.management.model.vo.SlopeOpen" alias="slopeOpen" />
 	</typeAliases>
