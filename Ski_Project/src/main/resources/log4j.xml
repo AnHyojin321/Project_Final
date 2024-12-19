@@ -165,7 +165,7 @@
 		(전반적인 로깅 설정)
 	-->
 	<root>
-		<priority value="debug" />
+		<priority value="ERROR" />
 		<!-- priority 에서 제시한 수준 이상부터만 기록하겠다. -->
 		<appender-ref ref="console" />
 		<appender-ref ref="out" />

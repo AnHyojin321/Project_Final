@@ -1,15 +1,11 @@
-package com.kh.ski.lift.model.vo;
+package com.kh.admin.lift.model.vo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.sql.Date;
 
-public class LiftPay {
-	
-	// 리프트권 구매 테이블
+public class LiftPurchase {
+
 	private int liftPurchaseNo;
-	private String liftPurchaseDate;
+	private Date liftPurchaseDate;
 	private String liftPurchaseStatus;
 	private String packLiftUsed;
 	private String liftPayToken;
@@ -17,9 +13,9 @@ public class LiftPay {
 	private int memberNo;
 	private String liftLrefundStatus;
 	
-	public LiftPay() {}
+	public LiftPurchase() {}
 
-	public LiftPay(int liftPurchaseNo, String liftPurchaseDate, String liftPurchaseStatus, String packLiftUsed,
+	public LiftPurchase(int liftPurchaseNo, Date liftPurchaseDate, String liftPurchaseStatus, String packLiftUsed,
 			String liftPayToken, String liftPayCode, int memberNo, String liftLrefundStatus) {
 		super();
 		this.liftPurchaseNo = liftPurchaseNo;
@@ -40,11 +36,11 @@ public class LiftPay {
 		this.liftPurchaseNo = liftPurchaseNo;
 	}
 
-	public String getLiftPurchaseDate() {
+	public Date getLiftPurchaseDate() {
 		return liftPurchaseDate;
 	}
 
-	public void setLiftPurchaseDate(String liftPurchaseDate) {
+	public void setLiftPurchaseDate(Date liftPurchaseDate) {
 		this.liftPurchaseDate = liftPurchaseDate;
 	}
 
@@ -98,12 +94,10 @@ public class LiftPay {
 
 	@Override
 	public String toString() {
-		return "LiftPay [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseDate=" + liftPurchaseDate
-				+ ", liftPurchaseStatus=" + liftPurchaseStatus + ", packLiftUsed=" + packLiftUsed + ", liftPayToken="
-				+ liftPayToken + ", liftPayCode=" + liftPayCode + ", memberNo=" + memberNo + ", liftLrefundStatus="
-				+ liftLrefundStatus + "]";
+		return "LiftPurchase [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseStatus=" + liftPurchaseStatus
+				+ ", packLiftUsed=" + packLiftUsed + ", liftPayToken=" + liftPayToken + ", liftPayCode=" + liftPayCode
+				+ ", memberNo=" + memberNo + ", liftLrefundStatus=" + liftLrefundStatus + "]";
 	}
 	
 	
-
 }

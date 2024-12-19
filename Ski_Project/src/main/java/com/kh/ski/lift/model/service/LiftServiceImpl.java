@@ -20,21 +20,19 @@ public class LiftServiceImpl implements LiftService{
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public Lift selectDayPass() {
+	public ArrayList<Lift> selectDayPass() {
 		return liftDao.selectDayPass(sqlSession);
 	}
 	
 	@Override
-	public Lift selectSeasonPass() {
+	public ArrayList<Lift> selectSeasonPass() {
 		return liftDao.selectSeasonPass(sqlSession);
 	}
-	
-	
-	@Override
-	public LiftOrder liftOrder(int liftNo) {
-		return liftDao.orderLift(sqlSession, liftNo);
-	}
 
-	
+	@Override
+	public int liftOrder(LiftOrder liftOrder) {
+		return liftDao.liftOrder(sqlSession, liftOrder);
+	}
+		
 
 }

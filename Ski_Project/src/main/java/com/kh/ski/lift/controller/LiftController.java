@@ -1,15 +1,17 @@
 package com.kh.ski.lift.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-import org.json.simple.JSONObject;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.lift.model.service.LiftService;
@@ -32,44 +34,47 @@ public class LiftController {
 	// 일일권 상세 조회
 	@GetMapping("dayPass.li")
 	public ModelAndView selectDayPass(ModelAndView mv) {
-		mv.setViewName("lift/dayPass");
+		ArrayList<Lift> dayPass = liftService.selectDayPass();
+		mv.addObject("dayPass", dayPass).setViewName("lift/dayPass");
 		return mv;
 	}
 	
 	// 시즌권 상세 조회
 	@GetMapping("seasonPass.li")
 	public ModelAndView selectSeasonPass(ModelAndView mv) {
-		mv.setViewName("lift/seasonPass");
+		ArrayList<Lift> seasonPass = liftService.selectSeasonPass();
+		mv.addObject("seasonPass", seasonPass).setViewName("lift/seasonPass");
 		return mv;
 	}
 	
-	// 리프트권 주문 ajax controller
-	@ResponseBody
-	@RequestMapping(value="liftOrderAjax.li", produces="application/json; charset=UTF-8")
-	public String liftOrderAjax(int liftOrderNo, String liftType, int count, int totalPrice) {
-		
-		JSONObject jObj = new JSONObject();
-		jObj.put("liftOrderNo", liftOrderNo);
-		jObj.put("liftType", liftType);
-		jObj.put("count", count);
-		jObj.put("totalPrice", totalPrice);
-		
-		return jObj.toJSONString();
+	
+	// 리프트권 주문 Controller
+	@RequestMapping(value = "liftOrder.li", method = {RequestMethod.GET, RequestMethod.POST})
+	public String liftOrder(@RequestParam Map<String, String> paramMap, Model model, HttpSession session) {
+	    ArrayList<LiftOrder> liftOrderList = new ArrayList<>();
+	    
+	    // 인덱스를 기반으로 객체를 수동으로 생성
+	    int index = 0;
+	    while (paramMap.containsKey("li[" + index + "].liftNo")) {
+	        LiftOrder liftOrder = new LiftOrder();
+	        liftOrder.setLiftNo(Integer.parseInt(paramMap.get("li[" + index + "].liftNo")));
+	        liftOrder.setLiftCount(Integer.parseInt(paramMap.get("li[" + index + "].liftCount")));
+	        liftOrder.setLiftTotalPrice(Integer.parseInt(paramMap.get("li[" + index + "].liftTotalPrice")));
+	        liftOrder.setMemberNo(Integer.parseInt(paramMap.get("li[" + index + "].memberNo")));
+
+	        liftOrderList.add(liftOrder);
+	        index++;
+	        
+	    }
+	    
+	    int result = 0;
+	    for (LiftOrder liftOrder : liftOrderList) {
+	        int orderResult = liftService.liftOrder(liftOrder);
+	        result += orderResult;
+	    }
+	    
+	    model.addAttribute("updatedList", liftOrderList);
+	    return "redirect:/liftList.li";
 	}
-	
-	// 리프트권 주문 controller
-	@PostMapping("liftOrder.li")
-	public ModelAndView liftOrder(@PathVariable("liftOrderNo") int liftOrderNo, ModelAndView mv) {
-		
-		// 리프트권 주문 상세 정보 조회
-		LiftOrder liftOrder = liftService.liftOrder(liftOrderNo);
-		
-		// ModelAndView에 담기
-		mv.addObject("liftOrder", liftOrder).setViewName("lift/liftOrderView");
-		return mv;
-		
-	}
-	
-	
 	
 }

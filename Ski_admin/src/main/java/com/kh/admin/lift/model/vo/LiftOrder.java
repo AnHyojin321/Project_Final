@@ -1,28 +1,22 @@
-package com.kh.ski.lift.model.vo;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+package com.kh.admin.lift.model.vo;
 
 public class LiftOrder {
-	
-	// 리프트권 주문 테이블
+
 	private int liftOrderNo;
 	private int liftCount;
 	private int liftTotalPrice;
 	private int liftNo;
-	private int memberNo;
+	private int liftPurchaseNo;
 	
-	public LiftOrder() {}
+	public LiftOrder(){}
 
-	public LiftOrder(int liftOrderNo, int liftCount, int liftTotalPrice, int liftNo, int memberNo) {
+	public LiftOrder(int liftOrderNo, int liftCount, int liftTotalPrice, int liftNo, int liftPurchaseNo) {
 		super();
 		this.liftOrderNo = liftOrderNo;
 		this.liftCount = liftCount;
 		this.liftTotalPrice = liftTotalPrice;
 		this.liftNo = liftNo;
-		this.memberNo = memberNo;
+		this.liftPurchaseNo = liftPurchaseNo;
 	}
 
 	public int getLiftOrderNo() {
@@ -57,18 +51,18 @@ public class LiftOrder {
 		this.liftNo = liftNo;
 	}
 
-	public int getMemberNo() {
-		return memberNo;
+	public int getLiftPurchaseNo() {
+		return liftPurchaseNo;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setLiftPurchaseNo(int liftPurchaseNo) {
+		this.liftPurchaseNo = liftPurchaseNo;
 	}
 
 	@Override
 	public String toString() {
 		return "LiftOrder [liftOrderNo=" + liftOrderNo + ", liftCount=" + liftCount + ", liftTotalPrice="
-				+ liftTotalPrice + ", liftNo=" + liftNo + ", memberNo=" + memberNo + "]";
+				+ liftTotalPrice + ", liftNo=" + liftNo + ", liftPurchaseNo=" + liftPurchaseNo + "]";
 	}
 	
 	

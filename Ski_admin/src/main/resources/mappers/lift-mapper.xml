@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lift">
 
+
+	<!-- 리프트권 결과 매핑 -->
+    <resultMap id="liftResultSet" type="lift">
+        <result column="LIFT_NO" property="liftNo"/>
+        <result column="LIFT_TYPE" property="liftType"/>
+        <result column="LIFT_AGE" property="liftAge"/>
+        <result column="LIFT_PRICE" property="liftPrice"/>
+    </resultMap>
+    
+    <!-- 리프트권 전체 조회 쿼리문 -->
+	<select id="selectLift" resultMap="liftResultSet">
+        SELECT * FROM LIFT
+    </select>
+    
+   
+	<!-- 리프트권 금액 변경 쿼리문 -->
+	<update id="updateLift" parameterType="java.util.List">
+	    UPDATE LIFT
+	    SET LIFT_PRICE = CASE 
+	        <foreach collection="list" item="li" separator=" ">
+	            WHEN LIFT_NO = #{li.liftNo} THEN #{li.liftPrice}
+	        </foreach>
+	    END
+	    WHERE LIFT_NO IN 
+	    <foreach collection="list" item="li" open="(" close=")" separator=",">
+	        #{li.liftNo}
+	    </foreach>
+	</update>
+	
 </mapper>

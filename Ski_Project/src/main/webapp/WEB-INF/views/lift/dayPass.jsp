@@ -225,6 +225,57 @@
 	   #addItem:hover {
 	   	background-color: rgba(0, 0, 0, 0.2);
 	   }
+	   .modal {
+	        display: none;
+	        position: fixed;
+	        z-index: 1000;
+	        left: 0;
+	        top: 0;
+	        width: 100%;
+	        height: 100%;
+	        background-color: rgba(0, 0, 0, 0.5);
+	        justify-content: center;
+	        align-items: center;
+	    }
+	
+	    .modal-content {
+	        background-color: white;
+	        padding: 20px;
+	        border-radius: 5px;
+	        width: 400px;
+	        text-align: center;
+	    }
+	
+	    .modal-header {
+	        font-size: 1.5rem;
+	        margin-bottom: 10px;
+	    }
+	
+	    .modal-body {
+	        margin: 10px 0;
+	    }
+	
+	    .modal-footer {
+	        display: flex;
+	        justify-content: space-around;
+	    }
+	
+	    .modal-footer button {
+	        padding: 10px 20px;
+	        border: none;
+	        border-radius: 5px;
+	        cursor: pointer;
+	    }
+	
+	    .modal-footer button.confirm {
+	        background-color: green;
+	        color: white;
+	    }
+	
+	    .modal-footer button.cancel {
+	        background-color: red;
+	        color: white;
+	    }
     
 </style>
 </head>
@@ -248,7 +299,7 @@
 		            <h1>24/25 일일권</h1>
 		            <div style="flex:right; margin:auto;">
 		                <a href="seasonPass.li">
-		                    <input type="button" value="시즌권 구매하기"/>
+		                    <input type="button" value="시즌권 구매하기" style="cursor:pointer"/>
 		                </a>                    
 		            </div>
 		        </div> 
@@ -283,51 +334,68 @@
 		                        <td>오전권</td>
 		                        <td>09:00-14:00</td>
 		                        <td>대인</td>
-		                        <td>50,000원</td>
+		                        <td>
+		                        	${dayPass[0].liftPrice}
+		                    		<input type="hidden" value="${dayPass[0].liftNo}"/>
+		                        </td>
 		                    </tr>
 		                    <tr>
 		                        <td>오전권</td>
 		                        <td>09:00-14:00</td>
 		                        <td>소인</td>
-		                        <td>35,000원</td>
+		                        <td>
+		                        	${dayPass[1].liftPrice}
+		                    		<input type="hidden" value="${dayPass[1].liftNo}"/>
+		                        </td>
 		                    </tr>
 		                    <tr>
 		                        <td>오후권</td>
 		                        <td>16:00-21:00</td>
 		                        <td>대인</td>
-		                        <td>55,000원</td>
+		                        <td>	
+			                        ${dayPass[2].liftPrice}
+			                    	<input type="hidden" value="${dayPass[1].liftNo}"/>
+		                    	</td>
 		                    </tr>
 		                    <tr>
 		                        <td>오후권</td>
 		                        <td>16:00-21:00</td>
 		                        <td>소인</td>
-		                        <td>40,000원</td>
+		                        <td>
+			                        ${dayPass[3].liftPrice}
+			                    	<input type="hidden" value="${dayPass[3].liftNo}">
+		                    	</td>
 		                    </tr>
 		                    <tr>
 		                        <td>종일권</td>
 		                        <td>09:00-21:00</td>
 		                        <td>대인</td>
-		                        <td>90,000원</td>
+		                        <td>
+			                        ${dayPass[4].liftPrice}
+			                    	<input type="hidden" value="${dayPass[4].liftNo}"/>
+		                    	</td>
 		                    </tr>
 		                    <tr>
 		                        <td>종일권</td>
 		                        <td>09:00-21:00</td>
 		                        <td>소인</td>
-		                        <td>70,000원</td>
+		                        <td>
+		                        	${dayPass[5].liftPrice}
+		                    		<input type="hidden" value="${dayPass[5].liftNo}"/>
+		                    	</td>
 		                    </tr>
 		                </tbody>
 		            </table>
 		        </div>
 		        <br>
 		        <div id="purchaseInformation">
-		            <form action="purchase.pu">
 		                <h3>구매하기</h3>
 		                <div>
 		                    <table id="orderTable">
 		                        <tr>
 		                            <th class="pu">종류</th>
 		                            <td class="pu">
-		                                <select name="liftType" id="liftType" required>
+		                                <select id="liftType" required>
 										    <option disabled selected>종류</option>
 										    <option value="오전권">오전권</option>
 											<option value="오후권">오후권</option>
@@ -338,7 +406,7 @@
 		                        <tr>
 		                            <th>연령대</th>
 		                            <td>
-		                                <select name="liftAge" id="liftAge" autocomplete="off">
+		                                <select id="liftAge" autocomplete="off">
 										    <option disabled selected>연령대</option>
 										    <option value="대인">대인</option>
 										    <option value="소인">소인</option>
@@ -358,107 +426,186 @@
 		                    <h2>총 금액 : <span id="totalPrice">0</span>원</h2>
 		                    <input type="submit" id="submit" value="구매하기"/>
 		                </div>
-		            </form>
 		        </div>
+		        <form action="liftOrder.li" method="post" id="liftForm"> </form>
+		        <!-- 모달창 -->
+				<div id="modal" class="modal">
+				    <div class="modal-content">
+				        <div class="modal-header">결제 확인</div>
+				        <div class="modal-body">
+				            <p>주문 내역:</p>
+				            <div id="modalOrderList"></div>
+				            <p>결제하시겠습니까?</p>
+				        </div>
+				        <div class="modal-footer">
+				        	
+				           <button class="confirm" id="confirm">예</button>   
+				            <button class="cancel">아니오</button>
+				        </div>
+				    </div>
+				</div>
 				<script>
-					const prices = {
-					    "오전권": { "대인": 50000, "소인": 35000 },
-					    "오후권": { "대인": 55000, "소인": 40000 },
-					    "종일권": { "대인": 90000, "소인": 70000 },
-					};
-					
-					const orderList = document.getElementById('orderList');
-					const totalPriceElement = document.getElementById('totalPrice');
-					
-					// 총 금액 계산 함수
-					function updateTotalPrice() {
-					    let total = 0;
-					    document.querySelectorAll('#orderList tr').forEach(row => {
-					        const price = parseInt(row.dataset.price, 10);
-					        const quantity = parseInt(row.dataset.quantity, 10);
-					        total += price * quantity;
-					    });
-					    totalPriceElement.textContent = total.toLocaleString();
-					}
-					
-					// 아이템 삭제
-					function deleteItem(event) {
-					    const row = event.target.closest('tr');
-					    row.remove();
-					    updateTotalPrice();
-					}
-					
-					// 수량 조정
-					function adjustQuantity(event, adjustment) {
-					    const row = event.target.closest('tr');
-					    let quantity = parseInt(row.dataset.quantity, 10);
-					    quantity += adjustment;
-					    if (quantity < 1) return;  // 최소 1로 제한
-					    row.dataset.quantity = quantity;
-					    row.querySelector('.quantity').textContent = quantity;
+                    $(document).ready(function() {
+                        const dayPass = [
+                            { liftNo: 400, liftPrice: ${dayPass[0].liftPrice} },
+                            { liftNo: 401, liftPrice: ${dayPass[1].liftPrice} },
+                            { liftNo: 402, liftPrice: ${dayPass[2].liftPrice} },
+                            { liftNo: 403, liftPrice: ${dayPass[3].liftPrice} },
+                            { liftNo: 404, liftPrice: ${dayPass[4].liftPrice} },
+                            { liftNo: 405, liftPrice: ${dayPass[5].liftPrice} }
+                        ];
+                        
+                        let orderList = [];
 
-					    // 가격 업데이트
-					    const price = parseInt(row.dataset.price, 10);
-					    row.querySelector('.price').textContent = (price * quantity).toLocaleString() + "원";
+                        // Function to format price with commas
+                        function formatPrice(price) {
+                            return price.toLocaleString();
+                        }
 
-					    updateTotalPrice();  // 총 금액 업데이트
-					}
+                        // Function to update total price
+                        function updateTotalPrice() {
+                            let total = 0;
+                            orderList.forEach(item => {
+                                total += item.totalPrice;
+                            });
+                            $('#totalPrice').text(formatPrice(total));
+                        }
+							
+                        //<input type="hidden" name="memberNo" id="memberNo" value="${ sessionScope.loginUser.memberNo }">
+                        function updateOrderList() {
+                            $('#orderList').empty();
+                            orderList.forEach((item, index) => {
+                                const itemRow = `
+                                    <tr>
+                                        <td>\${item.type} \${item.age}
+                                        </td>
+                                        <td>
+                                            <button class="countBtn" data-index="\${index}" data-action="decrease">-</button>
+                                            <span>\${item.count}</span>
+                                            <button class="countBtn" data-index="\${index}" data-action="increase">+</button>
+                                        </td>
+                                        <td>\${formatPrice(item.totalPrice)}원</td>
+                                        <td>
+                                            <button class="deleteBtn" data-index="\${index}">x</button>
+                                        </td>
+                                    </tr>`;
+                                $('#orderList').append(itemRow);
+                            });
+                            updateTotalPrice();
+                        }
+                        
+                        function showModal() {
+                            const modalOrderList = orderList.map(item => `
+                                <p>
+                            		\${item.type} (\${item.age}): \${item.count}개 - \${formatPrice(item.totalPrice)}원
+                            	</p>
+                            `).join('');
+                            $('#modalOrderList').html(modalOrderList);
+                            $('#modal').fadeIn();
+                        }
 
-					
-					// 추가하기 버튼 이벤트
-					document.getElementById('addItem').addEventListener('click', () => {
-					    const liftType = document.querySelector('select[name="liftType"]').value;
-					    const liftAge = document.querySelector('select[name="liftAge"]').value;
+                        function hideModal() {
+                            $('#modal').fadeOut();
+                        }
+							
+                        $('#submit').click(function (event) {
+                            // event.preventDefault();
+                            if (orderList.length === 0) {
+                                alert('주문 항목을 추가하세요.');
+                                return;
+                            }
+                            showModal();
+                        });
 
-					    if (!liftType || !liftAge || liftType === "종류" || liftAge === "연령대") {
-					        alert('종류와 연령대를 선택해주세요.');
-					        return;
-					    }
+                        $('#confirm').click(function () {
+                            hideModal();
 
-					    const price = prices[liftType][liftAge];
+                            // 폼 안의 기존 hidden input 요소 초기화
+                            $('form').find('input[name^="li["]').remove();
 
-					    // 이미 같은 상품이 있는지 확인
-					    const existingRow = Array.from(orderList.children).find(row => 
-					        row.dataset.type === liftType && row.dataset.age === liftAge
-					    );
+                            // orderList 데이터를 폼에 추가
+                            orderList.forEach((item, index) => {
+                                $('form').append(`
+                                    <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
+                                    <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
+                                    <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
+                                    <input type="hidden" name="li[\${index}].memberNo" value="10000" />
+                                `);
+                            });
 
-					    if (existingRow) {
-					        const quantity = parseInt(existingRow.dataset.quantity, 10) + 1;
-					        existingRow.dataset.quantity = quantity;
-					        existingRow.querySelector('.quantity').textContent = quantity;
+                            // 폼 제출
+                            $('#liftForm').submit();
+                        });
 
-					        // 가격 업데이트
-					        existingRow.querySelector('.price').textContent = (price * quantity).toLocaleString() + "원";
 
-					        updateTotalPrice();  // 총 금액 업데이트
-					        return;
-					    }
 
-					    // 새로운 항목 추가
-					    const newRow = document.createElement('tr');
-					    newRow.dataset.type = liftType;
-					    newRow.dataset.age = liftAge;
-					    newRow.dataset.price = price;
-					    newRow.dataset.quantity = 1;
+                        $('.cancel').click(function () {
+                            hideModal();
+                        });
 
-					    newRow.innerHTML = `
-					        <td width="20%">\${liftType}</td>
-					        <td width="15%">\${liftAge}</td>
-					        <td width="30%">
-					        	<div id="quantityTd">
-						        	<button type="button" class="countBtn1" onclick="adjustQuantity(event, -1)">-</button>
-						            <span id="quantity" class="quantity">1</span>
-						            <button type="button" class="countBtn2" onclick="adjustQuantity(event, 1)">+</button>					        	
-					        	</div>
-					        </td>
-					        <td class="price" width="30%" style="margin-left:10%; font-size: 19px;">\${price.toLocaleString()}원</td>
-					        <td width="5%"><button type="button" id="deleteBtn" onclick="deleteItem(event)">x</button></td>
-					    `;
+                        
+                        $('#addItem').click(function () {
+                            const type = $('#liftType').val();
+                            const age = $('#liftAge').val();
 
-					    orderList.appendChild(newRow);
-					    updateTotalPrice();  // 총 금액 업데이트
-					});
-				</script>
+                            if (!type || !age) {
+                                alert('종류와 연령대를 선택해주세요.');
+                                return;
+                            }
+
+                            const liftNoMap = {
+                                '오전권': { '대인': 400, '소인': 401 },
+                                '오후권': { '대인': 402, '소인': 403 },
+                                '종일권': { '대인': 404, '소인': 405 }
+                            };
+
+                            const liftNo = liftNoMap[type][age];
+                            const price = dayPass.find(item => item.liftNo === liftNo).liftPrice;
+
+                            const existingIndex = orderList.findIndex(item => item.type === type && item.age === age);
+
+                            if (existingIndex > -1) {
+                                orderList[existingIndex].count += 1;
+                                orderList[existingIndex].totalPrice = orderList[existingIndex].count * price;
+                            } else {
+                                orderList.push({
+                                    type: type,
+                                    age: age,
+                                    count: 1,
+                                    price: price,
+                                    totalPrice: price,
+                                    liftNo: liftNo
+                                });
+                            }
+
+                            updateOrderList();
+                        });
+
+
+                        // Update count (increase or decrease)
+                        $(document).on('click', '.countBtn', function() {
+                            const index = $(this).data('index');
+                            const action = $(this).data('action');
+                            const price = orderList[index].price;
+
+                            if (action === 'increase' && orderList[index].count < 10) {
+                                orderList[index].count += 1;
+                            } else if (action === 'decrease' && orderList[index].count > 1) {
+                                orderList[index].count -= 1;
+                            }
+
+                            orderList[index].totalPrice = orderList[index].count * price;
+                            updateOrderList();
+                        });
+
+                        // Delete item from order list
+                        $(document).on('click', '.deleteBtn', function() {
+                            const index = $(this).data('index');
+                            orderList.splice(index, 1);
+                            updateOrderList();
+                        });
+                    });
+                </script>
 		    </div>
 		</div>
     </div>
