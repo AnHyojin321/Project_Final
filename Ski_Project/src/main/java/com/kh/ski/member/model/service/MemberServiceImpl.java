@@ -3,8 +3,13 @@ package com.kh.ski.member.model.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -148,32 +153,20 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
-	
-//    @Override
-//    @Transactional
-//    public Member processKakaoUser(Map<String, Object> userInfo) {
-//        String kakaoId = String.valueOf(userInfo.get("id"));
-//        String email = (String) userInfo.get("email");
-//        String nickname = (String) userInfo.get("nickname");
-//
-//        // 기존 카카오 로그인 사용자 확인
-//        Member existingMember = memberDao.findKakaoMember(sqlSession, kakaoId);
-//
-//        if (existingMember == null) {
-//            // 신규 사용자
-//            Member newMember = new Member();
-//            newMember.setKakaoLogin(kakaoId); // 카카오 고유 ID 저장
-//            newMember.setEmail(email);
-//            newMember.setMemberName(nickname);
-//            newMember.setMemberStatus("Y");
-//            memberDao.insertKakaoMember(sqlSession, newMember);
-//            return newMember;
-//        } else {
-//            // 기존 사용자 반환
-//            return existingMember;
-//        }
-//    }
-    
-    
+	// kako
+	@Override
+	public Member findMemberByKakaoId(String kakaoId) {
+	    System.out.println("[DEBUG] findMemberByKakaoId 호출 - kakaoId: " + kakaoId);
+	    Member member = memberDao.selectMemberByKakaoId(sqlSession, kakaoId);
+	    System.out.println("[DEBUG] DAO에서 반환된 Member 객체: " + member);
+	    return member;
+	}
+
+
+    @Override
+    public int kakaoInsertMember(Member member) {
+        return memberDao.insertKakaoMember(sqlSession, member);
+        // DAO 호출
+    }
 
 }

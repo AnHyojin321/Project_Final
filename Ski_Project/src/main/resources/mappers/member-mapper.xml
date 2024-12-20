@@ -16,6 +16,8 @@
 		<result column="KAKAO_LOGIN" property="kakaoLogin" />
 		<result column="GOOGLE_LOGIN" property="googleLogin" />
 		<result column="MEMBER_STATUS" property="memberStatus" />
+		<result column="KAKAO_ACCESS_TOKEN" property="kakaoAccessToken" />
+   		<result column="KAKAO_REFRESH_TOKEN" property="kakaoRefreshToken" />
 	</resultMap>
 	
 	<resultMap id="emailCertResultSet" type="emailCert">
@@ -33,28 +35,37 @@
 		   AND MEMBER_STATUS = 'Y'
 	</select>
 	
-		<insert id="insertMember" parameterType="member">
-		    INSERT INTO MEMBER (
-		        MEMBER_NO, 
-		        MEMBER_ID, 
-		        MEMBER_PWD, 
-		        MEMBER_NAME, 
-		        EMAIL, 
-		        BIRTH_DATE, 
-		        PHONE,
-		        ADDRESS
-		    )
-		    VALUES (
-		        SEQ_MEMBER_NO.NEXTVAL, 
-		        #{memberId}, 
-		        #{memberPwd}, 
-		        #{memberName}, 
-		        #{email}, 
-		        #{birthDate}, 
-		        #{phone},
-		        #{address}
-		    )
-		</insert>
+<insert id="insertMember" parameterType="member">
+    INSERT INTO MEMBER (
+        MEMBER_NO, 
+        MEMBER_ID, 
+        MEMBER_PWD, 
+        MEMBER_NAME, 
+        EMAIL, 
+        BIRTH_DATE, 
+        PHONE,
+        ADDRESS,
+        KAKAO_LOGIN,
+        MEMBER_STATUS,
+        KAKAO_ACCESS_TOKEN,
+        KAKAO_REFRESH_TOKEN
+    )
+    VALUES (
+        SEQ_MEMBER_NO.NEXTVAL, 
+        #{memberId}, 
+        #{memberPwd}, 
+        #{memberName}, 
+        #{email}, 
+        #{birthDate}, 
+        #{phone},
+        #{address},
+        #{kakaoLogin},
+        #{kakaoAccessToken},
+        #{kakaoRefreshToken},
+        'Y'
+    )
+</insert>
+
 	
 	<select id="idCheck" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
@@ -118,10 +129,14 @@
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER 
 		   SET MEMBER_NAME = #{memberName}
+		       , MEMBER_ID = #{memberId}
 		       , EMAIL = #{email}
 		       , BIRTH_DATE = #{birthDate}
 		       , PHONE = #{phone}
 		       , ADDRESS = #{address}
+		       , KAKAO_LOGIN = #{kakaoLogin}
+		       , KAKAO_ACCESS_TOKEN = #{kakaoAccessToken}
+               , KAKAO_REFRESH_TOKEN = #{kakaoRefreshToken}
 		    WHERE MEMBER_ID = #{memberId}
 		      AND MEMBER_STATUS = 'Y'
 	</update>
@@ -153,6 +168,43 @@
      WHERE MEMBER_NO = #{memberNo}
 </select>
 
-	
+    <!-- 카카오 ID로 회원 조회 -->
+    <select id="selectMemberByKakaoId" parameterType="string" resultMap="memberResultSet">
+        SELECT *
+          FROM MEMBER
+         WHERE KAKAO_LOGIN = #{kakaoId}
+    </select>
+<insert id="insertKakaoMember" parameterType="member">
+    INSERT INTO MEMBER (
+        MEMBER_NO,
+        MEMBER_ID,
+        MEMBER_NAME,
+        EMAIL,
+        KAKAO_LOGIN,
+        MEMBER_PWD,
+        PHONE,
+        BIRTH_DATE,
+        CREATE_DATE,
+        MEMBER_STATUS
+    )
+    VALUES (
+        SEQ_MEMBER_NO.NEXTVAL,
+        #{memberId},
+        #{memberName},
+        #{email},
+        #{kakaoLogin},
+        #{memberPwd}, <!-- 암호화된 비밀번호를 동적으로 설정 -->
+        #{phone},     <!-- 기본 전화번호 -->
+        #{birthDate}, <!-- 기본 생년월일 -->
+        SYSDATE,
+        #{memberStatus} <!-- 활성 상태 -->
+    )
+</insert>
+
+
+
+
+
+
 	
 </mapper>

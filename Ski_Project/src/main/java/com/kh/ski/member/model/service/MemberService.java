@@ -1,5 +1,7 @@
 package com.kh.ski.member.model.service;
 
+import java.util.Map;
+
 import com.kh.ski.member.model.vo.Member;
 
 public interface MemberService {
@@ -41,4 +43,12 @@ public interface MemberService {
 	String selectEncPw(int memberNo);
 	
     String selectTempPw(int memberNo);
+    
+    // 새롭게 추가되는 메서드들
+    Member findMemberByKakaoId(String kakaoId); // 카카오 ID로 회원 조회
+    int kakaoInsertMember(Member member); // 카카오 로그인 회원가입
 }
+
+
+
+

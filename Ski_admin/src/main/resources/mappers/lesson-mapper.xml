@@ -19,9 +19,14 @@
 		<result column="LESSON_STATUS" property="lessonStatus" />
 	    <result column="MEMBER_NO" property="memberNo" /> 
 	</resultMap>
-	
-	
-	    <select id="selectAllLessons" resultMap="lessonResultSet">
+
+<select id="selectListCount" parameterType="string" resultType="_int">
+    SELECT COUNT(*)
+      FROM LESSON_RESERVATION
+</select>
+
+
+		    <select id="selectAllLessons" resultMap="lessonResultSet">
         SELECT 
             RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, LESSON_STATUS, 
             LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
@@ -34,4 +39,7 @@
         SET LESSON_STATUS = #{lessonStatus}
         WHERE RES_NO = #{resNo}
     </update>
+	
+
+
 </mapper>

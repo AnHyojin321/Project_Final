@@ -24,13 +24,18 @@ public class Member {
 	private String googleLogin;//	GOOGLE_LOGIN	VARCHAR2(30 BYTE)
 	private String memberStatus;//	MEMBER_STATUS	CHAR(1 BYTE)
 	private String tempPwd;
+    private String kakaoAccessToken; // 카카오 액세스 토큰
+    private String kakaoRefreshToken; // 카카오 리프레시 토큰
 	
 	public Member() {}
 
 
+
+
+
 	public Member(int memberNo, String memberId, String memberPwd, String memberName, String email, String phone,
 			Date birthDate, String address, Date createDate, String kakaoLogin, String googleLogin, String memberStatus,
-			String tempPwd) {
+			String tempPwd, String kakaoAccessToken, String kakaoRefreshToken) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -45,7 +50,12 @@ public class Member {
 		this.googleLogin = googleLogin;
 		this.memberStatus = memberStatus;
 		this.tempPwd = tempPwd;
+		this.kakaoAccessToken = kakaoAccessToken;
+		this.kakaoRefreshToken = kakaoRefreshToken;
 	}
+
+
+
 
 
 	public int getMemberNo() {
@@ -155,16 +165,49 @@ public class Member {
 	}
 
 
+	public String getKakaoAccessToken() {
+		return kakaoAccessToken;
+	}
+
+
+
+
+
+	public void setKakaoAccessToken(String kakaoAccessToken) {
+		this.kakaoAccessToken = kakaoAccessToken;
+	}
+
+
+
+
+
+	public String getKakaoRefreshToken() {
+		return kakaoRefreshToken;
+	}
+
+
+
+
+
+	public void setKakaoRefreshToken(String kakaoRefreshToken) {
+		this.kakaoRefreshToken = kakaoRefreshToken;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
 				+ memberName + ", email=" + email + ", phone=" + phone + ", birthDate=" + birthDate + ", address="
 				+ address + ", createDate=" + createDate + ", kakaoLogin=" + kakaoLogin + ", googleLogin=" + googleLogin
-				+ ", memberStatus=" + memberStatus + ", tempPwd=" + tempPwd + "]";
+				+ ", memberStatus=" + memberStatus + ", tempPwd=" + tempPwd + ", kakaoAccessToken=" + kakaoAccessToken
+				+ ", kakaoRefreshToken=" + kakaoRefreshToken + "]";
 	}
 
 
-	
+
 	
 	
 	

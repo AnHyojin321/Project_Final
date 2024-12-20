@@ -129,26 +129,21 @@ public class MemberDao {
 	}
 
 
-	
+    public Member selectKakaoMember(SqlSessionTemplate sqlSession, String kakaoLogin) {
+        return sqlSession.selectOne("member.selectKakaoMember", kakaoLogin);
+    }
 
-    /**
-     * 카카오 사용자 조회
-     */
-//    public Member findKakaoMember(SqlSessionTemplate sqlSession, String kakaoId) {
-//        return sqlSession.selectOne("member.findKakaoMember", kakaoId);
-//    }
-//
-//    /**
-//     * 카카오 사용자 삽입
-//     */
-//    public int insertKakaoMember(SqlSessionTemplate sqlSession, Member newMember) {
-//        return sqlSession.insert("member.insertKakaoMember", newMember);
-//    }
 
-    // 카카오
-    
-    
-    
+    // 카카오 ID로 회원 조회
+    public Member selectMemberByKakaoId(SqlSessionTemplate sqlSession, String kakaoId) {
+    	System.out.println("DAO에서 받은 kakaoId: " + kakaoId);
+    	return sqlSession.selectOne("member.selectMemberByKakaoId", kakaoId);
+    }
+
+    // 카카오 회원가입
+    public int insertKakaoMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.insert("member.insertKakaoMember", member);
+    }
     
 }
 	

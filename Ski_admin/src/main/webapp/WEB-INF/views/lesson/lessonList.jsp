@@ -200,6 +200,14 @@
                 <h1>강습 관리</h1>
                 <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
             </header>
+            
+	            <select name="amount">
+	            	<option value="5">5개</option>
+	            	<option value="10">10개</option>
+	            	<option value="20">20개</option>
+	            	<option value="50">50개</option>
+	            	<option value="100">100개</option>
+	            </select>
             <div class="lesson-table-container">
                 <table class="lesson-table">
                     <thead>
@@ -215,38 +223,58 @@
                         </tr>
                     </thead>
                     <tbody>
-    <c:forEach var="lesson" items="${lessonList}">
-        <tr>
-            <td>${lesson.resNo}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${lesson.lessonStatus == 'Y'}">
-                        <span class="status-success">예약 성공</span>
-                    </c:when>
-                    <c:otherwise>
-                        <span class="status-pending">예약 대기중</span>
-                    </c:otherwise>
-                </c:choose>
-            </td>
-            <td>${lesson.lessonTitle}</td>
-            <td>${lesson.lessonType}</td>
-            <td>${lesson.lessonTime}</td>
-            <td>${lesson.lessonResDate}</td>
-            <td>${lesson.lessonDate}</td>
-            <td>
-                <button class="edit" 
-                    onclick="openModal('${lesson.resNo}', '${lesson.lessonTitle}', '${lesson.lessonType}', '${lesson.lessonTime}', '${lesson.lessonResDate}', '${lesson.lessonDate}', '${lesson.lessonStatus}')">
-                    수정
-                </button>
-            </td>
-        </tr>
-    </c:forEach>
-</tbody>
-
+					    <c:forEach var="lesson" items="${lessonList}">
+					        <tr>
+					            <td>${lesson.resNo}</td>
+					            <td>
+					                <c:choose>
+					                    <c:when test="${lesson.lessonStatus == 'Y'}">
+					                        <span class="status-success">예약 성공</span>
+					                    </c:when>
+					                    <c:otherwise>
+					                        <span class="status-pending">예약 대기중</span>
+					                    </c:otherwise>
+					                </c:choose>
+					            </td>
+					            <td>${lesson.lessonTitle}</td>
+					            <td>${lesson.lessonType}</td>
+					            <td>${lesson.lessonTime}</td>
+					            <td>${lesson.lessonResDate}</td>
+					            <td>${lesson.lessonDate}</td>
+					            <td>
+					                <button class="edit" 
+					                    onclick="openModal('${lesson.resNo}', '${lesson.lessonTitle}', '${lesson.lessonType}', '${lesson.lessonTime}', '${lesson.lessonResDate}', '${lesson.lessonDate}', '${lesson.lessonStatus}')">
+					                    수정
+					                </button>
+					            </td>
+					        </tr>
+					    </c:forEach>
+					</tbody>
                 </table>
             </div>
         </main>
     </div>
+    
+            <div class="pagination">
+            <c:if test="${pi.currentPage > 1}">
+                <a href="lesson.ad?currentPage=${pi.currentPage - 1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+                <c:choose>
+                    <c:when test="${p eq pi.currentPage}">
+                        <a href="#" class="active">${p}</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="lesson.ad?currentPage=${p}">${p}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${pi.currentPage < pi.maxPage}">
+                <a href="lesson.ad?currentPage=${pi.currentPage + 1}">&raquo;</a>
+            </c:if>
+        </div>
 
     <!-- 모달 -->
     <div id="editModal" class="modal">
@@ -342,6 +370,11 @@
 
 
         }
+        
+        
+        
+        
+        
     </script>
 </body>
 </html>

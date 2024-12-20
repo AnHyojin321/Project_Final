@@ -273,11 +273,11 @@ header {
         <form action="update.me" method="post">
             <div class="form-group">
                 <label for="memberId">아이디</label>
-                <input type="text" id="memberId" name="memberId" value="${sessionScope.loginMember.memberId}" readonly>
+                <input type="text" id="memberId" name="memberId" value="${sessionScope.loginMember.memberId}" >
             </div>
             <div class="form-group">
                 <label for="memberName">이름</label>
-                <input type="text" id="memberName" name="memberName" value="${sessionScope.loginMember.memberName}" required>
+                <input type="text" id="memberName" name="memberName" value="${sessionScope.loginMember.memberName}" >
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
@@ -295,6 +295,8 @@ header {
                 <label for="address">주소</label>
                 <input type="text" id="address" name="address" value="${sessionScope.loginMember.address}">
             </div>
+             <input type="hidden" id="kakaoLogin" name="kakaoLogin" value="${sessionScope.loginMember.kakaoLogin}">
+        
             <button type="submit" class="submit-btn">확인</button>
         </form>
     </div>

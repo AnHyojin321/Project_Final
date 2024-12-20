@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
+import com.kh.ski.member.model.vo.KakaoUserInfo;
 import com.kh.ski.member.model.vo.Member;
 
 @Controller
@@ -151,8 +152,84 @@ public class MemberController {
 //        }
 //    }	
 //    
+	
+	@Autowired
+	private KakaoService kakaoService;
+	@RequestMapping("/kakao/callback")
+	public String kakaoCallback(@RequestParam("code") String code, HttpSession session) {
+	    try {
+	        // 1. 인가 코드로 액세스 토큰 요청
+	        String accessToken = kakaoService.getAccessToken(code);
 
-    
+	        // 2. 사용자 정보 요청
+	        KakaoUserInfo kakaoUserInfo = kakaoService.getUserInfo(accessToken);
+	        String kakaoId = kakaoUserInfo.getId();
+	        String nickname = kakaoUserInfo.getNickname();
+	        String email = kakaoUserInfo.getEmail();
+
+	        System.out.println("Kakao User Info: " + kakaoUserInfo);
+
+	        // 3. DB에서 카카오 ID로 회원 정보 조회
+	        Member loginMember = memberService.findMemberByKakaoId(kakaoId);
+
+	        boolean isFirstLogin = false; // 최초 로그인 여부 확인 플래그
+
+	        if (loginMember == null) {
+	            // 3-1. 신규 회원 가입 처리
+	            Member newMember = new Member();
+	            newMember.setMemberId("kakao_" + kakaoId); // 회원 ID 설정
+	            newMember.setMemberName(nickname); // 회원 이름 설정
+	            newMember.setEmail(email); // 이메일 설정
+	            newMember.setKakaoLogin(kakaoId); // 카카오 로그인 ID 저장
+
+	            // 비밀번호를 BCrypt로 암호화하여 저장
+	            String encryptedPwd = bcryptPasswordEncoder.encode("kakao-login");
+	            newMember.setMemberPwd(encryptedPwd);
+
+	            // 기본 정보 설정
+	            newMember.setPhone("000-0000-0000"); // 기본 전화번호
+	            newMember.setBirthDate(java.sql.Date.valueOf("1900-01-01")); // 기본 생년월일
+	            newMember.setCreateDate(new java.sql.Date(System.currentTimeMillis())); // 가입일 설정
+	            newMember.setMemberStatus("Y"); // 활성 상태
+
+	            // DB에 회원 정보 저장
+	            memberService.kakaoInsertMember(newMember);
+
+	            // 3-2. 회원가입 후 다시 DB에서 회원 정보 조회
+	            loginMember = memberService.findMemberByKakaoId(kakaoId);
+	            isFirstLogin = true; // 신규 회원이므로 최초 로그인
+	            System.out.println("서비스 전달받음");
+	        } else {
+	            // 기존 회원: 업데이트 대신 데이터 유지
+	            System.out.println("이미 존재하는 회원입니다. 기존 회원 데이터를 유지합니다.");
+	        }
+
+	        // 4. 로그인 성공 처리 (세션에 저장)
+	        if (loginMember != null) {
+	            session.setAttribute("loginMember", loginMember);
+	            session.setAttribute("alertMsg", "카카오로 로그인하셧습니다 마이페이지에서 수정하세요");
+	            System.out.println("로그인 사용자 정보: " + loginMember);
+	        } else {
+	            System.out.println("회원 정보가 DB에서 조회되지 않았습니다.");
+	            return "redirect:/error"; // 에러 페이지로 이동
+	        }
+
+	        // 5. 리다이렉트 경로 설정
+	        if (isFirstLogin) {
+	            return "redirect:/myPage.me"; // 최초 로그인 시 마이페이지로 이동
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/error"; // 에러 발생 시 에러 페이지로 이동
+	    }
+
+	    // 기존 회원은 메인 페이지로 이동
+	    return "redirect:/";
+	}
+
+
+
     
 	@RequestMapping(value = "login.me", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, HttpServletResponse response) {
@@ -402,11 +479,26 @@ public class MemberController {
 	    return "member/MemberFindId"; // 결과 메시지 포함하여 같은 페이지로 반환
 	}
 
+	
 	@GetMapping("myPage.me")
-	public String myPage() {
-		
-		return "mypage/myPage";
+	public String myPage(HttpSession session) {
+	    // 세션에서 로그인 사용자 정보 가져오기
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+	    System.out.println("[DEBUG] myPage.me - 세션의 로그인 사용자 정보: " + loginMember);
+
+	    if (loginMember == null) {
+	        System.out.println("[DEBUG] 세션에 로그인 정보가 없습니다. 로그인 페이지로 리다이렉트");
+	        return "redirect:/loginPage.me"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    return "mypage/myPage"; // 정상적으로 마이페이지로 이동
 	}
+
+//	@GetMapping("myPage.me")
+//	public String myPage() {
+//		
+//		return "mypage/myPage";
+//	}
 	
 //	@GetMapping("findPwd.me")
 //	public String findPwd() {
