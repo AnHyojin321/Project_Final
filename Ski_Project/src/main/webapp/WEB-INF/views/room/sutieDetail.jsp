@@ -8,24 +8,24 @@
 <title>Insert title here</title>
     <style>
 
-        .wrap {
-            /*  border: 1px solid black; */
-            width: 1000px;
-            height: 900px;
-        }
+		body {
+		    margin: 0;
+		    padding: 0;
+		    font-family: Arial, sans-serif;
+		}
+		
+		/* wrap 클래스에만 flex 스타일 적용 */
+		.wrap {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    max-width: 1200px;
+		    margin: 0 auto;
+		    padding: 20px;
+		    background-color: #fff; /* 필요에 따라 배경 색상 지정 */
+		}
 
-        div {
-           /* border: 1px solid red; */
-        }
-
-        body {
-           
-            display: flex; /* 부모 요소를 flexbox로 설정 */
-            justify-content: center; /* 수평 중앙 정렬 */
-            align-items: center; /* 수직 중앙 정렬 */
-            flex-direction: column; /* 자식 요소들을 수직으로 배치 */
-            margin: 0; /* 기본 마진 제거 */
-        }
 
         .roomDescription1 {
             width: 1000px;
@@ -109,13 +109,12 @@
 		}
 
 		.roomDescription2 {
+			width : 950px;
 		    display: flex;
 		    justify-content: space-between;
 		    padding: 20px;
 		    background-color: #fff;
 		    border: 1px solid #ddd;
-		    border-radius: 10px;
-		    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		}
 		
 		.info1 {

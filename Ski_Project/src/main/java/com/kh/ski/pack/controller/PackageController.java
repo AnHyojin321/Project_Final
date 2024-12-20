@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.common.model.vo.PageInfo;
@@ -121,7 +122,7 @@ public class PackageController {
 		
 		int listCount = packageService.selectListCount();
 		int pageLimit = 5;
-		int boardLimit = 4;
+		int boardLimit = 12;
 		
 		PageInfo pi 
 			= Pagination.getPageInfo(listCount, currentPage, 

@@ -82,6 +82,73 @@
 	    background-color: lightgray; /* 마우스 오버 시 배경색 변경 */
 	    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
 	}
+	
+	/* 페이징 처리 관련 css */
+	/* 페이지네이션 관련 css */
+	#pagingArea {
+	    text-align: center;
+	    margin-top: 20px;
+	}
+	
+	.custom-pagination {
+	    display: inline-flex;
+	    list-style: none;
+	    padding: 0;
+	    margin: 0;
+	    border: 1px solid #ddd;
+	    border-radius: 5px;
+	    overflow: hidden;
+	    background-color: #f9f9f9;
+	}
+	
+	.custom-pagination li {
+	    margin: 0;
+	    border-right: 1px solid #ddd;
+	}
+	
+	.custom-pagination li:last-child {
+	    border-right: none;
+	}
+	
+	.custom-pagination a,
+	.custom-pagination span {
+	    display: inline-block;
+	    padding: 8px 12px;
+	    text-decoration: none;
+	    font-size: 14px;
+	    color: #555;
+	    background-color: #f9f9f9;
+	    transition: all 0.2s ease-in-out;
+	}
+	
+	.custom-pagination a:hover {
+	    background-color: #e2e6ea;
+	    color: #333;
+	}
+	
+	.custom-pagination li.current span {
+	    color: white;
+	    background-color: darkgray;
+	    font-weight: bold;
+	    border: none;
+	    cursor: default;
+	}
+	
+	.custom-pagination li.disabled span {
+	    color: #aaa;
+	    background-color: #f9f9f9;
+	    cursor: not-allowed;
+	}
+	
+	.custom-pagination li.disabled span:hover {
+	    background-color: #f9f9f9;
+	}
+	
+	.custom-pagination a:active {
+	    background-color: #dcdcdc;
+	}
+
+	
 </style>
 </head>
 <body>
@@ -120,7 +187,59 @@
 	            </tbody>
 	        </table>
 	        <a href="packEnrollForm.pk" class="btn">새 패키지 등록</a>
+	        
+	        
+	        <!-- 페이징바 관련 영역 -->
+	       <div id="pagingArea">
+		    <ul class="custom-pagination">
+		        <!-- 왼쪽 화살표 -->
+		        <c:choose>
+		            <c:when test="${requestScope.pi.currentPage eq 1}">
+		                <li class="disabled">
+		                    <span>&lt;</span>
+		                </li>
+		            </c:when>
+		            <c:otherwise>
+		                <li>
+		                    <a href="list.pk?cpage=${requestScope.pi.currentPage - 1}">&lt;</a>
+		                </li>
+		            </c:otherwise>
+		        </c:choose>
+		
+		        <!-- 페이지 번호 -->
+		        <c:forEach var="p" begin="${requestScope.pi.startPage}" end="${requestScope.pi.endPage}" step="1">
+		            <c:choose>
+		                <c:when test="${p ne requestScope.pi.currentPage}">
+		                    <li>
+		                        <a href="list.pk?cpage=${p}">${p}</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                    <li class="current">
+		                        <span>${p}</span>
+		                    </li>
+		                </c:otherwise>
+		            </c:choose>
+		        </c:forEach>
+		
+		        <!-- 오른쪽 화살표 -->
+		        <c:choose>
+		            <c:when test="${requestScope.pi.currentPage ne requestScope.pi.maxPage}">
+		                <li>
+		                    <a href="list.pk?cpage=${requestScope.pi.currentPage + 1}">&gt;</a>
+		                </li>
+		            </c:when>
+		            <c:otherwise>
+		                <li class="disabled">
+		                    <span>&gt;</span>
+		                </li>
+		            </c:otherwise>
+		        </c:choose>
+		    </ul>
+		</div>
 	    </div>
+	
+	    
     </div>
     <script>
 	    // 카드 하나를 클릭했을 때 이벤트를 처리
@@ -136,6 +255,10 @@
 	        });
 	    });
 	</script>
+	
+	
+	
+	
     
 </body>
 </html>

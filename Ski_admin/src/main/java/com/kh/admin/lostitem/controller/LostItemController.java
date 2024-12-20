@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.admin.common.template.Pagination;
 import com.kh.admin.lostitem.model.service.LostItemService;
 import com.kh.admin.lostitem.model.vo.LostItem;
-import com.kh.admin.lostitem.model.vo.PageInfo;
+import com.kh.admin.common.model.vo.PageInfo;
 
 @Controller
 public class LostItemController {

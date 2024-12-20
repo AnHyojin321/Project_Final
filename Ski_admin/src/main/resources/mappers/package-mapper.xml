@@ -14,6 +14,12 @@
 		<result column="PRODUCT_COMPOSIT" property="productComposit" />
 		<result column="PACKAGE_SET" property="packageSet" />
 	</resultMap>
+	
+	<!-- 패키지 상품 갯수 조회용 쿼리문 -->
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM PACKAGE_INFO
+	</select>
 
 	<!-- 패키지 상품 목록 조회용 쿼리문 -->
 	<select id="selectPackageList" resultMap="packResultSet">
@@ -64,5 +70,21 @@
 		FROM PACKAGE_INFO
 		WHERE PACKAGE_NO = #{packageNo}
 	</select>
+	
+	<update id="updatePackage" parameterType="package">
+		UPDATE PACKAGE_INFO
+		SET PACKAGE_NAME = #{packageName}
+	      , PACKAGE_PRICE = #{packagePrice}
+	      , AVAILABLE_START_DATE = #{availableStartDate}
+	      , AVAILABLE_END_DATE = #{availableEndDate}
+	      , PRODUCT_COMPOSIT = #{productComposit}
+	      , PACKAGE_SET = #{packageSet}
+	      , PACKAGE_STATUS = #{packageStatus}
+	      , PACK_ORIGIN_NAME = #{packOriginName}
+	      , PACK_CHANGE_NAME = #{packChangeName}
+	      , PACK_IMG_PATH = #{packImgPath}
+		WHERE PACKAGE_NO = #{packageNo}
+		AND PACKAGE_STATUS = 'Y'
+	</update>
 
 </mapper>

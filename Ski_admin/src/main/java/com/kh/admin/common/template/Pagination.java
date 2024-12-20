@@ -1,6 +1,6 @@
 package com.kh.admin.common.template;
 
-import com.kh.admin.lostitem.model.vo.PageInfo;
+import com.kh.admin.common.model.vo.PageInfo;
 
 public class Pagination {
     public static PageInfo getPageInfo(int listCount, int currentPage, int pageLimit, int boardLimit) {

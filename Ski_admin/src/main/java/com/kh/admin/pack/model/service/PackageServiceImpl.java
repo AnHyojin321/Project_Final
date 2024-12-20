@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.pack.model.dao.PackageDao;
 import com.kh.admin.pack.model.vo.Pack;
 
@@ -19,10 +20,16 @@ public class PackageServiceImpl implements PackageService {
 	@Autowired
 	private PackageDao packageDao;
 	
+	// 패키지 상품 갯수 조회
+	@Override
+	public int selectListCount() {
+		return packageDao.selectListCount(sqlSession);
+	}
+	
 	// 패키지 상품 목록 조회
 	@Override
-	public ArrayList<Pack> selectPackageList(Pack p) {
-		return packageDao.selectPackageList(sqlSession, p);
+	public ArrayList<Pack> selectPackageList(PageInfo pi) {
+		return packageDao.selectPackageList(sqlSession, pi);
 	}
 	
 	
@@ -39,11 +46,10 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.selectPackageDetail(sqlSession, packageNo);
 	}
 	
-	
-	// 패키지 상품 정보 수정 
+	// 패키지 상품 정보 수정 처리
 	@Override
-	public int updatePackageForm(Pack p) {
-		return packageDao.updatePackageForm(sqlSession, p);
+	public int updatePackage(Pack p) {
+		return packageDao.updatePackage(sqlSession, p);
 	}
 
 }
