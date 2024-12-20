@@ -30,10 +30,7 @@ public class LostItemServiceImpl implements LostItemService {
         return lostItemDao.selectLostListPaging(paramMap);  // 페이징된 게시물 목록 조회
     }
 
-    @Override
-    public int insertLostItem(LostItem lostItem) {
-        return lostItemDao.insertLostItem(lostItem);
-    }
+  
 
     @Override
     public LostItem selectLostItemDetail(int lostNo) {
@@ -44,10 +41,7 @@ public class LostItemServiceImpl implements LostItemService {
     public int increaseViewCount(int lostNo) {
         return lostItemDao.increaseViewCount(lostNo);
     }
-    @Override
-    public int deleteLostItem(int lostNo) {
-        return lostItemDao.deleteLostItem(lostNo);
-    }
+   
 }
 
 

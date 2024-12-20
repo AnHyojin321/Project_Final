@@ -133,26 +133,7 @@
             margin: 0;
         }
 
-        /* 원 스타일 */
-        .circle {
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            opacity: 0.5; /* 기본 투명도 */
-            border-radius: 50%;
-            position: absolute;
-            pointer-events: none; /* 마우스 이벤트 방지 */
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease; /* 부드러운 애니메이션 */
-            z-index: 1; /* 기본적으로 버튼 아래에 위치 */
-        }
-
-        .circle.enlarge {
-            width: 75px; /* hover 시 커지는 크기 */
-            height: 75px;
-            opacity: 0.6; /* hover 시 투명도 증가 */
-            z-index: 3; /* 버튼 위로 이동 */
-        }
+     
 
         /* 눈송이 스타일 */
         .snowflake {
@@ -612,6 +593,49 @@ p {
         opacity: 0;
         animation-delay: 0.6s;
     }
+    
+    
+    .hidden {
+    display: none;
+}
+
+/* 3D Viewer 애니메이션 효과 */
+#sketchfabViewer {
+    position: relative;
+    margin: 20px auto;
+    width: 80%; /* 원하는 크기로 조정 */
+    height: 500px; /* 원하는 크기로 조정 */
+    background-color:white;
+    opacity: 0;
+    left:400px;
+    z-index:3;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#sketchfabViewer.visible {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+    .sketchfab-embed-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      border: 5px solid none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sketchfab-embed-wrapper iframe {
+      width: 100%;
+      height: 400px;
+      pointer-events: none; /* 마우스 및 터치 이벤트 차단 */
+    }
 </style>
 </head>
 <body>
@@ -634,19 +658,32 @@ p {
                 <img src="resources/images/arrow1.png" style="width: 20px; top: 25px; z-index: 2; position: relative; left: 255px;">
              </div>
             </div>
-            <div class="text2"  id="main2"  >
-                <img   id="main2-img"   src="resources/images/skimon.jpg" width="310px" height="300px" style="position: absolute;" >
-                <div class="overlay3"></div>
+        <div class="text2" id="main2">
+    <img id="main2-img" src="resources/images/skimon.jpg" width="310px" height="300px" style="position: absolute;">
+    <div class="overlay3"></div>
 
-                <div id="main2-half"  style="background-color: rgb(55, 54, 54); width: 310px; height: 155px; top: 290px; position: relative;">
-                    <p style="color: white; font-size: 23px; position: relative; top: 50px; left: 40px; font-family: 'Roboto', sans-serif;"> <b>Contact</b> <br> 예약문의</p>
-
-                    <div class="background-circle"></div>
-                <img src="resources/images/arrow1.png" style="width: 20px; top: 25px; z-index: 2; position: relative; left: 240px;">
-
-                </div>
-            </div>
-        
+    <div id="main2-half" style="background-color: rgb(55, 54, 54); width: 310px; height: 155px; top: 290px; position: relative;">
+        <p style="color: white; font-size: 23px; position: relative; top: 50px; left: 40px; font-family: 'Roboto', sans-serif;">
+            <b>Slope</b> <br> 미리보기
+        </p>
+        <div class="background-circle"></div>
+        <img src="resources/images/arrow1.png" style="width: 20px; top: 25px; z-index: 2; position: relative; left: 240px;">
+    </div>
+</div>
+        <div class="sketchfab-embed-wrapper hidden" id="sketchfabViewer">
+    <iframe
+        title="Suomu 3D Ski Map"
+        frameborder="0"
+        allowfullscreen
+        mozallowfullscreen="true"
+        webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        src="https://sketchfab.com/models/eda3654190284752acac047f881b5acb/embed?autostart=1&annotations_visible=0&annotation_cycle=4&transparent=1&ui_hint=0">
+    </iframe>
+    	<div style="color: black;">
+    	초급 코스 / 중급 코스 / 상급 코스
+    	</div>
+</div>
             <div class="text-container">
                 
               </div>
@@ -767,6 +804,21 @@ p {
     <div class="circle" id="circle"></div>
 
     <script>
+    
+ // main2 클릭 시 Sketchfab Viewer 표시
+   // main2 클릭 시 Sketchfab Viewer 표시
+document.getElementById('main2').addEventListener('click', function () {
+    const sketchfabViewer = document.getElementById('sketchfabViewer');
+    sketchfabViewer.classList.add('visible'); // Viewer 보이기
+});
+
+// sketchfabViewer 클릭 시 Sketchfab Viewer 숨기기
+document.getElementById('sketchfabViewer').addEventListener('click', function () {
+    const sketchfabViewer = document.getElementById('sketchfabViewer');
+    sketchfabViewer.classList.remove('visible'); // Viewer 숨기기
+});
+
+
     const menuBtn = document.getElementById('menuBtn');
     const closeBtn = document.getElementById('closeBtn');
 

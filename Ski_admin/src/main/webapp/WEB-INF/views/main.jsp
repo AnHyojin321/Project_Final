@@ -108,6 +108,7 @@ header h1 {
 }
 
 </style>
+
 </head>
 <body>
 	
@@ -170,6 +171,7 @@ header h1 {
                     </tbody>
                 </table>
             </section>
+
         </main>
     </div>
 </body>

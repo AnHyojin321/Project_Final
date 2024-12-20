@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 </div>
 
-
+<jsp:include page="../common/chat.jsp" />
 <jsp:include page="../common/footer.jsp" />
 </body>
  <script>

@@ -147,28 +147,27 @@
 }
 /*  20241209 1218 점 스타일*/
 
-      .dot-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100px;
-      width: 100%;
-      top: 200px;
-      right: 170px;
-      position: relative;
-      
+        .dot-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        width: 100%;
+        position: absolute; /* 부모 요소 내에서 절대 위치 */
+        top: 80%; /* 화면 하단에 배치 */
+        z-index: 1000; /* 다른 요소보다 위로 오도록 설정 */
     }
 
     .dot {
-      width: 10px;
-      height: 10px;
-      background-color: rgb(138, 135, 135);
-      border-radius: 50%;
-      margin: 0 5px;
+        width: 10px;
+        height: 10px;
+        background-color: rgb(138, 135, 135);
+        border-radius: 50%;
+        margin: 0 5px;
     }
 
     .dot.active {
-      background-color: #2d8ebf;
+        background-color: #2d8ebf; /* 활성 상태의 색상 */
     }
 
     /* 초기 상태: 각 요소는 보이지 않게 설정 */
@@ -277,7 +276,7 @@
                 우리는 겨울을 더 특별하게 만들어 드립니다.</p>
        	
        	
-       			
+       		
 	 			
                 <div style="top: 280px; position: relative; font-size: 15px; left: 20px; display: flex; align-items: center; left: 230px;">
                 <div class="scroll-line">
@@ -285,6 +284,7 @@
                 </div>
                 <div style="color: black; top: 78px; position: relative;">&nbsp;&nbsp;&nbsp;SCROLL</div>
                 </div>
+                
 
                 <!--메뉴바, 문의하기-->
                 <button id="menuBtn" style="
@@ -305,16 +305,23 @@
                 
                 
                 <img src="resources/images/snow.png" class="snow-image"> 
-				<div class="dot-container">
+				
+       
+              
+                <button id="btn1-vertical"><br>찾<br>아<br>오<br>는<br> 길</button>
+		<div class="dot-container">
+                <div class="dot "></div>
+                <div class="dot"></div>
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>		<div class="dot-container">
                 <div class="dot "></div>
                 <div class="dot"></div>
                 <div class="dot active"></div>
                 <div class="dot"></div>
                 <div class="dot"></div>
               </div>
-       	
-                <button id="btn1-vertical"><br>찾<br>아<br>오<br>는<br> 길</button>
-
                 <div id="top1" style="z-index: 3; color: rgb(79, 78, 78);font-family: 'Roboto', sans-serif;
              font-weight: lighter; font-size: 33px;">
                  [Adv:nture] <br>

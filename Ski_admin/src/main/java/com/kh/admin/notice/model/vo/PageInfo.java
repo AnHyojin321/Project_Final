@@ -1,4 +1,4 @@
-package com.kh.ski.lostitem.model.vo;
+package com.kh.admin.notice.model.vo;
 
 public class PageInfo {
     private int listCount;    // 총 게시글 수

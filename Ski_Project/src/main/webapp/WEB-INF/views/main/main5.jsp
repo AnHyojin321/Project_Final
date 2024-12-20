@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <title>Document</title>
     <style>
@@ -18,7 +19,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background: url('resources/images/1216back.png') no-repeat center center fixed; /* 배경 이미지 경로 설정 */
+            background: url('resources/images/main5.jpg') no-repeat center center fixed; /* 배경 이미지 경로 설정 */
             background-size: cover; /* 배경 이미지가 화면을 꽉 채우도록 설정 */
             margin: 0; /* 기본 margin 제거 */
             height: 100vh; /* 화면 높이를 100%로 설정 */
@@ -52,11 +53,11 @@
 
        
         #btn1 {
-    right: 70px;
+    right: 80px;
     background-color: #0B3E74; /* 초기 색상 */
     color: white;
     transform: rotate(270deg);
-    width: 370px;
+    width: 200px;
     height: 68px;
     margin-top: 330px;
     position: relative;
@@ -96,26 +97,7 @@
             margin: 0;
         }
 
-        /* 원 스타일 */
-        .circle {
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            opacity: 0.5; /* 기본 투명도 */
-            border-radius: 50%;
-            position: absolute;
-            pointer-events: none; /* 마우스 이벤트 방지 */
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease; /* 부드러운 애니메이션 */
-            z-index: 1; /* 기본적으로 버튼 아래에 위치 */
-        }
-
-        .circle.enlarge {
-            width: 75px; /* hover 시 커지는 크기 */
-            height: 75px;
-            opacity: 0.6; /* hover 시 투명도 증가 */
-            z-index: 3; /* 버튼 위로 이동 */
-        }
+ 
 
         /* 눈송이 스타일 */
         .snowflake {
@@ -249,6 +231,8 @@ p {
     top: 200px;
     right: 270px;
     z-index: 2;
+        opacity: 0.2; /* 투명도 설정 (0.0 ~ 1.0) */
+    
 }
 
 .person-info {
@@ -385,7 +369,59 @@ p {
       background-color: #0056b3;
     }
     
-    
+   
+        .scrollable-div {
+            width: 70%;
+            height: 50%;
+            overflow-y: scroll;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            color: white;
+            position: absolute;
+            top: 200px;
+            left: 15%;
+            border-radius: 10px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .btn-toggle {
+            position: absolute;
+            top: 450px;
+            left: 6%;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0B3E74;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-toggle:hover {
+            background-color: #0056b3;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+       
 </style>
 </head>
 <body>
@@ -419,7 +455,7 @@ p {
                 background: url('resources/images/menu.png') no-repeat center center; 
                 background-size: cover; 
                 border: none; 
-                left: 91%;
+                left: 92.5%;
                 top: 20px;
                 cursor: pointer;
                 position: absolute;
@@ -455,8 +491,9 @@ p {
             <div style="color: white; top: 250px; position: absolute; left: 90px; width: 100%;">
                 <p style="font-size: 70px;">Review</p>
                 <br><br>
-                우리의 6개월, 개발자가 되기 위한  발걸음을,<br> 우리가 바라는 미래가 머지 않았다 가보자.
+                지난 6개월간의 시간들을 되돌아보며,<br> 취업을 목표로 나가자!
             </div>
+                                    <button class="btn-toggle">리뷰 보기</button>
             
             <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
                 <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 390px; bottom: 575px; z-index: 4;">
@@ -471,6 +508,8 @@ p {
             
 
             <div class="scrollable-div" >
+                    <button class="close-btn">X</button>
+            
                 <div class="person-info">
                     <p class="name">안효진</p>
                     <p class="description" style="top: 30px; position: relative;">"팀원들과 한달이 넘는 시간동안 같이 동고동락하며 <br>
@@ -516,6 +555,36 @@ p {
 
     <script>
 
+ // GSAP 애니메이션
+    document.querySelector('.btn-toggle').addEventListener('click', function () {
+        const scrollableDiv = document.querySelector('.scrollable-div');
+        if (!scrollableDiv.classList.contains('visible')) {
+            gsap.to(scrollableDiv, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.5, // 애니메이션 지속 시간
+                ease: "power2.out", // 부드러운 애니메이션 효과
+            });
+            scrollableDiv.classList.add('visible');
+        }
+    });
+
+    // 닫기 버튼 기능 추가
+    document.querySelector('.scrollable-div .close-btn').addEventListener('click', function () {
+        const scrollableDiv = document.querySelector('.scrollable-div');
+        gsap.to(scrollableDiv, {
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.5, // 애니메이션 지속 시간
+            ease: "power2.in", // 부드러운 애니메이션 효과
+            onComplete: () => {
+                scrollableDiv.classList.remove('visible');
+            },
+        });
+    });
+
+    
+    
     const menuBtn = document.getElementById('menuBtn');
     const closeBtn = document.getElementById('closeBtn');
 
@@ -584,7 +653,13 @@ p {
 	
     
     document.getElementById('overlay').classList.add('expand'); // 오버레이가 화면을 꽉 채우도록 확장
-
+	
+    
+    
+    document.querySelector('.btn-toggle').addEventListener('click', function () {
+        const scrollableDiv = document.querySelector('.scrollable-div');
+        scrollableDiv.classList.toggle('visible');
+    });
     </script>
 </body>
 </html>

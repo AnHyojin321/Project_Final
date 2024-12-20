@@ -92,6 +92,9 @@
     </style>
 </head>
 <body>
+
+            <a href="/admin/lostItemForm" class="btn">목록으로 돌아가기</a>
+
     <h1>분실물 센터</h1>
 
     <!-- 안내 메시지 -->

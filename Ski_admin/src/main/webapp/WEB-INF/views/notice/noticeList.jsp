@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>분실물 목록</title>
+    <title>공지사항 목록</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,12 +92,13 @@
     </style>
 </head>
 <body>
-    <h1>분실물 센터</h1>
+     <a href="/admin/NoticeForm" class="btn">글작성</a>
+
+    <h1>공지사항</h1>
 
     <!-- 안내 메시지 -->
     <div class="info-box">
-        <p>- 소노호텔앤리조트 내에 발생하는 습득물의 보관 기간은 1개월 입니다.</p>
-        <p>- 1개월 내 찾지 않은 습득물은 선별하여, 대명복지재단 기부를 통해 어려운 이웃에게 전달됩니다.</p>
+        <p>- 공지사항 목록입니다. 최신 공지사항을 확인하세요.</p>
     </div>
 
     <!-- 목록 테이블 -->
@@ -105,22 +106,20 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
-            <th>위치</th>
             <th>작성일</th>
             <th>조회수</th>
         </tr>
-        <c:forEach var="item" items="${list}">
-            <tr>
-                <td>${item.lostNo}</td>
-                <!-- 제목을 클릭하면 상세보기 페이지로 이동 -->
-                <td><a href="${pageContext.request.contextPath}/lostItemDetail?lostNo=${item.lostNo}">${item.lostTitle}</a></td>
-                <td>${item.lostLocation}</td>
-                <td>
-                    <fmt:formatDate value="${item.createDate}" pattern="yyyy.MM.dd" />
-                </td>
-                <td>${item.count}</td>
-            </tr>
-        </c:forEach>
+<c:forEach var="notice" items="${list}">
+    <tr>
+        <td>${notice.noticeNo}</td>
+        <td>${notice.noticeTitle}</td>
+        <td>${notice.createDate}</td>
+        <td>
+            <a href="/admin/noticeDetail?noticeNo=${notice.noticeNo}">상세보기</a>
+        </td>
+    </tr>
+</c:forEach>
+
     </table>
 
     <!-- 페이징 처리 -->

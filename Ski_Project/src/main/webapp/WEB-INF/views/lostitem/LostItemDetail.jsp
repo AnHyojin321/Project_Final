@@ -84,13 +84,7 @@
             background-color: #E64C2E;
         }
     </style>
-    <script>
-        function confirmDelete(lostNo) {
-            if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
-                location.href = "/admin/deleteLostItem?lostNo=" + lostNo;
-            }
-        }
-    </script>
+    
 </head>
 <body>
     <div class="container">
@@ -126,8 +120,7 @@
 
         <!-- 버튼 영역 -->
         <div class="button-container">
-            <a href="/admin/lostList" class="btn">목록으로 돌아가기</a>
-            <a href="javascript:void(0);" class="btn btn-delete" onclick="confirmDelete(${lostItem.lostNo})">삭제하기</a>
+            <a href="/ski/lostList" class="btn">목록으로 돌아가기</a>
         </div>
     </div>
 </body>

@@ -109,27 +109,9 @@
             margin: 0;
         }
 
-        /* 원 스타일 */
-        .circle {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            opacity: 0.5; /* 기본 투명도 */
-            border-radius: 50%;
-            position: absolute;
-            pointer-events: none; /* 마우스 이벤트 방지 */
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease; /* 부드러운 애니메이션 */
-            z-index: 1; /* 기본적으로 버튼 아래에 위치 */
-        }
+      
 
-        .circle.enlarge {
-            width: 75px; /* hover 시 커지는 크기 */
-            height: 75px;
-            opacity: 0.6; /* hover 시 투명도 증가 */
-            z-index: 3; /* 버튼 위로 이동 */
-        }
-
+       
         /* 눈송이 스타일 */
         .snowflake {
             position: absolute;
