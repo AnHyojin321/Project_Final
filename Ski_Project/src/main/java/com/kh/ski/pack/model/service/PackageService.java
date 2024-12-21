@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.pack.model.vo.Pack;
 import com.kh.ski.pack.model.vo.PackagePay;
+import com.kh.ski.room.model.vo.RoomPay;
 
 public interface PackageService {
 	

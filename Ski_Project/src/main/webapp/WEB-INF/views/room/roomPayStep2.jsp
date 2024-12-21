@@ -707,10 +707,24 @@ button:hover {
 	    document.getElementById("totalPrice").textContent = formattedPrice;    	
 	    
     
-        // 약관 동의 여부에 따라 버튼 활성화/비활성화
-        document.getElementById('agreeCheckbox').addEventListener('change', function() {
-            document.getElementById('nextButton').disabled = !this.checked;
-        });
+	    document.addEventListener('DOMContentLoaded', function () {
+	        // 체크박스 초기화
+	        const agreeCheckbox = document.getElementById('agreeCheckbox');
+	        if (agreeCheckbox) {
+	            agreeCheckbox.checked = false;
+	        }
+
+	        // 기존 초기화 로직
+	        const nextButton = document.getElementById('nextButton');
+	        nextButton.disabled = true;
+
+	        agreeCheckbox.addEventListener('change', function () {
+	            nextButton.disabled = !this.checked;
+	        });
+	    });
+
+        
+     
         
      // 객실의 최대 투숙 인원을 설정 (예: 4명)
 		// 최대 투숙 인원 설정

@@ -44,6 +44,7 @@ public class RoomDao {
 	public int insertPayInfo(SqlSessionTemplate sqlSession, RoomPay rp) {
 		return sqlSession.insert("roomMapper.insertPayInfo", rp);
 	}
+
  
 	
 }

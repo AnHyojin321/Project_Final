@@ -6,52 +6,64 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/pack/packagePayStep.css">
-<script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-function serverAuth() {
-    // HTML에서 totalPrice 값을 가져오기
-    var totalPrice = document.getElementById("totalPrice").innerText.trim();
 
-    // 숫자 값만 추출
-    totalPrice = parseInt(totalPrice.replace(/[^0-9]/g, ''), 10);
-
-   
-    // 세션에 데이터 저장을 요청 (FormData 형태로 전송)
-    $.ajax({
-        url: 'storeSessionData.pk', // 서버 URL
-        type: 'POST', // 요청 방식
-        data: {
-            memberNo: ${m.memberNo},
-            packageNo: ${p.packageNo}
-        },
-        success: function(data) {
-            if (data.status === 'success') {
-                // 세션 저장 성공 후 결제 요청 실행
-                AUTHNICE.requestPay({
-                    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
-                    method: 'card',
-                    orderId: '02e16b8c-779d-497f-b54d-07521212175d',
-                    amount: totalPrice,
-                    goodsName: "${p.packageName}",
-                    returnUrl: "http://localhost:8090/ski/payResult.pk",
-                    fnError: function(result) {
-                        alert('결제 실패: ' + result.errorMsg);
-                    }
-                });
-            } else {
-                alert('세션 데이터 저장 실패: ' + data.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX 오류: ", error);
-            alert('서버와의 통신 중 오류가 발생했습니다.');
-        }
-    });
+</head>
+<style>
+/* 공통 스타일 */
+.conditional-inputs {
+    display: flex;
+    flex-direction: row; /* 가로 배치 */
+    gap: 16px; /* 입력란 간 간격 */
+    width: 760px;
+    max-width: 800px; /* 넓이를 늘려서 두 개가 나란히 보이게 */
+    justify-content: space-between; /* 입력란 간 간격 조정 */
+    margin-left : 25px;
+    border-top : 2px solid black;
+    border-bottom : 2px solid black;
 }
 
-</script>
-</head>
+.styled-input {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1; /* 입력란 너비를 균등하게 */
+}
+
+.styled-input label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.styled-input input[type="date"] {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    box-sizing: border-box;
+    border : none;
+}
+
+.styled-input input[type="date"]:focus {
+    border-color: #000;
+    outline: none;
+}
+
+#dateInputs {
+    display: none; /* 기본적으로 숨김 */
+}
+
+#dateInputs.active {
+    display: flex; /* 'active' 클래스가 추가되면 표시 */
+}
+
+
+
+
+
+
+</style>
 
 <body>
 <jsp:include page="../common/header.jsp" />
@@ -85,7 +97,7 @@ function serverAuth() {
     <div class="package-steps">
 	    <span class="step">STEP1. 패키지 선택</span>
 	    <span class="step active">STEP2. 예약정보 확인</span>
-	    <span class="step">STEP3. 예약완료</span>
+	    <span class="step">STEP3. 결제하기</span>
     </div>
 
 <div class="package-container">
@@ -109,6 +121,18 @@ function serverAuth() {
                 </tr>
             </table>
         </div>
+        
+	   <div class="conditional-inputs" id="dateInputs">
+	        <div class="styled-input" data-type="date">
+	            <label class="input-label" for="checkInDate">체크인 날짜</label>
+	            <input type="date" id="checkInDateInput">
+	        </div>
+	
+	        <div class="styled-input" data-type="date">
+	            <label class="input-label" for="checkOutDate">체크아웃 날짜</label>
+	            <input type="date" id="checkOutDateInput">
+	        </div>
+	    </div> 
         
      
 
@@ -238,12 +262,32 @@ function serverAuth() {
             </label>
         </div>
         <div class="button-group">
-            <button class="prev-btn">결제 취소</button>
-            <button class="next-btn" id="nextButton" onclick="serverAuth();" disabled>결제하기</button>
+            <button class="prev-btn">이전으로</button>
+            <button type="submit" class="next-btn" id="nextButton" disabled>다음단계</button>
         </div>
     </div>
+    
+    <form id="packagePayForm" action="payStep2.pk" method="post">
+	    <!-- 회원번호와 패키지번호는 숨김 필드로 전송 -->
+	    <input type="hidden" name="memberNo" value="${m.memberNo}">
+	    <input type="hidden" name="packageNo" value="${p.packageNo}">
+	    <input type="hidden" id="checkInDate" name="checkInDate" value="">
+	    <input type="hidden" id="checkOutDate" name="checkOutDate" value="">
+	</form>
 
     <script>
+	    $(document).ready(function () {
+	        const packageNameSpan = $('.right');
+	        const maxLength = 25;
+	
+	        packageNameSpan.each(function () {
+	            const fullText = $(this).text();
+	            if (fullText.length > maxLength) {
+	                $(this).text(fullText.substring(0, maxLength) + '...');
+	            }
+	        });
+	    });
+
 
 	    // 총 가격 계산
 	    const totalPrice = ${p.packagePrice};
@@ -259,6 +303,133 @@ function serverAuth() {
         document.getElementById('agreeCheckbox').addEventListener('change', function() {
             document.getElementById('nextButton').disabled = !this.checked;
         });
+        
+     // Simulating packageSet
+        const packageSet = ${p.packageSet}; // Replace this with dynamic data
+        console.log(packageSet);
+
+        // Wait for DOM to fully load
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInputs = document.getElementById('dateInputs');
+
+            // Reset classes
+            dateInputs.classList.remove('active');
+
+            // Conditionally show date inputs
+            if (packageSet === 1 || packageSet === 3) {
+                dateInputs.classList.add('active');
+            }
+        });
+
+        
+     // 체크인 날짜와 체크아웃 날짜를 제한하고, 잘못된 선택 시 경고를 표시하는 스크립트
+
+        const checkInDateInput = document.getElementById('checkInDateInput');
+        const checkOutDateInput = document.getElementById('checkOutDateInput');
+        
+        
+
+        // 가용 날짜 범위 설정 (백엔드에서 제공된 데이터로 설정)
+        let availableStartDate = "${p.availableStartDate}"; // 예시 값, 실제 데이터로 대체
+        let availableEndDate = "${p.availableEndDate}"; // 예시 값, 실제 데이터로 대체
+     	
+        // 현재 날짜
+        const day = new Date();
+        day.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 초기화
+
+        // 로컬 날짜를 YYYY-MM-DD 형식으로 변환
+        const today = day.getFullYear() + '-' +
+            String(day.getMonth() + 1).padStart(2, '0') + '-' +
+            String(day.getDate()).padStart(2, '0');
+
+        console.log(today); // 결과 확인
+
+
+        checkInDateInput.addEventListener('change', () => {
+            const checkInDate1 = new Date(checkInDateInput.value);
+            if (checkInDate1) {
+            	// 체크인 날짜가 현재 날짜 이후인지 확인
+                if (checkInDate1 < today) {
+                    alert("체크인 날짜는 오늘(" + today + ") 이후여야 합니다.");
+                    checkInDateInput.value = '';
+                    return;
+                }
+                // 체크인 날짜가 범위 내인지 확인
+                if (checkInDate1 < new Date(availableStartDate) || checkInDate1 > new Date(availableEndDate)) {
+                    alert("패키지 이용가능일은 " + availableStartDate + " ~ " + availableEndDate + " 입니다.");
+                    checkInDateInput.value = '';
+                    return;
+                }
+            }
+        });
+
+        checkOutDateInput.addEventListener('change', () => {
+        	const checkInDate1 = new Date(checkInDateInput.value);
+            const checkOutDate2 = new Date(checkOutDateInput.value);
+
+            if (checkOutDate2) {
+                // 체크아웃 날짜가 범위 내인지 확인
+                if (checkOutDate2 < new Date(availableStartDate) || checkOutDate2 > new Date(availableEndDate)) {
+                    alert("패키지 이용가능일은 " + availableStartDate + " ~ " + availableEndDate + " 입니다.");
+                    checkOutDateInput.value = '';
+                    return;
+                }
+
+                // 체크아웃 날짜가 체크인 날짜보다 이전인지 확인
+                if (checkInDate1 && checkOutDate2 <= checkInDate1) {
+                    alert("체크아웃 날짜는 체크인 날짜 이후여야 합니다.");
+                    checkOutDateInput.value = '';
+                    return;
+                }
+     
+
+                // 체크아웃 날짜가 체크인 날짜의 하루 뒤인지 확인
+                if (checkInDate1) {
+                    const nextDay = new Date(checkInDate1);
+                    nextDay.setDate(checkInDate1.getDate() + 1);
+
+                    if (checkOutDate2.getTime() !== nextDay.getTime()) {
+                        alert("패키지 상품의 경우 객실은 1박만 가능합니다.");
+                        checkOutDateInput.value = '';
+                        return;
+                    }
+                }
+            }
+        });
+        
+        $(document).ready(function () {
+            $('#nextButton').on('click', function () {
+
+            	const checkInDateInput = document.getElementById('checkInDateInput');
+                const checkOutDateInput = document.getElementById('checkOutDateInput');
+                
+                const checkInDate = checkInDateInput.value;
+                const checkOutDate = checkOutDateInput.value;
+                
+                console.log(checkInDate);
+                console.log(checkOutDate);
+                
+
+                
+                // 숨겨진 필드에 값 설정
+                $('#checkInDate').val(checkInDate);
+                $('#checkOutDate').val(checkOutDate);
+                
+                if(!checkInDate || !checkOutDate) {
+                	alert("체크인/체크아웃 날짜를 선택해주세요.");
+                	return;
+                }
+                
+             // 폼 제출 (POST 방식)
+              $('#packagePayForm').submit();
+            	
+            });
+        });
+        
+
+
+
+
 
 	
     </script>

@@ -66,4 +66,5 @@ public class PackageDao {
 	public int insertPayInfo(SqlSessionTemplate sqlSession, PackagePay pp) {
 		return sqlSession.insert("packageMapper.insertPayInfo", pp);
 	}
+
 }

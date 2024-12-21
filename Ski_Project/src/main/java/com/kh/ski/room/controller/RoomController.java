@@ -281,7 +281,7 @@ public class RoomController {
 	    // 다음 페이지로 이동
 	    return "room/roomPayStep3"; // JSP 또는 Thymeleaf 뷰 파일 이름
 	}
-
+	
 
 	
 	

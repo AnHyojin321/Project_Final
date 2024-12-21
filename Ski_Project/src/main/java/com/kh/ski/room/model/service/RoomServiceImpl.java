@@ -59,4 +59,6 @@ public class RoomServiceImpl implements RoomService {
 	public int insertPayInfo(RoomPay rp) {
 		return roomDao.insertPayInfo(sqlSession, rp);
 	}
+
 }
+

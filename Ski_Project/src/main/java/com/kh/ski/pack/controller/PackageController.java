@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.common.model.vo.PageInfo;
@@ -45,15 +44,21 @@ public class PackageController {
 	public Map<String, String> storeSessionData(
 	        @RequestParam("memberNo") String memberNo,
 	        @RequestParam("packageNo") String packageNo,
+	        @RequestParam("checkInDate") String checkInDate,
+	        @RequestParam("checkOutDate") String checkOutDate,
 	        HttpSession session) {
 
 	    // 세션에 데이터 저장
 	    session.setAttribute("memberNo", memberNo);
 	    session.setAttribute("packageNo", packageNo);
+	    session.setAttribute("checkInDate", checkInDate);
+	    session.setAttribute("checkOutDate", checkOutDate);
 	    
 	    System.out.println("세션에 담긴 데이터 조회");
 	    System.out.println("memberNo : " + memberNo);
 	    System.out.println("packageNo : " + packageNo);
+	    System.out.println("checkInDate : " + checkInDate);
+	    System.out.println("checkOutDate : " + checkOutDate);
 
 	    // 성공 응답 반환
 	    Map<String, String> response = new HashMap<>();
@@ -71,16 +76,22 @@ public class PackageController {
 	    // 세션에서 데이터 가져오기
 	    String memberNo = (String) session.getAttribute("memberNo");
 	    String packageNo = (String) session.getAttribute("packageNo");
+	    String checkInDate = (String) session.getAttribute("checkInDate");
+	    String checkOutDate = (String) session.getAttribute("checkOutDate");
 	    
 	    System.out.println("세션에서 가져온 데이터");
 	    System.out.println("memberNo : " + memberNo);
 	    System.out.println("packageNo : " + packageNo);
+	    System.out.println("checkInDate : " + checkInDate);
+	    System.out.println("checkOutDate : " + checkOutDate);
 
 	    // 결제 결과 검증
 	    if ("0000".equals(authResultCode)) {
 	        model.addAttribute("tid", tid);
 	        model.addAttribute("memberNo", memberNo);
 	        model.addAttribute("packageNo", packageNo);
+	        model.addAttribute("checkInDate", checkInDate);
+	        model.addAttribute("checkOutDate", checkOutDate);
 
 	        
 	        return "pack/autoPostPackForm";
@@ -197,7 +208,7 @@ public class PackageController {
 	 * 패키지 구매자 정보 및 패키지 정보 조회
 	 */
 	@PostMapping("packPayInfo.pk")
-	public ModelAndView selectPackagePayInfo(int memberNo, int packageNo, ModelAndView mv) {
+	public ModelAndView selectPackagePayInfo(int memberNo, int packageNo, int packageSet, ModelAndView mv) {
 		
 		Pack p = packageService.selectPackageDetail(packageNo);
 		
@@ -205,10 +216,38 @@ public class PackageController {
 		
 		mv.addObject("p", p)
 		  .addObject("m", m)
-		  .setViewName("pack/packagePayStep");
+		  .addObject("packageSet", packageSet)
+		  .setViewName("pack/packagePayStep1");
 		return mv;
 	}
 	
+	@PostMapping("payStep2.pk")
+	public String selectPackageStep2(int memberNo, PackagePay rp, 
+			                          String checkInDate, String checkOutDate,
+			                          Model model) {
+		
+		System.out.println("패키지 최종 결제 단계컨트롤러 호출됨");
+		System.out.println(memberNo);
+		System.out.println(rp.getPackageNo());
+		System.out.println(rp.getCheckInDate());
+		System.out.println(rp.getCheckOutDate());
+		
+		Member m = roomService.selectMember(memberNo);
+		
+		int packageNo = rp.getPackageNo();
+		
+		Pack p = packageService.selectPackageDetail(packageNo);
+		
+		model.addAttribute("checkInDate", checkInDate);
+		model.addAttribute("checkOutDate", checkOutDate);
+		model.addAttribute("m", m);
+		model.addAttribute("p", p);
+		
+		return "pack/packagePayStep2";
+		
+	}
+	
+
 
 
 	

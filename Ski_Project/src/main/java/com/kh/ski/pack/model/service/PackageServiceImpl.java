@@ -69,5 +69,7 @@ public class PackageServiceImpl implements PackageService {
 	public int insertPayInfo(PackagePay pp) {
 		return packageDao.insertPayInfo(sqlSession, pp);
 	}
+	
+
 
 }

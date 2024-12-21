@@ -270,6 +270,7 @@ body {
         <form id="packagePayForm" action="${pageContext.request.contextPath}/packPayInfo.pk" method="post">
         	<input type="hidden" id="packageNo" name="packageNo" value="${p.packageNo}" />
         	<input type="hidden" id="memberNo" name="memberNo" value="" />
+        	<input type="hidden" id="packageSet" name="packageSet" value="${p.packageSet}" />
         </form>
     </div>
 

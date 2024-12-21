@@ -25,4 +25,6 @@ public interface RoomService {
 	 
 	 // 결제 정보 데이터에 저장
 	 int insertPayInfo(RoomPay rp);
+	 
+
 }

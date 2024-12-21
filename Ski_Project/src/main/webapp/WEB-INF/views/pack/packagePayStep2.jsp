@@ -9,6 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function serverAuth() {
+
     // HTML에서 totalPrice 값을 가져오기
     var totalPrice = document.getElementById("totalPrice").innerText.trim();
 
@@ -18,14 +19,13 @@ function serverAuth() {
    
     // 세션에 데이터 저장을 요청 (FormData 형태로 전송)
     $.ajax({
-        url: 'storeSessionData.ro', // 서버 URL
+        url: 'storeSessionData.pk', // 서버 URL
         type: 'POST', // 요청 방식
         data: {
             memberNo: ${m.memberNo},
-            roomNo: ${r.roomNo},
-            checkInDate: '${checkInDate}',
-            checkOutDate: '${checkOutDate}',
-            totalPrice: totalPrice
+            packageNo: ${p.packageNo},
+            checkInDate : '${checkInDate}',
+            checkOutDate : '${checkOutDate}'
         },
         success: function(data) {
             if (data.status === 'success') {
@@ -35,8 +35,8 @@ function serverAuth() {
                     method: 'card',
                     orderId: '02e16b8c-779d-497f-b54d-07521212175d',
                     amount: totalPrice,
-                    goodsName: "${r.roomType} ${r.roomName}",
-                    returnUrl: "http://localhost:8090/ski/payResult.ro",
+                    goodsName: "${p.packageName}",
+                    returnUrl: "http://localhost:8090/ski/payResult.pk",
                     fnError: function(result) {
                         alert('결제 실패: ' + result.errorMsg);
                     }
@@ -50,6 +50,7 @@ function serverAuth() {
             alert('서버와의 통신 중 오류가 발생했습니다.');
         }
     });
+
 }
 
 
@@ -58,11 +59,10 @@ function serverAuth() {
 
 <style>
 	/* step1 과 공통 css 영역 */
-	.reservation-menu {
+	.package-menu {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
-	  background-color: #f8f8f8;
 	  padding: 20px 0;
 	  gap: 60px;
 	}
@@ -101,7 +101,7 @@ function serverAuth() {
 	  color: #2a4d9e;
 	}
 	
-	.reservation-steps {
+	.package-steps {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
@@ -307,8 +307,8 @@ function serverAuth() {
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-	  <div class="reservation-menu">
-	    <div class="menu-item active">
+	  <div class="package-menu">
+	    <div class="menu-item">
 	      <div class="icon">
 	        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
 	      </div>
@@ -326,7 +326,7 @@ function serverAuth() {
 	      </div>
 	      <span>리프트</span>
 	    </div>
-	    <div class="menu-item">
+	    <div class="menu-item active">
 	      <div class="icon">
 	        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
 	      </div>
@@ -334,11 +334,10 @@ function serverAuth() {
 	    </div>
 	  </div>
   
-    <div class="reservation-steps">
-	    <span class="step">STEP1. 객실/날짜 선택</span>
-	    <span class="step">STEP2. 예약정보 입력</span>
-	    <span class="step active">STEP3. 예약정보 확인</span>
-	    <span class="step">STEP4. 예약완료</span>
+    <div class="package-steps">
+	    <span class="step">STEP1. 패키지 선택</span>
+	    <span class="step">STEP2. 예약정보 확인</span>
+	    <span class="step active">STEP3. 결제하기</span>
     </div>
     
     
@@ -348,14 +347,13 @@ function serverAuth() {
         <div class="reservation-details">
             <div class="hotel-info">
                 <h2>설레눈 리조트</h2>
-                <p>${r.roomType} ${r.roomName}</p>
+                <p>${p.packageName }</p>
                <!--<p>(2 Single Standard Ondol Furnished Balcony)</p>  --> 
                 <ul>
-                    <li>· 체크인 <span>${checkInDate}</span></li>
-                    <li>· 체크아웃 <span>${checkOutDate}</span></li>
-                    <li>· 숙박일수 <span>${stayDays}박</span></li>
-                    <li>· 투숙인원 <span>성인 ${adult}명 어린이 ${child}명</span></li>
-                    <li>· 결제금액 <span>${r.roomPrice} X ${stayDays}박</span></li>
+                    <li>· 상품번호 <span>#${p.packageNo}</span></li>
+                    <li>· 패키지 구성 <span>${p.productComposit}</span></li>
+                    <li>· 예약 날짜 <span>${checkInDate} ~ ${checkOutDate}</span></li>
+                    <li>· 결제금액 <span>${p.packagePrice}원</span></li>
                 </ul>
                 <div class="total-price">
                     <strong id="totalPrice"> </strong><strong>&nbsp;&nbsp; (VAT 포함)</strong>
@@ -366,7 +364,7 @@ function serverAuth() {
                 <h2>고객 정보</h2>
                 <ul>
                     <li>· 성명(한글) <span>${m.memberName}</span></li>
-                    <li>· 휴대전화 <span>${phone}</span></li>
+                    <li>· 휴대전화 <span>${m.phone}</span></li>
                     <li>· 이메일 <span>${m.email}</span></li>
                 </ul>
             </div>
@@ -377,23 +375,21 @@ function serverAuth() {
             <button class="pay-btn" onclick="serverAuth()">결제하기</button>
         </div>
     </div>
-    <input type="hidden" id="roomType" value="${r.roomType}"/>
+
     
 
     
     <script>
-	    // 총 가격 계산
-	    const totalPrice = ${r.roomPrice * stayDays};
-	
-	    // 세 자리마다 콤마 추가
-	    const formattedPrice = totalPrice.toLocaleString() + "원";
-	
-	    // HTML에 표시
-	    document.getElementById("totalPrice").textContent = formattedPrice;  
-	    
+    
+    // 총 가격 계산
+    const totalPrice = ${p.packagePrice};
 
-	    // -----------------------------------------------------------------------------------------
+    // 세 자리마다 콤마 추가
+    const formattedPrice = totalPrice.toLocaleString() + "원";
 
+    // HTML에 표시
+    document.getElementById("totalPrice").textContent = formattedPrice;  
+    
 
 
     </script>

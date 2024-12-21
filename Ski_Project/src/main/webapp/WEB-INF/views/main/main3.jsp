@@ -652,7 +652,7 @@ p {
              </p>
 
              <div class="main1back"  style="background-color: white; width: 330px; z-index: 3; height: 150px; top: 158px; position: relative;" >
-                <p style="color: black; font-size: 23px; position: relative; top: 56px; left: 40px; font-family: 'Roboto', sans-serif;"> <b>FRONT</b> <br> 패키지상품</p>
+                <p style="color: black; font-size: 23px; position: relative; top: 56px; left: 40px; font-family: 'Roboto', sans-serif;"> <b>PACKAGE</b> <br>PRODUCT</p>
                     
                 <div class="background-circle" onclick="location.href='list.pk'" style="cursor:pointer"></div>
                 <img src="resources/images/arrow1.png" style="width: 20px; top: 25px; z-index: 2; position: relative; left: 255px;">

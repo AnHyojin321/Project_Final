@@ -14,6 +14,8 @@ public class RoomPay {
 	private String rRefundStatus;  // 환불상태
 	private String rRefundate;  // 환불날짜
 	
+	private int packageNo;
+	
 	// 객식 조회 시 수용인원 필드 추가
 	private int roomNo;
 	private int memberNo;
@@ -23,7 +25,7 @@ public class RoomPay {
 
 	public RoomPay(int roomReservNo, int totalPrice, String checkInDate, String checkOutDate, String reservDate,
 			String request, String tid, String payStatus, String packRoomUsed, String rRefundStatus, String rRefundate,
-			int roomNo, int memberNo) {
+			int packageNo, int roomNo, int memberNo, String roomType) {
 		super();
 		this.roomReservNo = roomReservNo;
 		this.totalPrice = totalPrice;
@@ -36,16 +38,9 @@ public class RoomPay {
 		this.packRoomUsed = packRoomUsed;
 		this.rRefundStatus = rRefundStatus;
 		this.rRefundate = rRefundate;
+		this.packageNo = packageNo;
 		this.roomNo = roomNo;
 		this.memberNo = memberNo;
-	}
-	
-
-	public String getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(String roomType) {
 		this.roomType = roomType;
 	}
 
@@ -137,6 +132,14 @@ public class RoomPay {
 		this.rRefundate = rRefundate;
 	}
 
+	public int getPackageNo() {
+		return packageNo;
+	}
+
+	public void setPackageNo(int packageNo) {
+		this.packageNo = packageNo;
+	}
+
 	public int getRoomNo() {
 		return roomNo;
 	}
@@ -153,17 +156,23 @@ public class RoomPay {
 		this.memberNo = memberNo;
 	}
 
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
 	@Override
 	public String toString() {
 		return "RoomPay [roomReservNo=" + roomReservNo + ", totalPrice=" + totalPrice + ", checkInDate=" + checkInDate
 				+ ", checkOutDate=" + checkOutDate + ", reservDate=" + reservDate + ", request=" + request + ", tid="
 				+ tid + ", payStatus=" + payStatus + ", packRoomUsed=" + packRoomUsed + ", rRefundStatus="
-				+ rRefundStatus + ", rRefundate=" + rRefundate + ", roomNo=" + roomNo + ", memberNo=" + memberNo
-				+ ", roomType=" + roomType + "]";
+				+ rRefundStatus + ", rRefundate=" + rRefundate + ", packageNo=" + packageNo + ", roomNo=" + roomNo
+				+ ", memberNo=" + memberNo + ", roomType=" + roomType + "]";
 	}
 
-	
-	
 	
 
 	
