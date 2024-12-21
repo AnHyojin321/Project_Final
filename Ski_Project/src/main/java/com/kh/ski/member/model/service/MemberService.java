@@ -46,7 +46,19 @@ public interface MemberService {
     
     // 새롭게 추가되는 메서드들
     Member findMemberByKakaoId(String kakaoId); // 카카오 ID로 회원 조회
-    int kakaoInsertMember(Member member); // 카카오 로그인 회원가입
+    int kakaoInsertMember(Member member); // 카카오 로그인 회원가입4
+    
+    Member findMemberByEmail(String email);
+
+    
+    boolean isEmailDuplicate(String email); // 이메일 중복 여부 확인
+    
+    
+    
+    
+    
+    
+    
 }
 
 

@@ -254,18 +254,20 @@
                 <input type="text" id="memberId" name="memberId" placeholder="아이디" required>
                 <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호" required>
                 <button type="submit">로그인</button>
-                <div class="social-login">
-				<button class="kakao">
-				    <img src="resources/images/kakao-talk.png" alt="카카오톡">
-				    <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f2efc5913b287d02f1ca471e0572580f&redirect_uri=http://localhost:8090/ski/kakao/callback " class="kakao">카카오 로그인</a>
-				</button>
-
+				<div class="social-login">
+				    <!-- 카카오 로그인 버튼 -->
+				    <button class="kakao" onclick="location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f2efc5913b287d02f1ca471e0572580f&redirect_uri=http://localhost:8090/ski/kakao/callback'">
+				        <img src="resources/images/kakao-talk.png" alt="카카오톡">
+				        카카오 로그인
+				    </button>
 				
-                    <button class="google">
-                        <img src="resources/images/google.png" alt="구글">
-                        구글 로그인
-                    </button>
-                </div>
+				    <!-- 구글 로그인 버튼 -->
+				    <button class="google" onclick="location.href='#'">
+				        <img src="resources/images/google.png" alt="구글">
+				        구글 로그인
+				    </button>
+				</div>
+
                 <div class="links">
                     <a href="${pageContext.request.contextPath}/findId.me">아이디 찾기</a> | 
                     <a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a> | 

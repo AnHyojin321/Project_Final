@@ -168,5 +168,15 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.insertKakaoMember(sqlSession, member);
         // DAO 호출
     }
+    
+    @Override
+    public Member findMemberByEmail(String email) {
+        return memberDao.findMemberByEmail(sqlSession, email);
+    }
+    @Override
+    public boolean isEmailDuplicate(String email) {
+        Member member = memberDao.findMemberByEmail(sqlSession, email.trim().toLowerCase());
+        return member != null; // 중복 여부 반환 (null이면 중복 아님)
+    }
 
 }

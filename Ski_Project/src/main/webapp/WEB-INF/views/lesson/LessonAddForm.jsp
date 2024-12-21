@@ -127,6 +127,22 @@
                 <p>• 의류, 고글, 장갑등 개인 장비이므로 지정판매샵에서 현장 및 구매하시면 됩니다.</p>
                 <p style="color: #dc3545; font-weight: bold;">※ 예약변경은 최소3일전 가능하며 온라인 예약상금 중복은 불가능합니다.</p>
             </div>
+        
+            <div class="privacy-policy">
+                <h3>개인정보처리방침</h3>
+                <p>설레눈 리조트(이하 '회사')는 원활한 강습예약을 위하여 아래와 같은 개인정보를 수집하고 있습니다.</p>
+                <p><strong>수집하는 개인정보 항목:</strong> 이름, 이메일, 휴대전화, 접속 IP</p>
+                <p><strong>개인정보의 수집 및 이용목적:</strong> 개인 식별 및 신청 서비스 제공</p>
+                <p><strong>개인정보의 보유 및 이용기간:</strong> 서비스 완료 후 3개월</p>
+                <p>※ 개인정보 수집 동의를 거부할 수 있으나, 이 경우 강습예약 신청이 불가능합니다.</p>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="privacy-agreement" required>
+                    개인정보처리방침에 동의합니다.
+                </label>
+            </div>
 
             <form id="lessonReservationForm" method="post" action="insert.le">
                 <input type="hidden" name="memberNo" value="${loginMember.memberNo}">
@@ -155,10 +171,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="lessonDate" class="required">희망일</label>
-                    <input type="date" id="lessonDate" name="lessonDate" required>
-                </div>
+				<div class="form-group">
+				    <label for="lessonDate" class="required">희망일</label>
+				    <input type="date" id="lessonDate" name="lessonDate" required onclick="this.showPicker()">
+				</div>
+
 
                 <div class="form-group">
                     <label class="required">강습프로그램</label>
@@ -201,21 +218,7 @@
                     </p>
                 </div>
 
-                <div class="privacy-policy">
-                    <h3>개인정보처리방침</h3>
-                    <p>설레눈 리조트(이하 '회사')는 원활한 강습예약을 위하여 아래와 같은 개인정보를 수집하고 있습니다.</p>
-                    <p><strong>수집하는 개인정보 항목:</strong> 이름, 이메일, 휴대전화, 접속 IP</p>
-                    <p><strong>개인정보의 수집 및 이용목적:</strong> 개인 식별 및 신청 서비스 제공</p>
-                    <p><strong>개인정보의 보유 및 이용기간:</strong> 서비스 완료 후 3개월</p>
-                    <p>※ 개인정보 수집 동의를 거부할 수 있으나, 이 경우 강습예약 신청이 불가능합니다.</p>
-                </div>
 
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="privacy-agreement" required>
-                        개인정보처리방침에 동의합니다.
-                    </label>
-                </div>
 
                 <div class="button-group">
                     <button type="submit">예약하기</button>

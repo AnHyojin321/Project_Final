@@ -7,14 +7,11 @@ import com.kh.admin.lesson.model.vo.Lesson;
 
 public interface LessonService {
 
-	// 게시글 총 갯수 조
-    // 페이징 처리: 총 강습 예약 수 조회
-    int selectLessonCount();
+    // 총 리스트 개수 조회
+    int selectListCount(String keyword, String resStatus);
 
-    // 페이징 처리: 페이징된 강습 리스트 조회
-    List<Lesson> selectLessonList(PageInfo pi);
-    // 전체 강습 예약 리스트 조회
-    List<Lesson> selectAllLessons();
+    // 페이징된 예약 리스트 조회
+    List<Lesson> selectLessonList(PageInfo pi, String keyword, String resStatus);
 
     // 예약 상태 변경
     int updateLessonStatus(int resNo, String resStatus);

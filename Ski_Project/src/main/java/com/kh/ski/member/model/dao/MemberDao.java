@@ -144,6 +144,13 @@ public class MemberDao {
     public int insertKakaoMember(SqlSessionTemplate sqlSession, Member member) {
         return sqlSession.insert("member.insertKakaoMember", member);
     }
+    public Member findMemberByEmail(SqlSessionTemplate sqlSession, String email) {
+        return sqlSession.selectOne("member.findMemberByEmail", email);
+    }
+
+    
+    
+    
     
 }
 	

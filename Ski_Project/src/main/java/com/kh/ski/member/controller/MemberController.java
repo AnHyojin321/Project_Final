@@ -56,105 +56,9 @@ public class MemberController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	
-	
-//    @Value("${kakao.client-id}")
-//    private String clientId;
-//
-//    @Value("${kakao.redirect-uri}")
-//    private String redirectUri;	
-//	
-// 
-//
-//    /**
-//     * 액세스 토큰 요청
-//     */
-//    private String getAccessToken(String code) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "https://kauth.kakao.com/oauth/token";
-//
-//        // 요청 파라미터 설정
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("grant_type", "authorization_code");
-//        params.add("client_id", "f2efc5913b287d02f1ca471e0572580f");
-//        params.add("redirect_uri", "http://localhost:8090/ski/");
-//        params.add("code", code);
-//
-//        // 헤더 설정
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//        // 요청 전송
-//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-//        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
-//
-//        Map<String, Object> body = response.getBody();
-//        return body != null ? (String) body.get("access_token") : null;
-//    }
-//
-//    /**
-//     * 카카오 사용자 정보 요청
-//     */
-//    private Map<String, Object> getUserInfo(String accessToken) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "https://kapi.kakao.com/v2/user/me";
-//
-//        // 헤더 설정
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Authorization", "Bearer " + accessToken);
-//
-//        HttpEntity<String> request = new HttpEntity<>(headers);
-//
-//        // 요청 전송
-//        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, request, Map.class);
-//
-//        Map<String, Object> body = response.getBody();
-//        if (body != null) {
-//            Map<String, Object> kakaoAccount = (Map<String, Object>) body.get("kakao_account");
-//            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-//
-//            // 사용자 정보 추출
-//            Map<String, Object> userInfo = new HashMap<>();
-//            userInfo.put("id", body.get("id")); // 카카오 고유 ID
-//            userInfo.put("email", kakaoAccount.get("email")); // 이메일
-//            userInfo.put("nickname", profile.get("nickname")); // 닉네임
-//            return userInfo;
-//        }
-//        return null;
-//    }
-//    
-//    /**
-//     * 카카오 로그인 콜백 처리
-//     */
-//    @GetMapping("/kakao/callback")
-//    public String kakaoCallback(@RequestParam("code") String code, HttpSession session, Model model) {
-//        try {
-//            // 1. 액세스 토큰 요청
-//            String accessToken = getAccessToken(code);
-//
-//            // 2. 사용자 정보 요청
-//            Map<String, Object> userInfo = getUserInfo(accessToken);
-//
-//            if (userInfo != null) {
-//                // 3. 사용자 정보 처리 및 DB 삽입
-//                Member kakaoMember = memberService.processKakaoUser(userInfo);
-//
-//                // 4. 세션에 로그인 정보 저장
-//                session.setAttribute("loginMember", kakaoMember);
-//                return "redirect:/main"; // 메인 페이지로 이동
-//            } else {
-//                model.addAttribute("errorMsg", "카카오 로그인 실패");
-//                return "common/errorPage"; // 에러 페이지로 이동
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            model.addAttribute("errorMsg", "카카오 로그인 중 오류 발생");
-//            return "common/errorPage";
-//        }
-//    }	
-//    
-	
 	@Autowired
 	private KakaoService kakaoService;
+
 	@RequestMapping("/kakao/callback")
 	public String kakaoCallback(@RequestParam("code") String code, HttpSession session) {
 	    try {
@@ -169,12 +73,15 @@ public class MemberController {
 
 	        System.out.println("Kakao User Info: " + kakaoUserInfo);
 
-	        // 3. DB에서 카카오 ID로 회원 정보 조회
-	        Member loginMember = memberService.findMemberByKakaoId(kakaoId);
+	        // 3. DB에서 카카오 ID 또는 이메일로 회원 정보 조회
+	        Member existingMember = memberService.findMemberByKakaoId(kakaoId);
+	        if (existingMember == null) {
+	            existingMember = memberService.findMemberByEmail(email);
+	        }
 
 	        boolean isFirstLogin = false; // 최초 로그인 여부 확인 플래그
 
-	        if (loginMember == null) {
+	        if (existingMember == null) {
 	            // 3-1. 신규 회원 가입 처리
 	            Member newMember = new Member();
 	            newMember.setMemberId("kakao_" + kakaoId); // 회원 ID 설정
@@ -194,21 +101,18 @@ public class MemberController {
 
 	            // DB에 회원 정보 저장
 	            memberService.kakaoInsertMember(newMember);
-
-	            // 3-2. 회원가입 후 다시 DB에서 회원 정보 조회
-	            loginMember = memberService.findMemberByKakaoId(kakaoId);
-	            isFirstLogin = true; // 신규 회원이므로 최초 로그인
-	            System.out.println("서비스 전달받음");
-	        } else {
-	            // 기존 회원: 업데이트 대신 데이터 유지
-	            System.out.println("이미 존재하는 회원입니다. 기존 회원 데이터를 유지합니다.");
+	            existingMember = memberService.findMemberByKakaoId(kakaoId);
+	            isFirstLogin = true;
+	        } else if (existingMember.getKakaoLogin() == null) {
+	            // 기존 일반 회원인 경우 카카오 로그인 정보 통합
+	            existingMember.setKakaoLogin(kakaoId);
+	            memberService.updateMember(existingMember);
 	        }
 
 	        // 4. 로그인 성공 처리 (세션에 저장)
-	        if (loginMember != null) {
-	            session.setAttribute("loginMember", loginMember);
-	            session.setAttribute("alertMsg", "카카오로 로그인하셧습니다 마이페이지에서 수정하세요");
-	            System.out.println("로그인 사용자 정보: " + loginMember);
+	        if (existingMember != null) {
+	            session.setAttribute("loginMember", existingMember);
+	            System.out.println("로그인 사용자 정보: " + existingMember);
 	        } else {
 	            System.out.println("회원 정보가 DB에서 조회되지 않았습니다.");
 	            return "redirect:/error"; // 에러 페이지로 이동
@@ -230,6 +134,7 @@ public class MemberController {
 
 
 
+
     
 	@RequestMapping(value = "login.me", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, HttpServletResponse response) {
@@ -243,17 +148,22 @@ public class MemberController {
 	    Member loginMember = memberService.loginMember(m);
 
 	    if (loginMember != null) {
+	        // 탈퇴한 회원인지 확인
+	        if ("N".equals(loginMember.getMemberStatus())) {
+	            mv.addObject("alertMsg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+	            mv.setViewName("member/MemberLogin");
+	            return mv;
+	        }
+
 	        // 1. 정규 비밀번호 확인
 	        if (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            // System.out.println("로그인 정보 : " + loginMember);
 	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
 	        // 2. 임시 비밀번호 확인
 	        else if (loginMember.getTempPwd() != null 
 	                 && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getTempPwd())) {
 	            session.setAttribute("loginMember", loginMember);
-	            // System.out.println("임시 비밀번호로 로그인 성공 : " + loginMember);
 	            mv.setViewName("redirect:/"); // 메인 페이지로 이동
 	        } 
 	        // 3. 비밀번호 불일치
@@ -270,6 +180,7 @@ public class MemberController {
 
 	    return mv;
 	}
+
 
 	@GetMapping("logout.me") 
 	// 다른 옵션을 나열할 것이 아니라면 value= 은 생략 가능
@@ -327,42 +238,78 @@ public class MemberController {
 	
 }
 	*/
-	
-	@PostMapping("insert.me")
-	public String insertMember(Member m, Model model, HttpSession session) {
-	    String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
-	    m.setMemberPwd(encPwd);
+    @ResponseBody
+    @PostMapping("emailCheck.me")
+    public String emailCheck(@RequestParam("email") String email) {
+        boolean isDuplicate = memberService.isEmailDuplicate(email);
+        return isDuplicate ? "EXISTS" : "NOT_EXISTS"; // 중복 여부 반환
+    }
 
-	    int result = memberService.insertMember(m);
-	    if (result > 0) {
-	        // 세션에서 이메일과 인증번호 가져오기
-	        String sessionEmail = (String) session.getAttribute("email");
-	        String sessionCertNo = (String) session.getAttribute("certNo");
+    @PostMapping("insert.me")
+    public String insertMember(Member m, Model model, HttpSession session) {
+        // 세션에서 이메일 인증 여부 확인
+        String sessionEmail = (String) session.getAttribute("email");
+        String sessionCertNo = (String) session.getAttribute("certNo");
 
-	        System.out.println("Controller - 세션 이메일: " + sessionEmail);
-	        System.out.println("Controller - 세션 인증번호: " + sessionCertNo);
+        if (sessionEmail == null || sessionCertNo == null || !sessionEmail.equals(m.getEmail().trim().toLowerCase())) {
+            model.addAttribute("alertMsg", "이메일 인증이 완료되지 않았습니다.");
+            return "member/MemberEnrollForm";
+        }
 
-	        // 입력된 이메일과 인증번호 비교
-	        if (sessionEmail != null && sessionEmail.equals(m.getEmail().trim().toLowerCase())
-	                && sessionCertNo != null) {
-	            int emailCertResult = memberService.insertEmailCert(sessionEmail, sessionCertNo);
+        // 이메일 중복 여부 확인
+        if (memberService.isEmailDuplicate(m.getEmail())) {
+            model.addAttribute("alertMsg", "이미 가입된 이메일입니다. 다른 이메일을 입력해주세요.");
+            return "member/MemberEnrollForm";
+        }
 
-	            if (emailCertResult > 0) {
-	                session.removeAttribute("certNo"); // 인증번호 삭제
-	                session.removeAttribute("email"); // 이메일 삭제
-	                session.setAttribute("alertMsg", "회원가입 성공! 이메일 인증 데이터 저장 완료.");
-	            } else {
-	                session.setAttribute("alertMsg", "회원가입 성공! 이메일 인증 데이터 저장 실패.");
-	            }
-	        } else {
-	            session.setAttribute("alertMsg", "회원가입 성공! 인증번호가 유효하지 않습니다.");
-	        }
-	        return "redirect:/";
-	    } else {
-	        model.addAttribute("alertMsg", "회원가입 실패");
-	        return "member/MemberEnrollForm";
-	    }
-	}
+        // 비밀번호 암호화
+        String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+        m.setMemberPwd(encPwd);
+
+        int result = memberService.insertMember(m);
+        if (result > 0) {
+            session.removeAttribute("email");
+            session.removeAttribute("certNo");
+            model.addAttribute("alertMsg", "회원가입이 성공적으로 완료되었습니다!");
+            return "member/MemberLogin";
+        } else {
+            model.addAttribute("alertMsg", "회원가입에 실패했습니다.");
+            return "member/MemberEnrollForm";
+        }
+    }
+//	@PostMapping("insert.me")
+//	public String insertMember(Member m, Model model, HttpSession session) {
+//	    String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+//	    m.setMemberPwd(encPwd);
+//
+//	    int result = memberService.insertMember(m);
+//	    if (result > 0) {
+//	        // 세션에서 이메일과 인증번호 가져오기
+//	        String sessionEmail = (String) session.getAttribute("email");
+//	        String sessionCertNo = (String) session.getAttribute("certNo");
+//
+//	        System.out.println("Controller - 세션 이메일: " + sessionEmail);
+//	        System.out.println("Controller - 세션 인증번호: " + sessionCertNo);
+//
+//	        // 입력된 이메일과 인증번호 비교
+//	        if (sessionEmail != null && sessionEmail.equals(m.getEmail().trim().toLowerCase())
+//	                && sessionCertNo != null) {
+//	            int emailCertResult = memberService.insertEmailCert(sessionEmail, sessionCertNo);
+//
+//	            if (emailCertResult > 0) {
+//	                session.removeAttribute("certNo"); // 인증번호 삭제
+//	                session.removeAttribute("email"); // 이메일 삭제
+//	            
+//	            }
+//	        } else {
+//	            session.setAttribute("alertMsg", "회원가입 성공! 인증번호가 유효하지 않습니다.");
+//	        }
+//	        return "member/MemberLogin";
+//	    } else {
+//	        model.addAttribute("alertMsg", "회원가입 실패");
+//	        return "member/MemberEnrollForm";
+//	    }
+//	}
 
 
 
@@ -400,6 +347,8 @@ public class MemberController {
 		
 	}
 */
+	
+	/*
 	@ResponseBody
 	@PostMapping(value = "cert.do", produces = "text/html; charset=UTF-8")
 	public String sendCertNo(String email, HttpSession session) {
@@ -427,8 +376,26 @@ public class MemberController {
 
 	    return "인증번호 발급 완료";
 	}
+*/
+	
+	
+	@ResponseBody
+	@PostMapping("cert.do")
+	public String sendCertNo(@RequestParam("email") String email, HttpSession session) {
+	    // 이메일 인증번호 생성 및 세션 저장
+	    int random = (int) (Math.random() * 900000 + 100000);
+	    session.setAttribute("certNo", String.valueOf(random));
+	    session.setAttribute("email", email.trim().toLowerCase());
 
+	    // 인증번호 이메일 발송
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    message.setSubject("[SEOLLENEUN RESORT] 이메일 인증 번호");
+	    message.setText("인증 번호: " + random);
+	    message.setTo(email);
+	    mailSender.send(message);
 
+	    return "인증번호가 이메일로 발송되었습니다.";
+	}
 
 
 
@@ -488,7 +455,7 @@ public class MemberController {
 
 	    if (loginMember == null) {
 	        System.out.println("[DEBUG] 세션에 로그인 정보가 없습니다. 로그인 페이지로 리다이렉트");
-	        return "redirect:/loginPage.me"; // 로그인 페이지로 리다이렉트
+	        return "redirect:/login.me"; // 로그인 페이지로 리다이렉트
 	    }
 
 	    return "mypage/myPage"; // 정상적으로 마이페이지로 이동
@@ -592,7 +559,7 @@ public class MemberController {
 	    if (loginMember == null) {
 	        System.out.println("세션에 로그인 정보가 없습니다.");
 	        session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-	        return "redirect:/loginPage.me";
+	        return "redirect:/login.me";
 	    }
 
 	    String encPwd = loginMember.getMemberPwd();
@@ -606,7 +573,6 @@ public class MemberController {
 
 	        if (result > 0) {
 	            session.removeAttribute("loginMember");
-	            session.setAttribute("alertMsg", "회원 탈퇴 성공");
 	            return "redirect:/";
 	        } else {
 	            model.addAttribute("errorMsg", "회원 탈퇴 실패");

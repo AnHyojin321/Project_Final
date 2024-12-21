@@ -20,18 +20,37 @@
 	    <result column="MEMBER_NO" property="memberNo" /> 
 	</resultMap>
 
-<select id="selectListCount" parameterType="string" resultType="_int">
+
+
+   <!-- 총 리스트 개수 조회 -->
+<select id="selectListCount" parameterType="map" resultType="int">
     SELECT COUNT(*)
-      FROM LESSON_RESERVATION
+    FROM LESSON_RESERVATION
+    <where>
+        <if test="keyword != null and keyword != ''">
+            LESSON_TITLE LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="resStatus != null and resStatus != ''">
+            AND RES_STATUS = #{resStatus}
+        </if>
+    </where>
+</select>
+
+<select id="selectLessonList" parameterType="map" resultMap="lessonResultSet">
+    SELECT RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, RES_STATUS, LESSON_TITLE, LESSON_RES_DATE, MEMBER_NO
+    FROM LESSON_RESERVATION
+    <where>
+        <if test="keyword != null and keyword != ''">
+            LESSON_TITLE LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="resStatus != null and resStatus != ''">
+            AND RES_STATUS = #{resStatus}
+        </if>
+    </where>
+    ORDER BY RES_NO DESC
 </select>
 
 
-		    <select id="selectAllLessons" resultMap="lessonResultSet">
-        SELECT 
-            RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, RES_STATUS, 
-            LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
-        FROM LESSON_RESERVATION
-    </select>
 
     <!-- 예약 상태 변경 -->
     <update id="updateLessonStatus">
@@ -39,14 +58,6 @@
         SET RES_STATUS = #{resStatus}
         WHERE RES_NO = #{resNo}
     </update>
-	
-<select id="selectLessonList" resultMap="lessonResultSet">
-    SELECT 
-        RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, RES_STATUS, 
-        LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
-    FROM LESSON_RESERVATION
-</select>
-
-
+    
 
 </mapper>

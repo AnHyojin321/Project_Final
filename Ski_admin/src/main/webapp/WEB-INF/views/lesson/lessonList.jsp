@@ -187,7 +187,7 @@
         color: #ffc107; /* 주황색 */
         font-weight: bold;
     }
-    .pagination {
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,6 +224,65 @@
     border-color: #ddd;
     background-color: #f8f9fa;
 }
+/* 필터 바 스타일 */
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 입력 필드 스타일 */
+.filter-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+    transition: border-color 0.3s;
+}
+
+.filter-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 셀렉트 박스 스타일 */
+.filter-select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 검색 버튼 스타일 */
+.filter-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.filter-button:active {
+    transform: scale(0.95);
+}
     
     </style>
 </head>
@@ -239,13 +298,31 @@
                 <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
             </header>
             
-	            <select name="amount">
-	            	<option value="5">5개</option>
-	            	<option value="10">10개</option>
-	            	<option value="20">20개</option>
-	            	<option value="50">50개</option>
-	            	<option value="100">100개</option>
-	            </select>
+<div class="filter-bar">
+    <form action="lesson.ad" method="get" class="filter-form">
+        <!-- 검색어 입력 -->
+        <input type="text" name="keyword" placeholder="제목 검색" value="${keyword}" class="filter-input">
+        
+        <!-- 예약 상태 필터 -->
+        <select name="resStatus" class="filter-select">
+            <option value="">전체</option>
+            <option value="Y" ${resStatus == 'Y' ? 'selected' : ''}>입금 완료</option>
+            <option value="N" ${resStatus == 'N' ? 'selected' : ''}>입금 대기중</option>
+        </select>
+
+        <!-- 페이지 크기 선택 -->
+        <select name="pageSize" onchange="this.form.submit()" class="filter-select">
+            <option value="10" ${pageSize == 10 ? 'selected' : ''}>10개씩 보기</option>
+            <option value="20" ${pageSize == 20 ? 'selected' : ''}>20개씩 보기</option>
+            <option value="100" ${pageSize == 100 ? 'selected' : ''}>100개씩 보기</option>
+        </select>
+        
+        <!-- 검색 버튼 -->
+        <button type="submit" class="filter-button">검색</button>
+    </form>
+</div>
+
+
             <div class="lesson-table-container">
                 <table class="lesson-table">
                     <thead>
@@ -295,18 +372,17 @@
     
 <div class="pagination">
     <c:if test="${pi.currentPage > 1}">
-        <a href="lesson.ad?currentPage=${pi.currentPage - 1}">&laquo;</a>
+        <a href="lesson.ad?currentPage=${pi.currentPage - 1}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}">&laquo;</a>
     </c:if>
 
     <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-        <a href="lesson.ad?currentPage=${p}" class="${p == pi.currentPage ? 'active' : ''}">${p}</a>
+        <a href="lesson.ad?currentPage=${p}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}" class="${p == pi.currentPage ? 'active' : ''}">${p}</a>
     </c:forEach>
 
     <c:if test="${pi.currentPage < pi.maxPage}">
-        <a href="lesson.ad?currentPage=${pi.currentPage + 1}">&raquo;</a>
+        <a href="lesson.ad?currentPage=${pi.currentPage + 1}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}">&raquo;</a>
     </c:if>
 </div>
-
 
     <!-- 모달 -->
     <div id="editModal" class="modal">

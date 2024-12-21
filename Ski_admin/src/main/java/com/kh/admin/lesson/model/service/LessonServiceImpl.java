@@ -20,28 +20,20 @@ public class LessonServiceImpl implements LessonService {
     @Autowired
     private LessonDao lessonDao;
 
-    // 페이징 처리: 총 강습 예약 수 조회
-    @Override
-    public int selectLessonCount() {
-        return lessonDao.selectLessonCount(sqlSession);
-    }
 
-    // 페이징 처리: 페이징된 강습 리스트 조회
     @Override
-    public List<Lesson> selectLessonList(PageInfo pi) {
-        return lessonDao.selectLessonList(sqlSession, pi);
-    }
-    
-    
-    @Override
-    public List<Lesson> selectAllLessons() {
-        return lessonDao.selectAllLessons(sqlSession);
+    public int selectListCount(String keyword, String resStatus) {
+        return lessonDao.selectListCount(sqlSession, keyword, resStatus);
     }
 
     @Override
-    @Transactional
+    public List<Lesson> selectLessonList(PageInfo pi, String keyword, String resStatus) {
+        return lessonDao.selectLessonList(sqlSession, pi, keyword, resStatus);
+    }
+
+
+    @Override
     public int updateLessonStatus(int resNo, String resStatus) {
-        System.out.println("Service에서 전달된 값 - resNo: " + resNo + ", resStatus: " + resStatus);
         return lessonDao.updateLessonStatus(sqlSession, resNo, resStatus);
     }
 

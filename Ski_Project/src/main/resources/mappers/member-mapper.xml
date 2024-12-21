@@ -18,6 +18,7 @@
 		<result column="MEMBER_STATUS" property="memberStatus" />
 		<result column="KAKAO_ACCESS_TOKEN" property="kakaoAccessToken" />
    		<result column="KAKAO_REFRESH_TOKEN" property="kakaoRefreshToken" />
+		<result column="LOGIN_TYPE" property="loginType" />
 	</resultMap>
 	
 	<resultMap id="emailCertResultSet" type="emailCert">
@@ -102,12 +103,14 @@
 </insert>
 	
 
-    <select id="findId" parameterType="map" resultType="string">
-        SELECT MEMBER_ID
-        FROM MEMBER
-        WHERE MEMBER_NAME = #{memberName}
-          AND EMAIL = #{email}
-    </select>
+<select id="findId" parameterType="map" resultType="string">
+    SELECT MEMBER_ID
+    FROM MEMBER
+    WHERE MEMBER_NAME = #{memberName}
+      AND EMAIL = #{email}
+      AND KAKAO_LOGIN IS NULL <!-- 일반 회원만 조회 -->
+</select>
+
 	
 	
     <select id="findPwd" parameterType="map" resultType="string">
@@ -197,6 +200,11 @@
     )
 </insert>
 
+<select id="findMemberByEmail" parameterType="string" resultMap="memberResultSet">
+    SELECT *
+      FROM MEMBER
+     WHERE EMAIL = #{email}
+</select>
 
 
 

@@ -17,8 +17,22 @@
 		<result column="MEMBER_STATUS" property="memberStatus" />
 	</resultMap>
 	
-	    <select id="selectAllMembers" parameterType="member"
-			resultMap="memberResultSet">
+    <!-- 회원 전체 수 조회 (필터 및 검색 적용) -->
+    <select id="selectListCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        <where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="memberStatus != null and memberStatus != ''">
+                AND MEMBER_STATUS = #{memberStatus}
+            </if>
+        </where>
+    </select>
+
+    <!-- 회원 리스트 조회 (페이징, 필터 및 검색 적용) -->
+    <select id="selectMemberList" parameterType="map" resultMap="memberResultSet">
         SELECT 
             MEMBER_NO, 
             MEMBER_NAME, 
@@ -29,18 +43,23 @@
             CREATE_DATE, 
             MEMBER_STATUS
         FROM MEMBER
+        <where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="memberStatus != null and memberStatus != ''">
+                AND MEMBER_STATUS = #{memberStatus}
+            </if>
+        </where>
+        ORDER BY MEMBER_NO DESC
     </select>
-    
-<update id="updateMemberStatus">
-    UPDATE MEMBER
-    SET MEMBER_STATUS = #{memberStatus}
-    WHERE MEMBER_NO = #{memberNo}
-    
-</update>
-    <select id="totalMemberCount" resultType="_int">
-        SELECT COUNT(*) FROM MEMBER
-        WHERE MEMBER_STATUS = 'Y'
-    </select>
+
+    <!-- 회원 상태 변경 -->
+    <update id="updateMemberStatus">
+        UPDATE MEMBER
+        SET MEMBER_STATUS = #{memberStatus}
+        WHERE MEMBER_NO = #{memberNo}
+    </update>
 
 
 </mapper>

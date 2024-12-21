@@ -8,8 +8,6 @@
     <title>설레눈 강습 예약 상세보기</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-
-
         .details-container {
             max-width: 900px;
             margin: 50px auto;
@@ -19,14 +17,15 @@
             overflow: hidden;
         }
 
-        .header1 {
+        /* header1에서 변경된 클래스명 */
+        .details-header { 
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
 
-        .header h1 {
+        .details-header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
         }
@@ -132,17 +131,15 @@
                 margin-bottom: 5px;
             }
         }
-        
     </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
     <div class="details-container">
-        <div class="header1">
+        <div class="details-header"> 
             <h1>🎿 설레눈 강습 예약</h1>
             <div class="reservation-number">예약 번호: ${ les.resNo }</div>
         </div>
-
         <div class="content">
             <div class="detail-row">
                 <div class="detail-label">예약 상태</div>
