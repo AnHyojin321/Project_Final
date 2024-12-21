@@ -46,9 +46,7 @@
         PHONE,
         ADDRESS,
         KAKAO_LOGIN,
-        MEMBER_STATUS,
-        KAKAO_ACCESS_TOKEN,
-        KAKAO_REFRESH_TOKEN
+        MEMBER_STATUS
     )
     VALUES (
         SEQ_MEMBER_NO.NEXTVAL, 
@@ -57,14 +55,14 @@
         #{memberName}, 
         #{email}, 
         #{birthDate}, 
-        #{phone},
-        #{address},
-        #{kakaoLogin},
-        #{kakaoAccessToken},
-        #{kakaoRefreshToken},
+        #{phone}, 
+        #{address}, 
+        #{kakaoLogin}, 
         'Y'
     )
 </insert>
+
+
 
 	
 	<select id="idCheck" parameterType="string" resultType="_int">
@@ -135,8 +133,6 @@
 		       , PHONE = #{phone}
 		       , ADDRESS = #{address}
 		       , KAKAO_LOGIN = #{kakaoLogin}
-		       , KAKAO_ACCESS_TOKEN = #{kakaoAccessToken}
-               , KAKAO_REFRESH_TOKEN = #{kakaoRefreshToken}
 		    WHERE MEMBER_ID = #{memberId}
 		      AND MEMBER_STATUS = 'Y'
 	</update>

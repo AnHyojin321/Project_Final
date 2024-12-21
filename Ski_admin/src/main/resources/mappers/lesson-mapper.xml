@@ -28,7 +28,7 @@
 
 		    <select id="selectAllLessons" resultMap="lessonResultSet">
         SELECT 
-            RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, LESSON_STATUS, 
+            RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, RES_STATUS, 
             LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
         FROM LESSON_RESERVATION
     </select>
@@ -36,10 +36,17 @@
     <!-- 예약 상태 변경 -->
     <update id="updateLessonStatus">
         UPDATE LESSON_RESERVATION
-        SET LESSON_STATUS = #{lessonStatus}
+        SET RES_STATUS = #{resStatus}
         WHERE RES_NO = #{resNo}
     </update>
 	
+<select id="selectLessonList" resultMap="lessonResultSet">
+    SELECT 
+        RES_NO, LESSON_DATE, LESSON_TIME, LESSON_TYPE, RES_STATUS, 
+        LESSON_TITLE, LESSON_RES_DATE, LESSON_PHONE, MEMBER_NO
+    FROM LESSON_RESERVATION
+</select>
+
 
 
 </mapper>

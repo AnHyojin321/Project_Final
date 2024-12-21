@@ -188,7 +188,7 @@
 			            <td class="resNo">${les.resNo}</td>
 			            <td>
 			                <c:choose>
-			                    <c:when test="${les.lessonStatus == 'Y'}">
+			                    <c:when test="${les.resStatus == 'Y'}">
 			                        <span class="reservation-status success">예약 성공</span>
 			                    </c:when>
 			                    <c:otherwise>
