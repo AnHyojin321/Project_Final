@@ -8,27 +8,10 @@
     <title>슬로프 오픈 관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        thead>tr>th {
-            width: 200px;
-        }
-        .openBtn {
-            width: 100%;
-            height: 40px;
-            background-color: rgb(194, 220, 255);
-            border: 0px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        table {
-            border-spacing: 0px;
-            width: 100%;
-        }
-        th {
-            padding: 0px;
-        }
         select {
             display: none; 
-            width: 90%;
+            width: 100%;
+            height:100%;
             font-size: 13px;
             background-color: #f5f5f5;
             border: 1px solid #ccc;
@@ -42,35 +25,120 @@
             border-color: #666666;
             background-color: #f5f5f5;
         }
+        
+        /* 메인 콘텐츠 */
+.content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
 
-        form>div {
-            width: 99%;
-            padding-top:10px;
-            text-align: right;
-        }
-        #submit {
-            width: 100px;
-            height: 40px;
+header h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.welcome-msg {
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+/* 테이블 */
+.dashboard-tables table {
+	width: 100%; 
+    border-collapse: collapse;
+    height:90%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.dashboard-tables th,
+.dashboard-tables td {
+    padding: 15px;
+    text-align: left;
+    height:20px;
+}
+
+.dashboard-tables th {
+    background-color: #2c3e50;
+    color: white;
+    font-size: 1em;
+}
+
+.dashboard-tables td {
+    background-color: white;
+    font-size: 0.9em;
+    max-height: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* 애니메이션 효과 */
+.dashboard-cards, .dashboard-tables {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#btnOpenTd {
+	padding:0px;
+	
+}
+        .openBtn {
+            width: 100%;
+            height: 98%;
             background-color: rgb(194, 220, 255);
-            border: 1px solid gray;
+            border: 0px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+       #submitDiv {
+		    width: 100%;
+		    display: flex;           /* flexbox를 사용하도록 설정 */
+		    justify-content: flex-end; /* 자식 요소들을 오른쪽으로 정렬 */
+		}
+		#submit {
+            width: 130px;
+            height: 50px;
+            background-color: rgb(194, 220, 255);
+            border: none;
             border-radius: 5px;
             font-weight: bold;
             font-size: 15px;
             transition: background-color 0.3s ease;
+            margin:15px;
         }
         #submit:hover {
             cursor: pointer;
             background-color: rgb(139, 190, 255);
         }
+        #selectTd {
+        	padding:5px;
+        }
     </style>
+    
 </head>
 <body>
 	<div class="admin-container">
-		<jsp:include page="../common/sidebar.jsp" />
-	    <div id="title">
-	        <h1>슬로프 오픈 관리</h1>
-	    </div>
-	    <div>
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
+            <header>
+                <h1>슬로프 오픈 관리</h1>
+                <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
+            </header>
+            <section class="dashboard-tables">
 	    	<form action="slopeUpdateControl.sm" id="slopeForm" method="post">
 		        <table border="1px solid black">
 		            <thead>
@@ -99,12 +167,12 @@
 						            <input type="hidden" name="so[${status.index}].slopeLevel" value="${so.slopeLevel}" />
 						        </td>
 						        <!-- Open/Close 상태 -->
-						        <td>
+						        <td id="btnOpenTd">
 						            <input type="button" class="openBtn" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" />
 						            <input type="hidden" class="slopeIsOpen" name="so[${status.index}].slopeIsOpen" value="${so.slopeIsOpen}" />
 						        </td>
 						        <!-- 사유 선택 -->
-						        <td>
+						        <td id="selectTd">
 						            <select name="so[${status.index}].slopeNote">
 						                <option value="" ${so.slopeNote == '' ? 'selected' : '' } disabled>사유선택</option>
 						                <option value="눈상태" ${so.slopeNote == '눈상태' ? 'selected' : ''}>눈상태</option>
@@ -118,12 +186,13 @@
 	
 		            </thead>
 		        </table>
-		        <div>
+		        <div id="submitDiv">
 		        	<input type="submit" id="submit" value="적용하기">
 		        </div>
 	    	</form>
+	    	</section>
+        </main>
 	    </div>
-    </div>
 
     <script>
 	    $(document).ready(function() {

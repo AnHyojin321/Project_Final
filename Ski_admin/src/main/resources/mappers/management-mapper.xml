@@ -4,9 +4,8 @@
 
     <!-- 스키장 오픈 결과 매핑 -->
     <resultMap id="skiResortOpenResultSet" type="skiResortOpen">
+    	<id column="SKI_RESORT_OPEN_NO" property="skiResortOpenNo"/>
         <result column="SKI_RESORT_IS_OPEN" property="skiResortIsOpen"/>
-        <result column="SKI_RESORT_DATE" property="skiResortDate"/>
-        <result column="SKI_RESORT_DAY" property="skiResortDay"/>
     </resultMap>
 
     <!-- 슬로프 오픈 결과 매핑 -->
@@ -20,11 +19,8 @@
     
     <!-- 스키장 오픈 조회 쿼리문 -->
     <select id="selectSkiResort" resultMap="skiResortOpenResultSet">
-        SELECT SKI_RESORT_IS_OPEN, 
-		       TO_CHAR(SKI_RESORT_DATE, 'YYYY-MM-DD') AS SKI_RESORT_DATE,
-		       SKI_RESORT_DAY
+        SELECT SKI_RESORT_IS_OPEN, SKI_RESORT_OPEN_NO
 		FROM SKI_RESORT_OPEN
-		ORDER BY SKI_RESORT_DATE
     </select>
     
     <!-- 슬로프 오픈 조회 쿼리문 -->
@@ -35,7 +31,7 @@
     <update id="updateSkiResort" parameterType="skiResortOpen">
 	    UPDATE SKI_RESORT_OPEN
 	       SET SKI_RESORT_IS_OPEN = #{skiResortIsOpen}
-	     WHERE SKI_RESORT_DAY = #{skiResortDay}
+	     WHERE SKI_RESORT_OPEN_NO = #{skiResortOpenNo}
 	</update>
 	
 	<update id="updateSlope" parameterType="java.util.List">
