@@ -33,6 +33,5 @@ public class LiftServiceImpl implements LiftService{
 	public int liftOrder(LiftOrder liftOrder) {
 		return liftDao.liftOrder(sqlSession, liftOrder);
 	}
-		
 
 }

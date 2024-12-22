@@ -155,6 +155,7 @@
 
     <div class="container">
             <h1>🎿 스키 강습 예약</h1>
+        <!-- 
         <nav class="nav">
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
             <a href="${pageContext.request.contextPath}/storeSessionData.lo">락커 예약</a>
@@ -164,7 +165,7 @@
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
             <a href="#">결제 관리</a>
         </nav>
-
+ -->
 <div class="search-bar">
     <!-- 강습 가격보기 버튼: 맨 위 -->
     <button type="button" onclick="location.href='lessonPay.le'" style="display: flex; align-items: center;">

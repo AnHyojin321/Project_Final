@@ -405,7 +405,77 @@
 .modal-content .close:hover {
     color: #ff0000;
 }
-        
+.modal-reservation {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 내용 */
+.modal-reservation-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    max-width: 90%;
+    position: relative;
+}
+
+/* 모달 제목 */
+.modal-reservation-content h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 예약 정보 스타일 */
+#reservationModalContent p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+#reservationModalContent p:last-child {
+    border-bottom: none;
+}
+
+#reservationModalContent strong {
+    color: #666;
+    font-weight: 500;
+}
+
+/* 닫기 버튼 */
+.close-reservation {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.close-reservation:hover {
+    color: #333;
+}
+
+    
     </style>
 </head>
 <body>
@@ -416,24 +486,27 @@
             <a href="${pageContext.request.contextPath}/storeSessionData.lo">락커 예약</a>
             <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
             <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
-            <a href="${pageContext.request.contextPath}/list.ro">객실 예약</a>
+            <a href="${pageContext.request.contextPath}/myRoomReservation.ro">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
             <a href="#">결제 관리</a>
         </nav>
 
 
         <div class="profile">
-            <div class="profile-image">S</div>
             <div class="profile-info">
-                <h2>${sessionScope.loginMember.memberName} <span class="vip-tag">VIP</span></h2>
-                <p>고객님의 총 예약 금액은 350,000원입니다.</p>
+                <h1>${sessionScope.loginMember.memberName} </h1>
+                <p>고객님의 총 예약 금액은 495,000원입니다.</p>
             </div>
         </div>
 
         <div class="info-grid">
             <!-- 회원 정보 섹션 -->
             <div class="member-info" id="memberInfoSection">
-                <h3 class="info-title">회원 정보</h3>
+                <h3 class="info-title">
+                	회원 정보
+						<button onclick="showUpdateMemberForm()" class="account-link">회원정보 변경</button>
+
+                </h3>
                 <div class="info-item">
                     <span class="info-label">이름</span>
                     <span class="info-value">${sessionScope.loginMember.memberName}</span>
@@ -458,8 +531,6 @@
                 </div>
             </div>
 
-            <!-- 비밀번호 변경 폼 -->
- <!-- 비밀번호 변경 폼 -->
     <!-- 비밀번호 변경 폼 수정 -->
     <div class="member-info" id="passwordChangeSection" style="display: none;">
         <h3 class="info-title">비밀번호 변경</h3>
@@ -487,6 +558,42 @@
 
         </form>
     </div>
+    
+    <!-- 회원정보 변경 폼 -->
+<div class="member-info" id="updateMemberSection" style="display: none;">
+    <h3 class="info-title">회원정보 변경</h3>
+    <form id="updateMemberForm" action="${pageContext.request.contextPath}/update.me" method="post">
+        <div class="info-item">
+            <label for="memberId" class="info-label">아이디</label>
+            <input type="text" id="memberId" name="memberId" value="${sessionScope.loginMember.memberId}" readonly>
+        </div>
+        <div class="info-item">
+            <label for="memberName" class="info-label">이름</label>
+            <input type="text" id="memberName" name="memberName" value="${sessionScope.loginMember.memberName}" required>
+        </div>
+        <div class="info-item">
+            <label for="email" class="info-label">이메일</label>
+            <input type="email" id="email" name="email" value="${sessionScope.loginMember.email}" readonly>
+        </div>
+        <div class="info-item">
+            <label for="phone" class="info-label">전화번호</label>
+            <input type="tel" id="phone" name="phone" value="${sessionScope.loginMember.phone}" required>
+        </div>
+        <div class="info-item">
+            <label for="birthDate" class="info-label">생년월일</label>
+            <input type="date" id="birthDate" name="birthDate" value="${sessionScope.loginMember.birthDate}" required>
+        </div>
+        <div class="info-item">
+            <label for="address" class="info-label">주소</label>
+            <input type="text" id="address" name="address" value="${sessionScope.loginMember.address}">
+        </div>
+        <div class="account-links">
+            <button type="submit" class="account-link">저장</button>
+            <button type="button" class="account-link" onclick="showMemberInfo()">취소</button>
+        </div>
+    </form>
+</div>
+    
 		<!-- 모달 -->
 		<div id="withdrawalModal" class="modal" style="display: none;">
 		    <div class="modal-content">
@@ -503,7 +610,7 @@
 		            <div style="text-align: center; margin-top: 20px;">
 		                <button type="submit" class="submit-btn">탈퇴하기</button>
 		                <button type="button" class="submit-btn" onclick="closeModal()">취소</button>
-		            </div>
+		            </div>	
 		        </form>
 		    </div>
 		</div>
@@ -537,7 +644,7 @@
         <!-- 주문 통계 -->
         <div class="order-stats">
             <div class="order-stat-item">
-                <div class="order-stat-number">2</div>
+                <div class="order-stat-number">0</div>
                 <div>락커</div>
             </div>
             <div class="order-stat-item">
@@ -545,7 +652,7 @@
                 <div>객실</div>
             </div>
             <div class="order-stat-item">
-                <div class="order-stat-number">0</div>
+                <div class="order-stat-number">1</div>
                 <div>패키지</div>
             </div>
             <div class="order-stat-item">
@@ -562,45 +669,139 @@
                 <div>결제 금액</div>
                 <div>상세 보기</div>
             </div>
-            <div class="order-item">
-                <div>
-                    [#202334]<br>
-                    2024.12.20
-                </div>
-                <div>
-                    <img src="locker.jpg" alt="락커">
-                    개인 락커 1박 2일
-                </div>
-                <div>15,000원</div>
-                <div><button class="btn-view">조회</button></div>
+<c:forEach var="room" items="${reservedRooms}">
+    <div class="order-item">
+        <div>
+            [#${room.roomNo}]<br>	
+            ${ room.reservDate }
+        </div>
+        <div>
+            ${room.roomType} 룸
+        </div>
+        <div>${room.totalPrice}원</div>
+        <div>
+            <!-- 조회 버튼 클릭 시 모달 열기 -->
+            <button class="btn-view" onclick="openReservationDetailModal('${room.roomNo}')">조회</button>
+        </div>
+    </div>
+    
+</c:forEach>
+<!-- 예약 상세 정보 모달 -->
+<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
+    <div class="modal-reservation-content">
+        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
+        <h1>예약 상세 정보</h1>
+        <div id="reservationModalContent">
+            <!-- 동적으로 데이터가 로드됩니다 -->
+        </div>
+    </div>
+</div>
+
+        <!-- 리프트권 예약 정보 -->
+    <c:forEach var="lift" items="${reservedLiftList}">
+        <div class="order-item">
+            <div>[#${lift.orderNo}]</div>
+            <div>${lift.liftType} (${lift.liftName})</div>
+            <div>${lift.liftCount}매</div>
+            <div>${lift.liftTotalPrice}원</div>
+            <div>
+
+
             </div>
+        </div>
+    </c:forEach>
+    
             <div class="order-item">
                 <div>
                     [#202310]<br>
-                    2024.12.15
+                    2024.12.25
                 </div>
                 <div>
-                    <img src="lift.jpg" alt="리프트권">
-                    리프트권 종일권 (2인)
+                    리프트권 종일권 (소인)
                 </div>
-                <div>70,000원</div>
+                <div>35,000원</div>
                 <div><button class="btn-view">조회</button></div>
             </div>
+            <div class="order-item">
+                <div>
+                    [#312]<br>
+                    2024.12.27
+                </div>
+                <div>
+                    [성수기] 대인 리프트 4인 + 락커 2인	
+                </div>
+                <div>150,000원</div>
+                <div><button class="btn-view">조회</button></div>
+            </div>
+
         </div>
     </div>
 
-<script>
-    // 비밀번호 변경 섹션 열기
-    function showPasswordChangeForm() {
-        document.getElementById('memberInfoSection').style.display = 'none';
-        document.getElementById('passwordChangeSection').style.display = 'block';
-    }
 
-    // 회원 정보 섹션으로 돌아가기
-    function showMemberInfo() {
-        document.getElementById('memberInfoSection').style.display = 'block';
-        document.getElementById('passwordChangeSection').style.display = 'none';
-    }
+
+<script>
+function openReservationDetailModal(roomNo) {
+    $.ajax({
+        url: '/ski/reservationDetail.ro', // 서버 요청 URL
+        type: 'GET',
+        data: { roomNo: roomNo },
+        success: function (response) {
+            if (response.status === 'success') {
+                const room = response.room;
+
+                // 모달 내용 생성
+                let modalContent = '<p><strong>객실 번호:</strong> ' + room.roomNo + '</p>' +
+                                   '<p><strong>객실 이름:</strong> ' + room.roomName + '</p>' +
+                                   '<p><strong>객실 타입:</strong> ' + room.roomType + '</p>' +
+                                   '<p><strong>수용 인원:</strong> ' + room.capacity + '명</p>' +
+                                   '<p><strong>객실 가격:</strong> ' + room.roomPrice + '원</p>';
+
+                // 모달 내용 업데이트
+                $('#reservationModalContent').html(modalContent);
+
+                // 모달 열기
+                $('#reservationDetailModal').css('display', 'flex');
+            } else {
+                alert('예약 정보를 가져오는데 실패했습니다.');
+            }
+        },
+        error: function () {
+            alert('서버 요청 중 오류가 발생했습니다.');
+        }
+    });
+}
+
+// 모달 닫기 함수
+function closeReservationModal() {
+    $('#reservationDetailModal').hide();
+}
+
+
+//모든 섹션 숨기기
+function hideAllSections() {
+    document.getElementById('memberInfoSection').style.display = 'none';
+    document.getElementById('passwordChangeSection').style.display = 'none';
+    document.getElementById('updateMemberSection').style.display = 'none';
+}
+
+// 회원 정보 섹션으로 돌아가기
+function showMemberInfo() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('memberInfoSection').style.display = 'block';
+}
+
+// 회원정보 변경 섹션 열기
+function showUpdateMemberForm() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('updateMemberSection').style.display = 'block';
+}
+
+// 비밀번호 변경 섹션 열기
+function showPasswordChangeForm() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('passwordChangeSection').style.display = 'block';
+}
+
 
     $(document).ready(function () {
         // 기존 비밀번호 표시/숨김 기능 유지
@@ -710,7 +911,16 @@
     }
 
 </script>
-
+<script>
+    function viewReservationDetail(roomNo) {
+        // 상세 페이지 URL로 이동
+        location.href = "/ski/reservationDetail.ro?roomNo=" + roomNo;
+    }
+</script>
         <jsp:include page="../common/footer.jsp" />
+
+<jsp:include page="../common/footer.jsp" />
+
+
 </body>
 </html>

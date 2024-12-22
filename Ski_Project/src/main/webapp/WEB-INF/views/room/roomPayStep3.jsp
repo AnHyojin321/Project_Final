@@ -10,10 +10,10 @@
 <script>
 function serverAuth() {
     // HTML에서 totalPrice 값을 가져오기
-    var totalPrice = document.getElementById("totalPrice").innerText.trim();
+    var amount = document.getElementById("totalPrice").innerText.trim();
 
     // 숫자 값만 추출
-    totalPrice = parseInt(totalPrice.replace(/[^0-9]/g, ''), 10);
+    amount = parseInt(amount.replace(/[^0-9]/g, ''), 10);
 
    
     // 세션에 데이터 저장을 요청 (FormData 형태로 전송)
@@ -25,7 +25,7 @@ function serverAuth() {
             roomNo: ${r.roomNo},
             checkInDate: '${checkInDate}',
             checkOutDate: '${checkOutDate}',
-            totalPrice: totalPrice
+            amount: amount
         },
         success: function(data) {
             if (data.status === 'success') {
@@ -366,7 +366,7 @@ function serverAuth() {
                 <h2>고객 정보</h2>
                 <ul>
                     <li>· 성명(한글) <span>${m.memberName}</span></li>
-                    <li>· 휴대전화 <span>${phone}</span></li>
+                    <li>· 휴대전화 <span>${m.phone}</span></li>
                     <li>· 이메일 <span>${m.email}</span></li>
                 </ul>
             </div>

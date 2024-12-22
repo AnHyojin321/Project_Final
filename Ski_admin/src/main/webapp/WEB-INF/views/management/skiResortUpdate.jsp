@@ -139,7 +139,7 @@ header h1 {
 					                <c:when test="${sro.description == '맑음'}">
 					                    <use xlink:href="#iconSun"></use>
 					                </c:when>
-					                <c:when test="${sro.description == '구름 조금'}">
+					                <c:when test="${sro.description == '구름 조금' || sro.description == '약간의 구름이 낀 하늘'}">
 					                    <use xlink:href="#iconSemiCloud"></use>
 					                </c:when>
 					                <c:when test="${fn:contains(sro.description, '눈')}">

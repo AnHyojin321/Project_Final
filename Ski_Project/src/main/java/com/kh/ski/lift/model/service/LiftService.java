@@ -15,6 +15,5 @@ public interface LiftService {
 	
     // 리프트권 주문요청 서비스
     int liftOrder(LiftOrder liftOrder);
-    
-    
+
 }

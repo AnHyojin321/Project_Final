@@ -24,5 +24,4 @@ public class LiftDao {
 		return sqlSession.insert("lift.liftOrder", liftOrder);
 	}
 
-	
 }

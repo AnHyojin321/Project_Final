@@ -124,8 +124,8 @@
 					    <img id="currentImage" src="${p.packImgPath}" class="preview-image">
 					</div>
 					<div class="detail-row">
-					    <label for="upfile" class="label">새 이미지 업로드</label>
-					    <input type="file" id="upfile" name="reupfile" class="input-field">
+					    <label for="reupfile" class="label">새 이미지 업로드</label>
+					    <input type="file" id="reupfile" name="reupfile" class="input-field" required>
 					    <img id="previewImage" class="preview-image" style="display: none;">
 					</div>
 	            </div>

@@ -446,6 +446,8 @@
 				</div>
 				<script>
                     $(document).ready(function() {
+                    	const memberId = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberId : ''}"; 
+                    	
                         const dayPass = [
                             { liftNo: 400, liftPrice: ${dayPass[0].liftPrice} },
                             { liftNo: 401, liftPrice: ${dayPass[1].liftPrice} },
@@ -470,8 +472,7 @@
                             });
                             $('#totalPrice').text(formatPrice(total));
                         }
-							
-                        //<input type="hidden" name="memberNo" id="memberNo" value="${ sessionScope.loginUser.memberNo }">
+                        
                         function updateOrderList() {
                             $('#orderList').empty();
                             orderList.forEach((item, index) => {
@@ -509,12 +510,16 @@
                         }
 							
                         $('#submit').click(function (event) {
-                            // event.preventDefault();
-                            if (orderList.length === 0) {
-                                alert('주문 항목을 추가하세요.');
-                                return;
-                            }
-                            showModal();
+                        	if (${empty sessionScope.loginMember}) { 
+                		        alert("로그인 후 이용 가능합니다.");
+                		        location.href = "login.me"; 
+                		    } else {
+	                            if (orderList.length === 0) {
+	                                alert('주문 항목을 추가하세요.');
+	                                return;
+	                            }
+	                            showModal();
+                		    }
                         });
 
                         $('#confirm').click(function () {
@@ -529,10 +534,9 @@
                                     <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
                                     <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
                                     <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                                    <input type="hidden" name="li[\${index}].memberNo" value="10000" />
+                                    <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
                                 `);
                             });
-
                             // 폼 제출
                             $('#liftForm').submit();
                         });

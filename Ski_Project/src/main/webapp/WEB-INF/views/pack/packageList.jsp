@@ -192,7 +192,7 @@ header1 p {
         $(".category-menu span").slice(1).on("click", function () {
             var packageSet = $(this).data("packageset"); // 선택한 카테고리 번호
 			
-            location.href = "packageList.pk?packageSet=" + packageSet; // URL 생성과 동시에 이동	
+            location.href = "packageList.pk?packageSet=" + packageSet + "&capge=1"; // URL 생성과 동시에 이동	
 
             
         });

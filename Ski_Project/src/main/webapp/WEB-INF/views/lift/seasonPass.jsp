@@ -394,7 +394,10 @@
 				    </div>
 				</div>
 		        <script>
+		        	
                     $(document).ready(function() {
+                    	const memberId = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberId : ''}";
+                    	
                         const seasonPass = [
                             { liftNo: 406, liftPrice: ${seasonPass[0].liftPrice} },
                             { liftNo: 407, liftPrice: ${seasonPass[1].liftPrice} }
@@ -454,12 +457,16 @@
                         }
 							
                         $('#submit').click(function (event) {
-                            // event.preventDefault();
-                            if (orderList.length === 0) {
-                                alert('주문 항목을 추가하세요.');
-                                return;
-                            }
-                            showModal();
+                        	if (${empty sessionScope.loginMember}) { 
+                		        alert("로그인 후 이용 가능합니다.");
+                		         location.href = "login.me"; 
+                		    } else {
+	                            if (orderList.length === 0) {
+	                                alert('주문 항목을 추가하세요.');
+	                                return;
+	                            }
+	                            showModal();
+                		    }
                         });
 
                         $('#confirm').click(function () {
@@ -474,7 +481,7 @@
                                     <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
                                     <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
                                     <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                                    <input type="hidden" name="li[\${index}].memberNo" value="10000" />
+                                    <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
                                 `);
                             });
 

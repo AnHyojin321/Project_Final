@@ -3,7 +3,7 @@ package com.kh.ski.room.model.vo;
 public class RoomPay {
 	
 	private int roomReservNo;
-	private int totalPrice;
+	private int amount;
 	private String checkInDate;
 	private String checkOutDate;		
 	private String reservDate;			// 예약일
@@ -20,15 +20,17 @@ public class RoomPay {
 	private int roomNo;
 	private int memberNo;
 	private String roomType;
+	private String roomName;
+	private int roomPrice;
 	
 	public RoomPay() {}
 
-	public RoomPay(int roomReservNo, int totalPrice, String checkInDate, String checkOutDate, String reservDate,
+	public RoomPay(int roomReservNo, int amount, String checkInDate, String checkOutDate, String reservDate,
 			String request, String tid, String payStatus, String packRoomUsed, String rRefundStatus, String rRefundate,
-			int packageNo, int roomNo, int memberNo, String roomType) {
+			int packageNo, int roomNo, int memberNo, String roomType, String roomName, int roomPrice) {
 		super();
 		this.roomReservNo = roomReservNo;
-		this.totalPrice = totalPrice;
+		this.amount = amount;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.reservDate = reservDate;
@@ -42,6 +44,8 @@ public class RoomPay {
 		this.roomNo = roomNo;
 		this.memberNo = memberNo;
 		this.roomType = roomType;
+		this.roomName = roomName;
+		this.roomPrice = roomPrice;
 	}
 
 	public int getRoomReservNo() {
@@ -52,12 +56,12 @@ public class RoomPay {
 		this.roomReservNo = roomReservNo;
 	}
 
-	public int getTotalPrice() {
-		return totalPrice;
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public String getCheckInDate() {
@@ -164,16 +168,32 @@ public class RoomPay {
 		this.roomType = roomType;
 	}
 
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+	public int getRoomPrice() {
+		return roomPrice;
+	}
+
+	public void setRoomPrice(int roomPrice) {
+		this.roomPrice = roomPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "RoomPay [roomReservNo=" + roomReservNo + ", totalPrice=" + totalPrice + ", checkInDate=" + checkInDate
+		return "RoomPay [roomReservNo=" + roomReservNo + ", amount=" + amount + ", checkInDate=" + checkInDate
 				+ ", checkOutDate=" + checkOutDate + ", reservDate=" + reservDate + ", request=" + request + ", tid="
 				+ tid + ", payStatus=" + payStatus + ", packRoomUsed=" + packRoomUsed + ", rRefundStatus="
 				+ rRefundStatus + ", rRefundate=" + rRefundate + ", packageNo=" + packageNo + ", roomNo=" + roomNo
-				+ ", memberNo=" + memberNo + ", roomType=" + roomType + "]";
+				+ ", memberNo=" + memberNo + ", roomType=" + roomType + ", roomName=" + roomName + ", roomPrice="
+				+ roomPrice + "]";
 	}
 
 	
-
 	
 }

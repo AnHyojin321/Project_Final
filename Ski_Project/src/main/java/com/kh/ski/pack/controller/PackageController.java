@@ -133,7 +133,7 @@ public class PackageController {
 		
 		int listCount = packageService.selectListCount();
 		int pageLimit = 5;
-		int boardLimit = 12;
+		int boardLimit = 4;
 		
 		PageInfo pi 
 			= Pagination.getPageInfo(listCount, currentPage, 
@@ -195,8 +195,11 @@ public class PackageController {
 									 pageLimit, boardLimit);
 		
 		ArrayList<Pack> list = packageService.selectPackageSet(packageSet, pi);
+		System.out.println("패키지 구성별로 조회해온 패키지 상품");
+		System.out.println(list.size());
 		
 		model.addAttribute("list", list);
+		model.addAttribute("packageSet", packageSet);
 		model.addAttribute("pi", pi);
 		
 		return "pack/packageSetList";
