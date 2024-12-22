@@ -14,7 +14,7 @@
 		<result column="LIFT_COUNT" property="liftCount" />
 		<result column="LIFT_TOTAL_PRICE" property="liftTotalPrice"/>
 		<result column="LIFT_NO" property="liftNo"/>
-		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
 	</resultMap>
 	
 	<resultMap id="liftPayResultSet" type="liftPay">
@@ -24,7 +24,7 @@
 		<result column="PACK_LIFT_USED" property="packLiftUsed"/>
 		<result column="LIFT_PAY_TOKEN" property="liftPayToken"/>
 		<result column="LIFT_PAY_CODE" property="liftPayCode"/>
-		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
 		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
 	</resultMap>
 	
@@ -41,22 +41,14 @@
 		WHERE LIFT_TYPE = '시즌권'
 	</select>
 	
-	<!-- 
-	<insert id="insertLiftOrder" parameterType="liftOrder">
-	    <foreach collection="orderList" item="order" separator=";">
-	        INSERT INTO LIFT_ORDER (LIFT_ORDER_NO, LIFT_COUNT, LIFT_TOTAL_PRICE, LIFT_NO, MEMBER_NO)
-	        VALUES (SEQ_LIFT_ORDER_NO.NEXTVAL, #{order.liftCount}, #{order.liftTotalPrice}, #{order.liftNo}, #{order.memberNo})
-	    </foreach>
-	</insert>
-	-->
 	
 	<insert id="liftOrder" parameterType="liftOrder">
-	    INSERT INTO LIFT_ORDER (LIFT_ORDER_NO, LIFT_COUNT, LIFT_TOTAL_PRICE, LIFT_NO, MEMBER_NO)
+	    INSERT INTO LIFT_ORDER (LIFT_ORDER_NO, LIFT_COUNT, LIFT_TOTAL_PRICE, LIFT_NO, MEMBER_ID)
 	    VALUES( SEQ_LIFT_ORDER_NO.NEXTVAL, 
 	            #{liftCount}, 
 	            #{liftTotalPrice}, 
 	            #{liftNo}, 
-	            #{memberNo})
+	            #{memberId})
 	</insert>
 
 </mapper>

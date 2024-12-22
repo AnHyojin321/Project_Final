@@ -60,8 +60,9 @@ public class LiftController {
 	        liftOrder.setLiftNo(Integer.parseInt(paramMap.get("li[" + index + "].liftNo")));
 	        liftOrder.setLiftCount(Integer.parseInt(paramMap.get("li[" + index + "].liftCount")));
 	        liftOrder.setLiftTotalPrice(Integer.parseInt(paramMap.get("li[" + index + "].liftTotalPrice")));
-	        liftOrder.setMemberNo(Integer.parseInt(paramMap.get("li[" + index + "].memberNo")));
+	        liftOrder.setMemberId(paramMap.get("li[" + index + "].memberId"));
 
+	        System.out.println(liftOrderList);
 	        liftOrderList.add(liftOrder);
 	        index++;
 	        

@@ -1,9 +1,5 @@
 package com.kh.ski.lift.model.vo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 public class LiftOrder {
 	
@@ -12,17 +8,17 @@ public class LiftOrder {
 	private int liftCount;
 	private int liftTotalPrice;
 	private int liftNo;
-	private int memberNo;
+	private String memberId;
 	
 	public LiftOrder() {}
 
-	public LiftOrder(int liftOrderNo, int liftCount, int liftTotalPrice, int liftNo, int memberNo) {
+	public LiftOrder(int liftOrderNo, int liftCount, int liftTotalPrice, int liftNo, String memberId) {
 		super();
 		this.liftOrderNo = liftOrderNo;
 		this.liftCount = liftCount;
 		this.liftTotalPrice = liftTotalPrice;
 		this.liftNo = liftNo;
-		this.memberNo = memberNo;
+		this.memberId = memberId;
 	}
 
 	public int getLiftOrderNo() {
@@ -57,19 +53,21 @@ public class LiftOrder {
 		this.liftNo = liftNo;
 	}
 
-	public int getMemberNo() {
-		return memberNo;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	@Override
 	public String toString() {
 		return "LiftOrder [liftOrderNo=" + liftOrderNo + ", liftCount=" + liftCount + ", liftTotalPrice="
-				+ liftTotalPrice + ", liftNo=" + liftNo + ", memberNo=" + memberNo + "]";
+				+ liftTotalPrice + ", liftNo=" + liftNo + ", memberId=" + memberId + "]";
 	}
+
+
 	
 	
 }
