@@ -66,6 +66,8 @@
 </style>
 </head>
 <body>
+	<jsp:include page="../common/header.jsp" />
+
     <div id="outer">
         <div class="liftDiv">
             <a href="dayPass.li">
@@ -94,5 +96,7 @@
             </a>
         </div>
     </div>
+    
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>
