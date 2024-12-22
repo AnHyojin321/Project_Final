@@ -23,5 +23,8 @@ public class LiftDao {
 	public int liftOrder(SqlSessionTemplate sqlSession, LiftOrder liftOrder) {
 		return sqlSession.insert("lift.liftOrder", liftOrder);
 	}
-
+// 김동준 마이페이지
+    public ArrayList<LiftOrder> selectReservedLiftList(SqlSessionTemplate sqlSession, String memberId) {
+        return (ArrayList) sqlSession.selectList("lift.selectReservedLiftList", memberId);
+    }
 }

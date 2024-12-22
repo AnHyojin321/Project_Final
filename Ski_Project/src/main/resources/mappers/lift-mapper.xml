@@ -50,5 +50,15 @@
 	            #{liftNo}, 
 	            #{memberId})
 	</insert>
-
+<!-- 김동준 마이페이지  -->
+    <select id="selectReservedLiftList" parameterType="string" resultMap="liftOrderResultSet">
+        SELECT
+            LO.LIFT_ORDER_NO AS LIFT_ORDER_NO,
+            LO.LIFT_COUNT AS LIFT_COUNT,
+            LO.LIFT_TOTAL_PRICE AS LIFT_TOTAL_PRICE,
+            LO.LIFT_NO AS LIFT_NO,
+            LO.MEMBER_ID AS MEMBER_ID
+        FROM LIFT_ORDER LO
+        WHERE LO.MEMBER_ID = #{memberId}
+    </select>
 </mapper>

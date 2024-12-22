@@ -1,5 +1,6 @@
 package com.kh.ski.member.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.ski.lift.model.service.LiftService;
+import com.kh.ski.lift.model.vo.LiftOrder;
 import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
 import com.kh.ski.member.model.vo.KakaoUserInfo;
 import com.kh.ski.member.model.vo.Member;
+import com.kh.ski.room.model.service.RoomService;
+import com.kh.ski.room.model.vo.RoomPay;
 
 @Controller
 public class MemberController {
@@ -447,37 +452,42 @@ public class MemberController {
 	}
 
 	
-//	@Autowired
-//	private RoomService roomService;
-//
-//	@GetMapping("myPage.me")
-//	public String myPage(HttpSession session, Model model) {
-//	    // 로그인된 회원 정보 가져오기
-//	    Member loginMember = (Member) session.getAttribute("loginMember");
-//	    
-//	    if (loginMember == null) {
-//	        // 로그인 정보가 없을 경우 로그인 페이지로 리다이렉트
-//	        return "redirect:/login.me";
-//	    }
-//
-//	    // 회원 번호를 이용해 예약된 객실 정보 조회
-//	    int memberNo = loginMember.getMemberNo();
-//	    ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomsByMember(memberNo);
-//
-//	    // 예약 정보와 로그인 정보 모델에 추가
-//	    model.addAttribute("reservedRooms", reservedRooms);
-//	    model.addAttribute("loginMember", loginMember);
-//
-//	    return "mypage/myPage";
-//	}
+	@Autowired
+	private RoomService roomService;
+    @Autowired
+    private LiftService liftService;
+	   @GetMapping("myPage.me")
+	    public String myPage(HttpSession session, Model model) {
+	        Member loginMember = (Member) session.getAttribute("loginMember");
 
+	        // 로그인 여부 확인
+	        if (loginMember == null) {
+	            return "redirect:/login.me";
+	        }
 
+	        int memberNo = loginMember.getMemberNo(); // 객실 예약 조회용
+	        String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
+
+	        // 객실 예약 목록 조회
+	        ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
+
+	        // 리프트권 예약 목록 조회
+	        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+
+	        // Model에 데이터 추가
+	        model.addAttribute("reservedRooms", reservedRooms);
+	        model.addAttribute("reservedLiftList", reservedLiftList);
+
+	        return "mypage/myPage";
+	    }
+
+/*
 	@GetMapping("myPage.me")
 	public String myPage() {
 		
 		return "mypage/myPage";
 	}
-	
+	*/
 //	@GetMapping("findPwd.me")
 //	public String findPwd() {
 //		

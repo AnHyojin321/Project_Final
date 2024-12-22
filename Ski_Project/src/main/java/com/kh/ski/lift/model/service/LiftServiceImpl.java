@@ -33,5 +33,9 @@ public class LiftServiceImpl implements LiftService{
 	public int liftOrder(LiftOrder liftOrder) {
 		return liftDao.liftOrder(sqlSession, liftOrder);
 	}
-
+// 김동준마이페ㅇ지
+    @Override
+    public ArrayList<LiftOrder> selectReservedLiftList(String memberId) {
+        return liftDao.selectReservedLiftList(sqlSession, memberId);
+    }
 }

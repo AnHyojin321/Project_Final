@@ -669,49 +669,7 @@
                 <div>결제 금액</div>
                 <div>상세 보기</div>
             </div>
-<c:forEach var="room" items="${reservedRooms}">
-    <div class="order-item">
-        <div>
-            [#${room.roomNo}]<br>	
-            ${ room.reservDate }
-        </div>
-        <div>
-            ${room.roomType} 룸
-        </div>
-        <div>${room.totalPrice}원</div>
-        <div>
-            <!-- 조회 버튼 클릭 시 모달 열기 -->
-            <button class="btn-view" onclick="openReservationDetailModal('${room.roomNo}')">조회</button>
-        </div>
-    </div>
-    
-</c:forEach>
-<!-- 예약 상세 정보 모달 -->
-<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
-    <div class="modal-reservation-content">
-        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
-        <h1>예약 상세 정보</h1>
-        <div id="reservationModalContent">
-            <!-- 동적으로 데이터가 로드됩니다 -->
-        </div>
-    </div>
-</div>
-
-        <!-- 리프트권 예약 정보 -->
-    <c:forEach var="lift" items="${reservedLiftList}">
-        <div class="order-item">
-            <div>[#${lift.orderNo}]</div>
-            <div>${lift.liftType} (${lift.liftName})</div>
-            <div>${lift.liftCount}매</div>
-            <div>${lift.liftTotalPrice}원</div>
-            <div>
-
-
-            </div>
-        </div>
-    </c:forEach>
-    
-            <div class="order-item">
+                        <div class="order-item">
                 <div>
                     [#202310]<br>
                     2024.12.25
@@ -733,47 +691,135 @@
                 <div>150,000원</div>
                 <div><button class="btn-view">조회</button></div>
             </div>
+<c:forEach var="room" items="${reservedRooms}">
+    <div class="order-item">
+        <div>
+            [#${room.roomReservNo}]<br>${room.reservDate}
+        </div>
+        <div>
+            ${room.roomType} 룸
+        </div>
+        <div>${room.amount}원</div>
+        <div>
+            <button class="btn-view" onclick="openReservationDetailModal(${room.roomReservNo}, ${sessionScope.loginMember.memberNo})">조회</button>
+        </div>
+    </div>
+</c:forEach>
+
+
+<!-- 예약 상세 정보 모달 -->
+<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
+    <div class="modal-reservation-content">
+        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
+        <h1>예약 상세 정보</h1>
+        <div id="reservationModalContent">
+            <!-- AJAX를 통해 동적으로 데이터를 로드 -->
+        </div>
+    </div>
+</div>
+
+
+<!-- 리프트 예약 리스트 -->
+<c:forEach var="liftOrder" items="${reservedLiftList}">
+    <div class="order-item">
+        <div>[#${liftOrder.liftOrderNo}]</div>
+        <div>리프트 번호: ${liftOrder.liftNo}</div>
+        <div>${liftOrder.liftTotalPrice}원</div>
+        <div>
+            <button class="btn-view" onclick="openLiftDetailModal(${liftOrder.liftOrderNo})">조회</button>
+        </div>
+    </div>
+</c:forEach>
+
+    
 
         </div>
     </div>
 
+    <div id="liftDetailModal" class="modal-reservation" style="display: none;">
+        <div class="modal-reservation-content">
+            <span class="close-reservation" onclick="closeLiftDetailModal()">&times;</span>
+            <h1>리프트 상세 정보</h1>
+            <div id="liftModalContent">
+                <!-- AJAX를 통해 동적으로 데이터가 로드됩니다 -->
+            </div>
+        </div>
+    </div>
 
 
 <script>
-function openReservationDetailModal(roomNo) {
+function openReservationDetailModal(roomReservNo, memberNo) {
+    if (!roomReservNo || !memberNo) {
+        alert("필요한 매개변수가 누락되었습니다.");
+        return;
+    }
+
     $.ajax({
-        url: '/ski/reservationDetail.ro', // 서버 요청 URL
-        type: 'GET',
-        data: { roomNo: roomNo },
+        url: '/ski/myRoomDetail.ro',
+        type: 'POST',
+        data: {
+            roomReservNo: roomReservNo,
+            memberNo: memberNo
+        },
         success: function (response) {
-            if (response.status === 'success') {
-                const room = response.room;
-
-                // 모달 내용 생성
-                let modalContent = '<p><strong>객실 번호:</strong> ' + room.roomNo + '</p>' +
-                                   '<p><strong>객실 이름:</strong> ' + room.roomName + '</p>' +
-                                   '<p><strong>객실 타입:</strong> ' + room.roomType + '</p>' +
-                                   '<p><strong>수용 인원:</strong> ' + room.capacity + '명</p>' +
-                                   '<p><strong>객실 가격:</strong> ' + room.roomPrice + '원</p>';
-
-                // 모달 내용 업데이트
-                $('#reservationModalContent').html(modalContent);
-
-                // 모달 열기
-                $('#reservationDetailModal').css('display', 'flex');
+            if (response.roomDetail) {
+                var modalContent =
+                    "<p><strong>객실 이름:</strong> " + (response.roomDetail.roomName || "없음") + "</p>" +
+                    "<p><strong>객실 타입:</strong> " + (response.roomDetail.roomType || "없음") + "</p>" +
+                    "<p><strong>예약 금액:</strong> " + (response.roomDetail.amount || "0") + "원</p>" +
+                    "<p><strong>체크인:</strong> " + (response.roomDetail.checkInDate || "없음") + "</p>" +
+                    "<p><strong>체크아웃:</strong> " + (response.roomDetail.checkOutDate || "없음") + "</p>";
+                document.getElementById("reservationModalContent").innerHTML = modalContent;
+                document.getElementById("reservationDetailModal").style.display = "flex";
             } else {
-                alert('예약 정보를 가져오는데 실패했습니다.');
+                alert("예약 정보를 불러오는데 실패했습니다.");
             }
         },
         error: function () {
-            alert('서버 요청 중 오류가 발생했습니다.');
+            alert("서버 요청 중 오류가 발생했습니다.");
         }
     });
 }
 
-// 모달 닫기 함수
 function closeReservationModal() {
-    $('#reservationDetailModal').hide();
+    document.getElementById("reservationDetailModal").style.display = "none";
+}
+
+
+function openLiftDetailModal(liftOrderNo) {
+    if (!liftOrderNo) {
+        alert("리프트 예약 번호를 찾을 수 없습니다.");
+        return;
+    }
+
+    $.ajax({
+        url: '/ski/liftOrderDetail.li',
+        type: 'GET',
+        data: { liftOrderNo: liftOrderNo },
+        success: function (response) {
+            if (response) {
+                var modalContent = `
+                    <p><strong>예약번호:</strong> ${response.liftOrderNo || '없음'}</p>
+                    <p><strong>리프트 종류:</strong> ${response.liftType || '없음'}</p>
+                    <p><strong>연령대:</strong> ${response.liftAge || '없음'}</p>
+                    <p><strong>수량:</strong> ${response.liftCount || '없음'}매</p>
+                    <p><strong>총 금액:</strong> ${response.liftTotalPrice || '0'}원</p>
+                `;
+                document.getElementById('liftModalContent').innerHTML = modalContent;
+                document.getElementById('liftDetailModal').style.display = 'flex';
+            } else {
+                alert("리프트 정보를 불러오는데 실패했습니다.");
+            }
+        },
+        error: function () {
+            alert("서버 요청 중 오류가 발생했습니다.");
+        }
+    });
+}
+
+// 리프트 상세 정보 모달 닫기
+function closeLiftDetailModal() {
+    document.getElementById('liftDetailModal').style.display = 'none';
 }
 
 
