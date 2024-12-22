@@ -14,7 +14,7 @@
     <input type="hidden" name="roomNo" value="${roomNo}">
     <input type="hidden" name="checkInDate" value="${checkInDate}">
     <input type="hidden" name="checkOutDate" value="${checkOutDate}">
-    <input type="hidden" name="totalPrice" value="${totalPrice}">
+    <input type="hidden" name="amount" value="${amount}">
 </form>
 <script>
     document.getElementById("autoPostForm").submit();

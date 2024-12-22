@@ -416,7 +416,7 @@
             <a href="${pageContext.request.contextPath}/storeSessionData.lo">락커 예약</a>
             <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
             <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
-            <a href="${pageContext.request.contextPath}/list.ro">객실 예약</a>
+            <a href="${pageContext.request.contextPath}/myRoomReservation.ro">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
             <a href="#">결제 관리</a>
         </nav>
@@ -710,7 +710,7 @@
     }
 
 </script>
+<jsp:include page="../common/footer.jsp" />
 
-        <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

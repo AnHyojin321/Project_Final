@@ -41,6 +41,7 @@ public class PackageDao {
 	
 	// 패키지 상품 정보 수정 처리
 	public int updatePackage(SqlSessionTemplate sqlSession, Pack p) {
+		System.out.println("dao 호출되나?");
 		return sqlSession.update("packageMapper.updatePackage", p);
 	}
 

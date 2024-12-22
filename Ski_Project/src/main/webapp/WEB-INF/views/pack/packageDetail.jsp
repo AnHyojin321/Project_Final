@@ -251,8 +251,8 @@ body {
                 <th>티켓 종류</th>
                 <td>
 					<c:choose>
-				        <c:when test="${pack.packageSet == 1}">객실+리프트</c:when>
-				        <c:when test="${pack.packageSet == 2}">리프트+락커</c:when>
+				        <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
+				        <c:when test="${p.packageSet == 2}">리프트+락커</c:when>
 				        <c:otherwise>객실+리프트+락커</c:otherwise>
 				    </c:choose>
 				</td>

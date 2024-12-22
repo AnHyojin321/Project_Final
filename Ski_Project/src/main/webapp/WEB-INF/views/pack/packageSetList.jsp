@@ -191,7 +191,7 @@ header p {
         $(".category-menu span").slice(1).on("click", function () {
             var packageSet = $(this).data("packageset"); // 선택한 카테고리 번호
 
-            location.href = "packageList.pk?packageSet=" + packageSet; // URL 생성과 동시에 이동	
+            location.href = "packageList.pk?packageSet=" + packageSet + "&capge=1"; // URL 생성과 동시에 이동	
 
             
         });
@@ -268,7 +268,7 @@ header p {
 		            </c:when>
 		            <c:otherwise>
 		                <li>
-		                    <a href="list.pk?cpage=${requestScope.pi.currentPage - 1}">&lt;</a>
+		                    <a href="packageList.pk?packageSet=${packageSet}&cpage=${requestScope.pi.currentPage - 1}">&lt;</a>
 		                </li>
 		            </c:otherwise>
 		        </c:choose>
@@ -278,7 +278,7 @@ header p {
 		            <c:choose>
 		                <c:when test="${p ne requestScope.pi.currentPage}">
 		                    <li>
-		                        <a href="list.pk?cpage=${p}">${p}</a>
+		                        <a href="packageList.pk?packageSet=${packageSet}&cpage=${p}">${p}</a>
 		                    </li>
 		                </c:when>
 		                <c:otherwise>
@@ -293,7 +293,7 @@ header p {
 		        <c:choose>
 		            <c:when test="${requestScope.pi.currentPage ne requestScope.pi.maxPage}">
 		                <li>
-		                    <a href="list.pk?cpage=${requestScope.pi.currentPage + 1}">&gt;</a>
+		                    <a href="packageList.pk?packageSet=${packageSet}&cpage=${requestScope.pi.currentPage + 1}">&gt;</a>
 		                </li>
 		            </c:when>
 		            <c:otherwise>

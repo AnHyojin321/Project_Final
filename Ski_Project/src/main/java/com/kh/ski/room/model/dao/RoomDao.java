@@ -45,6 +45,20 @@ public class RoomDao {
 		return sqlSession.insert("roomMapper.insertPayInfo", rp);
 	}
 
+	// 예약한 객실 내역 목록 조회
+	public ArrayList<RoomPay> selectReservedRoomList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("roomMapper.selectReservedRoomList", memberNo);
+	}
+	
+	// 객실 예약 내역 상세 조회
+	public RoomPay selectMyRoomReservDetail(SqlSessionTemplate sqlSession, int roomReservNo) {
+		return sqlSession.selectOne("roomMapper.selectMyRoomReservDetail", roomReservNo);
+	}
+	
+	// 객실 예약 환불 처리
+	public int cancelRoomReservation(SqlSessionTemplate sqlSession, int roomReservNo) {
+		return sqlSession.update("roomMapper.cancelRoomReservation", roomReservNo);
+	}
  
 	
 }
