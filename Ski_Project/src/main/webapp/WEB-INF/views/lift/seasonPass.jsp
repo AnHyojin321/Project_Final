@@ -8,223 +8,270 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>시즌권</title>
-    <style>
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-        #outer {
-            height: 100vh;
-            display: flex;
-        }
-        table {
-            border-spacing: 0px;
-        }
+<style>
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+    #outer {
+        height: 100vh;
+        display: flex;
+    }
+    table {
+        border-spacing: 0px;
+        background-color: rgba(200, 200, 220, 0.05);
+    }
+    select {
+        background-color: rgba(200, 200, 220, 0.15);
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    select:hover {
+        background-color: rgba(200, 200, 220, 0.4);
+    }
+    select option {
+        background-color: rgba(200, 200, 220, 0.4);
+    }
 
-        #productInformation #priceInformation #purchaseInformation #submitInformation {
-            width: 90%;
-        }
+    #productInformation #priceInformation #purchaseInformation #submitInformation {
+        width: 90%;
+    }
 
-        #productInformation table {
-            border: 1px solid gray;
-            width: 100%;
-            border-radius: 5px;
-            padding: 10px 20px;
-        }
-        #productInformation td {
-            width: 250px;
-            height: 20px;
-            padding:5px;
-        }
+    #productInformation table {
+        border: 1px solid gray;
+        width: 100%;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+    #productInformation td {
+        width: 250px;
+        height: 20px;
+        padding:5px;
+    }
 
-        #priceInformation table {
-            width: 100%;
-            border-radius: 5px;
-            padding: 5px;
-            border: 1px solid gray;
-            border-radius: 5px;
-        }
-        #priceInformation th {
-            width: 150px;
-            height: 40px;
-        }
-        #priceInformation td {
-            height: 40px;
-            text-align: center;
-            border-top: 1px solid gray;
-        }
+    #priceInformation table {
+        width: 100%;
+        border-radius: 5px;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    #priceInformation th {
+        width: 150px;
+        height: 40px;
+    }
+    #priceInformation td {
+        height: 35px;
+        text-align: center;
+        border-top: 1px solid gray;
+    }
 
-        #purchaseInformation div:first-of-type {
-            display: flex;
-        }
-        
-        #orderTable {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            border: 1px solid gray;
-            padding: 10px 10px;
-            width: 30%;
-        }
-        #purchaseInformation th, #purchaseInformation td {
-	        padding: 10px 5px;
-	    }
-        .pu  {
-            border-bottom: 1px solid gray;
-        }
-        #purchaseInformation input[type="text"] {
-            width: 20px;
-            margin: 0px;
-        }
+    #purchaseInformation div:first-of-type {
+        display: flex;
+    }
+    
+    #orderTable {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border: 1px solid gray;
+        padding: 10px;
+        width: 30%;
+    }
+    #purchaseInformation th, #purchaseInformation td {
+        padding: 10px 5px;
+    }
+    .pu  {
+        border-bottom: 1px solid gray;
+    }
+    #purchaseInformation input[type="text"] {
+        width: 20px;
+        margin: 0px;
+    }
 
-        #submitInformation h2 {
-            float: right;
-        }
-        #submit{
-            width: 100%;
-            height: 50px;
-            cursor: pointer;
-            background-color : rgba(0, 0, 0, 0.1);
-            border : 1px solid gray;
-            border-radius : 5px;
-            font-size : 18px;
-            foint-weight : border;
-        }
-        
-        #submit:hover {
-        	background-color : rgba(0, 0, 0, 0.2);
-        }
-        .liftDiv {
-            width: 50%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            content: "";
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: relative;
-            z-index: 0;
-        }
-        .textOverlay {
-            position: absolute;
-            top: 70%;
-            left: 55%;
-            transform: translate(-10%, -40%);
-            color: white;
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 2;
-        }
-        .detail {
-            font-size: 1.3rem;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        .purchaseDiv {
-            display: flex;
-            justify-content: center;  /* Center horizontally */
-            align-items: center;      /* Center vertically */
-            width: 50%;
-            height: 100%;
-        }
-        #orderView {
-            display: flexbox;
-            flex-direction: column;
-            width: 70%;
-            overflow: auto; /* 내용이 넘치면 스크롤 생성 */
-            border: 1px solid gray;/* 테두리 추가 (선택 사항) */
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-            padding: 10px; /* 내부 여백 */
-            box-sizing: border-box; /* 패딩을 크기 계산에 포함 */
-            justify-content: center;
-        }
-        #orderView table:not(:first-of-type) {
-            border-top : 1px solid lightgray;
-        }
-        #orderView table td{
-        	padding : 15px 5px;
-        }
-        select {
-            width: 100%;
-            height: 100%;
-        }
-        h3 {
-            margin: 0px;
-            padding: 10px;
-        }
+    #submitInformation h2 {
+        float: right;
+        font-size: 25px;
+    }
+    #submit{
+        width: 100%;
+        height: 55px;
+        cursor: pointer;
+        background-color : rgba(0, 10, 50, 0.7);
+        border : 3px solid rgba(0, 10, 50, 0.1);
+        border-radius : 10px;
+        font-size : 20px;
+        font-weight : border;
+        transition: background-color 0.3s ease; 
+        color:white;
+    }
+    #submit:hover {
+    	background-color : rgba(0, 10, 50, 0.9);
+        color:white;
+    }
+    .liftDiv {
+        width: 50%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        content: "";
+        top: 0;
+        left: 0;
+        z-index: 1;
+        pointer-events: none;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: relative;
+        z-index: 0;
+    }
+    .textOverlay {
+        position: absolute;
+        top: 70%;
+        left: 55%;
+        transform: translate(-10%, -40%);
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        z-index: 2;
+    }
+    .detail {
+        font-size: 1.3rem;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .purchaseDiv {
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        align-items: center;      /* Center vertically */
+        width: 50%;
+        height: 100%;
+    }
+    #orderView {
+        display: flex; /* 올바른 flexbox 값 */
+        flex-direction: column; /* 자식 요소를 세로로 정렬 */
+        width: 70%;
+        height: 110px; /* 높이 제한 */
+        overflow-y: auto; /* 세로 스크롤 활성화 */
+        border: 1px solid gray; /* 테두리 */
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 10px; /* 내부 여백 */
+        box-sizing: border-box; /* 패딩 포함 */
+        background-color: rgba(200, 200, 220, 0.1);
 
-		#quantityTd {
-			border: 1px solid lightgray;
-			border-radius : 5px;
-			padding:0px;
-			margin:0px;
-			height: 100%;
-			width:100px;
-			
-		}
-		#quantity {
-			width:35%;
-			height:100%;
-			margin-left : 15px;
-		}
-        .countBtn1 {
-	    	width: 40%;
-			height : 25px;
-	    	border-radius-top-left: 5px;
-	    	border-radius-bottom-left: 5px;
-	    	border : none;
-	        cursor: pointer;
-	        margin:0px;
-	        padding : 0px;
-	        border-right : 1px solid lightgray;
-	    }
-	    .countBtn2 {
-	    	width: 40%;
-			height : 25px;
-	    	border-radius-top-right: 5px;
-	    	border-radius-bottom-right : 5px;
-	    	border : none;
-	        cursor: pointer;
-	        margin:0px;
-	        padding : 0px;
-	        border-left: 1px solid lightgray;
-	    }	
-	    #deleteBtn {
-	    	width: 25px;
-	    	height: 25px;
-	        border-radius: 10px;
-	        border: none;
-	        background-color: lightgray;
-	        cursor: pointer;
-	    }
-	    #addItem {
-	    	width: 10%;
-	    	font-size: 10px;
-	    	cursor: pointer;
-	    	background-color : rgba(0, 0, 0, 0.1);
-	    	border : 1px solid black;
-	    	border-left : 1px solid gray;
-	    	border-right : 1px solid gray;
-	    }
-	    
-	    #addItem:hover {
-	    	background-color: rgba(0, 0, 0, 0.2);
-	    }
-	    
-	    .modal {
+    }
+
+    /* 스크롤바 스타일링 */
+    #orderView::-webkit-scrollbar {
+        width: 6px; /* 스크롤바의 너비 */
+    }
+
+    #orderView::-webkit-scrollbar-track {
+        background: transparent; /* 스크롤바 트랙(배경) */
+    }
+
+    #orderView::-webkit-scrollbar-thumb {
+        background: rgba(0, 10, 50, 0.15); /* 스크롤바 색상 */
+        border-radius: 10px; /* 둥근 모서리 */
+    }
+
+    #orderView::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 10, 50, 0.25); /* 스크롤바 색상 (호버 시) */
+    }
+
+
+    #orderView table:first-child {
+        margin: auto; /* 첫 번째 테이블만 가운데 정렬 */
+    }
+
+    #orderView table:not(:first-of-type) {
+        border-top : 1px solid lightgray;
+    }
+    #orderView table td{
+    	padding : 15px 5px;
+    }
+    select {
+        width: 100%;
+        height: 100%;
+    }
+    h3 {
+        margin: 0px;
+        padding: 10px;
+    }
+
+    #quantityTd {
+		border: 1px solid lightgray;
+		border-radius : 5px;
+		padding:0px;
+		margin:0px;
+		height: 100%;
+		width:100px;
+		
+	}
+	#quantity {
+		width:35%;
+		height:100%;
+		margin-left : 15px;
+	}
+	      #countBtn1 {
+	   	width: 25%;
+		height : 25px;
+        border-radius: 5px;
+	   	border : none;
+	       cursor: pointer;
+	       margin:0px;
+           margin-left:5px;
+           margin-right: 5px;
+	       padding : 0px;
+           background-color: rgba(0, 10, 50, 0.1);
+	   }
+	   #countBtn2 {
+	   	width: 25%;
+		height : 25px;
+        border-radius: 5px;
+	   	border : none;
+	       cursor: pointer;
+	       margin:0px;
+	       padding : 0px;
+           margin-left: 5px;
+           background-color: rgba(0, 10, 50, 0.1);
+	   }	
+       span {
+        padding-left: 8px; 
+        padding-right:8px;
+       }
+	   .deleteBtn {
+	   	width: 26px;
+	   	height: 25px;
+	       border-radius: 5px;
+	       border: none;
+	       background-color: rgba(0,10, 50, 0.1);
+	       cursor: pointer;
+           border: none;
+	   }
+	   #addItem {
+	   	width: 10%;
+	   	font-size: 11px;
+	   	cursor: pointer;
+	   	background-color : rgba(0, 10, 50, 0.1);
+	   	border : 1px solid gray;
+	   	border-left : none;
+	   	border-right : none;
+           transition: background-color 0.2s ease; 
+	   }
+	   
+	   #addItem:hover {
+	   	background-color: rgba(0, 10, 50, 0.13);
+	   }
+	   .modal {
 	        display: none;
 	        position: fixed;
 	        z-index: 1000;
@@ -275,18 +322,32 @@
 	        background-color: red;
 	        color: white;
 	    }
-    </style>
+
+        #otherLiftBtn {
+            cursor: pointer;
+            border: none;
+            background-color : rgba(0, 10, 50, 0.7);
+            border-radius: 10px;
+            color:white;
+            padding:12px;
+            transition: background-color 0.3s ease; 
+        }
+        #otherLiftBtn:hover {
+            background-color : rgba(0, 10, 50, 0.8);
+        }
+    
+</style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
 	<div id="outer">
 	    <div class="purchaseDiv">
 	        <div>
-	            <div style="display:flex; gap:48%;">
-	                <h1>24/25 시즌권</h1>
+	            <div style="display:flex; gap:45%;">
+	                <h1>24&nbsp;/&nbsp;25&nbsp;&nbsp;시즌권</h1>
 	                <div style="flex:right; margin:auto;">
 	                    <a href="dayPass.li">
-	                        <input type="button" value="일일권 구매하기" style="cursor:pointer" />
+	                        <input type="button" value="일일권 구매하기" id="otherLiftBtn" />
 	                    </a>
 	                </div>
 	            </div>
@@ -434,15 +495,15 @@ $(document).ready(function() {
         orderList.forEach((item, index) => {
             const itemRow = `
                 <tr>
-                    <td>\${item.type} \${item.age}
+                    <td width="28%">\${item.type}&nbsp;&nbsp;\${item.age}
                     </td>
-                    <td>
-                        <button class="countBtn" data-index="\${index}" data-action="decrease">-</button>
-                        <span>\${item.count}</span>
-                        <button class="countBtn" data-index="\${index}" data-action="increase">+</button>
+                    <td width="33%">
+                        <button class="countBtn" data-index="\${index}" data-action="decrease" id="countBtn1">-</button>
+                        \${item.count}
+                        <button class="countBtn" data-index="\${index}" data-action="increase" id="countBtn2">+</button>
                     </td>
-                    <td>\${formatPrice(item.totalPrice)}원</td>
-                    <td>
+                    <td width="29%">\${formatPrice(item.totalPrice)}원</td>
+                    <td width="16%">
                         <button class="deleteBtn" data-index="\${index}">x</button>
                     </td>
                 </tr>`;
