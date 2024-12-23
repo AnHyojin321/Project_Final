@@ -2,4 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="management">
 
+    <!-- 스키장 오픈 결과 매핑 -->
+    <resultMap id="skiResortOpenResultSet" type="skiResortOpen">
+    	<id column="SKI_RESORT_OPEN_NO" property="skiResortOpenNo"/>
+        <result column="SKI_RESORT_IS_OPEN" property="skiResortIsOpen"/>
+    </resultMap>
+
+    <!-- 슬로프 오픈 결과 매핑 -->
+    <resultMap id="slopeOpenResultSet" type="slopeOpen">
+        <id column="SLOPE_NO" property="slopeNo"/>
+        <result column="SLOPE_NAME" property="slopeName"/>
+        <result column="SLOPE_LEVEL" property="slopeLevel"/>
+        <result column="SLOPE_IS_OPEN" property="slopeIsOpen"/>
+        <result column="SLOPE_NOTE" property="slopeNote"/>
+    </resultMap>
+    
+        <!-- 스키장 오픈 조회 쿼리문 -->
+    <select id="selectSkiResort" resultMap="skiResortOpenResultSet">
+        SELECT SKI_RESORT_IS_OPEN, SKI_RESORT_OPEN_NO
+		FROM SKI_RESORT_OPEN
+    </select>
+    
+    <!-- 슬로프 오픈 조회 쿼리문 -->
+    <select id="selectSlope" resultMap="slopeOpenResultSet">
+        SELECT * FROM SLOPE_OPEN
+    </select>
+    
 </mapper>

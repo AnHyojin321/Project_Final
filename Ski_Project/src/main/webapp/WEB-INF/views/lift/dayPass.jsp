@@ -167,6 +167,24 @@
         background-color: rgba(200, 200, 220, 0.1);
 
     }
+        /* 스크롤바 스타일링 */
+    #orderView::-webkit-scrollbar {
+        width: 6px; /* 스크롤바의 너비 */
+    }
+
+    #orderView::-webkit-scrollbar-track {
+        background: transparent; /* 스크롤바 트랙(배경) */
+    }
+
+    #orderView::-webkit-scrollbar-thumb {
+        background: rgba(0, 10, 50, 0.15); /* 스크롤바 색상 */
+        border-radius: 10px; /* 둥근 모서리 */
+    }
+
+    #orderView::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 10, 50, 0.25); /* 스크롤바 색상 (호버 시) */
+    }
+
     #orderView table:first-child {
         margin: auto; /* 첫 번째 테이블만 가운데 정렬 */
     }
@@ -434,7 +452,7 @@
 	                        <tr>
 	                            <th class="pu">종류</th>
 	                            <td class="pu">
-	                                <select id="liftType" required>
+	                                <select name="liftType"  id="liftType" required>
 									    <option disabled selected>종류</option>
 									    <option value="오전권">오전권</option>
 										<option value="오후권">오후권</option>
@@ -574,10 +592,10 @@ $(document).ready(function() {
         // orderList 데이터를 폼에 추가
         orderList.forEach((item, index) => {
             $('form').append(`
-                <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
-                <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
-                <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
+                <input type="hidden" name="liftNo" value="\${item.liftNo}" />
+                <input type="hidden" name="liftCount" value="\${item.count}" />
+                <input type="hidden" name="liftTotalPrice" value="\${item.totalPrice}" />
+                <input type="hidden" name="memberId" value="\${memberId}" />
             `);
         });
         // 폼 제출

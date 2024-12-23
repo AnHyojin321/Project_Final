@@ -444,6 +444,7 @@ p {
                 <p>Premium Adventure Shop</p>
               </div>
             <img src="resources/images/snow.png" class="snow-image"> 
+            <button style="width:200px; height:100px;"><a href="slopeOpen.sm" style="text-decoration:none;">슬로프 오픈 현황</a></button>
             <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길&nbsp;&nbsp;</a></button>
             
             <div id="top1">

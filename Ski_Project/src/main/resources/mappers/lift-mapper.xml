@@ -49,6 +49,32 @@
 	            #{liftNo}, 
 	            #{memberId})
 	</insert>
+	
+	<!-- 리프트 일일권 구매  -->
+	<insert id="insertLiftPay" parameterType="liftpay">
+		INSERT INTO LIFT_PURCHASE (LIFT_PURCHASE_NO
+								 , LIFT_PURCHASE_DATE
+								 , TOTAL_PRICE
+								 , TOTAL_COUNT
+								 , TID
+								 , MEMBER_ID)
+		VALUES (SEQ_LIFT_PURCHASE_NO.NEXTVAL
+			  , SYSDATE
+			  , #{totalPrice}
+			  , #{totalCount}
+			  , #{tid}
+			  , #{memberId})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <!-- 김동준 마이페이지  -->
     <select id="selectReservedLiftList" parameterType="string" resultMap="liftOrderResultSet">
         SELECT

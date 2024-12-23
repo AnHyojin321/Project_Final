@@ -27,7 +27,7 @@ body {
     padding: 20px;
 }
 
-.container p {
+.smallTitle {
 	text-align : center;
 	color : darkgray;
 	font-size : 18px;
@@ -161,7 +161,7 @@ h2 {
 <jsp:include page="../common/header.jsp" />
     <div class="container">
         <h2>객실 내역</h2>
-        <p>설레눈 리조트를 이용해주셔서 감사합니다.</p>
+        <p class="smallTitle">설레눈 리조트를 이용해주셔서 감사합니다.</p>
         <div class="room-cards">
             <c:forEach var="r" items="${list}">
             <div class="room-card" data-roomreservno="${r.roomReservNo}">
