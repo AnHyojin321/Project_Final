@@ -49,4 +49,13 @@ public class LiftServiceImpl implements LiftService{
     public ArrayList<LiftOrder> selectReservedLiftList(String memberId) {
         return liftDao.selectReservedLiftList(sqlSession, memberId);
     }
+    @Override
+    public LiftOrder selectLiftOrderByNo(int liftOrderNo) {
+        return liftDao.selectLiftOrderByNo(sqlSession, liftOrderNo);
+    }
+    @Override
+    public int countReservedLifts(String memberId) {
+        return liftDao.countReservedLifts(sqlSession, memberId);
+    }
+
 }

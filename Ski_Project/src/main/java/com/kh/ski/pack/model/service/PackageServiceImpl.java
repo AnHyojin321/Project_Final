@@ -81,5 +81,9 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.packageDetail(sqlSession, packageReservNo);
 	}
 
+	@Override
+	public int countReservedPackages(int memberNo) {
+	    return packageDao.countReservedPackages(sqlSession, memberNo);
+	}
 
 }

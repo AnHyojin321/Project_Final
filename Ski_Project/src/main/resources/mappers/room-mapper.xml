@@ -147,5 +147,10 @@
 		AND RREFUND_STATUS = 'N'
 	</update>
 
+	<select id="countReservedRooms" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM ROOM_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
 	
 </mapper>

@@ -156,6 +156,19 @@ public class LessonController {
 	                "                </table>\n" +
 	                "            </td>\n" +
 	                "        </tr>\n" +
+	                "        <tr>\n" +
+	                "            <td style=\"padding: 30px 20px;\">\n" +
+	                "                <p style=\"color: #333333; font-size: 16px; line-height: 1.6; margin: 0;\">\n" +
+	                "                    입금 계좌 정보:<br>\n" +
+	                "                    - 은행명: 우리은행<br>\n" +
+	                "                    - 계좌번호: 000-0000-0000-000<br>\n" +
+	                "                    - 예금주: 설레눈 리조트<br><br>\n" +
+	                "                    입금 확인 후 예약 확정이 진행됩니다.<br>\n" +
+	                "                    감사합니다!<br><br>\n" +
+	                "                    문의사항이 있으시면 이 이메일로 회신 부탁드립니다.\n" +
+	                "                </p>\n" +
+	                "            </td>\n" +
+	                "        </tr>\n" +
 	                "    </table>\n" +
 	                "</body>\n" +
 	                "</html>";
@@ -181,27 +194,28 @@ public class LessonController {
 	}
 
 
+
 	@GetMapping("lesson/{resNo}")
 	public ModelAndView selectLesson(@PathVariable("resNo") int resNo, 
 	                                 ModelAndView mv, 
 	                                 HttpSession session) {
-	    // 로그인 정보 확인
 	    Member loginMember = (Member) session.getAttribute("loginMember");
 	    if (loginMember == null) {
 	        session.setAttribute("alertMsg", "로그인이 필요합니다.");
-	        mv.setViewName("redirect:/login");
+	        mv.setViewName("member/MemberLogin");
 	        return mv;
 	    }
 
-	    // 글 정보 조회
+	    // Lesson 데이터 가져오기
 	    Lesson lesson = lessonService.selectLesson(resNo);
 
-	    if (lesson != null) {
-	        System.out.println("게시글 작성자 ID: " + lesson.getMemberNo());
-	        System.out.println("로그인 사용자 ID: " + loginMember.getMemberNo());
+	    // 디버깅: resStatus 값 확인
+	    //System.out.println("Lesson Data: " + lesson);
+	    // System.out.println("예약 상태: " + lesson.getResStatus());
 
+	    if (lesson != null) {
 	        if (lesson.getMemberNo() == loginMember.getMemberNo()) {
-	            mv.addObject("les", lesson);
+	            mv.addObject("les", lesson); // Lesson 객체 전달
 	            mv.setViewName("lesson/LessonDetailForm");
 	        } else {
 	            session.setAttribute("alertMsg", "본인이 작성한 글만 확인할 수 있습니다.");
@@ -213,6 +227,7 @@ public class LessonController {
 	    }
 	    return mv;
 	}
+
 
 
 	@GetMapping("lesson/updateForm") // 수정 폼 경로

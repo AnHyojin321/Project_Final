@@ -598,6 +598,70 @@
     }
 
     /* 상세 정보 행 */
+    #liftModalContent p {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f3f5;
+        margin: 0;
+    }
+
+    #liftModalContent p:last-child {
+        border-bottom: none;
+    }
+
+    /* 레이블 스타일 */
+    #liftModalContent strong {
+        color: #666;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    /* 값 스타일 */
+    #liftModalContent span {
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: right;
+    }
+     #liftModalContent {
+        padding: 20px;
+    }
+
+    /* 상세 정보 행 */
+    #liftModalContent p {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f3f5;
+        margin: 0;
+    }
+
+    #liftModalContent p:last-child {
+        border-bottom: none;
+    }
+
+    /* 레이블 스타일 */
+    #liftModalContent strong {
+        color: #666;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    /* 값 스타일 */
+    #liftModalContent span {
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: right;
+    }
+    
+        /* 모달 컨텐츠 */
+    #lockerModalContent {
+        padding: 20px;
+    }
+
+    /* 상세 정보 행 */
     #lockerModalContent p {
         display: flex;
         justify-content: space-between;
@@ -625,7 +689,27 @@
         text-align: right;
     }
     
+    .btn-view {
+    padding: 6px 16px;
+    border: 1px solid #76a77c;
+    color: #76a77c;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-view:hover {
+    background: #76a77c;
+    color: white;
+}
+    
     </style>
+    
 </head>
 <body>
     <jsp:include page="../common/header.jsp" />
@@ -791,24 +875,25 @@
         </div>
 
         <!-- 주문 통계 -->
-        <div class="order-stats">
-            <div class="order-stat-item">
-                <div class="order-stat-number">0</div>
-                <div>락커</div>
-            </div>
-            <div class="order-stat-item">
-                <div class="order-stat-number">1</div>
-                <div>객실</div>
-            </div>
-            <div class="order-stat-item">
-                <div class="order-stat-number">1</div>
-                <div>패키지</div>
-            </div>
-            <div class="order-stat-item">
-                <div class="order-stat-number">1</div>
-                <div>리프트</div>
-            </div>
-        </div>
+ <div class="order-stats">
+    <div class="order-stat-item">
+        <div>락커</div><br>
+        <div class="order-stat-number">${lockerCount}</div>
+    </div>
+    <div class="order-stat-item">
+        <div>객실</div><br>
+        <div class="order-stat-number">${roomCount}</div>
+    </div>
+    <div class="order-stat-item">
+        <div>패키지</div><br>
+        <div class="order-stat-number">${packageCount}</div>
+    </div>
+    <div class="order-stat-item">
+        <div>리프트</div><br>
+        <div class="order-stat-number">${liftCount}</div>
+    </div>
+</div>
+
 
         <!-- 주문 목록 -->
 <div class="order-list">
@@ -902,15 +987,17 @@
 </div>
 
 		<!-- 예약 상세 정보 모달 -->
-		<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
-		    <div class="modal-reservation-content">
-		        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
-		        <h1>예약 상세 정보</h1>
-		        <div id="reservationModalContent">
-		            <!-- AJAX를 통해 동적으로 데이터를 로드 -->
-		        </div>
-		    </div>
-		</div>
+<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
+    <div class="modal-reservation-content">
+        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
+        <h1>객실 예약 상세 정보</h1>
+        <div id="reservationModalContent">
+            <!-- AJAX를 통해 동적으로 데이터를 로드 -->
+            <p><strong>예약 상세 정보를 불러오는 중...</strong></p>
+        </div>
+    </div>
+</div>
+
 		</div>
 
         </div>
@@ -925,9 +1012,10 @@
             </div>
         </div>
     </div>
-
+</div>
 
 <script>
+var contextPath = "${pageContext.request.contextPath}";
 function openLockerDetailModal(lockerReservNo) {
     if (!lockerReservNo) {
         alert("예약 번호를 찾을 수 없습니다.");
@@ -1033,7 +1121,8 @@ function openReservationDetailModal(roomReservNo, memberNo) {
                     "<p><strong>객실 타입:</strong> " + (response.roomDetail.roomType || "없음") + "</p>" +
                     "<p><strong>예약 금액:</strong> " + (response.roomDetail.amount || "0") + "원</p>" +
                     "<p><strong>체크인:</strong> " + (response.roomDetail.checkInDate || "없음") + "</p>" +
-                    "<p><strong>체크아웃:</strong> " + (response.roomDetail.checkOutDate || "없음") + "</p>"
+                    "<p><strong>체크아웃:</strong> " + (response.roomDetail.checkOutDate || "없음") + "</p>" +
+                    "<p><a href='" + contextPath + "/myRoomReservation.ro' class='btn-view'>자세히 보기</a></p>";
                 document.getElementById("reservationModalContent").innerHTML = modalContent;
                 document.getElementById("reservationDetailModal").style.display = "flex";
             } else {
@@ -1046,10 +1135,10 @@ function openReservationDetailModal(roomReservNo, memberNo) {
     });
 }
 
+
 function closeReservationModal() {
     document.getElementById("reservationDetailModal").style.display = "none";
 }
-
 
 function openLiftDetailModal(liftOrderNo) {
     if (!liftOrderNo) {
@@ -1058,19 +1147,18 @@ function openLiftDetailModal(liftOrderNo) {
     }
 
     $.ajax({
-        url: '/ski/liftOrderDetail.li',
-        type: 'GET',
-        data: { liftOrderNo: liftOrderNo },
+        url: "/ski/liftOrderDetail.li", // 컨트롤러 매핑 URL
+        type: "GET",
+        data: { liftOrderNo: liftOrderNo }, // 서버에 전달할 파라미터
+        dataType: "json", // JSON 형식으로 데이터 반환
         success: function (response) {
-            if (response) {
-                var modalContent = 
-                    "<p><strong>예약번호:</strong> " + (response.liftOrderNo || '없음') + "</p>" +
-                    "<p><strong>리프트 종류:</strong> " + (response.liftType || '없음') + "</p>" +
-                    "<p><strong>연령대:</strong> " + 0(response.liftAge || '없음') + "</p>" +
-                    "<p><strong>수량:</strong> " + (response.liftCount || '없음') + "매</p>" +
-                    "<p><strong>총 금액:</strong> " + (response.liftTotalPrice || '0') + "원</p>";
-                document.getElementById('liftModalContent').innerHTML = modalContent;
-                document.getElementById('liftDetailModal').style.display = 'flex';
+            if (response && response.liftOrderNo) { // 응답 값 검증
+                var modalContent = "<p><strong>예약번호:</strong> " + (response.liftOrderNo || "없음") + "</p>" +
+                    "<p><strong>리프트 번호:</strong> " + (response.liftNo || "없음") + "</p>" +
+                    "<p><strong>수량:</strong> " + (response.liftCount || "없음") + "매</p>" +
+                    "<p><strong>총 금액:</strong> " + (response.liftTotalPrice || "0") + "원</p>";
+                document.getElementById("liftModalContent").innerHTML = modalContent;
+                document.getElementById("liftDetailModal").style.display = "flex";
             } else {
                 alert("리프트 정보를 불러오는데 실패했습니다.");
             }
@@ -1080,6 +1168,8 @@ function openLiftDetailModal(liftOrderNo) {
         }
     });
 }
+
+
 
 
 // 리프트 상세 정보 모달 닫기

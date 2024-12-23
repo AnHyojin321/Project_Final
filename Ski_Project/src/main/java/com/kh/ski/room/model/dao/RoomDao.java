@@ -60,5 +60,8 @@ public class RoomDao {
 		return sqlSession.update("roomMapper.cancelRoomReservation", roomReservNo);
 	}
  
-	
+	public int countReservedRooms(SqlSessionTemplate sqlSession, int memberNo) {
+	    return sqlSession.selectOne("roomMapper.countReservedRooms", memberNo);
+	}
+
 }

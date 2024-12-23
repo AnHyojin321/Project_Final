@@ -38,4 +38,8 @@ public interface PackageService {
 	
 	// 예약한 패키지 목록 상세 조회
 	PackagePay packageDetail(int packageReservNo);
+	
+	// 패키지 예약 갯수 조회
+	int countReservedPackages(int memberNo);
+
 }

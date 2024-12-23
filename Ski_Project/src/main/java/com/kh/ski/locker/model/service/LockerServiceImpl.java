@@ -38,6 +38,10 @@ public class LockerServiceImpl implements LockerService {
     public LockerReservation findLockerReservationById(int lockerReservNo) {
         return lockerDao.findLockerReservationById(sqlSession, lockerReservNo);
     }
+    @Override
+    public int countReservedLockers(int memberNo) {
+        return lockerDao.countReservedLockers(sqlSession, memberNo);
+    }
 
 
 }

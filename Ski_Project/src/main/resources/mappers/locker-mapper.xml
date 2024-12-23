@@ -58,6 +58,11 @@
      WHERE LOCKER_RESERV_NO = #{lockerReservNo}
 </select>
 
+<select id="countReservedLockers" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM LOCKER_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
 
 
 </mapper>

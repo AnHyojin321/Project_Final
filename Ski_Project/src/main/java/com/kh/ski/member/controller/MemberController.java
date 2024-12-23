@@ -159,7 +159,7 @@ public class MemberController {
 	    if (loginMember != null) {
 	        // 탈퇴한 회원인지 확인
 	        if ("N".equals(loginMember.getMemberStatus())) {
-	            mv.addObject("alertMsg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+	            session.setAttribute("alertMsg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
 	            mv.setViewName("member/MemberLogin");
 	            return mv;
 	        }
@@ -480,24 +480,35 @@ public class MemberController {
 
         // 객실 예약 목록 조회
         ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
+        int roomCount = roomService.countReservedRooms(memberNo);
 
-        // 리프트권 예약 목록 조회
-        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+        // 락커 예약 목록 조회
+        ArrayList<LockerReservation> reservedLockers = lockerService.selectReservedLockerList(memberNo);
+        int lockerCount = lockerService.countReservedLockers(memberNo);
 
         // 패키지 예약 목록 조회
         ArrayList<PackagePay> reservedPackages = packageService.selectReservedPackageList(memberNo);
-        
-        // 락커 예약 목록 조회
-        ArrayList<LockerReservation> reservedLockers = lockerService.selectReservedLockerList(memberNo);
-        
+        int packageCount = packageService.countReservedPackages(memberNo);
+
+        // 리프트 예약 목록 조회
+        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+        int liftCount = liftService.countReservedLifts(memberId);
+
         // Model에 데이터 추가
         model.addAttribute("reservedRooms", reservedRooms);
+        model.addAttribute("roomCount", roomCount);
+        model.addAttribute("reservedLockers", reservedLockers);
+        model.addAttribute("lockerCount", lockerCount);
+        model.addAttribute("reservedPackages", reservedPackages);
+        model.addAttribute("packageCount", packageCount);
         model.addAttribute("reservedLiftList", reservedLiftList);
-        model.addAttribute("reservedPackages", reservedPackages); // 패키지 예약 목록 추가
-        model.addAttribute("reservedLockers", reservedLockers); // 락커 예약 목록 추가
+        model.addAttribute("liftCount", liftCount);
 
         return "mypage/myPage";
     }
+
+
+
 
 
 /*

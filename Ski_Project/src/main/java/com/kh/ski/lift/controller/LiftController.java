@@ -198,21 +198,20 @@ public class LiftController {
 	}
 
 // 김동준 마이페이지
-    @GetMapping("liftOrders.li")
-    public String liftOrders(HttpSession session, Model model) {
-        Member loginMember = (Member) session.getAttribute("loginMember");
+	@GetMapping("/liftOrderDetail.li")
+	@ResponseBody
+	public Map<String, Object> liftOrderDetail(@RequestParam("liftOrderNo") int liftOrderNo) {
+	    LiftOrder liftOrder = liftService.selectLiftOrderByNo(liftOrderNo); // DAO 또는 Service에서 구현
+	    Map<String, Object> response = new HashMap<>();
 
-        if (loginMember == null) {
-            return "redirect:/login.me";
-        }
+	    if (liftOrder != null) {
+	        response.put("liftOrderNo", liftOrder.getLiftOrderNo());
+	        response.put("liftNo", liftOrder.getLiftNo());
+	        response.put("liftCount", liftOrder.getLiftCount());
+	        response.put("liftTotalPrice", liftOrder.getLiftTotalPrice());
+	    }
 
-        String memberId = loginMember.getMemberId();
-
-        // 리프트권 예약 목록 조회
-        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
-
-        model.addAttribute("reservedLiftList", reservedLiftList);
-
-        return "lift/liftOrders";
-    }    
+	    return response;
+	}
+ 
 }

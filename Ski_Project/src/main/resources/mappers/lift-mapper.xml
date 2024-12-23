@@ -86,4 +86,19 @@
         FROM LIFT_ORDER LO
         WHERE LO.MEMBER_ID = #{memberId}
     </select>
+    <select id="selectLiftOrderByNo" parameterType="int" resultMap="liftOrderResultSet">
+    SELECT 
+        LIFT_ORDER_NO,
+        LIFT_NO,
+        LIFT_COUNT,
+        LIFT_TOTAL_PRICE
+    FROM LIFT_ORDER
+    WHERE LIFT_ORDER_NO = #{liftOrderNo}
+</select>
+    <select id="countReservedLifts" parameterType="string" resultType="int">
+    SELECT COUNT(*)
+    FROM LIFT_ORDER
+    WHERE MEMBER_ID = #{memberId}
+</select>
+    
 </mapper>

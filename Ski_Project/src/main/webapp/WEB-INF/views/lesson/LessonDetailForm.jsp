@@ -1,223 +1,257 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>설레눈 강습 예약 상세보기</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>설레눈 강습 예약 확인서</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        .details-container {
-            max-width: 900px;
-            margin: 50px auto;
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            margin: 40px auto;
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 0 0 1px rgba(63, 153, 225, 0.15),
+                       0 2px 8px rgba(63, 153, 225, 0.15);
             overflow: hidden;
         }
 
-        /* header1에서 변경된 클래스명 */
-        .details-header { 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
+        .confirmation-header {
+            background-color: #f8fbff;
             padding: 30px;
-            text-align: center;
+            border-bottom: 1px solid #e1e9f2;
+            position: relative;
         }
 
-        .details-header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .reservation-number {
-            font-size: 1.2em;
-            opacity: 0.8;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .detail-row {
+        .confirmation-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c5282;
+            margin: 0;
             display: flex;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 20px 0;
-            transition: background-color 0.3s ease;
+            align-items: center;
+            gap: 10px;
         }
 
-        .detail-row:hover {
-            background-color: #f8f9fa;
+        .confirmation-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #3182ce;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
         }
 
-        .detail-label {
-            width: 200px;
-            font-weight: bold;
-            color: #1e3c72;
+        .confirmation-content {
+            padding: 30px;
         }
 
-        .detail-value {
-            flex: 1;
+        .section {
+            margin-bottom: 30px;
         }
 
-        .status {
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .label {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .status-badge {
             display: inline-block;
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
+            padding: 6px 12px;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        .status-confirmed {
-            background-color: #e7f5e7;
-            color: #2e7d32;
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
         }
 
         .button-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 12px;
+            margin-top: 30px;
         }
 
-        .button-group button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
+        .button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.2s;
         }
 
-        .edit-btn {
-            background-color: #1e3c72;
+        .primary-button {
+            background-color: #3182ce;
             color: white;
+            border: none;
         }
 
-        .edit-btn:hover {
-            background-color: #2a5298;
-            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        .secondary-button {
+            background-color: white;
+            color: #3182ce;
+            border: 1px solid #3182ce;
         }
 
-        .cancel-btn {
-            background-color: #fff;
-            color: #1e3c72;
-            border: 2px solid #1e3c72;
+        .danger-button {
+            background-color: white;
+            color: #e53e3e;
+            border: 1px solid #e53e3e;
         }
 
-        .cancel-btn:hover {
-            background-color: #1e3c72;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .details-container {
-                margin: 20px;
+        @media (max-width: 640px) {
+            .confirmation-container {
+                margin: 20px auto;
             }
 
-            .content {
-                padding: 20px;
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
 
-            .detail-row {
+            .label {
+                color: #4a5568;
+                font-weight: 500;
+            }
+
+            .button-group {
                 flex-direction: column;
             }
 
-            .detail-label {
-                margin-bottom: 5px;
+            .button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-<jsp:include page="../common/header.jsp" />
-    <div class="details-container">
-        <div class="details-header"> 
-            <h1>🎿 설레눈 강습 예약</h1>
-            <div class="reservation-number">예약 번호: ${ les.resNo }</div>
+    <jsp:include page="../common/header.jsp" />
+    
+    <div class="confirmation-container">
+        <div class="confirmation-header">
+            <h1 class="confirmation-title">
+                <span class="confirmation-icon">🎿</span>
+                강습 예약 확인서
+            </h1>
         </div>
-        <div class="content">
-            <div class="detail-row">
-                <div class="detail-label">예약 상태</div>
-                <div class="detail-value">
-                    <span class="status status-confirmed">확정</span>
+
+        <div class="confirmation-content">
+            <div class="section">
+                <h2 class="section-title">예약 정보</h2>
+                <div class="info-grid">
+                    <div class="label">예약 번호</div>
+                    <div class="value">${les.resNo}</div>
+					<div class="label">예약 상태</div>
+					<div class="value">
+	                <c:choose>
+	                    <c:when test="${les.resStatus == 'Y'}">
+	                        <span class="status-badge success">예약 성공</span>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <span class="status-badge pending">예약 대기중</span>
+	                    </c:otherwise>
+	                </c:choose>
+					</div>
+                    <div class="label">예약자</div>
+                    <div class="value">${loginMember.memberName}</div>
+
+                    <div class="label">이메일</div>
+                    <div class="value">${loginMember.email}</div>
+
+                    <div class="label">휴대전화</div>
+                    <div class="value">${requestScope.les.lessonPhone}</div>
                 </div>
             </div>
 
-            <div class="detail-row">
-                <div class="detail-label">예약자</div>
-                <div class="detail-value">${ loginMember.memberName }</div>
+            <div class="section">
+                <h2 class="section-title">강습 정보</h2>
+                <div class="info-grid">
+                    <div class="label">강습 종류</div>
+                    <div class="value">${requestScope.les.lessonActivite}</div>
+
+                    <div class="label">강습 일자</div>
+                    <div class="value">${requestScope.les.lessonDate}</div>
+
+                    <div class="label">강습 프로그램</div>
+                    <div class="value">${requestScope.les.lessonType}</div>
+
+                    <div class="label">강습 시간</div>
+                    <div class="value">${requestScope.les.lessonTime}</div>
+
+                    <div class="label">예약 인원</div>
+                    <div class="value">${requestScope.les.lessonResCount}명</div>
+
+                    <div class="label">요청 사항</div>
+                    <div class="value">${requestScope.les.lessonResContent}</div>
+                </div>
             </div>
 
-            <div class="detail-row">
-                <div class="detail-label">이메일</div>
-                <div class="detail-value">${ loginMember.email }</div>
+            <div class="button-group">
+                <form action="${pageContext.request.contextPath}/lesson/updateForm" method="get" style="display: inline;">
+                    <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
+                    <button type="submit" class="button primary-button">예약 수정</button>
+                </form>
+                
+                <form action="${pageContext.request.contextPath}/delete.le" method="post" 
+                      onsubmit="return confirm('정말로 삭제하시겠습니까?')" style="display: inline;">
+                    <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
+                    <button type="submit" class="button danger-button">예약 삭제</button>
+                </form>
+
+                <button onclick="history.back()" class="button secondary-button">뒤로</button>
             </div>
 
-            <div class="detail-row">
-                <div class="detail-label">휴대전화번호</div>
-                <div class="detail-value">${ requestScope.les.lessonPhone }</div>
+            <div class="footer">
+                본 예약 확인서는 설레눈 리조트 강습 예약 확인을 위한 문서입니다.<br>
+                문의사항은 고객센터로 연락 부탁드립니다.
             </div>
-
-            <div class="detail-row">
-                <div class="detail-label">강습 종류</div>
-                <div class="detail-value">${ requestScope.les.lessonActivite }</div>
-            </div>
-
-            <div class="detail-row">
-                <div class="detail-label">강습 일자</div>
-                <div class="detail-value">${ requestScope.les.lessonDate }</div>
-            </div>
-
-            <div class="detail-row">
-                <div class="detail-label">강습 프로그램</div>
-                <div class="detail-value">${ requestScope.les.lessonType }</div>
-            </div>
-
-            <div class="detail-row">
-                <div class="detail-label">강습 시간</div>
-                <div class="detail-value">${ requestScope.les.lessonTime }</div>
-            </div>
-
-            <div class="detail-row">
-                <div class="detail-label">예약 인원</div>
-                <div class="detail-value">${ requestScope.les.lessonResCount }</div>
-            </div>
-
-            <div class="detail-row">
-                <div class="detail-label">요청 사항</div>
-                <div class="detail-value">${ requestScope.les.lessonResContent }</div>
-            </div>
-		
-			<div class="button-group">
-			    <form action="${pageContext.request.contextPath}/lesson/updateForm" method="get">
-			        <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
-			        <button class="edit-btn" type="submit">예약 수정</button>
-			    </form>
-			    
-				<form action="${pageContext.request.contextPath}/delete.le" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
-				    <input type="hidden" name="resNo" value="${requestScope.les.resNo}">
-				    <button class="danger-btn" type="submit">게시글 삭제</button>
-				</form>
-
-			    <button class="cancel-btn" onclick="history.back()">뒤로</button>
-			</div>
-
-
         </div>
     </div>
-    
-    <script>
-    function deletePost() {
-        if (confirm('정말로 삭제하시겠습니까?')) {
-            window.location.href = '${pageContext.request.contextPath}/delete.le?resNo=${requestScope.les.resNo}';
-        }
-    }
-</script>
-<jsp:include page="../common/footer.jsp" />
+
+    <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

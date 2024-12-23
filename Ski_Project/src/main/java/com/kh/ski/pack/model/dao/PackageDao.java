@@ -75,4 +75,8 @@ public class PackageDao {
 		return sqlSession.selectOne("packageMapper.packageDetail", packageReservNo);
 	}
 
+	public int countReservedPackages(SqlSessionTemplate sqlSession, int memberNo) {
+	    return sqlSession.selectOne("packageMapper.countReservedPackages", memberNo);
+	}
+
 }

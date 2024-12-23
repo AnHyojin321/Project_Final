@@ -14,5 +14,6 @@ public interface LockerService {
     // 김동준
     ArrayList<LockerReservation> selectReservedLockerList(int memberNo);
     LockerReservation findLockerReservationById(int lockerReservNo);
+    int countReservedLockers(int memberNo);
 
 }

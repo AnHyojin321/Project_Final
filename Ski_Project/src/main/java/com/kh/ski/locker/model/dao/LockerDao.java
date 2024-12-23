@@ -36,6 +36,9 @@ public class LockerDao {
     public LockerReservation findLockerReservationById(SqlSessionTemplate sqlSession, int lockerReservNo) {
         return sqlSession.selectOne("locker.findLockerReservationById", lockerReservNo);
     }
+    public int countReservedLockers(SqlSessionTemplate sqlSession, int memberNo) {
+        return sqlSession.selectOne("locker.countReservedLockers", memberNo);
+    }
 
 
 }

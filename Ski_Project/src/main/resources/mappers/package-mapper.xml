@@ -150,5 +150,10 @@
     WHERE PR.PACKAGE_RESERV_NO = #{packageReservNo}
 </select>
 
+<select id="countReservedPackages" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM PACKAGE_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
 
 </mapper>
