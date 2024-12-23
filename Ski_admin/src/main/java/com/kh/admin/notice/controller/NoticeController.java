@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.common.template.Pagination;
-import com.kh.admin.lostitem.model.vo.PageInfo;
 import com.kh.admin.notice.model.service.NoticeService;
 import com.kh.admin.notice.model.vo.Notice;
 

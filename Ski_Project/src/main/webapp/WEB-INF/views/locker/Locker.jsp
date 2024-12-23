@@ -8,6 +8,72 @@
 <link rel="stylesheet" href="resources/css/locker/locker.css">
 <script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+
+<style>
+ /* 전체 화면을 가리는 문 */
+ 
+ 
+        .door {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #004AAD;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* 왼쪽 문 */
+        .door.left {
+            left: 0;
+        }
+
+        /* 오른쪽 문 */
+        .door.right {
+            right: 0;
+        }
+
+        /* LOCKER 텍스트는 왼쪽 문에만 표시 */
+        .door.right::before {
+            content: '';
+        }
+
+        /* 실제 콘텐츠 */
+        .content {
+            opacity: 0; /* 초기 상태: 숨김 */
+            z-index: 5;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            color: #333;
+        }
+
+        .content p {
+            font-size: 1.5rem;
+            color: #666;
+        }
+		
+		
+			.hero {
+	    position: relative;
+	    background: url('${pageContext.request.contextPath}/resources/images/locker/22.png') no-repeat center center;
+	    background-size: cover;
+	    height: 500px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	}
+</style>
 </head>
 <script>
 function serverAuth() {
@@ -55,7 +121,8 @@ function serverAuth() {
 }
 </script>
 <body>
-
+ <div class="door left">LOCKER</div>
+    <div class="door right"></div>
 	<jsp:include page="../common/header.jsp" />
 
  
@@ -106,10 +173,7 @@ function serverAuth() {
 
   <div class="content">
     <h2>SEOLLENEUN RESORT</h2>
-    <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
-    </p>
+   
 <button id="openModalBtn" class="fixed-reserve-button">락커 예약</button>
 
 <script>
@@ -135,13 +199,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	<div style="height:600;">
      <p>
-      설레눈 리조트의 객실은 편안함과 세련미를 겸비한 공간으로, 모든 투숙객에게 특별한 휴식 시간을 제공합니다. <br>
-      총 50여 개의 객실과 스위트룸은 넓고 아늑하게 설계되어 자연 속에서의 완벽한 힐링을 선사합니다.
+      설레눈 리조트는 이용객의 편리함과 안전을 위해 최신식 락커를 제공합니다. <br>
+        <strong>다양한 크기와 타입의 락커</strong>가 준비되어 있으며, 개인 물품 및 장비를 안전하게 보관할 수 있습니다. <br>
+        락커는 <strong>스키하우스 1층과 2층</strong>에 위치하고 있어 쉽게 접근 가능하며, <strong>24/25 시즌</strong> 동안 리조트 운영 시간에 맞춰 이용할 수 있습니다.
     </p> 
     </div>
      
     <div class="locker-gallery">
-    <h3>락커 이미지</h3>
+    <h3>락커 위치</h3>
     <div class="locker-images">
         <div class="locker-item">
                     <img src="${pageContext.request.contextPath}/resources/images/locker/2.jpg" alt="락커 이미지 2">
@@ -161,59 +226,53 @@ document.addEventListener("DOMContentLoaded", function () {
   
 <div class="room-info-container">
     <div class="room-info-item">
-        <strong>객실타입</strong>
-        <p>취사/미취사</p>
+        <strong>락커타입</strong>
+        <p>싱글/롱바디</p>
     </div>
     <div class="room-info-item">
-        <strong>정원 (최대 정원: 추가요금 발생)</strong>
-        <p>6인(최대 9인)</p>
+        <strong>락커 추가금액</strong>
+        <p>2인 이상 이용 시 추가 결제 필요</p>
     </div>
     <div class="room-info-item">
-        <strong>면적</strong>
-        <p>134.28m²</p>
+        <strong>크기</strong>
+        <p>가로 200 세로 400</p>
     </div>
-    <div class="room-info-item">
-        <strong>객실구성</strong>
-        <p>침실2, 거실, 주방 겸 식당, 욕실, 화장실</p>
-    </div>
+   
     <div class="room-info-item">
         <strong>위치</strong>
-        <p>Tower A~C, Tower F~H</p>
+        <p>스키하우스 1층 / 2층</p>
     </div>
     <div class="room-info-item">
-        <strong>체크인/체크아웃</strong>
-        <p>15:00 / 11:00</p>
+        <strong>보관소 운영 시간</strong>
+        <p> "24/25" 시즌 스키장 운영시간 내</p>
     </div>
+   
     <div class="room-info-item">
-        <strong>침대타입</strong>
-        <p>더블</p>
-    </div>
-    <div class="room-info-item">
-        <strong>전망</strong>
-        <p>1~6층: 산마르코광장 잔디정원<br>7~17층: 매봉산 및 오션월드</p>
+        <strong>기타사항</strong>
+        <p>시즌보관소의 사물함 열쇠는 본인이 휴대하여야 하며, 분실 시 재발급 비용이 발생됩니다.
+</p>
     </div>
 </div>
 
 <div class="info-container">
     <h3>이용안내</h3>
     <div class="info-section">
-        <h4>입실 안내 Check-in</h4>
-        <p>22:00 이후 입실하는 경우 사전에 프런트 데스크 또는 소노호텔앤리조트에 연락해 주세요.</p>
+        <h4>락커 안내</h4>
+        <p>22:00 이후 락커를 사용하시는 경우 사전에 프런트 데스크 또는 설레눈리조트에 연락해 주세요.</p>
         <p>리조트 운영정책: 회원 본인이 아닌 경우 제휴조건 금액이 적용되며 추가요금이 발생할 수 있습니다.</p>
     </div>
     <div class="info-section">
-        <h4>퇴실 안내 Check-out</h4>
-        <p>퇴실 전 객실 정리 (흡연 청소 및 쓰레기 분리수거 포함) 후 객실 시 제공된 퇴실증을 작성하여 프런트 데스크에 제출해 주세요.</p>
+        <h4>락커 교환 안내</h4>
+        <p>원칙상 예매번호로 명시된 락커 번호만 사용가능하며 락커 문제 시 교환 가능합니다.</p>
     </div>
     <div class="info-section">
         <h4>추가요금 안내 Extra charge</h4>
-        <p>객실 정원 추가: 1인당 1박에 ₩11,000(VAT 포함), 만 7세 미만 어린이 추가요금 제외</p>
-        <p>침구류 추가: 최대 객실 정원 대비하여 1박당 ₩25,000(VAT 포함)</p>
+        <p>락커 정원 추가: 2인 이상 락커 이용 시 인당 (3000원 추가요금 발생)</p>
+        <p>스키 장비 / 보드 장비 보관 필요할 시(10,000원 추가요금 발생)</p>
     </div>
     <div class="info-section">
-        <h4>객실 정비안내 Cleaning Service</h4>
-        <p>전날 15:00까지 프런트 데스크로 요청 필수</p>
-        <p>3박 이상 투숙하는 경우, 3박 무료 객실정비가 제공됩니다.</p>
+        <h4>락커 분실물 안내</h4>
+        <p>분실 물건은 데스크 또는 분실물 페이지를 이용해주세요.</p>
     </div>
 </div>
 
@@ -221,6 +280,39 @@ document.addEventListener("DOMContentLoaded", function () {
 <jsp:include page="../common/footer.jsp" />
 </body>
  <script>
+ 
+ // GSAP 애니메이션
+ const timeline = gsap.timeline();
+
+ timeline
+     // 왼쪽 문 열기
+     .to(".door.left", {
+         x: "-100%",
+         duration: 2.5, // 더 천천히 열림
+         ease: "power3.inOut",
+     })
+     // 오른쪽 문 열기
+     .to(
+         ".door.right",
+         {
+             x: "100%",
+             duration: 2.5, // 더 천천히 열림
+             ease: "power3.inOut",
+         },
+         "<" // 동시에 실행
+     )
+     // 콘텐츠 나타내기
+     .to(
+         ".content",
+         {
+             opacity: 1,
+             duration: 1,
+             ease: "power2.out",
+         },
+         "-=1" // 문이 열리는 중간에 실행
+     );
+ 
+ 
  
         document.addEventListener("DOMContentLoaded", function () {
             const openModalBtn = document.getElementById("openModalBtn");

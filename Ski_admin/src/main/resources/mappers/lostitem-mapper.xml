@@ -2,44 +2,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lostItem">
 
+    <resultMap id="lostItemResultMap" type="lostItem">
+        <id property="lostNo" column="LOST_NO" />
+        <result property="lostTitle" column="LOST_TITLE" />
+        <result property="lostLocation" column="LOST_LOCATION" />
+        <result property="lostContent" column="LOST_CONTENT" />
+        <result property="count" column="COUNT" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="lostItemStatus" column="LOST_ITEM_STATUS" />
+    </resultMap>
 
-		
-	<resultMap id="lostItemResultMap" type="lostItem">
-    <id property="lostNo" column="LOST_NO" />
-    <result property="lostTitle" column="LOST_TITLE" />
-    <result property="lostLocation" column="LOST_LOCATION" />
-    <result property="lostContent" column="LOST_CONTENT" />
-    <result property="count" column="COUNT" />
-    <result property="createDate" column="CREATE_DATE" />
-    <result property="lostItemStatus" column="LOST_ITEM_STATUS" />
-	</resultMap>
-	
-		
-   <select id="selectListCount" resultType="int">
+    <!-- 기존 코드 -->
+    <select id="selectListCount" resultType="int">
         SELECT COUNT(*)
         FROM LOST_ITEM
         WHERE LOST_STATUS = 'Y'
     </select>
 
- <select id="selectLostListPaging" parameterType="map" resultMap="lostItemResultMap">
-    SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
-    FROM (
-        SELECT ROWNUM AS RNUM, A.*
+    <select id="selectLostListPaging" parameterType="map" resultMap="lostItemResultMap">
+        SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
         FROM (
-            SELECT *
-            FROM LOST_ITEM
-            WHERE LOST_STATUS = 'Y'
-            ORDER BY CREATE_DATE DESC
-        ) A
-        WHERE ROWNUM &lt;= #{endRow}
-    )
-    WHERE RNUM &gt;= #{startRow}
-</select>
+            SELECT ROWNUM AS RNUM, A.*
+            FROM (
+                SELECT *
+                FROM LOST_ITEM
+                WHERE LOST_STATUS = 'Y'
+                ORDER BY CREATE_DATE DESC
+            ) A
+            WHERE ROWNUM &lt;= #{endRow}
+        )
+        WHERE RNUM &gt;= #{startRow}
+    </select>
 
-    <!-- 분실물 등록 -->
+    <!-- 새로운 코드: 필터링된 게시글 수 조회 -->
+    <select id="selectFilteredListCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM LOST_ITEM
+        WHERE LOST_STATUS = 'Y'
+        <if test="startDate != null and startDate != ''">
+            AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND CREATE_DATE &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1
+        </if>
+        <if test="location != null and location != ''">
+            AND LOST_LOCATION = #{location}
+        </if>
+    </select>
+
+    <select id="selectFilteredLostList" parameterType="map" resultMap="lostItemResultMap">
+        SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
+        FROM (
+            SELECT ROWNUM AS RNUM, A.*
+            FROM (
+                SELECT *
+                FROM LOST_ITEM
+                WHERE LOST_STATUS = 'Y'
+                <if test="startDate != null and startDate != ''">
+                    AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND CREATE_DATE &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1
+                </if>
+                <if test="location != null and location != ''">
+                    AND LOST_LOCATION = #{location}
+                </if>
+                ORDER BY CREATE_DATE DESC
+            ) A
+            WHERE ROWNUM &lt;= #{endRow}
+        )
+        WHERE RNUM &gt;= #{startRow}
+    </select>
+
+    <!-- 새로운 코드: 동적으로 번호 계산 후 삽입 -->
     <insert id="insertLostItem" parameterType="lostItem">
-             INSERT INTO LOST_ITEM (
-            LOST_NO,           
+        INSERT INTO LOST_ITEM (
+            LOST_NO,
             LOST_TITLE,
             LOST_LOCATION,
             LOST_CONTENT,
@@ -49,7 +87,7 @@
             LOST_STATUS
         )
         VALUES (
-            SEQ_LOST_NO.NEXTVAL,	
+            (SELECT NVL(MAX(LOST_NO), 0) + 1 FROM LOST_ITEM),
             #{lostTitle},
             #{lostLocation},
             #{lostContent},
@@ -60,23 +98,24 @@
         )
     </insert>
 
-<select id="selectLostItemDetail" parameterType="int" resultMap="lostItemResultMap">
-    SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
-    FROM LOST_ITEM
-    WHERE LOST_NO = #{lostNo}
-</select>
+    <!-- 기존 상세보기 -->
+    <select id="selectLostItemDetail" parameterType="int" resultMap="lostItemResultMap">
+        SELECT LOST_NO, LOST_TITLE, LOST_LOCATION, LOST_CONTENT, COUNT, CREATE_DATE, LOST_ITEM_STATUS
+        FROM LOST_ITEM
+        WHERE LOST_NO = #{lostNo}
+    </select>
 
-<update id="increaseViewCount" parameterType="int">
-    UPDATE LOST_ITEM
-    SET COUNT = COUNT + 1
-    WHERE LOST_NO = #{lostNo}
-</update>
+    <!-- 기존 조회수 증가 -->
+    <update id="increaseViewCount" parameterType="int">
+        UPDATE LOST_ITEM
+        SET COUNT = COUNT + 1
+        WHERE LOST_NO = #{lostNo}
+    </update>
 
-
-<delete id="deleteLostItem" parameterType="int">
-    DELETE FROM LOST_ITEM
-    WHERE LOST_NO = #{lostNo}
-</delete>
-
+    <!-- 기존 삭제 -->
+    <delete id="deleteLostItem" parameterType="int">
+        DELETE FROM LOST_ITEM
+        WHERE LOST_NO = #{lostNo}
+    </delete>
 
 </mapper>

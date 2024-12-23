@@ -28,28 +28,33 @@ public class LostItemController {
     @GetMapping("/lostList")
     public String selectLostList(
             @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "location", required = false) String location,
             Model model) {
-
-        // 1. 총 게시글 수 조회
-        int listCount = lostItemService.selectListCount();
-
-        // 2. 페이징 정보 계산
-        int pageLimit = 5;   // 하단 페이지 번호 최대 개수
-        int boardLimit = 10; // 한 페이지에 표시할 게시글 수
-        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-
-        // 3. 페이징에 맞는 게시글 목록 조회
-        Map<String, Integer> paramMap = new HashMap<>();
-        paramMap.put("startRow", (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1);
-        paramMap.put("endRow", pi.getCurrentPage() * pi.getBoardLimit());
-        List<LostItem> list = lostItemService.selectLostListPaging(paramMap);
         
+        Map<String, Object> filterMap = new HashMap<>();
+        if (startDate != null && !startDate.isEmpty()) filterMap.put("startDate", startDate);
+        if (endDate != null && !endDate.isEmpty()) filterMap.put("endDate", endDate);
+        if (location != null && !location.isEmpty()) filterMap.put("location", location);
         
-        // 4. 조회 결과와 페이징 정보 JSP에 전달
+        System.out.println("Filter Map: " + filterMap); // 디버깅 출력
+
+        int listCount = lostItemService.selectFilteredListCount(filterMap);
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+
+        filterMap.put("startRow", (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1);
+        filterMap.put("endRow", pi.getCurrentPage() * pi.getBoardLimit());
+
+        List<LostItem> list = lostItemService.selectFilteredLostList(filterMap);
+
+        System.out.println("Retrieved List: " + list); // 디버깅 출력
+
         model.addAttribute("list", list);
         model.addAttribute("pi", pi);
+        model.addAttribute("filter", filterMap);
 
-        return "lostitem/LostList"; // 게시물 목록 JSP
+        return "lostitem/LostList";
     }
 
     /**

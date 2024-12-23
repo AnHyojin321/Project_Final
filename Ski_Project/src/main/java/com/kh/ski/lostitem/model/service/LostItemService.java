@@ -1,6 +1,5 @@
 package com.kh.ski.lostitem.model.service;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -15,4 +14,8 @@ public interface LostItemService {
     LostItem selectLostItemDetail(int lostNo); // 게시물 상세 정보 조회
 
     int increaseViewCount(int lostNo); // 조회수 증가
+
+    int selectFilteredListCount(Map<String, Object> filterMap); // 필터링된 총 게시글 수 조회
+
+    List<LostItem> selectFilteredLostList(Map<String, Object> filterMap); // 필터링된 게시물 목록 조회
 }

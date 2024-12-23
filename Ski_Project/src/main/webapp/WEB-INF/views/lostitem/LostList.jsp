@@ -2,63 +2,116 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>분실물 목록</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+            padding: 0;            
+            background-color: #f5f5f5;
+            color: #333;
         }
 
         h1 {
             text-align: center;
-            margin-top: 20px;
-            font-size: 30px;
+            margin: 20px 0;
+            font-size: 28px;
+            color: #2a2a72;
         }
 
-        .info-box {
-            background-color: #f3f3f3;
-            padding: 10px;
+               .info-box {
+            background-color: #e8f4fd;
+            padding: 15px;
             margin: 20px auto;
             width: 90%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            max-width: 800px;
+            border: 1px solid #d6e9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
+
         .info-box p {
-            margin: 0;
+            margin: 5px 0;
             font-size: 14px;
-            color: #555;
+            color: #333;
+        }
+   .filter-form {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+         .filter-form label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+           .filter-form input, .filter-form select, .filter-form button {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+
+         .filter-form button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+      .filter-form button:hover {
+            background-color: #357ab7;
         }
 
         table {
             width: 90%;
+            max-width: 1000px;
             margin: 20px auto;
             border-collapse: collapse;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+            font-size: 14px;
         }
 
         th {
-            background-color: #f0f0f0;
+            background-color: #f0f7ff;
             font-weight: bold;
+            color: #333;
         }
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+}
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f1f7ff;
         }
 
         .pagination {
@@ -73,32 +126,97 @@
             background-color: #ddd;
             color: #333;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
         .pagination a:hover, .pagination b {
-            background-color: #555;
+            background-color: #4a90e2;
             color: #fff;
         }
 
         .btn {
             display: inline-block;
             padding: 10px 15px;
-            background-color: #8c7ae6;
+            background-color: #4a90e2;
             color: #fff;
             border-radius: 5px;
             text-decoration: none;
             margin: 5px;
+            transition: background-color 0.3s ease;
         }
+
+        .btn:hover {
+            background-color: #357ab7;
+        }
+
+       
+        @media (max-width: 768px) {
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-form input, .filter-form select, .filter-form button {
+                width: 100%;
+            }
+        }
+        
+           #content {
+        background: url('${pageContext.request.contextPath}/resources/images/lost/lockerback.jpg') no-repeat center center fixed;
+        background-size: cover;
+        position: relative;
+        padding: 20px;
+    }
+
+    #content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.6); /* 반투명 효과 */
+        z-index: 1;
+    }
+
+    #content > * {
+        position: relative;
+        z-index: 2;
+    }
+        
     </style>
 </head>
 <body>
+  <jsp:include page="../common/header.jsp" />
+
+
+	<div id ="content">
     <h1>분실물 센터</h1>
 
     <!-- 안내 메시지 -->
     <div class="info-box">
-        <p>- 소노호텔앤리조트 내에 발생하는 습득물의 보관 기간은 1개월 입니다.</p>
-        <p>- 1개월 내 찾지 않은 습득물은 선별하여, 대명복지재단 기부를 통해 어려운 이웃에게 전달됩니다.</p>
+        <p>- 설레눈리조트 내에 발생하는 습득물의 보관 기간은 1개월 입니다.</p>
+        <p>- 1개월 내 찾지 않은 습득물은 선별하여,  기부를 통해 어려운 이웃에게 전달됩니다.</p>
     </div>
+
+     <form class="filter-form" method="get" action="${pageContext.request.contextPath}/lostList">
+            <label for="startDate">시작일:</label>
+            <input type="text" id="startDate" name="startDate" value="${filter.startDate}" placeholder="날짜 선택" />
+            
+            <label for="endDate">종료일:</label>
+            <input type="text" id="endDate" name="endDate" value="${filter.endDate}" placeholder="날짜 선택" />
+            
+            <label for="location">위치:</label>
+            <select id="location" name="location">
+                <option value="">전체</option>
+                <option value="로비" ${filter.location == '로비' ? 'selected' : ''}>로비</option>
+                <option value="식당" ${filter.location == '식당' ? 'selected' : ''}>식당</option>
+                <option value="객실" ${filter.location == '객실' ? 'selected' : ''}>객실</option>
+            </select>
+            
+            <button type="submit">검색</button>
+            <button type="button" id="resetButton">초기화</button>
+        </form>
 
     <!-- 목록 테이블 -->
     <table>
@@ -112,7 +230,6 @@
         <c:forEach var="item" items="${list}">
             <tr>
                 <td>${item.lostNo}</td>
-                <!-- 제목을 클릭하면 상세보기 페이지로 이동 -->
                 <td><a href="${pageContext.request.contextPath}/lostItemDetail?lostNo=${item.lostNo}">${item.lostTitle}</a></td>
                 <td>${item.lostLocation}</td>
                 <td>
@@ -135,14 +252,36 @@
                     <b>${i}</b>
                 </c:when>
                 <c:otherwise>
-                    <a href="?currentPage=${i}">${i}</a>
+                    <a href="?currentPage=${i}&startDate=${filter.startDate}&endDate=${filter.endDate}&location=${filter.location}">${i}</a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
 
         <c:if test="${pi.endPage < pi.maxPage}">
-            <a href="?currentPage=${pi.endPage + 1}">다음 &raquo;</a>
+            <a href="?currentPage=${pi.endPage + 1}&startDate=${filter.startDate}&endDate=${filter.endDate}&location=${filter.location}">다음 &raquo;</a>
         </c:if>
     </div>
+    </div>
+      <jsp:include page="../common/footer.jsp" />
+    	
+    	  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr 적용
+        flatpickr("#startDate", {
+            dateFormat: "Y-m-d",
+            locale: "ko"
+        });
+        flatpickr("#endDate", {
+            dateFormat: "Y-m-d",
+            locale: "ko"
+        });
+
+        // 초기화 버튼 동작
+        document.getElementById('resetButton').addEventListener('click', function () {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('location').selectedIndex = 0;
+        });
+    </script>
 </body>
 </html>

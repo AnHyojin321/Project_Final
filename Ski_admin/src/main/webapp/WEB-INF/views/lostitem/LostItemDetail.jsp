@@ -8,27 +8,27 @@
     <style>
         /* 전체 페이지 스타일 */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4f6f9;
             margin: 0;
             padding: 0;
         }
 
         .container {
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             margin: 50px auto;
             background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 30px;
         }
 
         /* 테이블 스타일 */
@@ -39,49 +39,58 @@
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
+            padding: 15px 20px;
             text-align: left;
+            font-size: 16px;
         }
 
         th {
-            background-color: #f2f2f2;
-            color: #555;
+            background-color: #3498db;
+            color: #fff;
             font-weight: bold;
+            border-bottom: 2px solid #2980b9;
         }
 
         td {
-            color: #333;
+            background-color: #f9f9f9;
+            color: #34495e;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td:last-child {
+            word-wrap: break-word;
         }
 
         /* 버튼 스타일 */
         .button-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .btn {
             display: inline-block;
-            background-color: #4CAF50;
+            padding: 12px 20px;
+            background-color: #3498db;
             color: #fff;
-            padding: 10px 20px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
             margin: 0 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn:hover {
-            background-color: #45a049;
+            background-color: #2980b9;
+            transform: translateY(-2px);
         }
 
         .btn-delete {
-            background-color: #FF5733;
+            background-color: #e74c3c;
         }
 
         .btn-delete:hover {
-            background-color: #E64C2E;
+            background-color: #c0392b;
         }
     </style>
     <script>

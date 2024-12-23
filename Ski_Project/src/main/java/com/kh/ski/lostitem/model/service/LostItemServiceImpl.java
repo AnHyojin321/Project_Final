@@ -1,6 +1,5 @@
 package com.kh.ski.lostitem.model.service;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -30,18 +29,23 @@ public class LostItemServiceImpl implements LostItemService {
         return lostItemDao.selectLostListPaging(paramMap);  // 페이징된 게시물 목록 조회
     }
 
-  
-
     @Override
     public LostItem selectLostItemDetail(int lostNo) {
         return lostItemDao.selectLostItemDetail(sqlSession, lostNo);
     }
-    
+
     @Override
     public int increaseViewCount(int lostNo) {
         return lostItemDao.increaseViewCount(lostNo);
     }
-   
+
+    @Override
+    public int selectFilteredListCount(Map<String, Object> filterMap) {
+        return lostItemDao.selectFilteredListCount(filterMap); // 필터링된 총 게시글 수 조회
+    }
+
+    @Override
+    public List<LostItem> selectFilteredLostList(Map<String, Object> filterMap) {
+        return lostItemDao.selectFilteredLostList(filterMap); // 필터링된 게시물 목록 조회
+    }
 }
-
-

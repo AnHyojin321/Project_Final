@@ -309,19 +309,7 @@
        
               
                 <button id="btn1-vertical"><br>찾<br>아<br>오<br>는<br> 길</button>
-		<div class="dot-container">
-                <div class="dot "></div>
-                <div class="dot"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-              </div>		<div class="dot-container">
-                <div class="dot "></div>
-                <div class="dot"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-              </div>
+	
                 <div id="top1" style="z-index: 3; color: rgb(79, 78, 78);font-family: 'Roboto', sans-serif;
              font-weight: lighter; font-size: 33px;">
                  [Adv:nture] <br>

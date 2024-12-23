@@ -7,7 +7,7 @@
     <title>공지사항 상세보기</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
@@ -15,70 +15,80 @@
 
         h1 {
             text-align: center;
-            margin-top: 20px;
-            font-size: 30px;
+            margin-top: 30px;
+            font-size: 28px;
+            color: #2c3e50;
         }
 
         .detail-container {
             width: 80%;
-            margin: 20px auto;
+            max-width: 900px;
+            margin: 30px auto;
             background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .detail-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
             margin-bottom: 20px;
         }
 
         .detail-header h2 {
             margin: 0;
             font-size: 24px;
+            color: #333;
         }
 
         .detail-header p {
             margin: 5px 0;
             color: #777;
+            font-size: 14px;
         }
 
         .detail-content {
             margin-top: 20px;
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.8;
+            color: #333;
         }
 
         .btn-container {
-            text-align: right;
-            margin-top: 20px;
+            text-align: center;
+            margin-top: 30px;
         }
 
         .btn {
             display: inline-block;
-            padding: 10px 15px;
-            background-color: #8c7ae6;
-            color: #fff;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
             text-align: center;
-            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            margin: 0 10px;
         }
 
         .btn:hover {
-            background-color: #6c5ce7;
+            background-color: #f0f0f0;
+            color: #333;
+            border-color: #bbb;
         }
     </style>
-    
-        <script>
-        
+
+    <script>
         function confirmDelete(noticeNo) {
             if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
                 location.href = "/admin/deleteNotice?noticeNo=" + noticeNo;
             }
         }
-        
-        
     </script>
 </head>
 <body>
@@ -92,11 +102,12 @@
         <div class="detail-content">
             ${notice.noticeContent}
         </div>
+
+        <!-- 버튼 컨테이너 -->
         <div class="btn-container">
-            <a href="/admin/noticeList" class="btn">목록으로</a>
-<a href="javascript:void(0);" class="btn btn-delete" onclick="confirmDelete(${notice.noticeNo})">삭제하기</a>
-<a href="/admin/updateNoticeForm?noticeNo=${notice.noticeNo}" class="btn">수정</a>
-            
+            <a href="/admin/noticeList" class="btn">목록</a>
+            <a href="javascript:void(0);" class="btn" onclick="confirmDelete(${notice.noticeNo})">삭제</a>
+            <a href="/admin/updateNoticeForm?noticeNo=${notice.noticeNo}" class="btn">수정</a>
         </div>
     </div>
 </body>
