@@ -1,6 +1,8 @@
 package com.kh.admin.management.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.admin.management.model.service.ManagementService;
+import com.kh.admin.management.model.service.WeatherService;
 import com.kh.admin.management.model.vo.SkiResortOpen;
 import com.kh.admin.management.model.vo.SlopeOpen;
 
@@ -23,14 +26,43 @@ public class ManagementController {
 	
 	@Autowired
 	private ManagementService managementService;
-	
+
+	@Autowired
+    private WeatherService weatherService;
+
+    
 	@GetMapping("skiResortUpdate.sm")
 	public ModelAndView selectSkiResort(ModelAndView mv) {
-		
-		ArrayList<SkiResortOpen> list = managementService.selectSkiResort();
-		mv.addObject("list", list).setViewName("management/skiResortUpdate");
-		return mv;
+	    String city = "Seoul"; // 예시 도시
+	    String weatherData = weatherService.getWeather(city);
+
+	    List<Map<String, String>> weatherList = weatherService.parseWeatherData(weatherData);
+	    ArrayList<SkiResortOpen> list = managementService.selectSkiResort();
+
+	    // 병합 리스트 생성
+	    ArrayList<Map<String, Object>> slopeIsOpenList = new ArrayList<>();
+	    for (int i = 0; i < list.size() && i < weatherList.size(); i++) {
+	        SkiResortOpen resort = list.get(i);
+	        Map<String, String> weather = weatherList.get(i);
+
+	        // 병합 객체 생성
+	        Map<String, Object> combined = new HashMap<>();
+	        combined.put("skiResortIsOpen", resort.getSkiResortIsOpen());
+	        combined.put("skiResortOpenNo", resort.getSkiResortOpenNo());
+	        combined.put("date", weather.get("date"));
+	        combined.put("day", weather.get("day"));
+	        combined.put("maxTemp", weather.get("maxTemp"));
+	        combined.put("minTemp", weather.get("minTemp"));
+	        combined.put("description", weather.get("description"));
+
+	        slopeIsOpenList.add(combined);
+	    }
+
+	    mv.addObject("slopeIsOpenList", slopeIsOpenList);
+	    mv.setViewName("management/skiResortUpdate");
+	    return mv;
 	}
+
 	
 	@GetMapping("slopeUpdate.sm")
 	public ModelAndView selectSlope(ModelAndView mv) {
@@ -42,7 +74,6 @@ public class ManagementController {
 	
 	@RequestMapping(value="skiResortUpdateControl.sm", method={RequestMethod.GET, RequestMethod.POST})
 	public String updateSkiResort(SkiResortOpen sro) {
-		
 	    int result = managementService.updateSkiResort(sro);
 	    return "redirect:/skiResortUpdate.sm";
 	}

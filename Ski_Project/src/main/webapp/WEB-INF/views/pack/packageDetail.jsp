@@ -251,8 +251,8 @@ body {
                 <th>티켓 종류</th>
                 <td>
 					<c:choose>
-				        <c:when test="${pack.packageSet == 1}">객실+리프트</c:when>
-				        <c:when test="${pack.packageSet == 2}">리프트+락커</c:when>
+				        <c:when test="${p.packageSet == 1}">객실+리프트</c:when>
+				        <c:when test="${p.packageSet == 2}">리프트+락커</c:when>
 				        <c:otherwise>객실+리프트+락커</c:otherwise>
 				    </c:choose>
 				</td>
@@ -270,6 +270,7 @@ body {
         <form id="packagePayForm" action="${pageContext.request.contextPath}/packPayInfo.pk" method="post">
         	<input type="hidden" id="packageNo" name="packageNo" value="${p.packageNo}" />
         	<input type="hidden" id="memberNo" name="memberNo" value="" />
+        	<input type="hidden" id="packageSet" name="packageSet" value="${p.packageSet}" />
         </form>
     </div>
 

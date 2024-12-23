@@ -187,6 +187,103 @@
         color: #ffc107; /* 주황색 */
         font-weight: bold;
     }
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #007bff; /* 기본 파란색 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a.disabled {
+    pointer-events: none;
+    color: #aaa;
+    border-color: #ddd;
+    background-color: #f8f9fa;
+}
+/* 필터 바 스타일 */
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 입력 필드 스타일 */
+.filter-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+    transition: border-color 0.3s;
+}
+
+.filter-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 셀렉트 박스 스타일 */
+.filter-select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 검색 버튼 스타일 */
+.filter-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.filter-button:active {
+    transform: scale(0.95);
+}
+    
     </style>
 </head>
 <body>
@@ -201,13 +298,31 @@
                 <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
             </header>
             
-	            <select name="amount">
-	            	<option value="5">5개</option>
-	            	<option value="10">10개</option>
-	            	<option value="20">20개</option>
-	            	<option value="50">50개</option>
-	            	<option value="100">100개</option>
-	            </select>
+<div class="filter-bar">
+    <form action="lesson.ad" method="get" class="filter-form">
+        <!-- 검색어 입력 -->
+        <input type="text" name="keyword" placeholder="제목 검색" value="${keyword}" class="filter-input">
+        
+        <!-- 예약 상태 필터 -->
+        <select name="resStatus" class="filter-select">
+            <option value="">전체</option>
+            <option value="Y" ${resStatus == 'Y' ? 'selected' : ''}>입금 완료</option>
+            <option value="N" ${resStatus == 'N' ? 'selected' : ''}>입금 대기중</option>
+        </select>
+
+        <!-- 페이지 크기 선택 -->
+        <select name="pageSize" onchange="this.form.submit()" class="filter-select">
+            <option value="10" ${pageSize == 10 ? 'selected' : ''}>10개씩 보기</option>
+            <option value="20" ${pageSize == 20 ? 'selected' : ''}>20개씩 보기</option>
+            <option value="100" ${pageSize == 100 ? 'selected' : ''}>100개씩 보기</option>
+        </select>
+        
+        <!-- 검색 버튼 -->
+        <button type="submit" class="filter-button">검색</button>
+    </form>
+</div>
+
+
             <div class="lesson-table-container">
                 <table class="lesson-table">
                     <thead>
@@ -228,11 +343,11 @@
 					            <td>${lesson.resNo}</td>
 					            <td>
 					                <c:choose>
-					                    <c:when test="${lesson.lessonStatus == 'Y'}">
-					                        <span class="status-success">예약 성공</span>
+					                    <c:when test="${lesson.resStatus == 'Y'}">
+					                        <span class="status-success">입금 성공</span>
 					                    </c:when>
 					                    <c:otherwise>
-					                        <span class="status-pending">예약 대기중</span>
+					                        <span class="status-pending">입금 대기중</span>
 					                    </c:otherwise>
 					                </c:choose>
 					            </td>
@@ -243,7 +358,7 @@
 					            <td>${lesson.lessonDate}</td>
 					            <td>
 					                <button class="edit" 
-					                    onclick="openModal('${lesson.resNo}', '${lesson.lessonTitle}', '${lesson.lessonType}', '${lesson.lessonTime}', '${lesson.lessonResDate}', '${lesson.lessonDate}', '${lesson.lessonStatus}')">
+					                    onclick="openModal('${lesson.resNo}', '${lesson.lessonTitle}', '${lesson.lessonType}', '${lesson.lessonTime}', '${lesson.lessonResDate}', '${lesson.lessonDate}', '${lesson.resStatus}')">
 					                    수정
 					                </button>
 					            </td>
@@ -255,26 +370,19 @@
         </main>
     </div>
     
-            <div class="pagination">
-            <c:if test="${pi.currentPage > 1}">
-                <a href="lesson.ad?currentPage=${pi.currentPage - 1}">&laquo;</a>
-            </c:if>
+<div class="pagination">
+    <c:if test="${pi.currentPage > 1}">
+        <a href="lesson.ad?currentPage=${pi.currentPage - 1}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}">&laquo;</a>
+    </c:if>
 
-            <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-                <c:choose>
-                    <c:when test="${p eq pi.currentPage}">
-                        <a href="#" class="active">${p}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="lesson.ad?currentPage=${p}">${p}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+    <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+        <a href="lesson.ad?currentPage=${p}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}" class="${p == pi.currentPage ? 'active' : ''}">${p}</a>
+    </c:forEach>
 
-            <c:if test="${pi.currentPage < pi.maxPage}">
-                <a href="lesson.ad?currentPage=${pi.currentPage + 1}">&raquo;</a>
-            </c:if>
-        </div>
+    <c:if test="${pi.currentPage < pi.maxPage}">
+        <a href="lesson.ad?currentPage=${pi.currentPage + 1}&keyword=${keyword}&resStatus=${resStatus}&pageSize=${pageSize}">&raquo;</a>
+    </c:if>
+</div>
 
     <!-- 모달 -->
     <div id="editModal" class="modal">
@@ -300,10 +408,10 @@
                 <label for="lessonDate">시작일:</label>
                 <input type="text" id="lessonDate" name="lessonDate">
 
-                <label for="lessonStatus">예약 상태:</label>
-                <select id="lessonStatus" name="lessonStatus">
-                    <option value="Y">예약 완료</option>
-                    <option value="N">예약 취소</option>
+                <label for="resStatus">입금 상태:</label>
+                <select id="resStatus" name="resStatus">
+                    <option value="Y">입금 완료</option>
+                    <option value="N">입금 대기중</option>
                 </select>
 
                 <button type="submit">수정 완료</button>
@@ -315,7 +423,7 @@
         var modal = document.getElementById("editModal");
         var span = document.getElementsByClassName("close")[0];
 
-        function openModal(resNo, lessonTitle, lessonType, lessonTime, lessonResDate, lessonDate, lessonStatus) {
+        function openModal(resNo, lessonTitle, lessonType, lessonTime, lessonResDate, lessonDate, resStatus) {
             modal.style.display = "block";
             document.getElementById("resNo").value = resNo;
             document.getElementById("lessonTitle").value = lessonTitle;
@@ -323,7 +431,7 @@
             document.getElementById("lessonTime").value = lessonTime;
             document.getElementById("lessonResDate").value = lessonResDate;
             document.getElementById("lessonDate").value = lessonDate;
-            document.getElementById("lessonStatus").value = lessonStatus;
+            document.getElementById("resStatus").value = resStatus;
         }
 
         span.onclick = function() {
@@ -345,31 +453,33 @@
             var lessonTime = document.getElementById("lessonTime").value;
             var lessonResDate = document.getElementById("lessonResDate").value;
             var lessonDate = document.getElementById("lessonDate").value;
-            var lessonStatus = document.getElementById("lessonStatus").value;
+            var resStatus = document.getElementById("resStatus").value;
             $.ajax({
-                url: "lesson/updateStatus.ad",
+                url: "lesson/updateStatus.ad", // 정확한 URL 사용
                 type: "POST",
                 data: {
                     resNo: resNo,
-                    lessonStatus: lessonStatus // 정확히 전달하고 있는지 확인
+                    resStatus: resStatus, // 데이터 이름 확인
                 },
-                success: function(response) {
+                success: function (response) {
+                    console.log("응답 결과:", response); // 서버 응답 확인
                     if (response === "success") {
                         alert("상태 변경 성공");
                         modal.style.display = "none";
-                        location.reload(); // 페이지 새로고침
+                        location.reload(); // 변경된 내용을 반영하기 위해 페이지 새로고침
                     } else {
                         alert("상태 변경 실패");
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("AJAX 요청 오류:", error);
-                    alert("에러가 발생했습니다. 다시 시도해주세요.");
-                }
+                    alert("서버 통신 중 오류가 발생했습니다.");
+                },
             });
 
 
-        }
+
+        };
         
         
         

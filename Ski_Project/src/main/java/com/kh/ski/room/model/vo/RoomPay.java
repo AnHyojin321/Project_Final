@@ -3,7 +3,7 @@ package com.kh.ski.room.model.vo;
 public class RoomPay {
 	
 	private int roomReservNo;
-	private int totalPrice;
+	private int amount;
 	private String checkInDate;
 	private String checkOutDate;		
 	private String reservDate;			// 예약일
@@ -14,19 +14,23 @@ public class RoomPay {
 	private String rRefundStatus;  // 환불상태
 	private String rRefundate;  // 환불날짜
 	
+	private int packageNo;
+	
 	// 객식 조회 시 수용인원 필드 추가
 	private int roomNo;
 	private int memberNo;
 	private String roomType;
+	private String roomName;
+	private int roomPrice;
 	
 	public RoomPay() {}
 
-	public RoomPay(int roomReservNo, int totalPrice, String checkInDate, String checkOutDate, String reservDate,
+	public RoomPay(int roomReservNo, int amount, String checkInDate, String checkOutDate, String reservDate,
 			String request, String tid, String payStatus, String packRoomUsed, String rRefundStatus, String rRefundate,
-			int roomNo, int memberNo) {
+			int packageNo, int roomNo, int memberNo, String roomType, String roomName, int roomPrice) {
 		super();
 		this.roomReservNo = roomReservNo;
-		this.totalPrice = totalPrice;
+		this.amount = amount;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.reservDate = reservDate;
@@ -36,17 +40,12 @@ public class RoomPay {
 		this.packRoomUsed = packRoomUsed;
 		this.rRefundStatus = rRefundStatus;
 		this.rRefundate = rRefundate;
+		this.packageNo = packageNo;
 		this.roomNo = roomNo;
 		this.memberNo = memberNo;
-	}
-	
-
-	public String getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(String roomType) {
 		this.roomType = roomType;
+		this.roomName = roomName;
+		this.roomPrice = roomPrice;
 	}
 
 	public int getRoomReservNo() {
@@ -57,12 +56,12 @@ public class RoomPay {
 		this.roomReservNo = roomReservNo;
 	}
 
-	public int getTotalPrice() {
-		return totalPrice;
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public String getCheckInDate() {
@@ -137,6 +136,14 @@ public class RoomPay {
 		this.rRefundate = rRefundate;
 	}
 
+	public int getPackageNo() {
+		return packageNo;
+	}
+
+	public void setPackageNo(int packageNo) {
+		this.packageNo = packageNo;
+	}
+
 	public int getRoomNo() {
 		return roomNo;
 	}
@@ -153,18 +160,40 @@ public class RoomPay {
 		this.memberNo = memberNo;
 	}
 
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+	public int getRoomPrice() {
+		return roomPrice;
+	}
+
+	public void setRoomPrice(int roomPrice) {
+		this.roomPrice = roomPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "RoomPay [roomReservNo=" + roomReservNo + ", totalPrice=" + totalPrice + ", checkInDate=" + checkInDate
+		return "RoomPay [roomReservNo=" + roomReservNo + ", amount=" + amount + ", checkInDate=" + checkInDate
 				+ ", checkOutDate=" + checkOutDate + ", reservDate=" + reservDate + ", request=" + request + ", tid="
 				+ tid + ", payStatus=" + payStatus + ", packRoomUsed=" + packRoomUsed + ", rRefundStatus="
-				+ rRefundStatus + ", rRefundate=" + rRefundate + ", roomNo=" + roomNo + ", memberNo=" + memberNo
-				+ ", roomType=" + roomType + "]";
+				+ rRefundStatus + ", rRefundate=" + rRefundate + ", packageNo=" + packageNo + ", roomNo=" + roomNo
+				+ ", memberNo=" + memberNo + ", roomType=" + roomType + ", roomName=" + roomName + ", roomPrice="
+				+ roomPrice + "]";
 	}
 
 	
-	
-	
-
 	
 }

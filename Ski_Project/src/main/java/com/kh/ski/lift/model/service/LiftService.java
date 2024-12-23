@@ -15,6 +15,6 @@ public interface LiftService {
 	
     // 리프트권 주문요청 서비스
     int liftOrder(LiftOrder liftOrder);
-    
-    
+// 김동준 마이페이지
+    ArrayList<LiftOrder> selectReservedLiftList(String memberId);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.member.model.dao.MemberDao;
 import com.kh.admin.member.model.vo.Member;
 
@@ -20,9 +21,15 @@ public class MemberServiceImpl implements MemberService {
     private MemberDao memberDao;
 
     @Override
-    public List<Member> selectAllMembers() {
-        return memberDao.selectAllMembers(sqlSession);
+    public int selectListCount(String keyword, String memberStatus) {
+        return memberDao.selectListCount(sqlSession, keyword, memberStatus);
     }
+
+    @Override
+    public List<Member> selectMemberList(PageInfo pi, String keyword, String memberStatus) {
+        return memberDao.selectMemberList(sqlSession, pi, keyword, memberStatus);
+    }
+
     
     @Override
     @Transactional

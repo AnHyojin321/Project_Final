@@ -30,19 +30,23 @@
 
 <select id="selectList" resultMap="lessonResultSet">
     SELECT RES_NO,
+           LESSON_DATE,
+           LESSON_TIME,
+           LESSON_TYPE,
            RES_STATUS,
            LESSON_STATUS,
            LESSON_TITLE,
-           LESSON_TYPE,
-           LESSON_TIME,
-           LESSON_DATE,
-           LESSON_RES_DATE
+           LESSON_RES_DATE,
+           LESSON_PHONE,
+           MEMBER_NO
       FROM LESSON_RESERVATION
-       <if test="keyword != null and keyword != ''">
-           WHERE LESSON_TITLE LIKE '%' || #{keyword} || '%'
-       </if>
-     ORDER BY RES_NO DESC
+      WHERE LESSON_STATUS = 'Y' <!-- 삭제된 게시글 제외 -->
+      <if test="keyword != null and keyword != ''">
+          AND LESSON_TITLE LIKE '%' || #{keyword} || '%'
+      </if>
+      ORDER BY RES_NO DESC
 </select>
+
 
 	
 	<insert id="insertLesson" parameterType="lesson">

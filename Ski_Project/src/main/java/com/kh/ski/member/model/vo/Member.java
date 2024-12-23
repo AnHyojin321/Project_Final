@@ -26,6 +26,7 @@ public class Member {
 	private String tempPwd;
     private String kakaoAccessToken; // 카카오 액세스 토큰
     private String kakaoRefreshToken; // 카카오 리프레시 토큰
+   
 	
 	public Member() {}
 

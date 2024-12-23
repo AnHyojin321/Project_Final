@@ -25,4 +25,15 @@ public interface RoomService {
 	 
 	 // 결제 정보 데이터에 저장
 	 int insertPayInfo(RoomPay rp);
+	 
+	 // 예약한 객실 목록 조회
+	 ArrayList<RoomPay> selectReservedRoomList(int memberNo);
+	 
+	 // 객실 예약 내역 상세 조회
+	 RoomPay selectMyRoomReservDetail(int roomReservNo);
+	 
+	 // 객실 예약 환불 처리
+	 int cancelRoomReservation(int roomReserNo);
+	 
+
 }

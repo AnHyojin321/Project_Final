@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class RoomController {
 	        @RequestParam("roomNo") String roomNo,
 	        @RequestParam("checkInDate") String checkInDate,
 	        @RequestParam("checkOutDate") String checkOutDate,
-	        @RequestParam("totalPrice") String totalPrice,
+	        @RequestParam("amount") String amount,
 	        HttpSession session) {
 
 	    // 세션에 데이터 저장
@@ -50,7 +52,7 @@ public class RoomController {
 	    session.setAttribute("roomNo", roomNo);
 	    session.setAttribute("checkInDate", checkInDate);
 	    session.setAttribute("checkOutDate", checkOutDate);
-	    session.setAttribute("totalPrice", totalPrice);
+	    session.setAttribute("amount", amount);
 
 
 	    // 성공 응답 반환
@@ -71,7 +73,7 @@ public class RoomController {
 	    String roomNo = (String) session.getAttribute("roomNo");
 	    String checkInDate = (String) session.getAttribute("checkInDate");
 	    String checkOutDate = (String) session.getAttribute("checkOutDate");
-	    String totalPrice = (String) session.getAttribute("totalPrice");
+	    String amount = (String) session.getAttribute("amount");
 
 	    // 결제 결과 검증
 	    if ("0000".equals(authResultCode)) {
@@ -80,7 +82,7 @@ public class RoomController {
 	        model.addAttribute("roomNo", roomNo);
 	        model.addAttribute("checkInDate", checkInDate);
 	        model.addAttribute("checkOutDate", checkOutDate);
-	        model.addAttribute("totalPrice", totalPrice);
+	        model.addAttribute("amount", amount);
 
 	        return "room/autoPostForm";
 	    } else {
@@ -99,13 +101,14 @@ public class RoomController {
             System.out.println("Room No: " + rp.getRoomNo());
             System.out.println("Check-In: " + rp.getCheckInDate());
             System.out.println("Check-Out: " + rp.getCheckOutDate());
-            System.out.println("Total Price: " + rp.getTotalPrice());
+            System.out.println("Total Price: " + rp.getAmount());
             
             int roomNo = rp.getRoomNo();
             
             int result1 = roomService.updateRoomStatus(roomNo);
             int result2 = roomService.insertPayInfo(rp);
-            
+            System.out.println("result1 : " + result1);
+            System.out.println("result2 : " + result2);
             if(result1*result2 > 0) {
             	// 성공 시 결과 페이지로 이동
             	mv.setViewName("room/paysuccess");
@@ -244,7 +247,6 @@ public class RoomController {
 	// 전화번호, 투숙인원 응답데이터 받아와서 최종 예약자 정보 출력하기
 	@PostMapping("payStep3.ro")
 	public String processPayStep3(@RequestParam("memberNo") int memberNo,
-								  @RequestParam("phone") String phone,
 	                              @RequestParam("adult") int adult,
 	                              @RequestParam("child") int child,
 	                              @RequestParam("roomNo") int roomNo,
@@ -253,7 +255,6 @@ public class RoomController {
 	                              @RequestParam("stayDays") String stayDays,
 	                              Model model) {
 	    // 받은 데이터 출력 (디버깅용)
-	    System.out.println("전화번호: " + phone);
 	    System.out.println("성인 투숙 인원: " + adult);
 	    System.out.println("어린이 투숙 인원: " + child);
 	    System.out.println("객실번호 : " + roomNo);
@@ -268,7 +269,6 @@ public class RoomController {
 
 	    // 받은 데이터를 다음 페이지에 전달
 		model.addAttribute("m", m);
-	    model.addAttribute("phone", phone);
 	    model.addAttribute("adult", adult);
 	    model.addAttribute("child", child);
 	    model.addAttribute("checkInDate", checkInDate);
@@ -281,7 +281,69 @@ public class RoomController {
 	    // 다음 페이지로 이동
 	    return "room/roomPayStep3"; // JSP 또는 Thymeleaf 뷰 파일 이름
 	}
+	
+	
+	/**
+	 * 마이페이지에서 내가 예약한 객실 조회
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("myRoomReservation.ro")
+	public ModelAndView selectMyRoomReservation(HttpSession session,
+												ModelAndView mv) {
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+	    System.out.println("객실예약조회: " + loginMember);
+	    
+	    int memberNo = loginMember.getMemberNo();
+	    
+	    Member m = roomService.selectMember(memberNo);
+	    ArrayList<RoomPay> list = roomService.selectReservedRoomList(memberNo);
+	    
+	    mv.addObject("m", m)
+	      .addObject("list", list)
+	  	  .setViewName("mypage/myRoomReservation");
 
+		return mv;
+	}
+	
+	/**
+	 * 예약한 객실 내역 상세 조회
+	 */
+	@PostMapping("myRoomDetail.ro")
+	@ResponseBody
+	public Map<String, Object> selectMyRoomReservDetail(@RequestParam("roomReservNo") int roomReservNo,
+	                                                    @RequestParam("memberNo") int memberNo) {
+	    // 예약 상세 정보 가져오기
+	    RoomPay rp = roomService.selectMyRoomReservDetail(roomReservNo);
+	    Member m = roomService.selectMember(memberNo);
+
+	    // 응답 데이터를 Map에 저장
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("roomDetail", rp);
+	    response.put("memberInfo", m);
+
+	    // JSON 형식으로 반환
+	    return response;
+	}
+	
+	// 예약 취소 처리 요청 컨트롤러
+	@PostMapping(value="cancelReservation.ro")
+	@ResponseBody
+	public String cancelRoomReservation(@RequestParam("roomReservNo") int roomReservNo) {
+		System.out.println("환불하고자하는 예약 번호 : " + roomReservNo);
+		
+		int result = roomService.cancelRoomReservation(roomReservNo);
+		
+	    if (result > 0) { 
+	        System.out.println("환불 성공");
+	        return "success";
+	    } else {
+	        System.out.println("환불 실패");
+	        return "fail";
+	    }
+	}
 
 	
 	
@@ -335,8 +397,6 @@ public class RoomController {
 
 		return changeName;
 	}
-	
-	
 	
 
 }

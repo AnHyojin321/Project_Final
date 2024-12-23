@@ -183,6 +183,103 @@
         .modal-form button:hover {
             background-color: #0056b3;
         }
+            /* 검색 바 스타일 */
+    .filter-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 10px;
+        padding: 10px;
+        background-color: transparent; /* 배경색 제거 */
+    }
+
+    .filter-input {
+        padding: 10px;
+        width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .filter-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    .filter-select {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+    }
+
+    .filter-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    .filter-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .filter-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .filter-button:active {
+        transform: scale(0.95);
+    }
+
+    /* 페이징 스타일 */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 5px;
+    }
+
+    .pagination a {
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #007bff;
+        border: none; /* 테두리 제거 */
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+        font-size: 14px;
+    }
+
+    .pagination a:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pagination a.disabled {
+        pointer-events: none;
+        background-color: transparent;
+        color: #aaa;
+    }	
     </style>
 </head>
 <body>
@@ -196,6 +293,32 @@
                 <h1>회원 관리</h1>
                 <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
             </header>
+            
+            <div class="filter-bar">
+    <form action="members.ad" method="get" class="filter-form">
+        <!-- 검색어 입력 -->
+        <input type="text" name="keyword" placeholder="이름 검색" value="${keyword}" class="filter-input">
+        
+        <!-- 회원 상태 선택 -->
+        <select name="memberStatus" class="filter-select">
+            <option value="">전체</option>
+            <option value="Y" ${memberStatus == 'Y' ? 'selected' : ''}>가입중</option>
+            <option value="N" ${memberStatus == 'N' ? 'selected' : ''}>탈퇴</option>
+        </select>
+        
+        <!-- 페이지 크기 선택 -->
+        <select name="pageSize" onchange="this.form.submit()" class="filter-select">
+            <option value="10" ${pageSize == 10 ? 'selected' : ''}>10개씩 보기</option>
+            <option value="20" ${pageSize == 20 ? 'selected' : ''}>20개씩 보기</option>
+            <option value="100" ${pageSize == 100 ? 'selected' : ''}>100개씩 보기</option>
+        </select>
+        
+        <!-- 검색 버튼 -->
+        <button type="submit" class="filter-button">검색</button>
+    </form>
+</div>
+            
+            
             <div class="member-table-container">
                 <table class="member-table">
                     <thead>
@@ -237,6 +360,20 @@
             </div>
         </main>
     </div>
+    <div class="pagination">
+    <c:if test="${pi.currentPage > 1}">
+        <a href="members.ad?currentPage=${pi.currentPage - 1}&keyword=${keyword}&memberStatus=${memberStatus}&pageSize=${pageSize}">&laquo;</a>
+    </c:if>
+
+    <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+        <a href="members.ad?currentPage=${p}&keyword=${keyword}&memberStatus=${memberStatus}&pageSize=${pageSize}" class="${p == pi.currentPage ? 'active' : ''}">${p}</a>
+    </c:forEach>
+
+    <c:if test="${pi.currentPage < pi.maxPage}">
+        <a href="members.ad?currentPage=${pi.currentPage + 1}&keyword=${keyword}&memberStatus=${memberStatus}&pageSize=${pageSize}">&raquo;</a>
+    </c:if>
+</div>
+    
 
     <!-- 모달 -->
     <div id="editModal" class="modal">

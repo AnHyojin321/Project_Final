@@ -12,7 +12,8 @@
     <input type="hidden" name="tid" value="${tid}">
     <input type="hidden" name="memberNo" value="${memberNo}">
     <input type="hidden" name="packageNo" value="${packageNo}">
-
+	<input type="hidden" name="checkInDate" value="${checkInDate}">
+	<input type="hidden" name="checkOutDate" value="${checkOutDate}">
 </form>
 <script>
     document.getElementById("autoPostForm").submit();

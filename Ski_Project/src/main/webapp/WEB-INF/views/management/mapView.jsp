@@ -15,10 +15,18 @@
 		}
 		#outer {
 			margin : auto;
+			padding : 20px;
+		}
+		h1 {
+			color : rgb(5, 0, 50);
 		}
 		#mapOuter {
 			width: 100%;
 			height : 600px;
+			border: 5px solid rgb(5, 0, 50, 0.1);
+			border-radius: 10px;
+			padding:10px;
+			box-sizing: border-box;
 		}
 		#map {
 			
@@ -26,12 +34,13 @@
 			align-items : center;
 		}
 		p {
-			color : darkgray;
+			color : rgb(150, 150, 150);
 			font-size : 15px;
 		}
 	</style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
 	<div id="outer">	
 		<h1>찾아오시는 길</h1>
 		<div id="mapOuter">	
@@ -41,8 +50,12 @@
 			<p>
 				서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F, 20F
 			</p>
+			<p>
+				당산역 (2호선, 9호선) 에서 도보 10분 거리
+			</p>
 		</div>
 	</div>
+	<jsp:include page="../common/footer.jsp" />
 	
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

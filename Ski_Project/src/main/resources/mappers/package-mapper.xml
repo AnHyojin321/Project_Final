@@ -106,13 +106,19 @@
 	<!-- 패키지 구매내역 정보 추가 -->
 	<insert id="insertPayInfo" parameterType="packagepay">
 		INSERT INTO PACKAGE_RESERV(PACKAGE_RESERV_NO
+								 , CHECK_IN_DATE
+								 , CHECK_OUT_DATE
                                  , TID
                                  , MEMBER_NO
                                  , PACKAGE_NO)
 		VALUES (SEQ_PACKAGE_RESERV_NO.NEXTVAL
+						, #{checkInDate}
+						, #{checkOutDate}
 		                , #{tid}
 		                , #{memberNo}
 		                , #{packageNo})
 	</insert>
+	
+
 
 </mapper>

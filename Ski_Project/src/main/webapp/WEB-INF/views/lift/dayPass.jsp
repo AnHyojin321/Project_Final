@@ -12,6 +12,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        background-color: #f8f9fa;
     }
     #outer {
         height: 100vh;
@@ -19,6 +20,18 @@
     }
     table {
         border-spacing: 0px;
+        background-color: rgba(200, 200, 220, 0.05);
+    }
+    select {
+        background-color: rgba(200, 200, 220, 0.15);
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    select:hover {
+        background-color: rgba(200, 200, 220, 0.4);
+    }
+    select option {
+        background-color: rgba(200, 200, 220, 0.4);
     }
 
     #productInformation #priceInformation #purchaseInformation #submitInformation {
@@ -78,30 +91,30 @@
 
     #submitInformation h2 {
         float: right;
+        font-size: 25px;
     }
     #submit{
         width: 100%;
-        height: 50px;
+        height: 55px;
         cursor: pointer;
-        background-color : rgba(0, 0, 0, 0.1);
-        border : 1px solid gray;
-        border-radius : 5px;
-        font-size : 18px;
-        foint-weight : border;
+        background-color : rgba(0, 10, 50, 0.7);
+        border : 3px solid rgba(0, 10, 50, 0.1);
+        border-radius : 10px;
+        font-size : 20px;
+        font-weight : border;
+        transition: background-color 0.3s ease; 
+        color:white;
     }
     #submit:hover {
-    	background-color : rgba(0, 0, 0, 0.2);
+    	background-color : rgba(0, 10, 50, 0.9);
+        color:white;
     }
-
-    
-    
     .liftDiv {
         width: 50%;
         height: 100%;
         position: relative;
         overflow: hidden;
         content: "";
-        /*position: absolute;*/
         top: 0;
         left: 0;
         z-index: 1;
@@ -141,18 +154,23 @@
         height: 100%;
     }
     #orderView {
-        display: flexbox;
-        flex-direction: column;
+        display: flex; /* 올바른 flexbox 값 */
+        flex-direction: column; /* 자식 요소를 세로로 정렬 */
         width: 70%;
-        height: 110px;
-        overflow: auto; /* 내용이 넘치면 스크롤 생성 */
-        border: 1px solid gray;/* 테두리 추가 (선택 사항) */
+        height: 110px; /* 높이 제한 */
+        overflow-y: auto; /* 세로 스크롤 활성화 */
+        border: 1px solid gray; /* 테두리 */
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
         padding: 10px; /* 내부 여백 */
-        box-sizing: border-box; /* 패딩을 크기 계산에 포함 */
-        justify-content: center;
+        box-sizing: border-box; /* 패딩 포함 */
+        background-color: rgba(200, 200, 220, 0.1);
+
     }
+    #orderView table:first-child {
+        margin: auto; /* 첫 번째 테이블만 가운데 정렬 */
+    }
+
     #orderView table:not(:first-of-type) {
         border-top : 1px solid lightgray;
     }
@@ -182,48 +200,55 @@
 		height:100%;
 		margin-left : 15px;
 	}
-	      .countBtn1 {
-	   	width: 40%;
+	      #countBtn1 {
+	   	width: 25%;
 		height : 25px;
-	   	border-radius-top-left: 5px;
-	   	border-radius-bottom-left: 5px;
+        border-radius: 5px;
 	   	border : none;
 	       cursor: pointer;
 	       margin:0px;
+           margin-left:5px;
+           margin-right: 5px;
 	       padding : 0px;
-	       border-right : 1px solid lightgray;
+           background-color: rgba(0, 10, 50, 0.1);
 	   }
-	   .countBtn2 {
-	   	width: 40%;
+	   #countBtn2 {
+	   	width: 25%;
 		height : 25px;
-	   	border-radius-top-right: 5px;
-	   	border-radius-bottom-right : 5px;
+        border-radius: 5px;
 	   	border : none;
 	       cursor: pointer;
 	       margin:0px;
 	       padding : 0px;
-	       border-left: 1px solid lightgray;
+           margin-left: 5px;
+           background-color: rgba(0, 10, 50, 0.1);
 	   }	
-	   #deleteBtn {
-	   	width: 25px;
+       span {
+        padding-left: 8px; 
+        padding-right:8px;
+       }
+	   .deleteBtn {
+	   	width: 26px;
 	   	height: 25px;
-	       border-radius: 10px;
+	       border-radius: 5px;
 	       border: none;
-	       background-color: lightgray;
+	       background-color: rgba(0,10, 50, 0.1);
 	       cursor: pointer;
+           border: none;
 	   }
 	   #addItem {
 	   	width: 10%;
-	   	font-size: 10px;
+	   	font-size: 11px;
 	   	cursor: pointer;
-	   	background-color : rgba(0, 0, 0, 0.1);
-	   	border : 1px solid black;
-	   	border-left : 1px solid gray;
-	   	border-right : 1px solid gray;
+	   	background-color : rgba(0, 10, 50, 0.1);
+	   	border : 1px solid gray;
+	   	border-left : none;
+	   	border-right : none;
+           transition: background-color 0.2s ease; 
 	   }
 	   
 	   #addItem:hover {
-	   	background-color: rgba(0, 0, 0, 0.2);
+	   	background-color: rgba(0, 10, 50, 0.13);
 	   }
 	   .modal {
 	        display: none;
@@ -276,10 +301,24 @@
 	        background-color: red;
 	        color: white;
 	    }
+
+        #otherLiftBtn {
+            cursor: pointer;
+            border: none;
+            background-color : rgba(0, 10, 50, 0.7);
+            border-radius: 10px;
+            color:white;
+            padding:12px;
+            transition: background-color 0.3s ease; 
+        }
+        #otherLiftBtn:hover {
+            background-color : rgba(0, 10, 50, 0.8);
+        }
     
 </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp" />
      <div id="outer">
         <div class="liftDiv">
             <span class="textOverlay">
@@ -295,11 +334,11 @@
         </div>
         <div class="purchaseDiv">
 		    <div>
-		        <div style="display:flex; gap:48%;">
-		            <h1>24/25 일일권</h1>
+		        <div style="display:flex; gap:45%;">
+		            <h1>24&nbsp;/&nbsp;25&nbsp;&nbsp;일일권</h1>
 		            <div style="flex:right; margin:auto;">
 		                <a href="seasonPass.li">
-		                    <input type="button" value="시즌권 구매하기" style="cursor:pointer"/>
+		                    <input type="button" value="시즌권 구매하기" id="otherLiftBtn"/>
 		                </a>                    
 		            </div>
 		        </div> 
@@ -389,43 +428,43 @@
 		        </div>
 		        <br>
 		        <div id="purchaseInformation">
-		                <h3>구매하기</h3>
-		                <div>
-		                    <table id="orderTable">
-		                        <tr>
-		                            <th class="pu">종류</th>
-		                            <td class="pu">
-		                                <select id="liftType" required>
-										    <option disabled selected>종류</option>
-										    <option value="오전권">오전권</option>
-											<option value="오후권">오후권</option>
-											<option value="종일권">종일권</option>
-										</select>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                            <th>연령대</th>
-		                            <td>
-		                                <select id="liftAge" autocomplete="off">
-										    <option disabled selected>연령대</option>
-										    <option value="대인">대인</option>
-										    <option value="소인">소인</option>
-										</select>
-		                            </td>
-		                        </tr>
-		                    </table>
-		                    <button type="button" id="addItem">추가하기</button>
-		                    <div id="orderView">
-		                        <table>
-		                            <tbody id="orderList"></tbody>
-		                        </table>
-		                    </div>
-		                </div>
-		                <br><br>
-		                <div id="submitInformation">
-		                    <h2>총 금액 : <span id="totalPrice">0</span>원</h2>
-		                    <input type="submit" id="submit" value="구매하기"/>
-		                </div>
+	                <h3>구매하기</h3>
+	                <div>
+	                    <table id="orderTable">
+	                        <tr>
+	                            <th class="pu">종류</th>
+	                            <td class="pu">
+	                                <select id="liftType" required>
+									    <option disabled selected>종류</option>
+									    <option value="오전권">오전권</option>
+										<option value="오후권">오후권</option>
+										<option value="종일권">종일권</option>
+									</select>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <th>연령대</th>
+	                            <td>
+	                                <select id="liftAge" autocomplete="off">
+									    <option disabled selected>연령대</option>
+									    <option value="대인">대인</option>
+									    <option value="소인">소인</option>
+									</select>
+	                            </td>
+	                        </tr>
+	                    </table>
+	                    <button type="button" id="addItem">추가하기</button>
+	                    <div id="orderView">
+	                        <table>
+	                            <tbody id="orderList"></tbody>
+	                        </table>
+	                    </div>
+	                </div>
+	                <br>
+	                <div id="submitInformation">
+	                    <h2>총 금액 : <span id="totalPrice">0</span>원</h2>
+	                    <input type="submit" id="submit" value="구매하기"/>
+	                </div>
 		        </div>
 		        <form action="liftOrder.li" method="post" id="liftForm"> </form>
 		        <!-- 모달창 -->
@@ -438,176 +477,181 @@
 				            <p>결제하시겠습니까?</p>
 				        </div>
 				        <div class="modal-footer">
-				        	
 				           <button class="confirm" id="confirm">예</button>   
-				            <button class="cancel">아니오</button>
+				           <button class="cancel">아니오</button>
 				        </div>
 				    </div>
 				</div>
-				<script>
-                    $(document).ready(function() {
-                        const dayPass = [
-                            { liftNo: 400, liftPrice: ${dayPass[0].liftPrice} },
-                            { liftNo: 401, liftPrice: ${dayPass[1].liftPrice} },
-                            { liftNo: 402, liftPrice: ${dayPass[2].liftPrice} },
-                            { liftNo: 403, liftPrice: ${dayPass[3].liftPrice} },
-                            { liftNo: 404, liftPrice: ${dayPass[4].liftPrice} },
-                            { liftNo: 405, liftPrice: ${dayPass[5].liftPrice} }
-                        ];
-                        
-                        let orderList = [];
-
-                        // Function to format price with commas
-                        function formatPrice(price) {
-                            return price.toLocaleString();
-                        }
-
-                        // Function to update total price
-                        function updateTotalPrice() {
-                            let total = 0;
-                            orderList.forEach(item => {
-                                total += item.totalPrice;
-                            });
-                            $('#totalPrice').text(formatPrice(total));
-                        }
-							
-                        //<input type="hidden" name="memberNo" id="memberNo" value="${ sessionScope.loginUser.memberNo }">
-                        function updateOrderList() {
-                            $('#orderList').empty();
-                            orderList.forEach((item, index) => {
-                                const itemRow = `
-                                    <tr>
-                                        <td>\${item.type} \${item.age}
-                                        </td>
-                                        <td>
-                                            <button class="countBtn" data-index="\${index}" data-action="decrease">-</button>
-                                            <span>\${item.count}</span>
-                                            <button class="countBtn" data-index="\${index}" data-action="increase">+</button>
-                                        </td>
-                                        <td>\${formatPrice(item.totalPrice)}원</td>
-                                        <td>
-                                            <button class="deleteBtn" data-index="\${index}">x</button>
-                                        </td>
-                                    </tr>`;
-                                $('#orderList').append(itemRow);
-                            });
-                            updateTotalPrice();
-                        }
-                        
-                        function showModal() {
-                            const modalOrderList = orderList.map(item => `
-                                <p>
-                            		\${item.type} (\${item.age}): \${item.count}개 - \${formatPrice(item.totalPrice)}원
-                            	</p>
-                            `).join('');
-                            $('#modalOrderList').html(modalOrderList);
-                            $('#modal').fadeIn();
-                        }
-
-                        function hideModal() {
-                            $('#modal').fadeOut();
-                        }
-							
-                        $('#submit').click(function (event) {
-                            // event.preventDefault();
-                            if (orderList.length === 0) {
-                                alert('주문 항목을 추가하세요.');
-                                return;
-                            }
-                            showModal();
-                        });
-
-                        $('#confirm').click(function () {
-                            hideModal();
-
-                            // 폼 안의 기존 hidden input 요소 초기화
-                            $('form').find('input[name^="li["]').remove();
-
-                            // orderList 데이터를 폼에 추가
-                            orderList.forEach((item, index) => {
-                                $('form').append(`
-                                    <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
-                                    <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
-                                    <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                                    <input type="hidden" name="li[\${index}].memberNo" value="10000" />
-                                `);
-                            });
-
-                            // 폼 제출
-                            $('#liftForm').submit();
-                        });
-
-
-
-                        $('.cancel').click(function () {
-                            hideModal();
-                        });
-
-                        
-                        $('#addItem').click(function () {
-                            const type = $('#liftType').val();
-                            const age = $('#liftAge').val();
-
-                            if (!type || !age) {
-                                alert('종류와 연령대를 선택해주세요.');
-                                return;
-                            }
-
-                            const liftNoMap = {
-                                '오전권': { '대인': 400, '소인': 401 },
-                                '오후권': { '대인': 402, '소인': 403 },
-                                '종일권': { '대인': 404, '소인': 405 }
-                            };
-
-                            const liftNo = liftNoMap[type][age];
-                            const price = dayPass.find(item => item.liftNo === liftNo).liftPrice;
-
-                            const existingIndex = orderList.findIndex(item => item.type === type && item.age === age);
-
-                            if (existingIndex > -1) {
-                                orderList[existingIndex].count += 1;
-                                orderList[existingIndex].totalPrice = orderList[existingIndex].count * price;
-                            } else {
-                                orderList.push({
-                                    type: type,
-                                    age: age,
-                                    count: 1,
-                                    price: price,
-                                    totalPrice: price,
-                                    liftNo: liftNo
-                                });
-                            }
-
-                            updateOrderList();
-                        });
-
-
-                        // Update count (increase or decrease)
-                        $(document).on('click', '.countBtn', function() {
-                            const index = $(this).data('index');
-                            const action = $(this).data('action');
-                            const price = orderList[index].price;
-
-                            if (action === 'increase' && orderList[index].count < 10) {
-                                orderList[index].count += 1;
-                            } else if (action === 'decrease' && orderList[index].count > 1) {
-                                orderList[index].count -= 1;
-                            }
-
-                            orderList[index].totalPrice = orderList[index].count * price;
-                            updateOrderList();
-                        });
-
-                        // Delete item from order list
-                        $(document).on('click', '.deleteBtn', function() {
-                            const index = $(this).data('index');
-                            orderList.splice(index, 1);
-                            updateOrderList();
-                        });
-                    });
-                </script>
 		    </div>
 		</div>
     </div>
+<jsp:include page="../common/footer.jsp" />
+
+<script>
+$(document).ready(function() {
+	const memberId = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberId : ''}"; 
+	
+    const dayPass = [
+        { liftNo: 400, liftPrice: ${dayPass[0].liftPrice} },
+        { liftNo: 401, liftPrice: ${dayPass[1].liftPrice} },
+        { liftNo: 402, liftPrice: ${dayPass[2].liftPrice} },
+        { liftNo: 403, liftPrice: ${dayPass[3].liftPrice} },
+        { liftNo: 404, liftPrice: ${dayPass[4].liftPrice} },
+        { liftNo: 405, liftPrice: ${dayPass[5].liftPrice} }
+    ];
+    
+    let orderList = [];
+
+    // Function to format price with commas
+    function formatPrice(price) {
+        return price.toLocaleString();
+    }
+
+    // Function to update total price
+    function updateTotalPrice() {
+        let total = 0;
+        orderList.forEach(item => {
+            total += item.totalPrice;
+        });
+        $('#totalPrice').text(formatPrice(total));
+    }
+    
+    function updateOrderList() {
+        $('#orderList').empty();
+        orderList.forEach((item, index) => {
+            const itemRow = `
+                <tr>
+                    <td width="28%">\${item.type}&nbsp;&nbsp;\${item.age}
+                    </td>
+                    <td width="33%">
+                        <button class="countBtn" data-index="\${index}" data-action="decrease" id="countBtn1">-</button>
+                        \${item.count}
+                        <button class="countBtn" data-index="\${index}" data-action="increase" id="countBtn2">+</button>
+                    </td>
+                    <td width="25%">\${formatPrice(item.totalPrice)}원</td>
+                    <td width="20%">
+                        <button class="deleteBtn" data-index="\${index}">x</button>
+                    </td>
+                </tr>`;
+            $('#orderList').append(itemRow);
+        });
+        updateTotalPrice();
+    }
+    
+    function showModal() {
+        const modalOrderList = orderList.map(item => `
+            <p>
+        		\${item.type} (\${item.age}): \${item.count}개 - \${formatPrice(item.totalPrice)}원
+        	</p>
+        `).join('');
+        $('#modalOrderList').html(modalOrderList);
+        $('#modal').fadeIn();
+    }
+
+    function hideModal() {
+        $('#modal').fadeOut();
+    }
+
+    $('#submit').click(function (event) {
+    	if (${empty sessionScope.loginMember}) { 
+      alert("로그인 후 이용 가능합니다.");
+      location.href = "login.me"; 
+  } else {
+         if (orderList.length === 0) {
+             alert('주문 항목을 추가하세요.');
+             return;
+         }
+         showModal();
+  }
+    });
+
+    $('#confirm').click(function () {
+        hideModal();
+
+        // 폼 안의 기존 hidden input 요소 초기화
+        $('form').find('input[name^="li["]').remove();
+
+        // orderList 데이터를 폼에 추가
+        orderList.forEach((item, index) => {
+            $('form').append(`
+                <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
+                <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
+                <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
+                <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
+            `);
+        });
+        // 폼 제출
+        $('#liftForm').submit();
+    });
+
+
+
+    $('.cancel').click(function () {
+        hideModal();
+    });
+
+    
+    $('#addItem').click(function () {
+        const type = $('#liftType').val();
+        const age = $('#liftAge').val();
+
+        if (!type || !age) {
+            alert('종류와 연령대를 선택해주세요.');
+            return;
+        }
+
+        const liftNoMap = {
+            '오전권': { '대인': 400, '소인': 401 },
+            '오후권': { '대인': 402, '소인': 403 },
+            '종일권': { '대인': 404, '소인': 405 }
+        };
+
+        const liftNo = liftNoMap[type][age];
+        const price = dayPass.find(item => item.liftNo === liftNo).liftPrice;
+
+        const existingIndex = orderList.findIndex(item => item.type === type && item.age === age);
+
+        if (existingIndex > -1) {
+            orderList[existingIndex].count += 1;
+            orderList[existingIndex].totalPrice = orderList[existingIndex].count * price;
+        } else {
+            orderList.push({
+                type: type,
+                age: age,
+                count: 1,
+                price: price,
+                totalPrice: price,
+                liftNo: liftNo
+            });
+        }
+
+        updateOrderList();
+    });
+
+
+    // Update count (increase or decrease)
+    $(document).on('click', '.countBtn', function() {
+        const index = $(this).data('index');
+        const action = $(this).data('action');
+        const price = orderList[index].price;
+
+        if (action === 'increase' && orderList[index].count < 10) {
+            orderList[index].count += 1;
+        } else if (action === 'decrease' && orderList[index].count > 1) {
+            orderList[index].count -= 1;
+        }
+
+        orderList[index].totalPrice = orderList[index].count * price;
+        updateOrderList();
+    });
+
+    // Delete item from order list
+    $(document).on('click', '.deleteBtn', function() {
+        const index = $(this).data('index');
+        orderList.splice(index, 1);
+        updateOrderList();
+    });
+});
+</script>
 </body>
 </html>

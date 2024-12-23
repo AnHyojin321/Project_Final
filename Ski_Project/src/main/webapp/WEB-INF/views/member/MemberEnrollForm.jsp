@@ -359,11 +359,12 @@
                         <label for="address">주소 </label>
                         <input type="text" id="address" name="address">
                     </div>
-                    
-                    <div class="actions">
-                        <button type="submit" class="submit" disabled>가입완료</button>
-                        <button type="reset" class="cancel">가입취소</button>
-                    </div>
+				                    
+				<div class="actions">
+				    <button type="submit" class="submit" disabled>가입완료</button>
+				    <button type="button" class="cancel" onclick="window.location.href='login.me'">가입취소</button>
+				</div>
+
                 </form>
             </div>
         </div>
@@ -383,8 +384,7 @@ $(function () {
     // 정규식: 아이디는 5~20자의 영어 대소문자, 숫자만 허용
     const idRegex = /^[a-zA-Z0-9]{5,20}$/;
     // 비밀번호 정규식
-	const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%*^&])[A-Za-z0-9!@#$%^*&]{8,20}$/;
-
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%*^&])[A-Za-z0-9!@#$%^*&]{8,20}$/;
 
     let isEmailValidated = false; // 이메일 인증 여부를 확인하기 위한 변수
 
@@ -434,15 +434,13 @@ $(function () {
         }
     });
 
+    // 비밀번호 유효성 검사
     $passwordInput.on("keyup", function () {
         const password = $(this).val();
-        console.log("Password input:", password);
 
         if (passwordRegex.test(password)) {
-            console.log("Regex test passed");
             $passwordMessage.text("사용 가능한 비밀번호입니다.").css("color", "green").show();
         } else {
-            console.log("Regex test failed");
             $passwordMessage
                 .text("비밀번호는 8~20자이며, 최소 하나의 영문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
                 .css("color", "red")
@@ -451,7 +449,7 @@ $(function () {
         checkFormValidity();
     });
 
-
+    // 비밀번호 확인 검사
     $passwordCheckInput.on("keyup", function () {
         const password = $passwordInput.val();
         const passwordCheck = $(this).val();
@@ -464,53 +462,85 @@ $(function () {
         checkFormValidity();
     });
 
+    // 이메일 인증 요청
     $("#cert").on("click", function () {
-        let email = $("#email").val();
+        let email = $("#email").val().trim();
 
+        // 이메일 입력 여부 확인
+        if (email === "") {
+            alert("이메일을 입력해주세요.");
+            return;
+        }
+
+        // 이메일 중복 확인
         $.ajax({
-            url: "cert.do",
+            url: "emailCheck.me", // 이메일 중복 확인 API
             type: "post",
             data: { email: email },
             success: function (result) {
-                alert(result);
-                $("#cert-area").show();
-                $("#certNo").attr("disabled", false);
-                $("#validate").attr("disabled", false);
-                $("#email").attr("readonly", true);
-                $("#cert").attr("disabled", true);
+                if (result.trim() === "EXISTS") {
+                    alert("이미 가입된 이메일입니다. 다른 이메일을 입력하시거나 로그인 기능을 사용해주세요.");
+                    $("#cert-area").hide(); // 인증번호 입력란 숨김
+                } else {
+                    // 중복되지 않은 경우, 인증번호 요청
+                    $.ajax({
+                        url: "cert.do", // 인증번호 발급 API
+                        type: "post",
+                        data: { email: email },
+                        success: function (result) {
+                            alert("인증번호가 발급되었습니다. 이메일을 확인해주세요.");
+                            $("#cert-area").show(); // 인증번호 입력란 표시
+                            $("#certNo").attr("disabled", false); // 인증번호 입력 활성화
+                            $("#validate").attr("disabled", false); // 인증 버튼 활성화
+                            $("#email").attr("readonly", true); // 이메일 수정 방지
+                            $("#cert").attr("disabled", true); // 인증 요청 버튼 비활성화
+                        },
+                        error: function () {
+                            alert("인증번호 발급 중 문제가 발생했습니다. 다시 시도해주세요.");
+                        },
+                    });
+                }
             },
             error: function () {
-                console.log("인증번호 발급용 ajax 통신 실패");
+                alert("이메일 중복 확인 중 문제가 발생했습니다. 관리자에게 문의해주세요.");
             },
         });
     });
 
+    // 이메일 인증번호 검증
     $("#validate").on("click", function () {
-        let email = $("#email").val();
-        let certNo = $("#certNo").val();
+        let email = $("#email").val().trim();
+        let certNo = $("#certNo").val().trim();
 
+        if (certNo === "") {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
+
+        // 인증번호 검증 요청
         $.ajax({
-            url: "validate.do",
+            url: "validate.do", // 인증번호 확인 API
             type: "post",
             data: { email: email, certNo: certNo },
             success: function (result) {
                 if (result === "인증 성공") {
                     isEmailValidated = true; // 인증 성공
-                    $("#result").text("이메일 인증이 완료되었습니다!").css("color", "green");
-                    $("#certNo").attr("disabled", true);
-                    $("#validate").attr("disabled", true);
+                    alert("이메일 인증이 완료되었습니다!");
+                    $("#certNo").attr("disabled", true); // 인증번호 입력 비활성화
+                    $("#validate").attr("disabled", true); // 인증 버튼 비활성화
                 } else {
                     isEmailValidated = false; // 인증 실패
-                    $("#result").text("인증번호가 일치하지 않습니다.").css("color", "red");
+                    alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
                 }
                 checkFormValidity(); // 폼 상태 재확인
             },
             error: function () {
-                console.log("인증번호 확인용 ajax 통신 실패!");
+                alert("인증번호 확인 중 문제가 발생했습니다. 다시 시도해주세요.");
             },
         });
     });
 
+    // 비밀번호 표시/숨기기 기능
     $(".toggle-password").on("click", function () {
         const $passwordInput = $(this).siblings("input");
         const inputType = $passwordInput.attr("type");
@@ -524,6 +554,7 @@ $(function () {
         }
     });
 
+    // 폼 상태 확인
     function createSnowflake() {
         var snowflake = document.createElement("div");
         snowflake.classList.add("snowflake");
@@ -542,17 +573,6 @@ $(function () {
 
     createSnowflake();
 });
-document.querySelector('input[name=memberPwd]').addEventListener('keyup', function(e){
-    if (e.getModifierState){
-        if (e.getModifierState('CapsLock')) {
-            $("#pwd_hint").html('CAPS LOCK 켜져 있습니다.');
-            $("#pwd_hint").css('display', 'block');
-        }else {
-            $("#pwd_hint").css('display', 'none');
-        }
-        
-    }
-  });
 
 </script>
 

@@ -1,17 +1,23 @@
 package com.kh.admin.management.model.vo;
 
 public class SkiResortOpen {
+	private int skiResortOpenNo;
 	private String skiResortIsOpen;
-	private String skiResortDate;
-	private String skiResortDay;
 	
 	public SkiResortOpen() {}
 
-	public SkiResortOpen(String skiResortIsOpen, String skiResortDate, String skiResortDay) {
+	public SkiResortOpen(int skiResortOpenNo, String skiResortIsOpen) {
 		super();
+		this.skiResortOpenNo = skiResortOpenNo;
 		this.skiResortIsOpen = skiResortIsOpen;
-		this.skiResortDate = skiResortDate;
-		this.skiResortDay = skiResortDay;
+	}
+
+	public int getSkiResortOpenNo() {
+		return skiResortOpenNo;
+	}
+
+	public void setSkiResortOpenNo(int skiResortOpenNo) {
+		this.skiResortOpenNo = skiResortOpenNo;
 	}
 
 	public String getSkiResortIsOpen() {
@@ -22,27 +28,11 @@ public class SkiResortOpen {
 		this.skiResortIsOpen = skiResortIsOpen;
 	}
 
-	public String getSkiResortDate() {
-		return skiResortDate;
-	}
-
-	public void setSkiResortDate(String skiResortDate) {
-		this.skiResortDate = skiResortDate;
-	}
-
-	public String getSkiResortDay() {
-		return skiResortDay;
-	}
-
-	public void setSkiResortDay(String skiResortDay) {
-		this.skiResortDay = skiResortDay;
-	}
-
 	@Override
 	public String toString() {
-		return "SkiResortOpen [skiResortIsOpen=" + skiResortIsOpen + ", skiResortDate=" + skiResortDate
-				+ ", skiResortDay=" + skiResortDay + "]";
+		return "SkiResortOpen [skiResortOpenNo=" + skiResortOpenNo + ", skiResortIsOpen=" + skiResortIsOpen + "]";
 	}
 
+	
 	
 }

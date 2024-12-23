@@ -515,7 +515,7 @@ button:hover {
                 </tr>
                 <tr>
                     <th>휴대전화</th>
-                    <td><input type="text" name="phone" placeholder=" - 포함"/></td>
+                    <td>${m.phone}</td>
                 </tr>
                 <tr>
                     <th>이메일</th>
@@ -690,7 +690,6 @@ button:hover {
     	<input type="hidden" id="checkInDate" name="checkInDate" value="${checkInDate}">
     	<input type="hidden" id="checkOutDate" name="checkOutDate" value="${checkOutDate}">
     	<input type="hidden" id="stayDays" name="stayDays" value="${stayDays}">
-    	<input type="hidden" id="phone" name="phone" value="">
     	<input type="hidden" id="adult" name="adult" value="">
     	<input type="hidden" id="child" name="child" value="">
    		<input type="hidden" id="roomNo" name="roomNo" value="${r.roomNo}">
@@ -707,10 +706,24 @@ button:hover {
 	    document.getElementById("totalPrice").textContent = formattedPrice;    	
 	    
     
-        // 약관 동의 여부에 따라 버튼 활성화/비활성화
-        document.getElementById('agreeCheckbox').addEventListener('change', function() {
-            document.getElementById('nextButton').disabled = !this.checked;
-        });
+	    document.addEventListener('DOMContentLoaded', function () {
+	        // 체크박스 초기화
+	        const agreeCheckbox = document.getElementById('agreeCheckbox');
+	        if (agreeCheckbox) {
+	            agreeCheckbox.checked = false;
+	        }
+
+	        // 기존 초기화 로직
+	        const nextButton = document.getElementById('nextButton');
+	        nextButton.disabled = true;
+
+	        agreeCheckbox.addEventListener('change', function () {
+	            nextButton.disabled = !this.checked;
+	        });
+	    });
+
+        
+     
         
      // 객실의 최대 투숙 인원을 설정 (예: 4명)
 		// 최대 투숙 인원 설정
@@ -782,7 +795,7 @@ button:hover {
 $(document).ready(function () {
     $('#nextButton').on('click', function () {
         // 입력된 데이터 가져오기
-        const phone = $('.customer-info-table input[type="text"]').val().trim(); // 전화번호 입력값
+      
         const adult = adultCount; // 
         const child = childCount;
 
@@ -791,11 +804,6 @@ $(document).ready(function () {
         const checkOutDate = $('#checkOutDate').val();
         const stayDays = $('#stayDays').val();
 
-        // 유효성 검사
-        if (!phone) {
-            alert("전화번호를 입력해주세요.");
-            return;
-        }
         if (adult === 0 && child === 0) {
             alert("투숙 인원을 선택해주세요.");
             return;
@@ -806,7 +814,6 @@ $(document).ready(function () {
         }
 
         // 숨겨진 필드 업데이트
-        $('#phone').val(phone); 
         $('#adult').val(adult);
         $('#child').val(child);
         $('#roomNo').val(roomNo);

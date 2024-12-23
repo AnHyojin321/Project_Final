@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.ski.lift.model.service.LiftService;
 import com.kh.ski.lift.model.vo.Lift;
 import com.kh.ski.lift.model.vo.LiftOrder;
+import com.kh.ski.member.model.vo.Member;
 
 @Controller
 public class LiftController {
@@ -60,8 +61,9 @@ public class LiftController {
 	        liftOrder.setLiftNo(Integer.parseInt(paramMap.get("li[" + index + "].liftNo")));
 	        liftOrder.setLiftCount(Integer.parseInt(paramMap.get("li[" + index + "].liftCount")));
 	        liftOrder.setLiftTotalPrice(Integer.parseInt(paramMap.get("li[" + index + "].liftTotalPrice")));
-	        liftOrder.setMemberNo(Integer.parseInt(paramMap.get("li[" + index + "].memberNo")));
+	        liftOrder.setMemberId(paramMap.get("li[" + index + "].memberId"));
 
+	        System.out.println(liftOrderList);
 	        liftOrderList.add(liftOrder);
 	        index++;
 	        
@@ -76,5 +78,22 @@ public class LiftController {
 	    model.addAttribute("updatedList", liftOrderList);
 	    return "redirect:/liftList.li";
 	}
-	
+// 김동준 마이페이지
+    @GetMapping("liftOrders.li")
+    public String liftOrders(HttpSession session, Model model) {
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            return "redirect:/login.me";
+        }
+
+        String memberId = loginMember.getMemberId();
+
+        // 리프트권 예약 목록 조회
+        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+
+        model.addAttribute("reservedLiftList", reservedLiftList);
+
+        return "lift/liftOrders";
+    }
 }

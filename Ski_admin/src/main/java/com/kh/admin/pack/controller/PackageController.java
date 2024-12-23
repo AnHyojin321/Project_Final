@@ -144,7 +144,13 @@ public class PackageController {
 			
 		}
 		int result = packageService.updatePackage(p);
+		System.out.println("result : " + result);
 		
+		System.out.println("Package No: " + p.getPackageNo());
+		System.out.println("Pack Origin Name: " + p.getPackOriginName());
+		System.out.println("Pack Change Name: " + p.getPackChangeName());
+		System.out.println("Pack Image Path: " + p.getPackImgPath());
+
 		if(result > 0) { // 수정 성공
 			
 			// 일회성 알람 문구를 담아

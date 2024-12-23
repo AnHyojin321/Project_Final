@@ -10,10 +10,10 @@
 <script>
 function serverAuth() {
     // HTML에서 totalPrice 값을 가져오기
-    var totalPrice = document.getElementById("totalPrice").innerText.trim();
+    var amount = document.getElementById("totalPrice").innerText.trim();
 
     // 숫자 값만 추출
-    totalPrice = parseInt(totalPrice.replace(/[^0-9]/g, ''), 10);
+    amount = parseInt(amount.replace(/[^0-9]/g, ''), 10);
 
    
     // 세션에 데이터 저장을 요청 (FormData 형태로 전송)
@@ -25,7 +25,7 @@ function serverAuth() {
             roomNo: ${r.roomNo},
             checkInDate: '${checkInDate}',
             checkOutDate: '${checkOutDate}',
-            totalPrice: totalPrice
+            amount: amount
         },
         success: function(data) {
             if (data.status === 'success') {
@@ -231,6 +231,77 @@ function serverAuth() {
 	button:hover {
 	    opacity: 0.8;
 	}
+	
+	
+	/* 쿠폰 사용 모달창 관련 css */
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* 제목 스타일 */
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 라디오 버튼 스타일 */
+.modal-content label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* 버튼 스타일 */
+.apply-btn {
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.coupon-btn:hover, .apply-btn:hover {
+    background-color: #f2f2f2;
+}
+
+/* 닫기 버튼 스타일 */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
 
 </style>
 </head>
@@ -295,22 +366,22 @@ function serverAuth() {
                 <h2>고객 정보</h2>
                 <ul>
                     <li>· 성명(한글) <span>${m.memberName}</span></li>
-                    <li>· 휴대전화 <span>${phone}</span></li>
+                    <li>· 휴대전화 <span>${m.phone}</span></li>
                     <li>· 이메일 <span>${m.email}</span></li>
                 </ul>
             </div>
         </div>
         <p class="info-message">예약 정보를 확인하신 후, 결제를 진행해 주세요.</p>
         <div class="button-group">
-            <button class="prev-btn">이전단계</button>
+            <button class="prev-btn" onclick="history.back();">이전단계</button>
             <button class="pay-btn" onclick="serverAuth()">결제하기</button>
         </div>
     </div>
+    <input type="hidden" id="roomType" value="${r.roomType}"/>
+    
+
     
     <script>
-	 	// 객실 전체 가격에 콤마 찍기
-
-	
 	    // 총 가격 계산
 	    const totalPrice = ${r.roomPrice * stayDays};
 	
@@ -318,7 +389,13 @@ function serverAuth() {
 	    const formattedPrice = totalPrice.toLocaleString() + "원";
 	
 	    // HTML에 표시
-	    document.getElementById("totalPrice").textContent = formattedPrice;    
+	    document.getElementById("totalPrice").textContent = formattedPrice;  
+	    
+
+	    // -----------------------------------------------------------------------------------------
+
+
+
     </script>
     
 	

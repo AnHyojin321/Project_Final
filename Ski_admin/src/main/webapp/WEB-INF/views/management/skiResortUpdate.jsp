@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,97 +30,172 @@
 </svg>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style> 
-	#outer {
-		display:flex;
-	}
-	thead>tr>th {
-	    width: 200px;
-	}
 	.openBtn {
 	    width: 100%;
-	    height: 40px;
+	    height: 50px;
 	    background-color: rgb(194, 220, 255);
 	    border: 0px;
 	    cursor:pointer;
 	}
-	table {
-	    border-spacing: 0px;
-	    width:100%;
-	}
-	th {
-	    padding: 0px;
-	}
+	
+/* 메인 콘텐츠 */
+.content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.welcome-msg {
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+/* 테이블 */
+.dashboard-tables {
+    display: flex;
+    flex-wrap: wrap; /* 테이블들이 여러 줄로 나눠지도록 허용 */
+    gap: 10px; /* 테이블 사이의 간격 */
+}
+
+.dashboard-tables table {
+	width: 19%; 
+    border-collapse: collapse;
+    height:90%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.dashboard-tables th,
+.dashboard-tables td {
+    padding: 15px;
+    text-align: left;
+}
+
+.dashboard-tables th {
+    background-color: #2c3e50;
+    color: white;
+    font-size: 1em;
+}
+
+.dashboard-tables td {
+    background-color: white;
+    font-size: 0.9em;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* 애니메이션 효과 */
+.dashboard-cards, .dashboard-tables {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#btnOpenTd {
+	padding:0px;
+	
+}
+.icon {
+    width: 100%;  /* 이미지의 가로 크기를 50px로 설정 */
+    height: auto; /* 세로 크기는 자동으로 비율에 맞춰 조정 */
+}
+
 </style>
 </head>
 <body>     
 	<div class="admin-container">
-		<jsp:include page="../common/sidebar.jsp" />
-		<div id="title">
-	        <h1>스키장 오픈 관리</h1>
-	    </div>
-	    <div id="outer">
-	       	<c:forEach var="sro" items="${ requestScope.list }">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
+            <header>
+                <h1>5일간 스키장 오픈 관리</h1>
+                <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
+            </header>
+            <section class="dashboard-tables">
+                <c:forEach var="sro" items="${ requestScope.slopeIsOpenList }">
 	        	<table border="1px solid black">
-	        		<tr><th colspan="2">${ sro.skiResortDate }</th></tr>
-	        		<tr><th colspan="2">${ sro.skiResortDay }</th></tr>
+	        		<tr><th colspan="2">${ sro.date }</th></tr>
+	        		<tr><td colspan="2">${ sro.day }</td></tr>
 	        		<tr>
-	        			<th colspan="2">
-		    <svg class="icon"><use xlink:href="#iconSun"></use></svg>
-	        			</th>
-	        		</tr>
+					    <td colspan="2">
+					        <svg class="icon">
+					            <c:choose>
+					                <c:when test="${sro.description == '맑음'}">
+					                    <use xlink:href="#iconSun"></use>
+					                </c:when>
+					                <c:when test="${sro.description == '구름 조금' || sro.description == '약간의 구름이 낀 하늘'}">
+					                    <use xlink:href="#iconSemiCloud"></use>
+					                </c:when>
+					                <c:when test="${fn:contains(sro.description, '눈')}">
+					                    <use xlink:href="#iconSnow"></use>
+					                </c:when>
+					                <c:when test="${fn:contains(sro.description, '비')}">
+					                    <use xlink:href="#iconRain"></use>
+					                </c:when>
+					                <c:when test="${sro.description == '안개'}">
+					                    <use xlink:href="#iconMist"></use>
+					                </c:when>
+					                <c:otherwise>
+					                    <use xlink:href="#iconCloud"></use>
+					                </c:otherwise>
+					            </c:choose>
+					        </svg>
+					    </td>
+					</tr>
+
 	        		<tr>
-		        		<th colspan="2">
-		        			맑음
-		        		</th>
+		        		<td colspan="2">${ sro.description }</td>
 		        	</tr>
 	        		<tr>
-		        		<th>
-		        			최고
-		        		</th>
-		        		<th>
-		        			최저
-		        		</th>
+		        		<td>최고 기온 (°C)</td>
+		        		<td>최저 기온 (°C)</td>
 		        	</tr>
 	        		<tr>
-		        		<th>
-		        			3
-		        		</th>
-		        		<th>
-		        			-3
-		        		</th>
+		        		<td>${ sro.maxTemp }</td>
+		        		<td>${ sro.minTemp }</td>
 		        	</tr>
 	        		<tr>
-			            <th colspan="2">
+			            <td colspan="2" id="btnOpenTd">
+			            <input type="hidden" value="${ sro.skiResortOpenNo }"/>
 			                <input 
 							    type="button" 
 							    class="openBtn" 
 							    style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgb(194, 220, 255)' : 'rgb(255, 194, 194)'};" 
-							    onclick="toggleOpen(this, '${sro.skiResortDay}', '${sro.skiResortIsOpen}');" 
+							    onclick="toggleOpen(this, '${sro.skiResortOpenNo}', '${sro.skiResortIsOpen}');" 
 							    value="${ sro.skiResortIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}" 
 							    name="skiResortIsOpen"
 							/>
-			            </th>
+			            </td>
 			        </tr>
 		        </table>
 	       	</c:forEach>
-	    </div>
-	
+            </section>
+        </main>
 	    <form action="skiResortUpdateControl.sm" id="skiResortForm" method="post">
-		    <input type="hidden" id="skiResortDay" name="skiResortDay" />
 		    <input type="hidden" id="skiResortIsOpen" name="skiResortIsOpen" />
+			<input type="hidden" id="skiResortOpenNo" name="skiResortOpenNo"/>
 		</form>
-		
-		<div>
-		    <svg class="icon"><use xlink:href="#iconSemiCloud"></use></svg>
-		    <svg class="icon"><use xlink:href="#iconSnow"></use></svg>
-		    <svg class="icon"><use xlink:href="#iconRain"></use></svg>
-		    <svg class="icon"><use xlink:href="#iconMist"></use></svg>
-		</div>
-	</div>
+    </div>
 
     <script>
     
-	    function toggleOpen(button, skiResortDay, currentStatus) {
+	    function toggleOpen(button, skiResortOpenNo, currentStatus) {
 	        let message = '';
 	        let newStatus = '';
 	        
@@ -131,7 +208,7 @@
 	        }
 	
 	        if (confirm(message)) {
-	            document.getElementById('skiResortDay').value = skiResortDay;
+	            document.getElementById('skiResortOpenNo').value = skiResortOpenNo;
 	            document.getElementById('skiResortIsOpen').value = newStatus;
 	            document.getElementById('skiResortForm').submit();
 	        }

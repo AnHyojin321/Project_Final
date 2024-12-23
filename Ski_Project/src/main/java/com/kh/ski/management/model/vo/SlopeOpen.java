@@ -1,4 +1,4 @@
-package com.kh.admin.management.model.vo;
+package com.kh.ski.management.model.vo;
 
 public class SlopeOpen {
 	

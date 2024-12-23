@@ -3,337 +3,967 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>설레눈 리조트 내 정보 관리</title>
-<style>
-/* Reset */
-body {
-    margin: 0;
-    background-color: #f9f9f9;
-    font-family: 'Arial', sans-serif;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #666;
+            padding: 0 15px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            background-color: #666;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+        }
+
+        .profile-info h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .member-info, .my-posts, .password-change {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+            align-items: center;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .account-links {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .account-link {
+            color: #666;
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .account-link:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .account-link.delete {
+            color: #e54d4d;
+            border-color: #e54d4d;
+        }
+
+        .account-link.delete:hover {
+            background: #fdd;
+        }
+
+        .my-posts h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .inquiry-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .inquiry-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .inquiry-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .inquiry-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .inquiry-number.pending {
+            color: #333;
+        }
+
+        .inquiry-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .inquiry-button {
+            padding: 10px;
+            border: 1px solid #2c3e50;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .inquiry-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 주문 통계 스타일 */
+        .order-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: white;
+            border: 1px solid #eee;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .order-stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .order-stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        /* 주문 목록 스타일 */
+        .order-list {
+            background: white;
+            border: 1px solid #eee;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .order-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr;
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            font-weight: 500;
+        }
+
+        .order-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .btn-view {
+            padding: 6px 16px;
+            border: 1px solid #76a77c;
+            color: #76a77c;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-view:hover {
+            background: #76a77c;
+            color: white;
+        }
+
+        /* VIP 태그 스타일 */
+        .vip-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+.pwd-form-group {
+    margin-bottom: 24px;
+    position: relative;
 }
 
-html, body {
-    height: 100%;
-}
-
-/* Header Styles */
-header {
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1001;
-}
-
-/* Main Content */
-.main-content {
-    flex: 1;
-    max-width: 2000px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    min-height: calc(100vh - 240px);
-}
-
-/* Menu Button */
-.menu-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    transition: color 0.3s;
-}
-
-.menu-button::before {
-    content: "☰";
-    font-size: 18px;
-    transition: content 0.3s;
-}
-
-.menu-button.active::before {
-    content: "✕";
-}
-
-/* Page Title */
-.page-title {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 40px;
-    color: #333;
-}
-
-/* Container */
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-/* Tabs Section */
-/* 탭 컨테이너 스타일 */
-.tab-container {
-    display: flex;
-    background-color:#d9e6f0;
-    border-radius: 8px;
-    overflow: hidden;
-    max-width: 600px;
-    margin: 20px auto;
-}
-
-/* 탭 버튼 스타일 */
-.tab-button {
-    flex: 1;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #666;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* 활성 탭 스타일 */
-.tab-button.active {
-    background-color: #ffffff;
-    color: #333;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tab-button:hover {
-    background-color: #f5f5f5;
-}
-/* Form Groups */
-.form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    width: 100px;
-    color: #333;
-    font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group input[type="date"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-    transition: border-color 0.3s ease;
-}
-
-.form-group input:focus {
-    border-color: #4a90e2;
-    outline: none;
-}
-
-.form-group input[readonly] {
-    background-color: #f1f1f1;
-}
-
-/* Submit Button */
-.submit-btn {
-    display: block;
-    width: 50%;
-    margin: 30px auto 0;
+.pwd-form-group input {
+    width: 100%;
     padding: 12px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
+    padding-right: 40px; /* 아이콘 공간 확보 */
+    border: 1px solid #ddd;
     border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
-.submit-btn:hover {
-    background-color: #357ab7;
-}
-
-/* Menu Overlay */
-.menu-overlay {
+.toggle-password {
     position: absolute;
+    top: 12px; /* 입력 필드의 높이에 맞춰 고정 */
+    right: 12px;
+    cursor: pointer;
+        transform: translateY(190%); /* 정확히 중앙 정렬 */
+    color: #999;
+    font-size: 16px;
+    z-index: 10;
+}
+
+
+        .pwd-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+.message {
+    min-height: 20px; /* 메시지 영역의 고정 높이 설정 */
+    margin-top: 4px; /* 입력 필드와 메시지 간의 간격 */
+    font-size: 12px; /* 메시지 글자 크기 */
+    color: #ff0000; /* 에러 메시지 색상 */
+    display: flex;
+    align-items: center; /* 텍스트 수직 정렬 */
+    visibility: hidden; /* 초기에는 메시지를 숨김 */
+}
+
+.message.visible {
+    visibility: visible; /* 메시지가 표시될 때만 보이도록 설정 */
+}
+
+.success {
+    color: #28a745; /* 성공 메시지 색상 */
+}
+
+.error {
+    color: #dc3545; /* 에러 메시지 색상 */
+}
+        .submit-btn {
+            color: #666;
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .submit-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* 모달 전체 스타일 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(249, 249, 249, 0.95);
-    z-index: 1000;
-    display: none;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 내용 */
+.modal-content {
+    background-color: #fff;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    max-width: 90%;
+    text-align: center;
+    color : red;
 }
 
-.menu-overlay.active {
-    display: block;
-}
-
-.menu-content {
-    max-width: 1200px;
-    margin: 20px auto;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 30px;
-}
-
-.menu-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.menu-section-title {
+/* 닫기 버튼 */
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 10px;
+    cursor: pointer;
 }
 
-.menu-section-item {
+.modal-content .close:hover {
+    color: #ff0000;
+}
+.modal-reservation {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 내용 */
+.modal-reservation-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    max-width: 90%;
+    position: relative;
+}
+
+/* 모달 제목 */
+.modal-reservation-content h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 예약 정보 스타일 */
+#reservationModalContent p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+#reservationModalContent p:last-child {
+    border-bottom: none;
+}
+
+#reservationModalContent strong {
     color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s;
+    font-weight: 500;
 }
 
-.menu-section-item:hover {
+/* 닫기 버튼 */
+.close-reservation {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.close-reservation:hover {
     color: #333;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .menu-content {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .container {
-        padding: 15px;
-    }
-    .form-group {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .form-group label {
-        margin-bottom: 5px;
-    }
-    .form-group input {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .menu-content {
-        grid-template-columns: 1fr;
-    }
-    .page-title {
-        font-size: 24px;
-    }
-    .tab {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-}
-</style>
+    
+    </style>
 </head>
-
 <body>
-<jsp:include page="../common/header.jsp" />
-
-<main class="main-content">
-    <button class="menu-button" id="menu-toggle">MENU</button>
-        <a href="${pageContext.request.contextPath}/myPage1.me" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-    	<img src="resources/images/back.png" style="width: 25px; height: 25px; margin-right: 5px;">
-    	<span style="font-size: 16px; font-weight: bold;">BACK</span>
-	</a>
-
-    <h1 class="page-title">내 정보 관리</h1>
-
-        <div class="tab-container">
-            <button class="tab-button active" onclick="location.href='${pageContext.request.contextPath}/myPage.me'">정보변경</button>
-            <button class="tab-button" onclick="location.href='${pageContext.request.contextPath}/PwdChange.me'">비밀번호변경</button>
-            <button class="tab-button" onclick="location.href='${pageContext.request.contextPath}/idDelete.me'">회원탈퇴</button>
-        </div>
+    <jsp:include page="../common/header.jsp" />
     <div class="container">
+        <nav class="nav">
+            <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
+            <a href="${pageContext.request.contextPath}/storeSessionData.lo">락커 예약</a>
+            <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
+            <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
+            <a href="${pageContext.request.contextPath}/myRoomReservation.ro">객실 예약</a>
+            <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
+            <a href="#">결제 관리</a>
+        </nav>
 
-        <form action="update.me" method="post">
-            <div class="form-group">
-                <label for="memberId">아이디</label>
-                <input type="text" id="memberId" name="memberId" value="${sessionScope.loginMember.memberId}" >
+
+        <div class="profile">
+            <div class="profile-info">
+                <h1>${sessionScope.loginMember.memberName} </h1>
+                <p>고객님의 총 예약 금액은 495,000원입니다.</p>
             </div>
-            <div class="form-group">
-                <label for="memberName">이름</label>
-                <input type="text" id="memberName" name="memberName" value="${sessionScope.loginMember.memberName}" >
+        </div>
+
+        <div class="info-grid">
+            <!-- 회원 정보 섹션 -->
+            <div class="member-info" id="memberInfoSection">
+                <h3 class="info-title">
+                	회원 정보
+						<button onclick="showUpdateMemberForm()" class="account-link">회원정보 변경</button>
+
+                </h3>
+                <div class="info-item">
+                    <span class="info-label">이름</span>
+                    <span class="info-value">${sessionScope.loginMember.memberName}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">이메일</span>
+                    <span class="info-value">${sessionScope.loginMember.email}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">전화번호</span>
+                    <span class="info-value">${sessionScope.loginMember.phone}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">생년월일</span>
+                    <span class="info-value">${sessionScope.loginMember.birthDate}</span>
+                </div>
+                <div class="account-links">
+                    <button onclick="showPasswordChangeForm()" class="account-link">비밀번호 변경</button>
+					<button type="button" class="account-link delete" onclick="showModal()">회원 탈퇴</button>
+
+
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">이메일</label>
-                <input type="email" id="email" name="email" value="${sessionScope.loginMember.email}" readonly>
+
+    <!-- 비밀번호 변경 폼 수정 -->
+    <div class="member-info" id="passwordChangeSection" style="display: none;">
+        <h3 class="info-title">비밀번호 변경</h3>
+        <form id="changePwdForm" action="changePwd.me" method="post">
+            <div class="pwd-form-group">
+                <label for="currentPwd">현재 비밀번호</label>
+                <input type="password" id="currentPwd" name="currentPwd" required>
+                <i class="fas fa-eye toggle-password"></i>
             </div>
-            <div class="form-group">
-                <label for="birthDate">생년월일</label>
-                <input type="date" id="birthDate" name="birthDate" value="${sessionScope.loginMember.birthDate}">
-            </div>
-            <div class="form-group">
-                <label for="phone">전화번호</label>
-                <input type="tel" id="phone" name="phone" value="${sessionScope.loginMember.phone}">
-            </div>
-            <div class="form-group">
-                <label for="address">주소</label>
-                <input type="text" id="address" name="address" value="${sessionScope.loginMember.address}">
-            </div>
-             <input type="hidden" id="kakaoLogin" name="kakaoLogin" value="${sessionScope.loginMember.kakaoLogin}">
-        
-            <button type="submit" class="submit-btn">확인</button>
+			<div class="pwd-form-group">
+			    <label for="newPwd">새 비밀번호</label>
+			    <input type="password" id="newPwd" name="newPwd" required>
+			    <i class="fas fa-eye toggle-password"></i>
+			    <div id="newPasswordMessage" class="message"></div>
+			</div>
+			<div class="pwd-form-group">
+			    <label for="checkPwd">새 비밀번호 확인</label>
+			    <input type="password" id="checkPwd" name="checkNewPwd" required>
+			    <i class="fas fa-eye toggle-password"></i>
+			    <div id="checkPasswordMessage" class="message"></div>
+			</div>
+
+            <button type="submit" class="submit-btn">변경</button>
+			<button type="button" class="submit-btn" onclick="showMemberInfo()">취소</button>
+
         </form>
     </div>
-</main>
+    
+    <!-- 회원정보 변경 폼 -->
+<div class="member-info" id="updateMemberSection" style="display: none;">
+    <h3 class="info-title">회원정보 변경</h3>
+    <form id="updateMemberForm" action="${pageContext.request.contextPath}/update.me" method="post">
+        <div class="info-item">
+            <label for="memberId" class="info-label">아이디</label>
+            <input type="text" id="memberId" name="memberId" value="${sessionScope.loginMember.memberId}" readonly>
+        </div>
+        <div class="info-item">
+            <label for="memberName" class="info-label">이름</label>
+            <input type="text" id="memberName" name="memberName" value="${sessionScope.loginMember.memberName}" required>
+        </div>
+        <div class="info-item">
+            <label for="email" class="info-label">이메일</label>
+            <input type="email" id="email" name="email" value="${sessionScope.loginMember.email}" readonly>
+        </div>
+        <div class="info-item">
+            <label for="phone" class="info-label">전화번호</label>
+            <input type="tel" id="phone" name="phone" value="${sessionScope.loginMember.phone}" required>
+        </div>
+        <div class="info-item">
+            <label for="birthDate" class="info-label">생년월일</label>
+            <input type="date" id="birthDate" name="birthDate" value="${sessionScope.loginMember.birthDate}" required>
+        </div>
+        <div class="info-item">
+            <label for="address" class="info-label">주소</label>
+            <input type="text" id="address" name="address" value="${sessionScope.loginMember.address}">
+        </div>
+        <div class="account-links">
+            <button type="submit" class="account-link">저장</button>
+            <button type="button" class="account-link" onclick="showMemberInfo()">취소</button>
+        </div>
+    </form>
+</div>
+    
+		<!-- 모달 -->
+		<div id="withdrawalModal" class="modal" style="display: none;">
+		    <div class="modal-content">
+		        <span class="close">&times;</span>
+		        <h2>회원탈퇴</h2>
+		        <p>탈퇴 후 복구가 불가능합니다. 정말로 탈퇴 하시겠습니까?</p>
+		        <form id="withdrawalForm" action="delete.me" method="post">
+		            <div class="pwd-form-group">
+		                <label for="memberPwd">비밀번호:</label>
+		                <input type="password" id="memberPwd" name="memberPwd" required>
+		                <i class="fas fa-eye toggle-password"></i>
+		            </div>
+		            <input type="hidden" name="memberId" value="${sessionScope.loginMember.memberId}">
+		            <div style="text-align: center; margin-top: 20px;">
+		                <button type="submit" class="submit-btn">탈퇴하기</button>
+		                <button type="button" class="submit-btn" onclick="closeModal()">취소</button>
+		            </div>	
+		        </form>
+		    </div>
+		</div>
 
-<div class="menu-overlay">
-    <div class="menu-content">
-        <div class="menu-section">
-            <div class="menu-section-title">내 정보 관리</div>
-            <a href="${pageContext.request.contextPath}/myPage.me" class="menu-section-item">회원정보 변경</a>
-            <a href="${pageContext.request.contextPath}/PwdChange.me" class="menu-section-item">비밀번호 변경</a>
-            <a href="${pageContext.request.contextPath}/idDelete.me" class="menu-section-item">회원탈퇴 안내</a>
+
+            <!-- 내 문의 섹션 -->
+
+            <div class="my-posts">
+                <h3>내 문의</h3>
+                <div class="inquiry-stats">
+                    <div class="inquiry-stat">
+                        <span class="inquiry-label">전체 문의</span>
+                        <span class="inquiry-number">0</span>
+                    </div>
+                    <div class="inquiry-stat">
+                        <span class="inquiry-label">답변 완료</span>
+                        <span class="inquiry-number">0</span>
+                    </div>
+                    <div class="inquiry-stat">
+                        <span class="inquiry-label">답변 대기중</span>
+                        <span class="inquiry-number pending">0</span>
+                    </div>
+                </div>
+                <div class="inquiry-buttons">
+                    <a href="#" class="inquiry-button">문의 내역 보기</a>
+                    <a href="#" class="inquiry-button">신규 문의하기</a>
+                </div>
+            </div>
         </div>
-        <div class="menu-section">
-            <div class="menu-section-title">나의 정보</div>
-            <a href="#" class="menu-section-item">나의 예약</a>
-            <a href="#" class="menu-section-item">나의 문의</a>
+
+        <!-- 주문 통계 -->
+        <div class="order-stats">
+            <div class="order-stat-item">
+                <div class="order-stat-number">0</div>
+                <div>락커</div>
+            </div>
+            <div class="order-stat-item">
+                <div class="order-stat-number">1</div>
+                <div>객실</div>
+            </div>
+            <div class="order-stat-item">
+                <div class="order-stat-number">1</div>
+                <div>패키지</div>
+            </div>
+            <div class="order-stat-item">
+                <div class="order-stat-number">1</div>
+                <div>리프트</div>
+            </div>
         </div>
-        <div class="menu-section">
-            <div class="menu-section-title">강습 </div>
-            <a href="${pageContext.request.contextPath}/lessonPay.le" class="menu-section-item">강습 가격 표</a>
+
+        <!-- 주문 목록 -->
+        <div class="order-list">
+            <div class="order-header">
+                <div>예약번호</div>
+                <div>상품정보</div>
+                <div>결제 금액</div>
+                <div>상세 보기</div>
+            </div>
+                        <div class="order-item">
+                <div>
+                    [#202310]<br>
+                    2024.12.25
+                </div>
+                <div>
+                    리프트권 종일권 (소인)
+                </div>
+                <div>35,000원</div>
+                <div><button class="btn-view">조회</button></div>
+            </div>
+            <div class="order-item">
+                <div>
+                    [#312]<br>
+                    2024.12.27
+                </div>
+                <div>
+                    [성수기] 대인 리프트 4인 + 락커 2인	
+                </div>
+                <div>150,000원</div>
+                <div><button class="btn-view">조회</button></div>
+            </div>
+<c:forEach var="room" items="${reservedRooms}">
+    <div class="order-item">
+        <div>
+            [#${room.roomReservNo}]<br>${room.reservDate}
+        </div>
+        <div>
+            ${room.roomType} 룸
+        </div>
+        <div>${room.amount}원</div>
+        <div>
+            <button class="btn-view" onclick="openReservationDetailModal(${room.roomReservNo}, ${sessionScope.loginMember.memberNo})">조회</button>
+        </div>
+    </div>
+</c:forEach>
+
+
+<!-- 예약 상세 정보 모달 -->
+<div id="reservationDetailModal" class="modal-reservation" style="display: none;">
+    <div class="modal-reservation-content">
+        <span class="close-reservation" onclick="closeReservationModal()">&times;</span>
+        <h1>예약 상세 정보</h1>
+        <div id="reservationModalContent">
+            <!-- AJAX를 통해 동적으로 데이터를 로드 -->
         </div>
     </div>
 </div>
 
+
+<!-- 리프트 예약 리스트 -->
+<c:forEach var="liftOrder" items="${reservedLiftList}">
+    <div class="order-item">
+        <div>[#${liftOrder.liftOrderNo}]</div>
+        <div>리프트 번호: ${liftOrder.liftNo}</div>
+        <div>${liftOrder.liftTotalPrice}원</div>
+        <div>
+            <button class="btn-view" onclick="openLiftDetailModal(${liftOrder.liftOrderNo})">조회</button>
+        </div>
+    </div>
+</c:forEach>
+
+    
+
+        </div>
+    </div>
+
+    <div id="liftDetailModal" class="modal-reservation" style="display: none;">
+        <div class="modal-reservation-content">
+            <span class="close-reservation" onclick="closeLiftDetailModal()">&times;</span>
+            <h1>리프트 상세 정보</h1>
+            <div id="liftModalContent">
+                <!-- AJAX를 통해 동적으로 데이터가 로드됩니다 -->
+            </div>
+        </div>
+    </div>
+
+
 <script>
-    const menuButton = document.getElementById('menu-toggle');
-    const overlay = document.querySelector('.menu-overlay');
+function openReservationDetailModal(roomReservNo, memberNo) {
+    if (!roomReservNo || !memberNo) {
+        alert("필요한 매개변수가 누락되었습니다.");
+        return;
+    }
 
-    menuButton.addEventListener('click', function () {
-        const rect = menuButton.getBoundingClientRect();
-        overlay.style.top = rect.bottom + 'px';
-        overlay.classList.toggle('active');
-        menuButton.classList.toggle('active');
+    $.ajax({
+        url: '/ski/myRoomDetail.ro',
+        type: 'POST',
+        data: {
+            roomReservNo: roomReservNo,
+            memberNo: memberNo
+        },
+        success: function (response) {
+            if (response.roomDetail) {
+                var modalContent =
+                    "<p><strong>객실 이름:</strong> " + (response.roomDetail.roomName || "없음") + "</p>" +
+                    "<p><strong>객실 타입:</strong> " + (response.roomDetail.roomType || "없음") + "</p>" +
+                    "<p><strong>예약 금액:</strong> " + (response.roomDetail.amount || "0") + "원</p>" +
+                    "<p><strong>체크인:</strong> " + (response.roomDetail.checkInDate || "없음") + "</p>" +
+                    "<p><strong>체크아웃:</strong> " + (response.roomDetail.checkOutDate || "없음") + "</p>";
+                document.getElementById("reservationModalContent").innerHTML = modalContent;
+                document.getElementById("reservationDetailModal").style.display = "flex";
+            } else {
+                alert("예약 정보를 불러오는데 실패했습니다.");
+            }
+        },
+        error: function () {
+            alert("서버 요청 중 오류가 발생했습니다.");
+        }
     });
-</script>
+}
 
-<jsp:include page="../common/footer.jsp" />
+function closeReservationModal() {
+    document.getElementById("reservationDetailModal").style.display = "none";
+}
+
+
+function openLiftDetailModal(liftOrderNo) {
+    if (!liftOrderNo) {
+        alert("리프트 예약 번호를 찾을 수 없습니다.");
+        return;
+    }
+
+    $.ajax({
+        url: '/ski/liftOrderDetail.li',
+        type: 'GET',
+        data: { liftOrderNo: liftOrderNo },
+        success: function (response) {
+            if (response) {
+                var modalContent = `
+                    <p><strong>예약번호:</strong> ${response.liftOrderNo || '없음'}</p>
+                    <p><strong>리프트 종류:</strong> ${response.liftType || '없음'}</p>
+                    <p><strong>연령대:</strong> ${response.liftAge || '없음'}</p>
+                    <p><strong>수량:</strong> ${response.liftCount || '없음'}매</p>
+                    <p><strong>총 금액:</strong> ${response.liftTotalPrice || '0'}원</p>
+                `;
+                document.getElementById('liftModalContent').innerHTML = modalContent;
+                document.getElementById('liftDetailModal').style.display = 'flex';
+            } else {
+                alert("리프트 정보를 불러오는데 실패했습니다.");
+            }
+        },
+        error: function () {
+            alert("서버 요청 중 오류가 발생했습니다.");
+        }
+    });
+}
+
+// 리프트 상세 정보 모달 닫기
+function closeLiftDetailModal() {
+    document.getElementById('liftDetailModal').style.display = 'none';
+}
+
+
+//모든 섹션 숨기기
+function hideAllSections() {
+    document.getElementById('memberInfoSection').style.display = 'none';
+    document.getElementById('passwordChangeSection').style.display = 'none';
+    document.getElementById('updateMemberSection').style.display = 'none';
+}
+
+// 회원 정보 섹션으로 돌아가기
+function showMemberInfo() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('memberInfoSection').style.display = 'block';
+}
+
+// 회원정보 변경 섹션 열기
+function showUpdateMemberForm() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('updateMemberSection').style.display = 'block';
+}
+
+// 비밀번호 변경 섹션 열기
+function showPasswordChangeForm() {
+    hideAllSections(); // 모든 섹션 숨기기
+    document.getElementById('passwordChangeSection').style.display = 'block';
+}
+
+
+    $(document).ready(function () {
+        // 기존 비밀번호 표시/숨김 기능 유지
+        $(".toggle-password").on("click", function () {
+            const $input = $(this).siblings("input");
+            const currentType = $input.attr("type");
+
+            if (currentType === "password") {
+                $input.attr("type", "text");
+                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                $input.attr("type", "password");
+                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+
+        // 기존 비밀번호 유효성 검사 유지
+        const $newPwdInput = $("#newPwd");
+        const $checkPwdInput = $("#checkPwd");
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
+
+        function validateNewPassword() {
+            const newPwd = $newPwdInput.val();
+            const message = $("#newPasswordMessage");
+            if (newPwd === "") {
+                message.removeClass("visible success error");
+                return;
+            }
+            if (passwordRegex.test(newPwd)) {
+                message.text("사용 가능한 비밀번호입니다.")
+                    .removeClass("error")
+                    .addClass("success visible");
+            } else {
+                message.text("비밀번호는 8~20자이며, 대문자, 소문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
+                    .removeClass("success")
+                    .addClass("error visible");
+            }
+        }
+
+        function checkPasswordMatch() {
+            const newPwd = $newPwdInput.val();
+            const checkPwd = $checkPwdInput.val();
+            const message = $("#checkPasswordMessage");
+            if (newPwd === checkPwd) {
+                message.text("비밀번호가 일치합니다.")
+                    .removeClass("error")
+                    .addClass("success visible");
+            } else {
+                message.text("비밀번호가 일치하지 않습니다.")
+                    .removeClass("success")
+                    .addClass("error visible");
+            }
+        }
+
+        $newPwdInput.on("keyup", function () {
+            validateNewPassword();
+            checkPasswordMatch();
+        });
+
+        $checkPwdInput.on("keyup", checkPasswordMatch);
+
+        $("#changePwdForm").on("submit", function (e) {
+            const newPwd = $newPwdInput.val();
+            const checkPwd = $checkPwdInput.val();
+
+            if (!passwordRegex.test(newPwd)) {
+                alert("비밀번호 조건을 확인해주세요.");
+                e.preventDefault();
+                return;
+            }
+            if (newPwd !== checkPwd) {
+                alert("비밀번호가 일치하지 않습니다.");
+                e.preventDefault();
+            }
+        });
+
+        // 모달 관련 스크립트 유지
+        var modal = document.getElementById("withdrawalModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        function showModal() {
+            $("#withdrawalModal").css("display", "flex");
+        }
+
+        function closeModal() {
+            $("#withdrawalModal").hide();
+        }
+
+        $(document).on("click", ".account-link.delete", function () {
+            showModal();
+        });
+
+        $(window).on("click", function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        $(document).on("click", ".close", function () {
+            closeModal();
+        });
+    });
+
+
+    function closeModal() {
+        document.getElementById("withdrawalModal").style.display = "none";
+    }
+
+</script>
+<script>
+    function viewReservationDetail(roomNo) {
+        // 상세 페이지 URL로 이동
+        location.href = "/ski/reservationDetail.ro?roomNo=" + roomNo;
+    }
+</script>
+        <jsp:include page="../common/footer.jsp" />
+
 </body>
 </html>

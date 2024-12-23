@@ -59,4 +59,26 @@ public class RoomServiceImpl implements RoomService {
 	public int insertPayInfo(RoomPay rp) {
 		return roomDao.insertPayInfo(sqlSession, rp);
 	}
+	
+	
+	// 객실 예약 목록 조회
+	@Override
+	public ArrayList<RoomPay> selectReservedRoomList(int memberNo) {
+		return roomDao.selectReservedRoomList(sqlSession, memberNo);
+	}
+	
+	// 객실 예약 내역 상세 조회
+	@Override
+	public RoomPay selectMyRoomReservDetail(int roomReservNo) {
+		return roomDao.selectMyRoomReservDetail(sqlSession, roomReservNo);
+	}
+	
+	// 객실 예약 환불 처리
+	@Override
+	@Transactional
+	public int cancelRoomReservation(int roomReservNo) {
+		return roomDao.cancelRoomReservation(sqlSession, roomReservNo);
+	}
+
 }
+
