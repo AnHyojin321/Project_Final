@@ -38,6 +38,26 @@
 	               , #{memberNo}
 	               , #{lockerNo})
 </insert>
+<select id="findLockerReservationsByMemberNo" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
+    SELECT LOCKER_RESERV_NO AS lockerReservNo,
+           LOCKER_START_DATE AS lockerStartDate,
+           LOCKER_END_DATE AS lockerEndDate,
+           LOCKER_TOTAL_PRICE AS lockerTotalPrice
+      FROM LOCKER_RESERV
+     WHERE MEMBER_NO = #{memberNo}
+</select>
+<select id="findLockerReservationById" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
+    SELECT LOCKER_RESERV_NO AS lockerReservNo,
+           LOCKER_START_DATE AS lockerStartDate,
+           LOCKER_END_DATE AS lockerEndDate,
+           LOCKER_TOTAL_PRICE AS lockerTotalPrice,
+           MEMBER_NO AS memberNo,
+           LOCKER_NO AS lockerNo,
+           TID AS tid
+      FROM LOCKER_RESERV
+     WHERE LOCKER_RESERV_NO = #{lockerReservNo}
+</select>
+
 
 
 </mapper>

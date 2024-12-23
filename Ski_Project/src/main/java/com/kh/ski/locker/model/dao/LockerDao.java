@@ -1,12 +1,13 @@
 package com.kh.ski.locker.model.dao;
 
-import com.kh.ski.locker.model.vo.Locker;
-import com.kh.ski.locker.model.vo.LockerReservation;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.kh.ski.locker.model.vo.Locker;
+import com.kh.ski.locker.model.vo.LockerReservation;
 
 @Repository
 public class LockerDao {
@@ -29,5 +30,12 @@ public class LockerDao {
     public int insertPayLocker(SqlSessionTemplate sqlSession, LockerReservation lr) {
     	return sqlSession.insert("locker.insertPayLocker", lr);
     }
+    public ArrayList<LockerReservation> findLockerReservationsByMemberNo(SqlSessionTemplate sqlSession, int memberNo) {
+        return (ArrayList) sqlSession.selectList("locker.findLockerReservationsByMemberNo", memberNo);
+    }
+    public LockerReservation findLockerReservationById(SqlSessionTemplate sqlSession, int lockerReservNo) {
+        return sqlSession.selectOne("locker.findLockerReservationById", lockerReservNo);
+    }
+
 
 }

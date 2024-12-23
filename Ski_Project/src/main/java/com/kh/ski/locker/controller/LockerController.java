@@ -119,6 +119,16 @@ public class LockerController {
         return "locker/Locker"; // JSP 파일 이름
     }
 
-
+    @GetMapping("/lockerDetail.lo")
+    @ResponseBody
+    public LockerReservation getLockerDetail(@RequestParam("lockerReservNo") int lockerReservNo) {
+        LockerReservation lockerReservation = lockerService.findLockerReservationById(lockerReservNo);
+        if (lockerReservation != null) {
+            System.out.println("조회된 락커 예약 정보: " + lockerReservation);
+        } else {
+            System.out.println("해당 번호로 락커 예약 정보를 찾을 수 없습니다.");
+        }
+        return lockerReservation;
+    }
 
 }

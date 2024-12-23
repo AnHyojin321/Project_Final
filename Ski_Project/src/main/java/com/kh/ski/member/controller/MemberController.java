@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.lift.model.service.LiftService;
 import com.kh.ski.lift.model.vo.LiftOrder;
+import com.kh.ski.locker.model.service.LockerService;
+import com.kh.ski.locker.model.vo.LockerReservation;
 import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
 import com.kh.ski.member.model.vo.KakaoUserInfo;
@@ -460,6 +462,9 @@ public class MemberController {
     private LiftService liftService;
     @Autowired
 	private PackageService packageService;
+    @Autowired
+    private LockerService lockerService;
+    
     
     @GetMapping("myPage.me")
     public String myPage(HttpSession session, Model model) {
@@ -470,7 +475,7 @@ public class MemberController {
             return "redirect:/login.me";
         }
 
-        int memberNo = loginMember.getMemberNo(); // 객실 및 패키지 예약 조회용
+        int memberNo = loginMember.getMemberNo(); // 객실 및 패키지, 락커 예약 조회용
         String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
 
         // 객실 예약 목록 조회
@@ -481,14 +486,19 @@ public class MemberController {
 
         // 패키지 예약 목록 조회
         ArrayList<PackagePay> reservedPackages = packageService.selectReservedPackageList(memberNo);
-
+        
+        // 락커 예약 목록 조회
+        ArrayList<LockerReservation> reservedLockers = lockerService.selectReservedLockerList(memberNo);
+        
         // Model에 데이터 추가
         model.addAttribute("reservedRooms", reservedRooms);
         model.addAttribute("reservedLiftList", reservedLiftList);
         model.addAttribute("reservedPackages", reservedPackages); // 패키지 예약 목록 추가
+        model.addAttribute("reservedLockers", reservedLockers); // 락커 예약 목록 추가
 
         return "mypage/myPage";
     }
+
 
 /*
 	@GetMapping("myPage.me")

@@ -1,6 +1,6 @@
 package com.kh.ski.locker.model.service;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -30,5 +30,14 @@ public class LockerServiceImpl implements LockerService {
     public int insertPayLocker(LockerReservation lr) {
     	return lockerDao.insertPayLocker(sqlSession, lr);
     }
+    @Override
+    public ArrayList<LockerReservation> selectReservedLockerList(int memberNo) {
+        return lockerDao.findLockerReservationsByMemberNo(sqlSession, memberNo);
+    }
+    @Override
+    public LockerReservation findLockerReservationById(int lockerReservNo) {
+        return lockerDao.findLockerReservationById(sqlSession, lockerReservNo);
+    }
+
 
 }

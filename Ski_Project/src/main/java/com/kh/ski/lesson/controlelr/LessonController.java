@@ -3,11 +3,12 @@
 	import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,29 +82,93 @@ public class LessonController {
 	    if (result > 0) {
 	        // 이메일 전송 로직
 	        try {
-	            SimpleMailMessage message = new SimpleMailMessage();
-	            message.setTo(loginMember.getEmail()); // 수신자 이메일
-	            message.setSubject("[SEOLLENEUN RESORT] 강습 예약 확인 및 입금 안내");
-	            message.setText(
-	                "안녕하세요, " + loginMember.getMemberName() + "님!\n\n" +
-	                "강습 예약이 접수되었습니다.\n" +
-	                "예약 상세 정보:\n" +
-	                "- 강습 날짜: " + les.getLessonDate() + "\n" +
-	                "- 강습 시간: " + les.getLessonTime() + "\n" +
-	                "- 강습 종류: " + les.getLessonActivite() + "\n" +
-	                "- 강습 프로그램 : " + les.getLessonType() + "\n" +
-	                "- 예약 인원 : " + les.getLessonResCount() + "\n" +
-	                "- 예약 확인 번호 : " + les.getLessonPhone() + "\n\n" +
-	                "입금 계좌 정보:\n" +
-	                "은행명: 우리은행\n" +
-	                "계좌번호: 000-0000-0000-000\n" +
-	                "예금주: 스키장\n\n" +
-	                "입금을 확인 후 예약 확정이 진행됩니다.\n감사합니다!"
-	            );
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+	            String emailContent = "<!DOCTYPE html>\n" +
+	                "<html lang=\"ko\">\n" +
+	                "<head>\n" +
+	                "    <meta charset=\"UTF-8\">\n" +
+	                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+	                "    <title>강습 예약 확인</title>\n" +
+	                "</head>\n" +
+	                "<body style=\"margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;\">\n" +
+	                "    <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff;\">\n" +
+	                "        <tr>\n" +
+	                "            <td style=\"background: linear-gradient(180deg, #f8e4ff 0%, #e0e9ff 100%); text-align: center; padding: 40px 20px; border-radius: 16px;\">\n" +
+	                "                <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"text-align: center; padding-bottom: 10px;\">\n" +
+	                "                            <div style=\"color: #4a6cc3; font-size: 14px; font-weight: bold;\">HAPPY NEW YEAR 2025</div>\n" +
+	                "                        </td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"text-align: center; padding-bottom: 20px;\">\n" +
+	                "                            <div style=\"color: #2c4b9e; font-size: 32px; font-weight: bold;\">강습 예약 확인</div>\n" +
+	                "                        </td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"text-align: center;\">\n" +
+	                "                            <div style=\"background-color: rgba(255, 255, 255, 0.9); padding: 8px 20px; border-radius: 20px; display: inline-block;\">\n" +
+	                "                                <span style=\"color: #4a6cc3; font-size: 14px;\">설레눈 리조트와 함께하는 즐거운 스키 강습</span>\n" +
+	                "                            </div>\n" +
+	                "                        </td>\n" +
+	                "                    </tr>\n" +
+	                "                </table>\n" +
+	                "            </td>\n" +
+	                "        </tr>\n" +
+	                "        <tr>\n" +
+	                "            <td style=\"padding: 30px 20px;\">\n" +
+	                "                <p style=\"color: #333333; font-size: 16px; line-height: 1.6; margin: 0;\">\n" +
+	                "                    안녕하세요, " + loginMember.getMemberName() + "님!<br>\n" +
+	                "                    강습 예약이 접수되었습니다.\n" +
+	                "                </p>\n" +
+	                "            </td>\n" +
+	                "        </tr>\n" +
+	                "        <tr>\n" +
+	                "            <td style=\"padding: 0 20px;\">\n" +
+	                "                <table width=\"100%\" style=\"background-color: #f8f9fa; border-radius: 12px; padding: 20px;\">\n" +
+	                "                    <tr>\n" +
+	                "                        <td colspan=\"2\" style=\"padding-bottom: 15px;\">\n" +
+	                "                            <div style=\"font-size: 18px; font-weight: bold; color: #2c4b9e;\">예약 상세 정보</div>\n" +
+	                "                        </td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #666666; width: 120px;\">강습 날짜</td>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #333333;\">" + les.getLessonDate() + "</td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #666666;\">강습 시간</td>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #333333;\">" + les.getLessonTime() + "</td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #666666;\">강습 종류</td>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #333333;\">" + les.getLessonActivite() + "</td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #666666;\">강습 프로그램</td>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #333333;\">" + les.getLessonType() + "</td>\n" +
+	                "                    </tr>\n" +
+	                "                    <tr>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #666666;\">예약 인원</td>\n" +
+	                "                        <td style=\"padding: 8px 0; color: #333333;\">" + les.getLessonResCount() + "명</td>\n" +
+	                "                    </tr>\n" +
+	                "                </table>\n" +
+	                "            </td>\n" +
+	                "        </tr>\n" +
+	                "    </table>\n" +
+	                "</body>\n" +
+	                "</html>";
+
+	            helper.setTo(loginMember.getEmail());
+	            helper.setSubject("[SEOLLENEUN RESORT] 강습 예약 확인 및 입금 안내");
+	            helper.setText(emailContent, true); // HTML 텍스트 전송
 	            mailSender.send(message);
+
 	            session.setAttribute("alertMsg", "강습 예약글 작성 성공 및 이메일 발송 완료");
 	        } catch (Exception e) {
 	            session.setAttribute("alertMsg", "강습 예약글 작성 성공, 그러나 이메일 발송 실패");
+	            e.printStackTrace();
 	        }
 
 	        mv.setViewName("redirect:list.le"); // 예약 목록으로 이동
