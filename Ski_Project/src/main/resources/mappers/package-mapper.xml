@@ -32,6 +32,7 @@
               , PACK_CHANGE_NAME
               , PACK_IMG_PATH
 		FROM PACKAGE_INFO
+		WHERE PACKAGE_STATUS = 'Y'
 		ORDER BY PACKAGE_NO DESC
 	</select>
 	

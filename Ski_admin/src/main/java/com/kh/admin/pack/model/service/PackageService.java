@@ -21,5 +21,8 @@ public interface PackageService {
 	
 	// 패키지 상품 정보 수정 처리
 	int updatePackage(Pack p);
+	
+	// 패키지 상품 삭제
+	int deletePackage(int packageNo);
 
 }

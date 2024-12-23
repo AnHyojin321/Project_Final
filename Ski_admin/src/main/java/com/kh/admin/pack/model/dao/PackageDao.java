@@ -44,5 +44,11 @@ public class PackageDao {
 		System.out.println("dao 호출되나?");
 		return sqlSession.update("packageMapper.updatePackage", p);
 	}
+	
+	// 패키지 상품 삭제
+	public int deletePackage(SqlSessionTemplate sqlSession, int packageNo) {
+		return sqlSession.update("packageMapper.deletePackage", packageNo);
+	}
+
 
 }
