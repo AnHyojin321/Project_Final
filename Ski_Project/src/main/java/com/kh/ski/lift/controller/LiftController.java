@@ -95,5 +95,5 @@ public class LiftController {
         model.addAttribute("reservedLiftList", reservedLiftList);
 
         return "lift/liftOrders";
-    }
+    }    
 }

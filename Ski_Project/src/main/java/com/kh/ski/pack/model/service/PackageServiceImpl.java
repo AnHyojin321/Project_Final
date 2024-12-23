@@ -70,6 +70,16 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.insertPayInfo(sqlSession, pp);
 	}
 	
+	@Override
+	public ArrayList<PackagePay> selectReservedPackageList(int memberNo) {
+	    return packageDao.selectReservedPackageList(sqlSession, memberNo);
+	}
+
+	@Override
+	public PackagePay packageDetail(int packageReservNo) {
+		// TODO Auto-generated method stub
+		return packageDao.packageDetail(sqlSession, packageReservNo);
+	}
 
 
 }

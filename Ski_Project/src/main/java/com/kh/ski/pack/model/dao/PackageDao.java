@@ -66,5 +66,13 @@ public class PackageDao {
 	public int insertPayInfo(SqlSessionTemplate sqlSession, PackagePay pp) {
 		return sqlSession.insert("packageMapper.insertPayInfo", pp);
 	}
+	public ArrayList<PackagePay> selectReservedPackageList(SqlSessionTemplate sqlSession, int memberNo) {
+	    return (ArrayList) sqlSession.selectList("packageMapper.selectReservedPackageList", memberNo);
+	}
+
+	public PackagePay packageDetail(SqlSessionTemplate sqlSession, int packageReservNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("packageMapper.packageDetail", packageReservNo);
+	}
 
 }

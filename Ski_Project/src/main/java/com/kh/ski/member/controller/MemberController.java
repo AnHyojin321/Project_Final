@@ -28,6 +28,8 @@ import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
 import com.kh.ski.member.model.vo.KakaoUserInfo;
 import com.kh.ski.member.model.vo.Member;
+import com.kh.ski.pack.model.service.PackageService;
+import com.kh.ski.pack.model.vo.PackagePay;
 import com.kh.ski.room.model.service.RoomService;
 import com.kh.ski.room.model.vo.RoomPay;
 
@@ -456,30 +458,37 @@ public class MemberController {
 	private RoomService roomService;
     @Autowired
     private LiftService liftService;
-	   @GetMapping("myPage.me")
-	    public String myPage(HttpSession session, Model model) {
-	        Member loginMember = (Member) session.getAttribute("loginMember");
+    @Autowired
+	private PackageService packageService;
+    
+    @GetMapping("myPage.me")
+    public String myPage(HttpSession session, Model model) {
+        Member loginMember = (Member) session.getAttribute("loginMember");
 
-	        // 로그인 여부 확인
-	        if (loginMember == null) {
-	            return "redirect:/login.me";
-	        }
+        // 로그인 여부 확인
+        if (loginMember == null) {
+            return "redirect:/login.me";
+        }
 
-	        int memberNo = loginMember.getMemberNo(); // 객실 예약 조회용
-	        String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
+        int memberNo = loginMember.getMemberNo(); // 객실 및 패키지 예약 조회용
+        String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
 
-	        // 객실 예약 목록 조회
-	        ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
+        // 객실 예약 목록 조회
+        ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
 
-	        // 리프트권 예약 목록 조회
-	        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+        // 리프트권 예약 목록 조회
+        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
 
-	        // Model에 데이터 추가
-	        model.addAttribute("reservedRooms", reservedRooms);
-	        model.addAttribute("reservedLiftList", reservedLiftList);
+        // 패키지 예약 목록 조회
+        ArrayList<PackagePay> reservedPackages = packageService.selectReservedPackageList(memberNo);
 
-	        return "mypage/myPage";
-	    }
+        // Model에 데이터 추가
+        model.addAttribute("reservedRooms", reservedRooms);
+        model.addAttribute("reservedLiftList", reservedLiftList);
+        model.addAttribute("reservedPackages", reservedPackages); // 패키지 예약 목록 추가
+
+        return "mypage/myPage";
+    }
 
 /*
 	@GetMapping("myPage.me")

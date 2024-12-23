@@ -33,5 +33,9 @@ public interface PackageService {
 	// 패키지 상품 구매 정보 데이터 삽입
 	int insertPayInfo(PackagePay pp);
 	
-
+	// 마이페에지에서 불러올 거
+	ArrayList<PackagePay> selectReservedPackageList(int memberNo);
+	
+	// 예약한 패키지 목록 상세 조회
+	PackagePay packageDetail(int packageReservNo);
 }

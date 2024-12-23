@@ -26,8 +26,7 @@
 		<result column="LIFT_PAY_CODE" property="liftPayCode"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
-	</resultMap>
-	
+	</resultMap>		
 		<select id="selectDayPass" resultMap="liftResultSet">
 		    SELECT *
 		    FROM LIFT
