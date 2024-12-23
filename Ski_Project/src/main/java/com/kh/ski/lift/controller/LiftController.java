@@ -1,6 +1,8 @@
 package com.kh.ski.lift.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -9,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.lift.model.service.LiftService;
 import com.kh.ski.lift.model.vo.Lift;
 import com.kh.ski.lift.model.vo.LiftOrder;
+import com.kh.ski.lift.model.vo.LiftPay;
 import com.kh.ski.member.model.vo.Member;
 
 @Controller
@@ -24,6 +29,96 @@ public class LiftController {
 
 	@Autowired
 	private LiftService liftService;
+	
+
+	
+	
+	/**
+	 * 리프트 결제 관련 컨트롤러 
+	 * @param roomNo
+	 * @param checkInDate
+	 * @param checkOutDate
+	 * @param amount
+	 * @param session
+	 * @return
+	 */
+	@PostMapping("storeSessionData.li")
+	@ResponseBody
+	public Map<String, String> storeSessionData(
+	        @RequestParam("memberId") String memberId,
+	        @RequestParam("totalCount") String totalCount,
+	        @RequestParam("totalPrice") String totalPrice,
+	        HttpSession session) {
+
+	    // 세션에 데이터 저장
+	    session.setAttribute("memberId", memberId);
+	    session.setAttribute("totalCount", totalCount);
+	    session.setAttribute("totalPrice", totalPrice);
+
+
+
+	    // 성공 응답 반환
+	    Map<String, String> response = new HashMap<>();
+	    response.put("status", "success");
+	    return response;
+	}
+	
+	@PostMapping("payResult.li")
+	public String payResult(@RequestParam("authResultCode") String authResultCode,
+	                        @RequestParam("authResultMsg") String authResultMsg,
+	                        @RequestParam("tid") String tid,
+	                        HttpSession session,
+	                        Model model) {
+
+	    // 세션에서 데이터 가져오기
+	    String memberId = (String) session.getAttribute("memberNo");
+	    String totalCount = (String) session.getAttribute("totalCount");
+	    String totalPrice = (String) session.getAttribute("totalPrice");
+
+	    // 결제 결과 검증
+	    if ("0000".equals(authResultCode)) {
+	        model.addAttribute("tid", tid);
+	        model.addAttribute("memberId", memberId);
+	        model.addAttribute("totalCount", totalCount);
+	        model.addAttribute("totalPrice", totalPrice);
+
+
+	        return "lift/autoPostLiftForm";
+	    } else {
+	        model.addAttribute("message", authResultMsg);
+	        return "lift/payLiftfail";
+	    }
+	}
+	
+	@PostMapping("/payConfirm.li")
+    public ModelAndView payConfirm(LiftPay lp,
+    								ModelAndView mv) {
+
+            // 요청된 데이터 출력 (개발 확인용)
+            System.out.println("TID: " + lp.getTid());
+            System.out.println("Member id: " + lp.getMemberId());
+            System.out.println("구매한 리프트 전체 갯수: " + lp.getTotalCount());
+            System.out.println("구매한 피프트 전체 가격: " + lp.getTotalPrice());
+
+
+            int result = liftService.insertLiftPay(lp);
+
+            System.out.println("result : " + result);
+            if(result > 0) {
+            	// 성공 시 결과 페이지로 이동
+            	mv.setViewName("lift/payLiftsuccess");
+            } else {
+            	// 오류 발생 시 실패 페이지로 이동
+            	mv.setViewName("lift/payLiftfail");
+            }
+          
+
+        return mv;
+    }
+	// 여기까지 리프트 결제 관련
+	
+
+	
 	
 	// 리프트권 조회 controller
 	@GetMapping("liftList.li")
@@ -36,7 +131,9 @@ public class LiftController {
 	@GetMapping("dayPass.li")
 	public ModelAndView selectDayPass(ModelAndView mv) {
 		ArrayList<Lift> dayPass = liftService.selectDayPass();
+		System.out.println("dayPass : " + dayPass);
 		mv.addObject("dayPass", dayPass).setViewName("lift/dayPass");
+		
 		return mv;
 	}
 	
@@ -51,33 +148,55 @@ public class LiftController {
 	
 	// 리프트권 주문 Controller
 	@RequestMapping(value = "liftOrder.li", method = {RequestMethod.GET, RequestMethod.POST})
-	public String liftOrder(@RequestParam Map<String, String> paramMap, Model model, HttpSession session) {
-	    ArrayList<LiftOrder> liftOrderList = new ArrayList<>();
-	    
-	    // 인덱스를 기반으로 객체를 수동으로 생성
-	    int index = 0;
-	    while (paramMap.containsKey("li[" + index + "].liftNo")) {
-	        LiftOrder liftOrder = new LiftOrder();
-	        liftOrder.setLiftNo(Integer.parseInt(paramMap.get("li[" + index + "].liftNo")));
-	        liftOrder.setLiftCount(Integer.parseInt(paramMap.get("li[" + index + "].liftCount")));
-	        liftOrder.setLiftTotalPrice(Integer.parseInt(paramMap.get("li[" + index + "].liftTotalPrice")));
-	        liftOrder.setMemberId(paramMap.get("li[" + index + "].memberId"));
+	public String liftOrder(
+	        @RequestParam("liftNo") List<Integer> liftNo,
+	        @RequestParam("liftCount") List<Integer> liftCount,
+	        @RequestParam("liftTotalPrice") List<Integer> liftTotalPrice,
+	        @RequestParam("memberId") List<String> memberId,
+	        Model model, HttpSession session) {
 
-	        System.out.println(liftOrderList);
+	    // LiftOrder 리스트 생성
+	    List<LiftOrder> liftOrderList = new ArrayList<>();
+
+	    // 데이터를 리스트에 추가
+	    for (int i = 0; i < liftNo.size(); i++) {
+	        LiftOrder liftOrder = new LiftOrder();
+	        liftOrder.setLiftNo(liftNo.get(i));
+	        liftOrder.setLiftCount(liftCount.get(i));
+	        liftOrder.setLiftTotalPrice(liftTotalPrice.get(i));
+	        liftOrder.setMemberId(memberId.get(i));
 	        liftOrderList.add(liftOrder);
-	        index++;
-	        
 	    }
-	    
+
+	    // 데이터 출력 확인
+	    liftOrderList.forEach(order -> {
+	        System.out.println("Lift No: " + order.getLiftNo());
+	        System.out.println("Lift Count: " + order.getLiftCount());
+	        System.out.println("Lift Total Price: " + order.getLiftTotalPrice());
+	        System.out.println("Member ID: " + order.getMemberId());
+	    });
+
+	    // 데이터베이스 저장 로직
 	    int result = 0;
 	    for (LiftOrder liftOrder : liftOrderList) {
-	        int orderResult = liftService.liftOrder(liftOrder);
+	        int orderResult = liftService.liftOrder(liftOrder); // INSERT 수행
 	        result += orderResult;
 	    }
-	    
-	    model.addAttribute("updatedList", liftOrderList);
-	    return "redirect:/liftList.li";
+
+	    // 결과 확인
+	    if (result == liftOrderList.size()) {
+	        System.out.println("모든 데이터 저장 성공!");
+	    } else {
+	        System.out.println("일부 데이터 저장 실패");
+	    }
+
+	    // 저장된 리스트를 모델에 추가
+	    model.addAttribute("list", liftOrderList);
+
+	    // 결과를 보여줄 JSP 페이지로 이동
+	    return "lift/liftPayInfo";
 	}
+
 // 김동준 마이페이지
     @GetMapping("liftOrders.li")
     public String liftOrders(HttpSession session, Model model) {

@@ -433,7 +433,7 @@
 	                    <input type="submit" id="submit" value="구매하기" />
 	                </div>
 	            </div>
-				<form action="liftOrder.li" method="post" id="liftForm"> </form>
+				<form action="liftOrder.li" method="post" id="liftForm"> </form> 
 				<!-- 모달창 -->
 				<div id="modal" class="modal">
 				    <div class="modal-content">
@@ -548,10 +548,10 @@ $(document).ready(function() {
         // orderList 데이터를 폼에 추가
         orderList.forEach((item, index) => {
             $('form').append(`
-                <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
-                <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
-                <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
+                <input type="hidden" name="liftNo" value="\${item.liftNo}" />
+                <input type="hidden" name="liftCount" value="\${item.count}" />
+                <input type="hidden" name="liftTotalPrice" value="\${item.totalPrice}" />
+                <input type="hidden" name="memberId" value="\${memberId}" />
             `);
         });
 

@@ -10,26 +10,27 @@ public class LiftPay {
 	// 리프트권 구매 테이블
 	private int liftPurchaseNo;
 	private String liftPurchaseDate;
-	private String liftPurchaseStatus;
 	private String packLiftUsed;
-	private String liftPayToken;
-	private String liftPayCode;
-	private int memberNo;
+	private int totalPrice;
+	private int totalCount;
+	private String tid;
+	private String memberId;
 	private String liftLrefundStatus;
 	
 	public LiftPay() {}
 
-	public LiftPay(int liftPurchaseNo, String liftPurchaseDate, String liftPurchaseStatus, String packLiftUsed,
-			String liftPayToken, String liftPayCode, int memberNo, String liftLrefundStatus) {
+	public LiftPay(int liftPurchaseNo, String liftPurchaseDate, String packLiftUsed, int totalPrice, int totalCount,
+			String tid, String memberId, String liftLrefundStatus) {
 		super();
 		this.liftPurchaseNo = liftPurchaseNo;
 		this.liftPurchaseDate = liftPurchaseDate;
-		this.liftPurchaseStatus = liftPurchaseStatus;
 		this.packLiftUsed = packLiftUsed;
-		this.liftPayToken = liftPayToken;
-		this.liftPayCode = liftPayCode;
-		this.memberNo = memberNo;
+		this.totalPrice = totalPrice;
+		this.totalCount = totalCount;
+		this.tid = tid;
+		this.memberId = memberId;
 		this.liftLrefundStatus = liftLrefundStatus;
+
 	}
 
 	public int getLiftPurchaseNo() {
@@ -48,14 +49,6 @@ public class LiftPay {
 		this.liftPurchaseDate = liftPurchaseDate;
 	}
 
-	public String getLiftPurchaseStatus() {
-		return liftPurchaseStatus;
-	}
-
-	public void setLiftPurchaseStatus(String liftPurchaseStatus) {
-		this.liftPurchaseStatus = liftPurchaseStatus;
-	}
-
 	public String getPackLiftUsed() {
 		return packLiftUsed;
 	}
@@ -64,28 +57,36 @@ public class LiftPay {
 		this.packLiftUsed = packLiftUsed;
 	}
 
-	public String getLiftPayToken() {
-		return liftPayToken;
+	public int getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setLiftPayToken(String liftPayToken) {
-		this.liftPayToken = liftPayToken;
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public String getLiftPayCode() {
-		return liftPayCode;
+	public int getTotalCount() {
+		return totalCount;
 	}
 
-	public void setLiftPayCode(String liftPayCode) {
-		this.liftPayCode = liftPayCode;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
-	public int getMemberNo() {
-		return memberNo;
+	public String getTid() {
+		return tid;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getLiftLrefundStatus() {
@@ -96,13 +97,15 @@ public class LiftPay {
 		this.liftLrefundStatus = liftLrefundStatus;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "LiftPay [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseDate=" + liftPurchaseDate
-				+ ", liftPurchaseStatus=" + liftPurchaseStatus + ", packLiftUsed=" + packLiftUsed + ", liftPayToken="
-				+ liftPayToken + ", liftPayCode=" + liftPayCode + ", memberNo=" + memberNo + ", liftLrefundStatus="
-				+ liftLrefundStatus + "]";
+				+ ", packLiftUsed=" + packLiftUsed + ", totalPrice=" + totalPrice + ", totalCount=" + totalCount
+				+ ", tid=" + tid + ", memberId=" + memberId + ", liftLrefundStatus=" + liftLrefundStatus  + "]";
 	}
+
 	
 	
 

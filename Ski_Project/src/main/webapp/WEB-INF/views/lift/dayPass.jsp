@@ -592,10 +592,10 @@ $(document).ready(function() {
         // orderList 데이터를 폼에 추가
         orderList.forEach((item, index) => {
             $('form').append(`
-                <input type="hidden" name="li[\${index}].liftNo" value="\${item.liftNo}" />
-                <input type="hidden" name="li[\${index}].liftCount" value="\${item.count}" />
-                <input type="hidden" name="li[\${index}].liftTotalPrice" value="\${item.totalPrice}" />
-                <input type="hidden" name="li[\${index}].memberId" value="\${memberId}" />
+                <input type="hidden" name="liftNo" value="\${item.liftNo}" />
+                <input type="hidden" name="liftCount" value="\${item.count}" />
+                <input type="hidden" name="liftTotalPrice" value="\${item.totalPrice}" />
+                <input type="hidden" name="memberId" value="\${memberId}" />
             `);
         });
         // 폼 제출
