@@ -707,7 +707,32 @@
     background: #76a77c;
     color: white;
 }
-    
+.faq-section {
+    margin-top: 10px; /* 전체 섹션 상단 여백 축소 */
+    padding-top: 5px; /* 섹션 내부 상단 여백 축소 */
+}
+
+.faq-item {
+    margin-bottom: 10px; /* 항목 간 간격 축소 */
+    border-bottom: 1px solid #ddd; /* 더 얇은 하단 경계선 */
+    padding-bottom: 5px; /* 하단 여백 축소 */
+}
+
+.faq-question {
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px; /* 질문과 답변 사이 간격 축소 */
+    line-height: 1.2; /* 텍스트 줄 간격 축소 */
+}
+
+.faq-answer {
+    margin-top: 5px; /* 질문과 답변 사이 간격 축소 */
+    color: #555;
+    padding-left: 10px; /* 답변 들여쓰기 축소 */
+    line-height: 1.4; /* 답변 줄 간격 축소 */
+}
+
     </style>
     
 </head>
@@ -718,8 +743,10 @@
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>	
             <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
+            <a href="${pageContext.request.contextPath}/locker">락커 예약</a>
+            <a href="${pageContext.request.contextPath}/myPackage.me">패키지</a>
             <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
-            <a href="${pageContext.request.contextPath}/myRoomReservation.ro">객실 예약</a>
+            <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
             <a href="#">결제 관리</a>
         </nav>
@@ -728,7 +755,6 @@
         <div class="profile">
             <div class="profile-info">
                 <h1>${sessionScope.loginMember.memberName} </h1>
-                <p>고객님의 총 예약 금액은 495,000원입니다.</p>
             </div>
         </div>
 
@@ -851,27 +877,38 @@
 
             <!-- 내 문의 섹션 -->
 
-            <div class="my-posts">
-                <h3>내 문의</h3>
-                <div class="inquiry-stats">
-                    <div class="inquiry-stat">
-                        <span class="inquiry-label">전체 문의</span>
-                        <span class="inquiry-number">0</span>
-                    </div>
-                    <div class="inquiry-stat">
-                        <span class="inquiry-label">답변 완료</span>
-                        <span class="inquiry-number">0</span>
-                    </div>
-                    <div class="inquiry-stat">
-                        <span class="inquiry-label">답변 대기중</span>
-                        <span class="inquiry-number pending">0</span>
-                    </div>
-                </div>
-                <div class="inquiry-buttons">
-                    <a href="#" class="inquiry-button">문의 내역 보기</a>
-                    <a href="#" class="inquiry-button">신규 문의하기</a>
-                </div>
+<div class="my-posts">
+    <h3>자주 묻는 질문</h3>
+    <div class="faq-section">
+        <div class="faq">
+            <div class="faq-item">
+                <h4 class="faq-question">Q: 예약은 어떻게 하나요?</h4>
+                <p class="faq-answer" style="display: none;">
+                    A: 예약은 홈페이지 회원 가입 후 원하는 객실, 강습, 리프트권, 패키지, 락커 등을 선택해 예약할 수 있습니다.
+                </p>
             </div>
+            <div class="faq-item">
+                <h4 class="faq-question">Q: 예약 후 결제 방법은 무엇인가요?</h4>
+                <p class="faq-answer" style="display: none;">
+                    A: 결제는 신용카드, 계좌이체, 간편결제(카카오페이, 네이버페이 등)를 지원합니다.
+                       강습 에약일 경우에는 예약시 보내드린 메일에서 입금을 해주시면 됩니다.
+                </p>
+            </div>
+            <div class="faq-item">
+                <h4 class="faq-question">Q: 객실 체크인 및 체크아웃 시간은 언제인가요?</h4>
+                <p class="faq-answer" style="display: none;">
+                    A: 체크인은 오후 3시부터, 체크아웃은 오전 11시까지입니다.
+                </p>
+            </div>
+            <div class="faq-item">
+                <h4 class="faq-question">Q: 리프트권은 현장에서 구매할 수 있나요?</h4>
+                <p class="faq-answer" style="display: none;">
+                    A: 네, 현장에서 구매 가능고, 리프트권 구매 페이지에서도 구매가 가능합니다.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
 
         <!-- 주문 통계 -->
@@ -943,7 +980,7 @@
 		<!-- 패키지 예약 리스트 -->
 		<c:forEach var="packagePay" items="${reservedPackages}">
 		    <div class="order-item">
-		        <div>[#${packagePay.packageReservNo}]<br>${packagePay.packPayDate }</div>
+		        <div>[#${packagePay.packageReservNo}]<br>${packagePay.payDate }</div>
 		        <div>${packagePay.packageName}</div>
 		        <div>${packagePay.packagePrice}원</div>
 		        <div>
@@ -1013,6 +1050,29 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $(".faq-question").on("click", function () {
+            const $answer = $(this).next(".faq-answer");
+            const $faqItem = $(this).parent(".faq-item");
+            const isVisible = $answer.is(":visible");
+
+            // 모든 질문과 답변을 닫기
+            $(".faq-answer").slideUp();
+            $(".faq-item").not($faqItem).hide();
+
+            if (!isVisible) {
+                // 현재 클릭한 항목의 답변만 슬라이드 다운
+                $faqItem.show();
+                $answer.slideDown();
+            } else {
+                // 다시 클릭 시 전체 항목 보이기
+                $(".faq-item").show();
+            }
+        });
+    });
+</script>
+
 
 <script>
 var contextPath = "${pageContext.request.contextPath}";
@@ -1032,7 +1092,8 @@ function openLockerDetailModal(lockerReservNo) {
                     "<p><strong>예약번호:</strong> " + (response.lockerReservNo || '없음') + "</p>" +
                     "<p><strong>시작 날짜:</strong> " + (response.lockerStartDate || '없음') + "</p>" +
                     "<p><strong>종료 날짜:</strong> " + (response.lockerEndDate || '없음') + "</p>" +
-                    "<p><strong>총 금액:</strong> " + (response.lockerTotalPrice || '0') + "원</p>";
+                    "<p><strong>총 금액:</strong> " + (response.lockerTotalPrice || '0') + "원</p>" +
+                    "<p><a href='" + contextPath + "/myLockerReservation' class='btn-view'>자세히 보기</a></p>";
                 document.getElementById('lockerModalContent').innerHTML = modalContent;
                 document.getElementById('lockerDetailModal').style.display = 'flex';
             } else {

@@ -249,11 +249,74 @@ public class PackageController {
 		return "pack/packagePayStep2";
 		
 	}
-	// 김동준마이페ㅇ지
+
+	// 마이페이지에서 패키지 예약 건수 조회하기 - 김동준
+
 	@GetMapping("/packageDetail.pk")
 	@ResponseBody
 	public PackagePay getPackageDetail(@RequestParam("packageReservNo") int packageReservNo) {
 	    return packageService.packageDetail(packageReservNo);
+	}
+	
+	
+	// 마이페이지에서 패키지 구매 내역 조회
+	@GetMapping("myPackage.me")
+	public ModelAndView selectMyPackage(HttpSession session,
+										ModelAndView mv) {
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+	    System.out.println("객실예약조회: " + loginMember);
+	    
+	    int memberNo = loginMember.getMemberNo();
+	    
+	    Member m = roomService.selectMember(memberNo);
+	    
+	    ArrayList<PackagePay> list = packageService.selectMyPackage(memberNo);
+	    
+	    System.out.println("조회된 패키지 : " + list);
+	    
+	    mv.addObject("m", m)
+	      .addObject("list", list)
+	  	  .setViewName("mypage/myPackage");
+
+		return mv;
+	}
+	
+	// 패키지 구매 내역 상세 조회
+	@PostMapping("myPackDetail.me")
+	@ResponseBody
+	public Map<String, Object> selectMyPackDetail(PackagePay pp) {
+		System.out.println("패키지 구매 내역 상세 조회 컨트롤러 호출됨");
+		System.out.println(pp.getMemberNo());
+		System.out.println(pp.getPackageNo());
+		System.out.println(pp.getPackageReservNo());
+		
+		int packageNo = pp.getPackageNo();
+		int memberNo = pp.getMemberNo();
+		
+		Member m = roomService.selectMember(memberNo);
+		Pack p = packageService.selectPackageDetail(packageNo);
+		
+		// 응답 데이터를 Map에 저장
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("packageDetail", p);
+	    response.put("memberInfo", m);
+
+	    // JSON 형식으로 반환
+	    return response;
+		
+		
+	}
+	
+	// 패키지 환불 요청
+	@PostMapping("cancelMyPackage.me")
+	@ResponseBody
+	public String cancelMyPackage(@RequestParam("packageReservNo") int packageReservNo) {
+		System.out.println("패키지 환불 요청 컨트롤러 호출됨");
+		System.out.println(packageReservNo);
+		int result = packageService.cancelMyPackage(packageReservNo);
+		
+		return (result>0) ? "success" : "fail";
 	}
 
 

@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>객실 내역</title>
+<title>객실 예약 내역</title>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -42,22 +42,24 @@ h2 {
 
 .room-cards {
     display: flex;
-    gap: 20px;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    gap: 20px; /* 카드 사이 간격 */
+    align-items: center; /* 카드 중앙 정렬 */
 }
 
 .room-card {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    background-color: #fff;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    padding: 20px;
-    transition: width 0.5s ease; /* 부드러운 확장 효과 */
+    width: 100%; /* 카드가 전체 너비를 차지 */
+    max-width: 500px; /* 카드의 최대 너비 제한 */
+    box-sizing: border-box; /* 내부 여백 포함 */
+    
 }
 
 .room-card.expanded {
     width: 90%; /* 확장된 상태 */
+}
+
+.room-info {
+	border-top : 2px solid black;
 }
 
 .room-info h3 {
@@ -77,9 +79,8 @@ h2 {
     justify-content: space-between; /* 두 영역 간 간격 균등 */
     align-items: flex-start; /* 수직 정렬 */
     gap: 20px; /* 두 영역 사이 간격 */
-    padding: 20px;
-    border-radius: 5px;
     display: none; /* 기본적으로 숨김 처리 */
+    border-bottom : 2px solid black;
 }
 
 .reserver-info,
@@ -88,7 +89,7 @@ h2 {
     padding: 10px;
     background-color: #ffffff;
     box-sizing: border-box; /* 내부 여백 포함 계산 */
-    width : 50%;
+    width : 100%;
 }
 
 .reserver-info p,
@@ -97,10 +98,6 @@ h2 {
     font-size: 1em;
     color: #333;
 }
-
-
-
-
 
 
 .room-actions {
@@ -165,18 +162,18 @@ h2 {
         <div class="room-cards">
             <c:forEach var="r" items="${list}">
             <div class="room-card" data-roomreservno="${r.roomReservNo}">
+				<h3>${fn:substring(r.reservDate, 0, 10)}</h3>
                 <div class="room-info">
                     <h3>${r.roomType} ${r.roomName}</h3>
                     <p>예약번호: #${r.roomReservNo}</p>
                     <p>결제 가격: <fmt:formatNumber value="${r.amount}" type="number" pattern="#,###"/> 원</p>
-                    <p>결제일: ${fn:substring(r.reservDate, 0, 10)}</p>
                     <p>예약 상태: 
                         <c:choose>
                             <c:when test="${r.payStatus == 'Y'}">
                                 <span class="status confirmed">결제완료</span>
                             </c:when>
                             <c:otherwise>
-                                <span class="status pending">환불처리</span>
+                                <span class="status pending">환불완료</span>
                             </c:otherwise>
                         </c:choose>
                     </p>
@@ -184,6 +181,7 @@ h2 {
                 <div class="room-actions">
                     <a href="#" class="detail-link" data-id="${r.roomReservNo}" data-member="${sessionScope.loginMember.memberNo}"> &gt; 자세히보기</a>
                 </div>
+             
                 <!-- 상세 정보를 표시할 영역 -->
                 <div class="room-detail">
 				    <!-- 예약자 정보 영역 -->
@@ -202,7 +200,18 @@ h2 {
     </div>
 
 <script>
+
     $(document).ready(function () {
+    	
+    	 // 날짜 변환 함수
+        function formatDate(dateString) {
+            var date = new Date(dateString); // 문자열을 Date 객체로 변환
+            var year = date.getFullYear();
+            var month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1
+            var day = ('0' + date.getDate()).slice(-2); // 항상 두 자리로 유지
+            return year + '-' + month + '-' + day;
+        }
+    	
         $(".detail-link").on("click", function (e) {
             e.preventDefault();
 
@@ -239,9 +248,9 @@ h2 {
 
                     // 객실 정보
                     var roomHtml = '<p>객실명: ' + roomDetail.roomType + ' ' + roomDetail.roomName + '</p>' +
-                                   '<p>체크인: ' + roomDetail.checkInDate + '</p>' +
-                                   '<p>체크아웃: ' + roomDetail.checkOutDate + '</p>' +
-                                   '<p>입/퇴실 : 15:00 ~ 11:00 </p>' + 
+                    		  	   '<p>체크인: ' + formatDate(roomDetail.checkInDate) + '</p>' + // formatDate 적용
+                  				   '<p>체크아웃: ' + formatDate(roomDetail.checkOutDate) + '</p>' + // formatDate 적용s
+                  	               '<p>입/퇴실 : 15:00 ~ 11:00 </p>' + 
                                    '<p>결제금액: ' + roomDetail.amount + '</p>' +
                                    '<p>결제코드: ' + roomDetail.tid + '</p>';
 
@@ -318,7 +327,7 @@ h2 {
 	  	
 	  	// AJAX 요청으로 서버에 취소 요청 전송
 	        $.ajax({
-	            url: "cancelReservation.ro", // 예약 취소 처리 API URL
+	            url: "cancelReservation.", // 예약 취소 처리 API URL
 	            type: "POST",
 	            data: {
 	                roomReservNo: roomReservNo

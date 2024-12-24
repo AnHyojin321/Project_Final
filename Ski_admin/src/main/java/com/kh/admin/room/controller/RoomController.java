@@ -33,6 +33,8 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 	
+	
+	// 객실 목록 조회
 	@GetMapping("list.ro")
 	public String selectRoomList(@RequestParam(value="cpage", defaultValue="1")int currentPage,
 										Model model) {

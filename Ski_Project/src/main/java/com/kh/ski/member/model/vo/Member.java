@@ -26,7 +26,9 @@ public class Member {
 	private String tempPwd;
     private String kakaoAccessToken; // 카카오 액세스 토큰
     private String kakaoRefreshToken; // 카카오 리프레시 토큰
-   
+    private String naverLogin;
+    private String loginType;
+    
 	
 	public Member() {}
 
@@ -34,9 +36,10 @@ public class Member {
 
 
 
+
 	public Member(int memberNo, String memberId, String memberPwd, String memberName, String email, String phone,
 			Date birthDate, String address, Date createDate, String kakaoLogin, String googleLogin, String memberStatus,
-			String tempPwd, String kakaoAccessToken, String kakaoRefreshToken) {
+			String tempPwd, String kakaoAccessToken, String kakaoRefreshToken, String naverLogin, String loginType) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -53,7 +56,10 @@ public class Member {
 		this.tempPwd = tempPwd;
 		this.kakaoAccessToken = kakaoAccessToken;
 		this.kakaoRefreshToken = kakaoRefreshToken;
+		this.naverLogin = naverLogin;
+		this.loginType = loginType;
 	}
+
 
 
 
@@ -198,19 +204,51 @@ public class Member {
 
 
 
+	public String getNaverLogin() {
+		return naverLogin;
+	}
+
+
+
+
+	public void setNaverLogin(String naverLogin) {
+		this.naverLogin = naverLogin;
+	}
+
+
+
+
+	public String getLoginType() {
+		return loginType;
+	}
+
+
+
+
+
+
+	public void setLoginType(String loginType) {
+		this.loginType = loginType;
+	}
+
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
 				+ memberName + ", email=" + email + ", phone=" + phone + ", birthDate=" + birthDate + ", address="
 				+ address + ", createDate=" + createDate + ", kakaoLogin=" + kakaoLogin + ", googleLogin=" + googleLogin
 				+ ", memberStatus=" + memberStatus + ", tempPwd=" + tempPwd + ", kakaoAccessToken=" + kakaoAccessToken
-				+ ", kakaoRefreshToken=" + kakaoRefreshToken + "]";
+				+ ", kakaoRefreshToken=" + kakaoRefreshToken + ", naverLogin=" + naverLogin + ", loginType=" + loginType
+				+ "]";
 	}
 
 
 
-	
-	
-	
+
+
 	
 }

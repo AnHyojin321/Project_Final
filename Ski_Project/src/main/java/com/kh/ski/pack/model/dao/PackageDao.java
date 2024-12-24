@@ -78,5 +78,15 @@ public class PackageDao {
 	public int countReservedPackages(SqlSessionTemplate sqlSession, int memberNo) {
 	    return sqlSession.selectOne("packageMapper.countReservedPackages", memberNo);
 	}
+	
+	// 패키지 구매 내역 목록조회 - 안효진
+	public ArrayList<PackagePay> selectMyPackage(SqlSessionTemplate sqlSession, int member) {
+		return (ArrayList)sqlSession.selectList("packageMapper.selectMyPackage", member);
+	}
+	
+	// 패키지 환불 
+	public int cancelMyPackage(SqlSessionTemplate sqlSession, int packageReserveNo) {
+		return sqlSession.update("packageMapper.cancelMyPackage", packageReserveNo);
+	}
 
 }

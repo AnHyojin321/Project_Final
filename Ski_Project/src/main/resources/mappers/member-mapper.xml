@@ -15,6 +15,7 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="KAKAO_LOGIN" property="kakaoLogin" />
 		<result column="GOOGLE_LOGIN" property="googleLogin" />
+		<result column="NAVER_LOGIN" property="naverLogin" />
 		<result column="MEMBER_STATUS" property="memberStatus" />
 		<result column="KAKAO_ACCESS_TOKEN" property="kakaoAccessToken" />
    		<result column="KAKAO_REFRESH_TOKEN" property="kakaoRefreshToken" />
@@ -47,7 +48,9 @@
         PHONE,
         ADDRESS,
         KAKAO_LOGIN,
-        MEMBER_STATUS
+        NAVER_LOGIN,
+        MEMBER_STATUS,
+        LOGIN_TYPE
     )
     VALUES (
         SEQ_MEMBER_NO.NEXTVAL, 
@@ -59,9 +62,12 @@
         #{phone}, 
         #{address}, 
         #{kakaoLogin}, 
-        'Y'
+        #{naverLogin},
+        'Y',
+        #{loginType} <!-- 로그인 타입 추가 -->
     )
 </insert>
+
 
 
 
@@ -127,18 +133,20 @@
 		     WHERE MEMBER_ID = #{memberId}
 		</update>
 		
-	<update id="updateMember" parameterType="member">
-		UPDATE MEMBER 
-		   SET MEMBER_NAME = #{memberName}
-		       , MEMBER_ID = #{memberId}
-		       , EMAIL = #{email}
-		       , BIRTH_DATE = #{birthDate}
-		       , PHONE = #{phone}
-		       , ADDRESS = #{address}
-		       , KAKAO_LOGIN = #{kakaoLogin}
-		    WHERE MEMBER_ID = #{memberId}
-		      AND MEMBER_STATUS = 'Y'
-	</update>
+<update id="updateMember" parameterType="member">
+    UPDATE MEMBER
+       SET MEMBER_NAME = #{memberName},
+           MEMBER_ID = #{memberId},
+           EMAIL = #{email},
+           BIRTH_DATE = #{birthDate},
+           PHONE = #{phone},
+           ADDRESS = #{address},
+           NAVER_LOGIN = #{naverLogin},
+           KAKAO_LOGIN = #{kakaoLogin},
+           LOGIN_TYPE = #{loginType} <!-- 로그인 타입 추가 -->
+     WHERE MEMBER_ID = #{memberId}
+       AND MEMBER_STATUS = 'Y'
+</update>
 
 	<update id="deleteMember" parameterType="string">
 		UPDATE MEMBER
@@ -168,11 +176,13 @@
 </select>
 
     <!-- 카카오 ID로 회원 조회 -->
-    <select id="selectMemberByKakaoId" parameterType="string" resultMap="memberResultSet">
-        SELECT *
-          FROM MEMBER
-         WHERE KAKAO_LOGIN = #{kakaoId}
-    </select>
+<select id="selectMemberByKakaoId" parameterType="string" resultMap="memberResultSet">
+    SELECT *
+      FROM MEMBER
+     WHERE KAKAO_LOGIN = #{kakaoId}
+       AND LOGIN_TYPE = 'KAKAO' <!-- 카카오 로그인 타입 -->
+</select>
+
 <insert id="insertKakaoMember" parameterType="member">
     INSERT INTO MEMBER (
         MEMBER_NO,
@@ -184,7 +194,8 @@
         PHONE,
         BIRTH_DATE,
         CREATE_DATE,
-        MEMBER_STATUS
+        MEMBER_STATUS,
+        LOGIN_TYPE
     )
     VALUES (
         SEQ_MEMBER_NO.NEXTVAL,
@@ -192,13 +203,15 @@
         #{memberName},
         #{email},
         #{kakaoLogin},
-        #{memberPwd}, <!-- 암호화된 비밀번호를 동적으로 설정 -->
-        #{phone},     <!-- 기본 전화번호 -->
-        #{birthDate}, <!-- 기본 생년월일 -->
+        #{memberPwd},
+        #{phone},
+        #{birthDate},
         SYSDATE,
-        #{memberStatus} <!-- 활성 상태 -->
+        #{memberStatus},
+        'KAKAO' <!-- 카카오 로그인 타입 -->
     )
 </insert>
+
 
 <select id="findMemberByEmail" parameterType="string" resultMap="memberResultSet">
     SELECT *
@@ -206,5 +219,43 @@
      WHERE EMAIL = #{email}
 </select>
 
+    <!-- 네이버 ID로 회원 조회 -->
+<select id="selectMemberByNaverId" parameterType="string" resultMap="memberResultSet">
+    SELECT *
+      FROM MEMBER
+     WHERE NAVER_LOGIN = #{naverId}
+       AND LOGIN_TYPE = 'NAVER' <!-- 네이버 로그인 타입 -->
+</select>
+
+
+    <!-- 네이버 회원가입 -->
+    <insert id="insertNaverMember" parameterType="member">
+        INSERT INTO MEMBER (
+            MEMBER_NO,
+            MEMBER_ID,
+            MEMBER_NAME,
+            EMAIL,
+            NAVER_LOGIN,
+            MEMBER_PWD,
+            PHONE,
+            BIRTH_DATE,
+            CREATE_DATE,
+            MEMBER_STATUS,
+            LOGIN_TYPE
+        )
+        VALUES (
+            SEQ_MEMBER_NO.NEXTVAL,
+            #{memberId},
+            #{memberName},
+            #{email},
+            #{naverLogin},
+            #{memberPwd}, <!-- 암호화된 비밀번호를 설정 -->
+            #{phone},     <!-- 기본 전화번호 -->
+            #{birthDate}, <!-- 기본 생년월일 -->
+            SYSDATE,
+            #{memberStatus}, <!-- 활성 상태 -->
+            'NAVER' <!-- 네이버 로그인 타입 -->
+        )
+    </insert>
 	
 </mapper>

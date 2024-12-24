@@ -289,7 +289,7 @@ public class RoomController {
 	 * @param mv
 	 * @return
 	 */
-	@GetMapping("myRoomReservation.ro")
+	@GetMapping("myRoom.me")
 	public ModelAndView selectMyRoomReservation(HttpSession session,
 												ModelAndView mv) {
 		
@@ -303,7 +303,7 @@ public class RoomController {
 	    
 	    mv.addObject("m", m)
 	      .addObject("list", list)
-	  	  .setViewName("mypage/myRoomReservation");
+	  	  .setViewName("mypage/myRoom");
 
 		return mv;
 	}

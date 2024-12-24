@@ -53,7 +53,10 @@ public interface MemberService {
     
     boolean isEmailDuplicate(String email); // 이메일 중복 여부 확인
     
-    
+    // 네이버
+    // 네이버 로그인 관련 메서드
+    Member findMemberByNaverId(String naverId); // 네이버 ID로 회원 조회
+    int naverInsertMember(Member member); // 네이버 로그인 회원가입
     
     
     

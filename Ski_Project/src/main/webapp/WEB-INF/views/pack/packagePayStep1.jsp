@@ -415,10 +415,12 @@
                 $('#checkInDate').val(checkInDate);
                 $('#checkOutDate').val(checkOutDate);
                 
+                /*
                 if(!checkInDate || !checkOutDate) {
                 	alert("체크인/체크아웃 날짜를 선택해주세요.");
                 	return;
                 }
+                */
                 
              // 폼 제출 (POST 방식)
               $('#packagePayForm').submit();

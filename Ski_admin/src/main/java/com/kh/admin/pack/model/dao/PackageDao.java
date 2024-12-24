@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.pack.model.vo.Pack;
+import com.kh.admin.pack.model.vo.PackagePay;
 
 @Repository
 public class PackageDao {
@@ -48,6 +49,23 @@ public class PackageDao {
 	// 패키지 상품 삭제
 	public int deletePackage(SqlSessionTemplate sqlSession, int packageNo) {
 		return sqlSession.update("packageMapper.deletePackage", packageNo);
+	}
+	
+	// 패키지 상품 예약 내역 갯수 조회
+	public int selectReservedListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("packageMapper.selectReservedListCount");
+	}
+	
+	// 패키지 상품 예약 내역 목록 조회
+	public ArrayList<PackagePay> selectpackageReservedList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds 
+				= new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("packageMapper.selectpackageReservedList", null, rowBounds);
 	}
 
 
