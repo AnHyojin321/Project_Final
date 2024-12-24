@@ -15,6 +15,20 @@
 		<result column="PACKAGE_SET" property="packageSet" />
 	</resultMap>
 	
+	<resultMap id="packagepayResultSet" type="packagepay">
+		<id column="PACKAGE_RESERV_NO" property="packageReservNo" />
+		<result column="CHECK_IN_DATE" property="checkInDate" />
+		<result column="CHECK_OUT_DATE" property="checkOutDate" />
+		<result column="TID" property="tid" />
+		<result column="PREFUND_STATUS" property="prefundStatus" />
+		<result column="PREFUND_DATE" property="prefuncDate" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="PACKAGE_NO" property="packageNo" />
+		<result column="PACKAGE_NAME" property="packageName" />
+		<result column="PACKAGE_PRICE" property="packagePrice" />
+		<result column="PAY_DATE" property="payDate" />
+	</resultMap>
+	
 
 	<!-- 패키지 상품 전체 갯수 조회용 쿼리문 -->
 	<select id="selectListCount" resultType="_int">
@@ -111,12 +125,14 @@
 								 , CHECK_IN_DATE
 								 , CHECK_OUT_DATE
                                  , TID
+                                 , PAY_DATE
                                  , MEMBER_NO
                                  , PACKAGE_NO)
 		VALUES (SEQ_PACKAGE_RESERV_NO.NEXTVAL
 						, #{checkInDate}
 						, #{checkOutDate}
 		                , #{tid}
+		                , SYSDATE
 		                , #{memberNo}
 		                , #{packageNo})
 	</insert>
@@ -156,5 +172,33 @@
     FROM PACKAGE_RESERV
     WHERE MEMBER_NO = #{memberNo}
 </select>
+
+	<!-- 패키지 구매 내역 목록 조회 -->
+	<select id="selectMyPackage" parameterType="_int" resultMap="packagepayResultSet">
+		SELECT B.PACKAGE_NAME
+              , B.PACKAGE_PRICE
+              , A.PACKAGE_RESERV_NO
+              , A.CHECK_IN_DATE
+              , A.CHECK_OUT_DATE
+              , A.TID
+              , A.PAY_DATE
+              , A.PREFUND_STATUS
+              , A.PREFUND_DATE
+              , A.MEMBER_NO
+              , A.PACKAGE_NO
+		FROM PACKAGE_RESERV A
+		JOIN PACKAGE_INFO B ON (A.PACKAGE_NO = B.PACKAGE_NO)
+		WHERE A.MEMBER_NO = #{memberNo}
+	</select>
+	
+	
+	<!-- 패키지 환불 처리용 쿼리문 -->
+	<update id="cancelMyPackage" parameterType="_int">
+		UPDATE PACKAGE_RESERV
+		SET PREFUND_STATUS = 'Y'
+		  , PREFUND_DATE = SYSDATE
+		WHERE PACKAGE_RESERV_NO = #{packageReserveNo}
+		AND PREFUND_STATUS = 'N'
+	</update>
 
 </mapper>

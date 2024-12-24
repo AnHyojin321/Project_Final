@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.pack.model.vo.Pack;
+import com.kh.admin.pack.model.vo.PackagePay;
 
 public interface PackageService {
 	
@@ -24,5 +25,11 @@ public interface PackageService {
 	
 	// 패키지 상품 삭제
 	int deletePackage(int packageNo);
+	
+	// 패키지 예약 내역 갯수 조회
+	int selectReservedListCount();
+	
+	// 패키지 예약 내역 목록 조회
+	ArrayList<PackagePay> selectpackageReservedList(PageInfo pi);
 
 }

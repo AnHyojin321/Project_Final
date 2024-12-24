@@ -267,6 +267,64 @@ h2 {
     outline: none;
 }
 
+/* 필터 관련 css */
+/* 필터 컨테이너 스타일 */
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-bottom: 20px;
+    gap: 10px;
+    padding: 15px 20px;
+}
+
+/* 필터 라벨 */
+.filter-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 드롭다운 스타일 */
+.filter-select {
+    width: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* 필터 버튼 스타일 */
+.filter-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+}
+
+.filter-button:active {
+    background-color: #003d7a;
+}
+
+
 
 </style>
 </head>
@@ -275,6 +333,18 @@ h2 {
 	<jsp:include page="../common/sidebar.jsp" />
 	<main class="content">
     <h1>객실 리스트</h1>
+    
+    <div class="filter-container">
+	    <label for="roomTypeFilter" class="filter-label">객실 타입:</label>
+	    <select id="roomTypeFilter" class="filter-select">
+	        <option value="">전체</option>
+	        <option value="Standard">스탠다드</option>
+	        <option value="Deluxe">디럭스</option>
+	        <option value="Suite">스위트</option>
+	    </select>
+	    <button id="filterButton" class="filter-button">필터 적용</button>
+	</div>
+    
     
     <table border="1">
         <thead>
@@ -319,7 +389,6 @@ h2 {
             </div>
             <div class="modal-footer">
                 <button class="btn edit" onclick="switchToEditMode()">수정</button>
-                <button class="btn delete">삭제</button>
             </div>
         </div>
 

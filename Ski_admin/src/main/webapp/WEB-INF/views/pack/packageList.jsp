@@ -16,9 +16,9 @@
     }
 
     .container h1 {
-        text-align: center;
+        text-align: left;
         margin-bottom: 20px;
-        font-size: 24px;
+        font-size: 30px;
         color: #333;
     }
 
@@ -147,6 +147,56 @@
 	.custom-pagination a:active {
 	    background-color: #dcdcdc;
 	}
+	
+	/* 필터링 관련  css */
+    .filter-container {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 10px;
+        
+    }
+
+    .filter-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .filter-select {
+        width: 150px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+        background-color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    .filter-button {
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .filter-button:hover {
+        background-color: #0056b3;
+    }
+
 
 	
 </style>
@@ -154,8 +204,22 @@
 <body>
 	<div class="admin-container">
 		<jsp:include page="../common/sidebar.jsp" />
+	
 	    <div class="container">
 	        <h1>패키지 상품 목록</h1>
+	        <a href="packReservList.pk">패키지 예약 내역 목록</a>
+	        
+		   <!-- 필터링 UI -->
+		    <div class="filter-container">
+		        <label for="packageFilter" class="filter-label">패키지 구성:</label>
+		        <select id="packageFilter" class="filter-select">
+		            <option value="">전체</option>
+		            <option value="객실+리프트">객실+리프트</option>
+		            <option value="리프트+락커">리프트+락커</option>
+		            <option value="객실+리프트+락커">객실+리프트+락커</option>
+		        </select>
+		        <button id="applyFilter" class="filter-button">검색</button>
+		    </div>	        
 	        <table id="packageList">
 	            <thead>
 	                <tr>

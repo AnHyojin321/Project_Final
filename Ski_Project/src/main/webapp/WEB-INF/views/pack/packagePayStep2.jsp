@@ -352,7 +352,7 @@ function serverAuth() {
                 <ul>
                     <li>· 상품번호 <span>#${p.packageNo}</span></li>
                     <li>· 패키지 구성 <span>${p.productComposit}</span></li>
-                    <li>· 예약 날짜 <span>${checkInDate} ~ ${checkOutDate}</span></li>
+                    <li>· 체크인/체크아웃 <span>${checkInDate} - ${checkOutDate}</span></li>
                     <li>· 결제금액 <span>${p.packagePrice}원</span></li>
                 </ul>
                 <div class="total-price">

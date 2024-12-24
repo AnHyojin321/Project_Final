@@ -41,5 +41,12 @@ public interface PackageService {
 	
 	// 패키지 예약 갯수 조회
 	int countReservedPackages(int memberNo);
+	
+	// 패키지 구매 내역 조회
+	ArrayList<PackagePay> selectMyPackage(int member);
+	
+	// 패키지 상품 환불
+	int cancelMyPackage(int packageReservNo);
+
 
 }

@@ -70,6 +70,7 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.insertPayInfo(sqlSession, pp);
 	}
 	
+	/* 김동준 */
 	@Override
 	public ArrayList<PackagePay> selectReservedPackageList(int memberNo) {
 	    return packageDao.selectReservedPackageList(sqlSession, memberNo);
@@ -85,5 +86,22 @@ public class PackageServiceImpl implements PackageService {
 	public int countReservedPackages(int memberNo) {
 	    return packageDao.countReservedPackages(sqlSession, memberNo);
 	}
+	/* <-- 여기까지*/
+	
+	
+	// 패키지 구매 내역 목록 조회
+	@Override
+	public ArrayList<PackagePay> selectMyPackage(int memberNo) {
+		return packageDao.selectMyPackage(sqlSession, memberNo);
+	}
+	
+	// 패키지 환불 처리
+	@Override
+	@Transactional
+	public int cancelMyPackage(int packageReservNo) {
+		return packageDao.cancelMyPackage(sqlSession, packageReservNo);
+	}
+	
+	
 
 }

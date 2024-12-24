@@ -22,6 +22,7 @@ import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.common.template.Pagination;
 import com.kh.admin.pack.model.service.PackageService;
 import com.kh.admin.pack.model.vo.Pack;
+import com.kh.admin.pack.model.vo.PackagePay;
 
 @Controller
 public class PackageController {
@@ -188,6 +189,27 @@ public class PackageController {
 			System.out.println("패키지 삭제 실패");
 		}
 		return "redirect:/list.pk";
+	}
+	
+	// 패키지 예약 내역 목록 조회
+	@GetMapping("packReservList.pk")
+	public String selectPackageReservedList(@RequestParam(value="cpage", defaultValue="1")int currentPage,
+													Model model) {
+
+		int listCount = packageService.selectReservedListCount();
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<PackagePay> list = packageService.selectpackageReservedList(pi);
+		
+		System.out.println(list);
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
+		return "pack/reservedList";
+		
 	}
 
 		
