@@ -741,13 +741,10 @@
     <div class="container">
         <nav class="nav">
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
-<<<<<<< Updated upstream
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>	
             <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
-=======
             <a href="${pageContext.request.contextPath}/locker">락커 예약</a>
             <a href="${pageContext.request.contextPath}/myPackage.me">패키지</a>
->>>>>>> Stashed changes
             <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
             <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
