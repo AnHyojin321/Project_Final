@@ -123,9 +123,21 @@
             background-color: #3498db;
             color: #fff;
         }
+        
+        	        /* 메인 콘텐츠 */
+.content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
     </style>
 </head>
 <body>
+	<div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
+
     <div class="container">
         <h1>분실물 센터</h1>
 
@@ -178,5 +190,7 @@
             </c:if>
         </div>
     </div>
+       </main>
+	</div>
 </body>
 </html>

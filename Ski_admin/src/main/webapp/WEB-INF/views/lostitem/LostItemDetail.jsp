@@ -92,6 +92,13 @@
         .btn-delete:hover {
             background-color: #c0392b;
         }
+        
+            .content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
     </style>
     <script>
         function confirmDelete(lostNo) {
@@ -102,6 +109,10 @@
     </script>
 </head>
 <body>
+
+              <div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
     <div class="container">
         <h1>게시글 상세보기</h1>
         <table>
@@ -139,5 +150,7 @@
             <a href="javascript:void(0);" class="btn btn-delete" onclick="confirmDelete(${lostItem.lostNo})">삭제하기</a>
         </div>
     </div>
+    </main>
+	</div>
 </body>
 </html>

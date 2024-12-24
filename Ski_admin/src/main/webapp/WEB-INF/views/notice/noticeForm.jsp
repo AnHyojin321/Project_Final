@@ -64,10 +64,18 @@
         .btn:hover {
             background-color: #2980b9;
         }
+        .content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
     </style>
 </head>
 <body>
-              
+              <div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
 
     <h1>공지사항 작성</h1>
 
@@ -94,6 +102,9 @@
             });
         });
     </script>
+    
+       </main>
+	</div>
 </body>
 </html>
  

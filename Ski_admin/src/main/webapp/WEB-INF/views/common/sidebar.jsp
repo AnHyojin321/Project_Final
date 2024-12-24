@@ -105,6 +105,7 @@ body {
                 <li><a href="skiResortUpdate.sm">스키장 관리</a></li>
                 <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
                 <li><a href="/admin/reservations">예약 관리</a></li>
+                <li><a href="/admin/refund">환불 통합</a></li>
                 <li><a href="/admin/reports">통계 및 리포트</a></li>
                 <li><a href="lesson.ad">강습 예약 관리</a></li>
                 <li><a href="/admin/settings">설정</a></li>

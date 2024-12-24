@@ -81,6 +81,13 @@
             color: #333;
             border-color: #bbb;
         }
+        
+          .content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
     </style>
 
     <script>
@@ -92,6 +99,11 @@
     </script>
 </head>
 <body>
+
+
+              <div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
     <h1>공지사항 상세보기</h1>
 
     <div class="detail-container">
@@ -110,5 +122,8 @@
             <a href="/admin/updateNoticeForm?noticeNo=${notice.noticeNo}" class="btn">수정</a>
         </div>
     </div>
+    
+       </main>
+	</div>
 </body>
 </html>

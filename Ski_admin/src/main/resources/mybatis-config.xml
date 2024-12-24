@@ -33,6 +33,8 @@
 		<typeAlias type="com.kh.admin.pack.model.vo.Pack" alias="package" />
 		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
 		<typeAlias type="com.kh.admin.management.model.vo.SlopeOpen" alias="slopeOpen" />
+		<typeAlias type="com.kh.admin.refund.model.vo.RefundItem" alias="refund" />
+		
 	</typeAliases>
 	
 	<mappers>
@@ -50,6 +52,8 @@
 		<mapper resource="/mappers/notice-mapper.xml" />
 		<mapper resource="/mappers/package-mapper.xml" />
 		<mapper resource="/mappers/room-mapper.xml" />
+		<mapper resource="/mappers/refund-mapper.xml" />
+		
 	</mappers>
 
 </configuration>

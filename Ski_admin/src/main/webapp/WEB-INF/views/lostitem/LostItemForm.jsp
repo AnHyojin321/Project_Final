@@ -12,7 +12,19 @@
     <!-- Summernote Language (Korean) -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/lang/summernote-ko-KR.min.js"></script>
 </head>
+
+<style>
+    .content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}</style>
 <body>
+
+              <div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
     <h1>분실물 등록</h1>
     <form action="insertLostItem" method="post" enctype="multipart/form-data">
         <label for="lostTitle">제목:</label>
@@ -47,5 +59,7 @@
             });
         });
     </script>
+    </main>
+	</div>
 </body>
 </html>

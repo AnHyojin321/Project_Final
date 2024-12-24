@@ -30,6 +30,12 @@
             padding: 20px;
         }
 
+.content {
+	flex:1;
+	width:100%;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
         .info-box {
             background-color: #f0f4f8;
             padding: 15px;
@@ -124,6 +130,11 @@
     </style>
 </head>
 <body>
+
+<div class="admin-container">
+        <jsp:include page="../common/sidebar.jsp" />
+        <main class="content">
+
     <h1>공지사항 목록</h1>
 
     <div class="container">
@@ -179,5 +190,7 @@
             </c:if>
         </div>
     </div>
+       </main>
+	</div>
 </body>
 </html>
