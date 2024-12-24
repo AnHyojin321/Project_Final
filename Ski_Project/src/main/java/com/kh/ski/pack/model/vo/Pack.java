@@ -7,8 +7,8 @@ public class Pack {
 	private int packageNo;		//	PACKAGE_NO
 	private String packageName;	//	PACKAGE_NAME
 	private int packagePrice;	//	PACKAGE_PRICE
-	private Date availableStartDate ;//	AVAILABLE_START_DATE
-	private Date availableEndDate;	//	AVAILABLE_END_DATE
+	private String availableStartDate ;//	AVAILABLE_START_DATE
+	private String availableEndDate;	//	AVAILABLE_END_DATE
 	private String productComposit;	//	PRODUCT_COMPOSIT
 	private String packageSet;	//	PACKAGE_SET
 	private String packageStatus;
@@ -18,7 +18,7 @@ public class Pack {
 	
 	public Pack() {}
 
-	public Pack(int packageNo, String packageName, int packagePrice, Date availableStartDate, Date availableEndDate,
+	public Pack(int packageNo, String packageName, int packagePrice, String availableStartDate, String availableEndDate,
 			String productComposit, String packageSet, String packageStatus, String packOriginName,
 			String packChangeName, String packImgPath) {
 		super();
@@ -59,19 +59,19 @@ public class Pack {
 		this.packagePrice = packagePrice;
 	}
 
-	public Date getAvailableStartDate() {
+	public String getAvailableStartDate() {
 		return availableStartDate;
 	}
 
-	public void setAvailableStartDate(Date availableStartDate) {
+	public void setAvailableStartDate(String availableStartDate) {
 		this.availableStartDate = availableStartDate;
 	}
 
-	public Date getAvailableEndDate() {
+	public String getAvailableEndDate() {
 		return availableEndDate;
 	}
 
-	public void setAvailableEndDate(Date availableEndDate) {
+	public void setAvailableEndDate(String availableEndDate) {
 		this.availableEndDate = availableEndDate;
 	}
 
@@ -132,6 +132,7 @@ public class Pack {
 				+ ", packImgPath=" + packImgPath + "]";
 	}
 
+	
 	
 	
 }

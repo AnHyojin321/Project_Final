@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.pack.model.dao.PackageDao;
 import com.kh.admin.pack.model.vo.Pack;
+import com.kh.admin.pack.model.vo.PackagePay;
 
 @Service
 public class PackageServiceImpl implements PackageService {
@@ -57,6 +58,18 @@ public class PackageServiceImpl implements PackageService {
 	@Transactional
 	public int deletePackage(int packageNo) {
 		return packageDao.deletePackage(sqlSession, packageNo);
+	}
+	
+	// 패키지 상품 예약 내역 갯수 조회
+	@Override
+	public int selectReservedListCount() {
+		return packageDao.selectReservedListCount(sqlSession);
+	}
+	
+	// 패키지 상품 예약 내역 목록 조회
+	@Override
+	public ArrayList<PackagePay> selectpackageReservedList(PageInfo pi) {
+		return packageDao.selectpackageReservedList(sqlSession, pi);
 	}
 
 }
