@@ -20,13 +20,14 @@
 	<resultMap id="liftPayResultSet" type="liftPay">
 		<id column="LIFT_PURCHASE_NO" property="liftPurchaseNo"/>
 		<result column="LIFT_PRUCHASE_DATE" property="liftPurchaseDate"/>
-		<result column="LIFT_PURCHASE_STATUS" property="liftPurchaseStatus"/>
 		<result column="PACK_LIFT_USED" property="packLiftUsed"/>
-		<result column="LIFT_PAY_TOKEN" property="liftPayToken"/>
-		<result column="LIFT_PAY_CODE" property="liftPayCode"/>
+		<result column="TOTAL_PRICE" property="totalPrice"/>
+		<result column="TOTAL_COUNT" property="totalCount"/>
+		<result column="TID" property="tid"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
-	</resultMap>		
+	</resultMap>
+			
 		<select id="selectDayPass" resultMap="liftResultSet">
 		    SELECT *
 		    FROM LIFT

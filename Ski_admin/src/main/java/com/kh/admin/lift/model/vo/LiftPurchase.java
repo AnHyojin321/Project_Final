@@ -1,31 +1,31 @@
 package com.kh.admin.lift.model.vo;
 
-import java.sql.Date;
-
 public class LiftPurchase {
 
 	private int liftPurchaseNo;
-	private Date liftPurchaseDate;
-	private String liftPurchaseStatus;
+	private String liftPurchaseDate;
 	private String packLiftUsed;
-	private String liftPayToken;
-	private String liftPayCode;
-	private int memberNo;
+	private int totalPrice;
+	private int totalCount;
+	private String tid;
+	private String memberId;
 	private String liftLrefundStatus;
+	private String liftLrefundDate;
 	
 	public LiftPurchase() {}
 
-	public LiftPurchase(int liftPurchaseNo, Date liftPurchaseDate, String liftPurchaseStatus, String packLiftUsed,
-			String liftPayToken, String liftPayCode, int memberNo, String liftLrefundStatus) {
+	public LiftPurchase(int liftPurchaseNo, String liftPurchaseDate, String packLiftUsed, int totalPrice,
+			int totalCount, String tid, String memberId, String liftLrefundStatus, String liftLrefundDate) {
 		super();
 		this.liftPurchaseNo = liftPurchaseNo;
 		this.liftPurchaseDate = liftPurchaseDate;
-		this.liftPurchaseStatus = liftPurchaseStatus;
 		this.packLiftUsed = packLiftUsed;
-		this.liftPayToken = liftPayToken;
-		this.liftPayCode = liftPayCode;
-		this.memberNo = memberNo;
+		this.totalPrice = totalPrice;
+		this.totalCount = totalCount;
+		this.tid = tid;
+		this.memberId = memberId;
 		this.liftLrefundStatus = liftLrefundStatus;
+		this.liftLrefundDate = liftLrefundDate;
 	}
 
 	public int getLiftPurchaseNo() {
@@ -36,20 +36,12 @@ public class LiftPurchase {
 		this.liftPurchaseNo = liftPurchaseNo;
 	}
 
-	public Date getLiftPurchaseDate() {
+	public String getLiftPurchaseDate() {
 		return liftPurchaseDate;
 	}
 
-	public void setLiftPurchaseDate(Date liftPurchaseDate) {
+	public void setLiftPurchaseDate(String liftPurchaseDate) {
 		this.liftPurchaseDate = liftPurchaseDate;
-	}
-
-	public String getLiftPurchaseStatus() {
-		return liftPurchaseStatus;
-	}
-
-	public void setLiftPurchaseStatus(String liftPurchaseStatus) {
-		this.liftPurchaseStatus = liftPurchaseStatus;
 	}
 
 	public String getPackLiftUsed() {
@@ -60,28 +52,36 @@ public class LiftPurchase {
 		this.packLiftUsed = packLiftUsed;
 	}
 
-	public String getLiftPayToken() {
-		return liftPayToken;
+	public int getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setLiftPayToken(String liftPayToken) {
-		this.liftPayToken = liftPayToken;
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public String getLiftPayCode() {
-		return liftPayCode;
+	public int getTotalCount() {
+		return totalCount;
 	}
 
-	public void setLiftPayCode(String liftPayCode) {
-		this.liftPayCode = liftPayCode;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
-	public int getMemberNo() {
-		return memberNo;
+	public String getTid() {
+		return tid;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getLiftLrefundStatus() {
@@ -92,12 +92,21 @@ public class LiftPurchase {
 		this.liftLrefundStatus = liftLrefundStatus;
 	}
 
+	public String getLiftLrefundDate() {
+		return liftLrefundDate;
+	}
+
+	public void setLiftLrefundDate(String liftLrefundDate) {
+		this.liftLrefundDate = liftLrefundDate;
+	}
+
 	@Override
 	public String toString() {
-		return "LiftPurchase [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseStatus=" + liftPurchaseStatus
-				+ ", packLiftUsed=" + packLiftUsed + ", liftPayToken=" + liftPayToken + ", liftPayCode=" + liftPayCode
-				+ ", memberNo=" + memberNo + ", liftLrefundStatus=" + liftLrefundStatus + "]";
+		return "LiftPurchase [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseDate=" + liftPurchaseDate
+				+ ", packLiftUsed=" + packLiftUsed + ", totalPrice=" + totalPrice + ", totalCount=" + totalCount
+				+ ", tid=" + tid + ", memberId=" + memberId + ", liftLrefundStatus=" + liftLrefundStatus
+				+ ", liftLrefundDate=" + liftLrefundDate + "]";
 	}
-	
+
 	
 }

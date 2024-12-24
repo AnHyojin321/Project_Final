@@ -1,6 +1,7 @@
 package com.kh.admin.lift.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.admin.common.model.vo.PageInfo;
+import com.kh.admin.common.template.Pagination;
 import com.kh.admin.lift.model.service.LiftService;
 import com.kh.admin.lift.model.vo.Lift;
+import com.kh.admin.lift.model.vo.LiftPurchase;
 
 @Controller
 public class LiftController {
@@ -66,6 +70,34 @@ public class LiftController {
 	    model.addAttribute("updatedList", liftList);
 	    return "redirect:/liftSelect.li";
 	}
+	
+	
+    @RequestMapping(value = "liftPurchase.se", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView selectLiftList(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "liftLrefundStatus", required = false) String liftLrefundStatus,
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            ModelAndView mv) {
+
+        // 총 회원 수 조회
+        int listCount = liftService.selectListCount(keyword, liftLrefundStatus);
+
+        // 페이징 처리
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, pageSize);
+
+        // 회원 리스트 조회
+        List<LiftPurchase> liftPurchaseList = liftService.selectLiftList(pi, keyword, liftLrefundStatus);
+
+        mv.addObject("pi", pi);
+        mv.addObject("liftPurchaseList", liftPurchaseList);
+        mv.addObject("keyword", keyword);
+        mv.addObject("liftLrefundStatus", liftLrefundStatus);
+        mv.addObject("pageSize", pageSize);
+        mv.setViewName("lift/liftPurchase");
+
+        return mv;
+    }
 
 	
 }

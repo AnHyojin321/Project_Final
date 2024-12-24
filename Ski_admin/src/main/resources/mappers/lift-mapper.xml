@@ -3,13 +3,69 @@
 <mapper namespace="lift">
 
 
-	<!-- 리프트권 결과 매핑 -->
-    <resultMap id="liftResultSet" type="lift">
-        <result column="LIFT_NO" property="liftNo"/>
-        <result column="LIFT_TYPE" property="liftType"/>
-        <result column="LIFT_AGE" property="liftAge"/>
-        <result column="LIFT_PRICE" property="liftPrice"/>
-    </resultMap>
+	<resultMap id="liftResultSet" type="lift">
+		<id column="LIFT_NO" property="liftNo"/>
+		<result column="LIFT_TYPE" property="liftType"/>
+		<result column="LIFT_PRICE" property="liftPrice"/>
+		<result column="LIFT_AGE" property="liftAge"/>
+	</resultMap>
+	
+	<resultMap id="liftOrderResultSet" type="liftOrder">
+		<id column="LIFT_ORDER_NO" property="liftOrderNo"/>
+		<result column="LIFT_COUNT" property="liftCount" />
+		<result column="LIFT_TOTAL_PRICE" property="liftTotalPrice"/>
+		<result column="LIFT_NO" property="liftNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	<resultMap id="liftPurchaseResultSet" type="liftPurchase">
+		<id column="LIFT_PURCHASE_NO" property="liftPurchaseNo"/>
+		<result column="LIFT_PURCHASE_DATE" property="liftPurchaseDate"/>
+		<result column="PACK_LIFT_USED" property="packLiftUsed"/>
+		<result column="TOTAL_PRICE" property="totalPrice"/>
+		<result column="TOTAL_COUNT" property="totalCount"/>
+		<result column="TID" property="tid"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
+		<result column="LIFT_LREFUND_DATE" property="liftLrefundDate"/>
+	</resultMap>
+	
+	<!-- 리프트권 구매 전체 수 조회 -->
+	<select id="selectListCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM LIFT_PURCHASE
+		<where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_ID LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="liftLrefundStatus != null and liftLrefundStatus != ''">
+                AND LIFT_LREFUND_STATUS = #{liftLrefundStatus}
+            </if>
+        </where>
+	</select>
+	
+	<!-- 리프트권 구매 리스트 조회 -->
+	<select id="selectLiftList" parameterType="map" resultMap="liftPurchaseResultSet">
+        SELECT 
+            LIFT_PURCHASE_NO,
+            MEMBER_ID,
+            TOTAL_PRICE,
+            TOTAL_COUNT,
+            PACK_LIFT_USED,
+            TO_CHAR(LIFT_PURCHASE_DATE, 'YYYY-MM-DD HH24:MI:SS') AS LIFT_PURCHASE_DATE,
+            LIFT_LREFUND_STATUS,
+            TO_CHAR(LIFT_LREFUND_DATE, 'YYYY-MM-DD HH24:MI:SS') AS LIFT_LREFUND_DATE
+        FROM LIFT_PURCHASE
+        <where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_ID LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="liftLrefundStatus != null and liftLrefundStatus != ''">
+                AND LIFT_LREFUND_STATUS = #{liftLrefundStatus}
+            </if>
+        </where>
+        ORDER BY LIFT_PURCHASE_NO DESC
+    </select>
+	
     
     <!-- 리프트권 전체 조회 쿼리문 -->
 	<select id="selectLift" resultMap="liftResultSet">

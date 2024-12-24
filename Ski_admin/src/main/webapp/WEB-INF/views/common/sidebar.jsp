@@ -73,6 +73,14 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
 }
+
+hr {
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* 경계 색상 설정 */
+    border-radius: 10px;  /* 둥근 모서리 */
+    background-color: transparent;  /* 배경색 투명하게 설정 (선택 사항) */
+    margin:0px;
+    padding:0px;
+}
 </style>
 </head>
 <body>
@@ -92,22 +100,30 @@ body {
             <h2>관리자 메뉴</h2>
             <ul>
                 <li><a href="/admin">대시보드</a></li>             
-
-               <li><a href="members.ad">회원 관리</a></li>
+				<hr>
+                <li><a href="members.ad">회원 관리</a></li>
+                <hr>
                 <li><a href="${pageContext.request.contextPath}/list.ro">객실 관리</a></li>
+                <li><a href="roomReservation.se">객실 예약 조회</a>
+                <hr>
                 <li><a href="liftSelect.li">리프트권 관리</a></li>
+                <li><a href="liftPurchase.se">리프트권 구매 조회</a>
+                <hr>
                 <li><a href="/admin/rooms">락커 관리</a></li>
+                <hr>
                 <li><a href="list.pk">패키지 관리</a></li>
-                <li><a href="skiResortUpdate.sm">스키장 관리</a></li>
-                <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
+                <hr>
+                <li><a href="lesson.ad">강습 예약 관리</a></li>
+                <hr>
                 <li><a href="/admin/noticeList">공지사항 등록</a></li>
                 <li><a href="/admin/lostList">분실물 등록</a></li>
+                <hr>
+                <li><a href="/admin/reservations">예약 관리</a></li>
                 <li><a href="skiResortUpdate.sm">스키장 관리</a></li>
                 <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
-                <li><a href="/admin/reservations">예약 관리</a></li>
+                <hr>
                 <li><a href="/admin/refund">환불 통합</a></li>
                 <li><a href="/admin/reports">통계 및 리포트</a></li>
-                <li><a href="lesson.ad">강습 예약 관리</a></li>
                 <li><a href="/admin/settings">설정</a></li>
             </ul>
         </aside>

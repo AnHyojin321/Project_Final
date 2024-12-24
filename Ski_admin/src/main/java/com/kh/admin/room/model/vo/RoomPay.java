@@ -8,12 +8,14 @@ public class RoomPay {
 	private String checkOutDate;		
 	private String reservDate;			// 예약일
 	private String request;				// 요청사항
-	private String roomPayCode;			// 결제코드
-	private String roomPayToken;		// 결제토큰
+	private String tid;
 	private String payStatus;        // 결제상태
 	private String packRoomUsed;    // 패키지 상품으로 예약한 객실 여부
 	private String rRefundStatus;  // 환불상태
-	private String rRefundate;  // 환불날짜
+	private String rRefundDate;  // 환불날짜
+	private int memberNo;		// 회원번호
+	private int roomNo;			// 객실번호
+	private int amount;
 	
 	// 객식 조회 시 수용인원 필드 추가
 	private int capacity;
@@ -21,8 +23,8 @@ public class RoomPay {
 	public RoomPay() {}
 
 	public RoomPay(int roomReservNo, int roomTotalPrice, String checkInDate, String checkOutDate, String reservDate,
-			String request, String roomPayCode, String roomPayToken, String payStatus, String packRoomUsed,
-			String rRefundStatus, String rRefundate, int capacity) {
+			String request, String tid, String payStatus, String packRoomUsed, String rRefundStatus, String rRefundDate,
+			int memberNo, int roomNo, int amount, int capacity) {
 		super();
 		this.roomReservNo = roomReservNo;
 		this.roomTotalPrice = roomTotalPrice;
@@ -30,12 +32,14 @@ public class RoomPay {
 		this.checkOutDate = checkOutDate;
 		this.reservDate = reservDate;
 		this.request = request;
-		this.roomPayCode = roomPayCode;
-		this.roomPayToken = roomPayToken;
+		this.tid = tid;
 		this.payStatus = payStatus;
 		this.packRoomUsed = packRoomUsed;
 		this.rRefundStatus = rRefundStatus;
-		this.rRefundate = rRefundate;
+		this.rRefundDate = rRefundDate;
+		this.memberNo = memberNo;
+		this.roomNo = roomNo;
+		this.amount = amount;
 		this.capacity = capacity;
 	}
 
@@ -87,20 +91,12 @@ public class RoomPay {
 		this.request = request;
 	}
 
-	public String getRoomPayCode() {
-		return roomPayCode;
+	public String getTid() {
+		return tid;
 	}
 
-	public void setRoomPayCode(String roomPayCode) {
-		this.roomPayCode = roomPayCode;
-	}
-
-	public String getRoomPayToken() {
-		return roomPayToken;
-	}
-
-	public void setRoomPayToken(String roomPayToken) {
-		this.roomPayToken = roomPayToken;
+	public void setTid(String tid) {
+		this.tid = tid;
 	}
 
 	public String getPayStatus() {
@@ -127,12 +123,36 @@ public class RoomPay {
 		this.rRefundStatus = rRefundStatus;
 	}
 
-	public String getrRefundate() {
-		return rRefundate;
+	public String getrRefundDate() {
+		return rRefundDate;
 	}
 
-	public void setrRefundate(String rRefundate) {
-		this.rRefundate = rRefundate;
+	public void setrRefundDate(String rRefundDate) {
+		this.rRefundDate = rRefundDate;
+	}
+
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public int getCapacity() {
@@ -147,10 +167,11 @@ public class RoomPay {
 	public String toString() {
 		return "RoomPay [roomReservNo=" + roomReservNo + ", roomTotalPrice=" + roomTotalPrice + ", checkInDate="
 				+ checkInDate + ", checkOutDate=" + checkOutDate + ", reservDate=" + reservDate + ", request=" + request
-				+ ", roomPayCode=" + roomPayCode + ", roomPayToken=" + roomPayToken + ", payStatus=" + payStatus
-				+ ", packRoomUsed=" + packRoomUsed + ", rRefundStatus=" + rRefundStatus + ", rRefundate=" + rRefundate
-				+ ", capacity=" + capacity + "]";
+				+ ", tid=" + tid + ", payStatus=" + payStatus + ", packRoomUsed=" + packRoomUsed + ", rRefundStatus="
+				+ rRefundStatus + ", rRefundate=" + rRefundDate + ", memberNo=" + memberNo + ", roomNo=" + roomNo
+				+ ", amount=" + amount + ", capacity=" + capacity + "]";
 	}
 
+	
 	
 }

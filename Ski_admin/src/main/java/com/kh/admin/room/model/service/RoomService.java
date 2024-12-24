@@ -6,6 +6,7 @@ import java.util.List;
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 public interface RoomService {
 	
@@ -25,4 +26,10 @@ public interface RoomService {
 	// 객실 정보 수정
 	int updateRoom(Room r);
 	
+	// 예약 객실 총 개수 조회
+	int selectRoomCount(String keyword, String RrefundStatus);
+	
+	// 예약 객실 조회
+	List<RoomPay> selectRoomReservList(PageInfo pi, String keyword, String rRefundStatus);
+
 }

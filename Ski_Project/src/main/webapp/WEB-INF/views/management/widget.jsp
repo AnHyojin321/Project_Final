@@ -98,32 +98,33 @@
 <div id="outer">
 
 		<c:forEach var="sro" items="${ requestScope.slopeIsOpenList }">
-		<table style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.3)'};">
+		<table style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.2)'}; color: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};">
 			<tr><th colspan="2">${ sro.date } (${ sro.day })</th></tr>
 			<tr>
 				<td colspan="2">
 				    <svg class="icon">
-				        <c:choose>
-				            <c:when test="${sro.description == '맑음'}">
-				          		<use xlink:href="#iconSun"></use>
-				      		</c:when>
-					        <c:when test="${sro.description == '구름 조금' || sro.description == '약간의 구름이 낀 하늘'}">
-					            <use xlink:href="#iconSemiCloud"></use>
-					        </c:when>
-					        <c:when test="${fn:contains(sro.description, '눈')}">
-					            <use xlink:href="#iconSnow"></use>
-					        </c:when>
-					        <c:when test="${fn:contains(sro.description, '비')}">
-					            <use xlink:href="#iconRain"></use>
-					        </c:when>
-					        <c:when test="${sro.description == '안개'}">
-			                	<use xlink:href="#iconMist"></use>
-			                </c:when>
-			                <c:otherwise>
-			                  <use xlink:href="#iconCloud"></use>
-			                </c:otherwise>
-		                </c:choose>
-			        </svg>
+						<c:choose>
+							<c:when test="${sro.description == '맑음'}">
+								<use xlink:href="#iconSun" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:when>
+							<c:when test="${sro.description == '구름 조금' || sro.description == '약간의 구름이 낀 하늘'}">
+								<use xlink:href="#iconSemiCloud" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:when>
+							<c:when test="${fn:contains(sro.description, '눈')}">
+								<use xlink:href="#iconSnow" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:when>
+							<c:when test="${fn:contains(sro.description, '비')}">
+								<use xlink:href="#iconRain" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:when>
+							<c:when test="${sro.description == '안개'}">
+								<use xlink:href="#iconMist" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:when>
+							<c:otherwise>
+								<use xlink:href="#iconCloud" style="fill: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};"></use>
+							</c:otherwise>
+						</c:choose>
+					</svg>
+					
 			    </td>
 			</tr>
 			<tr>

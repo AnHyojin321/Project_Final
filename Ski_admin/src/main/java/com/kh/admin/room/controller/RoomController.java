@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,15 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.common.template.Pagination;
-import com.kh.admin.pack.model.vo.Pack;
 import com.kh.admin.room.model.service.RoomService;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
@@ -196,6 +197,33 @@ public class RoomController {
 	}
 	
 	
-	
+	// 객실 예약 리스트 조회
+	@RequestMapping(value = "roomReservation.se", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView selectRoomReservList(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "rRefundStatus", required = false) String rRefundStatus,
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            ModelAndView mv) {
+
+        // 총 회원 수 조회
+        int listCount = roomService.selectRoomCount(keyword, rRefundStatus);
+
+        // 페이징 처리
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, pageSize);
+
+        // 회원 리스트 조회
+        List<RoomPay> roomReservationList = roomService.selectRoomReservList(pi, keyword, rRefundStatus);
+
+        mv.addObject("pi", pi);
+        mv.addObject("roomReservationList", roomReservationList);
+        mv.addObject("keyword", keyword);
+        mv.addObject("rRefundStatus", rRefundStatus);
+        mv.addObject("pageSize", pageSize);
+        mv.setViewName("room/roomReservation");
+
+        System.out.println(roomReservationList);
+        return mv;
+    }
 
 }

@@ -24,14 +24,14 @@
 		<typeAlias type="com.kh.admin.lift.model.vo.LiftPurchase" alias="liftPurchase" />
 		<typeAlias type="com.kh.admin.lesson.model.vo.Lesson" alias="lesson" />
 		<typeAlias type="com.kh.admin.room.model.vo.Room" alias="room" />
-		<typeAlias type="com.kh.admin.room.model.vo.RoomPay" alias="roompay" />
+		<typeAlias type="com.kh.admin.room.model.vo.RoomPay" alias="roomPay" />
 		<typeAlias type="com.kh.admin.room.model.vo.RoomImg" alias="roomImg"/>
 		<typeAlias type="com.kh.admin.notice.model.vo.Notice" alias="notice" />
 		<typeAlias type="com.kh.admin.locker.model.vo.Locker" alias="locker" />
 		<typeAlias type="com.kh.admin.lostitem.model.vo.LostItem" alias="lostItem" />
 		<typeAlias type="com.kh.admin.common.model.vo.PageInfo" alias="PageInfo" />
 		<typeAlias type="com.kh.admin.pack.model.vo.Pack" alias="package" />
-		<typeAlias type="com.kh.admin.pack.model.vo.PackagePay" alias="packagepay" />
+		<typeAlias type="com.kh.admin.pack.model.vo.PackagePay" alias="PackagePay" />
 		<typeAlias type="com.kh.admin.management.model.vo.SkiResortOpen" alias="skiResortOpen" />
 		<typeAlias type="com.kh.admin.management.model.vo.SlopeOpen" alias="slopeOpen" />
 		<typeAlias type="com.kh.admin.refund.model.vo.RefundItem" alias="refund" />

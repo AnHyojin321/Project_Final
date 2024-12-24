@@ -12,6 +12,7 @@ import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.room.model.dao.RoomDao;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
+import com.kh.admin.room.model.vo.RoomPay;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -58,6 +59,16 @@ public class RoomServiceImpl implements RoomService {
 	  public int updateRoom(Room r) {
 		  return roomDao.updateRoom(sqlSession, r);
 	  }
+
+	@Override
+	public int selectRoomCount(String keyword, String RrefundStatus) {
+        return roomDao.selectRoomCount(sqlSession, keyword, RrefundStatus);
+	}
+
+	@Override
+	public List<RoomPay> selectRoomReservList(PageInfo pi, String keyword, String rRefundStatus) {
+        return roomDao.selectRoomReservList(sqlSession, pi, keyword, rRefundStatus);
+	}
 
 
 }

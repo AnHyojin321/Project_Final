@@ -1,7 +1,9 @@
 package com.kh.admin.room.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -58,6 +60,27 @@ public class RoomDao {
 	// 객실 정보 수정 
 	public int updateRoom(SqlSessionTemplate sqlSession, Room r) {
 		return sqlSession.update("roomMapper.updateRoom", r);
+	}
+
+	// 예약 객실 총 개수 조회
+	public int selectRoomCount(SqlSessionTemplate sqlSession, String keyword, String RrefundStatus) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("keyword", keyword);
+	    params.put("RrefundStatus", RrefundStatus);
+	    return sqlSession.selectOne("roomMapper.selectRoomCount", params);
+	}
+
+	// 예약 객실 조회
+	public List<RoomPay> selectRoomReservList(SqlSessionTemplate sqlSession, PageInfo pi, String keyword, String rRefundStatus) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("keyword", keyword);
+	    params.put("rRefundStatus", rRefundStatus);
+
+	    int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    int limit = pi.getBoardLimit();
+	    RowBounds rowBounds = new RowBounds(offset, limit);
+
+	    return sqlSession.selectList("roomMapper.selectRoomReservList", params, rowBounds);
 	}
 
 }

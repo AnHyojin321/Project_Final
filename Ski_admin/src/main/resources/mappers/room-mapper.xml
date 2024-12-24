@@ -10,8 +10,23 @@
 		<result column="STATUS" property="status" />
 		<result column="ROOM_PRICE" property="roomPrice" />
 	</resultMap>
-
-
+	
+	<resultMap id="roomPayResultSet" type="roomPay">
+		<id column="ROOM_RESERV_NO" property="roomReservNo"/>
+		<result column="ROOM_TOTAL_PRICE" property=""/>
+		<result column="CHECK_IN_DATE" property="checkInDate"/>
+		<result column="CHECK_OUT_DATE" property="checkOutDate"/>
+		<result column="RESERV_DATE" property="reservDate"/>
+		<result column="TID" property="tid"/>
+		<result column="PAY_STATUS" property="payStatus"/>
+		<result column="PACK_ROOM_USED" property="packRoomUsed"/>
+		<result column="RREFUND_STATUS" property="rRefundStatus"/>
+		<result column="RREFUND_DATE" property="rRefundDate"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="ROOM_NO" property="roomNo"/>
+		<result column="AMOUNT" property="amount"/>
+	</resultMap>
+	
 
 
 	<!-- 객실 갯수 조회용 쿼리문 -->
@@ -85,5 +100,48 @@
 			 , #{roomImgPath}
 			 , #{roomThumbnail})	   
 	</insert>
+	
+	
+	<!-- 예약 객실 총 개수 조회 쿼리문 -->
+	<select id="selectRoomCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM ROOM_RESERV
+		<where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_NO LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="rRefundStatus != null and rRefundStatus != ''">
+                AND RREFUND_STATUS = #{RrefundStatus}
+            </if>
+        </where>
+	</select>
+	
+	
+	<!-- 예약 객실 리스트 조회 -->
+	<select id="selectRoomReservList" parameterType="map" resultMap="roomPayResultSet">
+        SELECT 
+            ROOM_RESERV_NO,
+            MEMBER_NO,
+            ROOM_NO,
+            TO_CHAR(RESERV_DATE, 'YYYY-MM-DD HH24:MI:SS') AS RESERV_DATE,
+            TO_CHAR(CHECK_IN_DATE, 'YYYY-MM-DD') AS CHECK_IN_DATE,
+            TO_CHAR(CHECK_OUT_DATE, 'YYYY-MM-DD') AS CHECK_OUT_DATE,
+            AMOUNT,
+            PACK_ROOM_USED,
+            RREFUND_STATUS,
+            TO_CHAR(RREFUND_DATE, 'YYYY-MM-DD HH24:MI:SS') AS RREFUND_DATE
+        FROM ROOM_RESERV
+        <where>
+            <if test="keyword != null and keyword != ''">
+                MEMBER_NO LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="rRefundStatus != null and rRefundStatus != ''">
+                AND RREFUND_STATUS = #{rRefundStatus}
+            </if>
+        </where>
+        ORDER BY ROOM_RESERV_NO DESC
+    </select>
 
+
+    
+    
 </mapper>
