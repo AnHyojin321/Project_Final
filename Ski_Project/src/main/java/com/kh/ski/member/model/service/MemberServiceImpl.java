@@ -178,5 +178,20 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberDao.findMemberByEmail(sqlSession, email.trim().toLowerCase());
         return member != null; // 중복 여부 반환 (null이면 중복 아님)
     }
+    // 네이버 ID로 회원 조회
+    @Override
+    public Member findMemberByNaverId(String naverId) {
+        System.out.println("[DEBUG] findMemberByNaverId 호출 - naverId: " + naverId);
+        Member member = memberDao.selectMemberByNaverId(sqlSession, naverId);
+        System.out.println("[DEBUG] DAO에서 반환된 Member 객체: " + member);
+        return member;
+    }
 
+    // 네이버 로그인 회원가입
+    @Override
+    public int naverInsertMember(Member member) {
+        return memberDao.insertNaverMember(sqlSession, member);
+    }
+
+    
 }

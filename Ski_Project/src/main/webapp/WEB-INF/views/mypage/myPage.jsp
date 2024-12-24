@@ -1032,7 +1032,8 @@ function openLockerDetailModal(lockerReservNo) {
                     "<p><strong>예약번호:</strong> " + (response.lockerReservNo || '없음') + "</p>" +
                     "<p><strong>시작 날짜:</strong> " + (response.lockerStartDate || '없음') + "</p>" +
                     "<p><strong>종료 날짜:</strong> " + (response.lockerEndDate || '없음') + "</p>" +
-                    "<p><strong>총 금액:</strong> " + (response.lockerTotalPrice || '0') + "원</p>";
+                    "<p><strong>총 금액:</strong> " + (response.lockerTotalPrice || '0') + "원</p>" +
+                    "<p><a href='" + contextPath + "/myLockerReservation' class='btn-view'>자세히 보기</a></p>";
                 document.getElementById('lockerModalContent').innerHTML = modalContent;
                 document.getElementById('lockerDetailModal').style.display = 'flex';
             } else {

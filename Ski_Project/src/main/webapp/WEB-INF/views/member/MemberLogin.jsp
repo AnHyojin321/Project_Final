@@ -256,16 +256,15 @@
                 <button type="submit">로그인</button>
 				<div class="social-login">
 				    <!-- 카카오 로그인 버튼 -->
-				    <button class="kakao" onclick="location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f2efc5913b287d02f1ca471e0572580f&redirect_uri=http://localhost:8090/ski/kakao/callback'">
-				        <img src="resources/images/kakao-talk.png" alt="카카오톡">
-				        카카오 로그인
-				    </button>
-				
-				    <!-- 구글 로그인 버튼 -->
-				    <button class="google" onclick="location.href='#'">
-				        <img src="resources/images/google.png" alt="구글">
-				        구글 로그인
-				    </button>
+<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f2efc5913b287d02f1ca471e0572580f&redirect_uri=http://localhost:8090/ski/kakao/callback">
+    <img src="resources/images/kakao_login_img.png" alt="카카오 로그인" style="width: 195px; height: 40px;">
+</a>
+
+
+<!-- 네이버 로그인 버튼 -->
+<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=vub5C3pN6qHfnOcclEXW&state=STATE_STRING&redirect_uri=http://localhost:8090/ski/naver/callback">
+    <img src="resources/images/btnG_완성형.png" alt="네이버 로그인" style="width: 195px; height: 40px;">
+</a>
 				</div>
 
                 <div class="links">

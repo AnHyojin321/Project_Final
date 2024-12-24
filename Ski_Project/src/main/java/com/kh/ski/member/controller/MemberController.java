@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +31,10 @@ import com.kh.ski.locker.model.service.LockerService;
 import com.kh.ski.locker.model.vo.LockerReservation;
 import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
+import com.kh.ski.member.model.service.NaverService;
 import com.kh.ski.member.model.vo.KakaoUserInfo;
 import com.kh.ski.member.model.vo.Member;
+import com.kh.ski.member.model.vo.NaverUserInfo;
 import com.kh.ski.pack.model.service.PackageService;
 import com.kh.ski.pack.model.vo.PackagePay;
 import com.kh.ski.room.model.service.RoomService;
@@ -71,73 +76,121 @@ public class MemberController {
 	@RequestMapping("/kakao/callback")
 	public String kakaoCallback(@RequestParam("code") String code, HttpSession session) {
 	    try {
-	        // 1. 인가 코드로 액세스 토큰 요청
 	        String accessToken = kakaoService.getAccessToken(code);
-
-	        // 2. 사용자 정보 요청
 	        KakaoUserInfo kakaoUserInfo = kakaoService.getUserInfo(accessToken);
+
 	        String kakaoId = kakaoUserInfo.getId();
 	        String nickname = kakaoUserInfo.getNickname();
 	        String email = kakaoUserInfo.getEmail();
 
-	        System.out.println("Kakao User Info: " + kakaoUserInfo);
-
-	        // 3. DB에서 카카오 ID 또는 이메일로 회원 정보 조회
 	        Member existingMember = memberService.findMemberByKakaoId(kakaoId);
+
 	        if (existingMember == null) {
 	            existingMember = memberService.findMemberByEmail(email);
 	        }
 
-	        boolean isFirstLogin = false; // 최초 로그인 여부 확인 플래그
-
 	        if (existingMember == null) {
-	            // 3-1. 신규 회원 가입 처리
 	            Member newMember = new Member();
-	            newMember.setMemberId("kakao_" + kakaoId); // 회원 ID 설정
-	            newMember.setMemberName(nickname); // 회원 이름 설정
-	            newMember.setEmail(email); // 이메일 설정
-	            newMember.setKakaoLogin(kakaoId); // 카카오 로그인 ID 저장
+	            newMember.setMemberId("kakao_" + kakaoId);
+	            newMember.setMemberName(nickname);
+	            newMember.setEmail(email);
+	            newMember.setKakaoLogin(kakaoId);
+	            newMember.setLoginType("KAKAO"); // 카카오 로그인 타입 설정
 
-	            // 비밀번호를 BCrypt로 암호화하여 저장
 	            String encryptedPwd = bcryptPasswordEncoder.encode("kakao-login");
 	            newMember.setMemberPwd(encryptedPwd);
+	            newMember.setPhone("000-0000-0000");
+	            newMember.setBirthDate(java.sql.Date.valueOf("1900-01-01"));
+	            newMember.setMemberStatus("Y");
 
-	            // 기본 정보 설정
-	            newMember.setPhone("000-0000-0000"); // 기본 전화번호
-	            newMember.setBirthDate(java.sql.Date.valueOf("1900-01-01")); // 기본 생년월일
-	            newMember.setCreateDate(new java.sql.Date(System.currentTimeMillis())); // 가입일 설정
-	            newMember.setMemberStatus("Y"); // 활성 상태
-
-	            // DB에 회원 정보 저장
 	            memberService.kakaoInsertMember(newMember);
 	            existingMember = memberService.findMemberByKakaoId(kakaoId);
-	            isFirstLogin = true;
-	        } else if (existingMember.getKakaoLogin() == null) {
-	            // 기존 일반 회원인 경우 카카오 로그인 정보 통합
-	            existingMember.setKakaoLogin(kakaoId);
-	            memberService.updateMember(existingMember);
 	        }
 
-	        // 4. 로그인 성공 처리 (세션에 저장)
-	        if (existingMember != null) {
-	            session.setAttribute("loginMember", existingMember);
-	            System.out.println("로그인 사용자 정보: " + existingMember);
-	        } else {
-	            System.out.println("회원 정보가 DB에서 조회되지 않았습니다.");
-	            return "redirect:/error"; // 에러 페이지로 이동
-	        }
-
-	        // 5. 리다이렉트 경로 설정
-	        if (isFirstLogin) {
-	            return "redirect:/myPage.me"; // 최초 로그인 시 마이페이지로 이동
-	        }
+	        session.setAttribute("loginMember", existingMember);
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return "redirect:/error"; // 에러 발생 시 에러 페이지로 이동
+	        return "redirect:/error";
 	    }
 
-	    // 기존 회원은 메인 페이지로 이동
+	    return "redirect:/";
+	}
+
+
+
+	@Autowired
+	private NaverService naverService;
+
+	@RequestMapping("/naver/callback")
+	public String naverCallback(@RequestParam("code") String code, HttpSession session) {
+	    try {
+	        // 네이버 액세스 토큰 및 사용자 정보 가져오기
+	        String accessToken = naverService.getAccessToken(code);
+	        NaverUserInfo naverUserInfo = naverService.getUserInfo(accessToken);
+
+	        String naverId = naverUserInfo.getId();
+	        String nickname = naverUserInfo.getNickname();
+	        String email = naverUserInfo.getEmail();
+	        String mobile = naverUserInfo.getMobile();
+	        String birthDate = naverUserInfo.getBirthDate();
+
+	        // **회원 ID 생성 규칙 수정**
+	        String emailPrefix = email != null ? email.split("@")[0] : "unknown"; // 이메일 아이디 추출
+	        String generatedMemberId = "naver_" + emailPrefix; // 네이버 ID 형식: naver_이메일아이디
+
+	        // 특수 문자 제거 (닉네임을 대체용으로 추가 가능)
+	        generatedMemberId = generatedMemberId.replaceAll("[^a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]", "");
+
+	        // Step 1: 네이버 ID로 회원 조회
+	        Member existingMember = memberService.findMemberByNaverId(naverId);
+
+	        if (existingMember == null) {
+	            // Step 2: 이메일로 기존 회원 조회
+	            existingMember = memberService.findMemberByEmail(email);
+
+	            if (existingMember != null) {
+	                // Step 3: 카카오 로그인 등 다른 플랫폼인지 확인
+	                if (existingMember.getKakaoLogin() != null && !existingMember.getLoginType().equals("NAVER")) {
+	                    session.setAttribute("alertMsg", "이미 카카오로 가입된 이메일입니다. 네이버로는 로그인할 수 없습니다.");
+	                    return "redirect:/login.me";
+	                }
+
+	                // Step 4: 네이버 로그인 정보 및 타입 통합
+	                existingMember.setNaverLogin(naverId);
+	                existingMember.setLoginType("NAVER");
+	                memberService.updateMember(existingMember); // 회원 정보 업데이트
+	            } else {
+	                // Step 5: 신규 네이버 회원 등록
+	                Member newMember = new Member();
+	                newMember.setMemberId(generatedMemberId); // 가공된 네이버 ID
+	                newMember.setMemberName(nickname);
+	                newMember.setEmail(email);
+	                newMember.setPhone(mobile);
+	                newMember.setBirthDate(java.sql.Date.valueOf(
+	                    birthDate.substring(0, 4) + "-" + birthDate.substring(4, 6) + "-" + birthDate.substring(6)
+	                ));
+	                newMember.setNaverLogin(naverId);
+	                newMember.setLoginType("NAVER");
+	                newMember.setMemberStatus("Y");
+
+	                // 기본 비밀번호 설정 및 암호화
+	                String encryptedPwd = bcryptPasswordEncoder.encode("naver-login");
+	                newMember.setMemberPwd(encryptedPwd);
+
+	                memberService.insertMember(newMember);
+	                existingMember = memberService.findMemberByNaverId(naverId); // 새로 등록된 회원 조회
+	            }
+	        }
+
+	        // 로그인 성공 처리
+	        session.setAttribute("loginMember", existingMember);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/error";
+	    }
+
 	    return "redirect:/";
 	}
 
@@ -387,7 +440,6 @@ public class MemberController {
 	}
 */
 	
-	
 	@ResponseBody
 	@PostMapping("cert.do")
 	public String sendCertNo(@RequestParam("email") String email, HttpSession session) {
@@ -396,14 +448,60 @@ public class MemberController {
 	    session.setAttribute("certNo", String.valueOf(random));
 	    session.setAttribute("email", email.trim().toLowerCase());
 
-	    // 인증번호 이메일 발송
-	    SimpleMailMessage message = new SimpleMailMessage();
-	    message.setSubject("[SEOLLENEUN RESORT] 이메일 인증 번호");
-	    message.setText("인증 번호: " + random);
-	    message.setTo(email);
-	    mailSender.send(message);
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-	    return "인증번호가 이메일로 발송되었습니다.";
+	        // HTML 템플릿 작성
+	        String emailContent = "" +
+	            "<!DOCTYPE html>\n" +
+	            "<html lang=\"ko\">\n" +
+	            "<head>\n" +
+	            "    <meta charset=\"UTF-8\">\n" +
+	            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+	            "    <title>이메일 인증</title>\n" +
+	            "</head>\n" +
+	            "<body style=\"margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;\">\n" +
+	            "    <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff;\">\n" +
+	            "        <tr>\n" +
+	            "            <td style=\"text-align: center; padding: 20px;\">\n" +
+	            "                <h1 style=\"color: #1a4741; font-size: 24px; margin: 0 0 20px 0;\">SEOLLENEUN RESORT</h1>\n" +
+	            "                <h2 style=\"color: #333333; font-size: 20px; margin: 0 0 30px 0; font-weight: normal;\">\n" +
+	            "                    요청하신 인증번호를<br>\n" +
+	            "                    발송해드립니다.\n" +
+	            "                </h2>\n" +
+	            "                <div style=\"margin: 30px 0; padding: 30px; background-color: #f8f9fa; border-radius: 8px;\">\n" +
+	            "                    <p style=\"color: #666666; font-size: 14px; margin: 0 0 10px 0;\">\n" +
+	            "                        아래의 인증번호를 입력창에서 입력해 주세요.\n" +
+	            "                    </p>\n" +
+	            "                    <div style=\"font-size: 32px; font-weight: bold; color: #1a4741; letter-spacing: 4px; margin: 20px 0;\">\n" +
+	            "                        " + random + "\n" +
+	            "                    </div>\n" +
+	            "                </div>\n" +
+	            "                <p style=\"color: #999999; font-size: 13px; margin: 20px 0;\">\n" +
+	            "                    본 메일은 발신전용입니다. 설레눈리조트를 사칭하거나 스팸메일을 발송하는 경우 관련 법률에 의거 처벌될 수 있습니다.\n" +
+	            "                </p>\n" +
+	            "                <div style=\"margin-top: 30px; padding-top: 20px; border-top: 1px solid #eeeeee;\">\n" +
+	            "                    <p style=\"color: #999999; font-size: 12px; margin: 0;\">\n" +
+	            "                        Copyright © SEOLLENEUN RESORT Corp. All Rights Reserved.\n" +
+	            "                    </p>\n" +
+	            "                </div>\n" +
+	            "            </td>\n" +
+	            "        </tr>\n" +
+	            "    </table>\n" +
+	            "</body>\n" +
+	            "</html>";
+
+	        helper.setTo(email);
+	        helper.setSubject("[SEOLLENEUN RESORT] 이메일 인증 번호");
+	        helper.setText(emailContent, true);
+
+	        mailSender.send(message);
+	        return "인증번호가 이메일로 발송되었습니다.";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "이메일 발송 실패";
+	    }
 	}
 
 

@@ -1,4 +1,4 @@
-package com.kh.ski.member.model.dao;
+	package com.kh.ski.member.model.dao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -152,7 +152,16 @@ public class MemberDao {
     public Member findMemberById(SqlSessionTemplate sqlSession, int memberNo) {
         return sqlSession.selectOne("member.findMemberById", memberNo);
     }
-    
+    // 네이버 ID로 회원 조회
+    public Member selectMemberByNaverId(SqlSessionTemplate sqlSession, String naverId) {
+        System.out.println("DAO에서 받은 naverId: " + naverId);
+        return sqlSession.selectOne("member.selectMemberByNaverId", naverId);
+    }
+
+    // 네이버 회원가입
+    public int insertNaverMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.insert("member.insertNaverMember", member);
+    }
     
     
 }
