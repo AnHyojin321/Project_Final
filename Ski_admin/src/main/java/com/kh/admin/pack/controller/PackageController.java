@@ -169,6 +169,26 @@ public class PackageController {
 		}
 		
 	}
+	
+	/**
+	 * 패키지 상품 삭제
+	 */
+	@PostMapping("deletePackage.pk")
+	public String deletePackage(int pno, HttpSession session) {
+		
+		System.out.println("패키지 상품 삭제 컨트롤러 호출됨");
+		System.out.println("패키지 상품 삭제할 번호 : " + pno);
+		
+		int result = packageService.deletePackage(pno);
+		
+		if(result > 0) {
+			System.out.println("패키지 삭제 성공");
+			session.setAttribute("alertMsg", "패키지 상품이 성공적으로 삭제되었습니다.");
+		}else {
+			System.out.println("패키지 삭제 실패");
+		}
+		return "redirect:/list.pk";
+	}
 
 		
 	

@@ -77,7 +77,6 @@
 	        #{memberNo}
 	    )
 	</insert>
-
 <select id="selectLesson" parameterType="int" resultMap="lessonResultSet">
     SELECT RES_NO,
            LESSON_DATE,
@@ -88,10 +87,12 @@
            LESSON_ACTIVITE,
            LESSON_RES_CONTENT,
            LESSON_TITLE,
-           MEMBER_NO
+           MEMBER_NO,
+           RES_STATUS  <!-- 예약 상태 컬럼 추가 -->
       FROM LESSON_RESERVATION
      WHERE RES_NO = #{resNo}
 </select>
+
 
 
 		<update id="updateLesson" parameterType="lesson">

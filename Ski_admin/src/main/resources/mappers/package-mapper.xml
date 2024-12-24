@@ -71,6 +71,7 @@
 		WHERE PACKAGE_NO = #{packageNo}
 	</select>
 	
+	<!-- 패키지 상품 수정 -->
 	<update id="updatePackage" parameterType="package">
 		UPDATE PACKAGE_INFO
 		SET PACKAGE_NAME = #{packageName}
@@ -83,6 +84,14 @@
 	      , PACK_ORIGIN_NAME = #{packOriginName}
 	      , PACK_CHANGE_NAME = #{packChangeName}
 	      , PACK_IMG_PATH = #{packImgPath}
+		WHERE PACKAGE_NO = #{packageNo}
+		AND PACKAGE_STATUS = 'Y'
+	</update>
+	
+	<!-- 패키지 상푸 삭제 -->
+	<update id="deletePackage" parameterType="_int">
+		UPDATE PACKAGE_INFO
+		SET PACKAGE_STATUS = 'N'
 		WHERE PACKAGE_NO = #{packageNo}
 		AND PACKAGE_STATUS = 'Y'
 	</update>

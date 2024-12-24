@@ -680,9 +680,7 @@ p {
         allow="autoplay; fullscreen; xr-spatial-tracking"
         src="https://sketchfab.com/models/eda3654190284752acac047f881b5acb/embed?autostart=1&annotations_visible=0&annotation_cycle=4&transparent=1&ui_hint=0">
     </iframe>
-    	<div style="color: black;">
-    	초급 코스 / 중급 코스 / 상급 코스
-    	</div>
+    
 </div>
             <div class="text-container">
                 

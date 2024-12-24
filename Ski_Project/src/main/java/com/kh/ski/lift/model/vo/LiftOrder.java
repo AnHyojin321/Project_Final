@@ -9,6 +9,9 @@ public class LiftOrder {
 	private int liftTotalPrice;
 	private int liftNo;
 	private String memberId;
+    private String liftType; // 김동준 추가
+    private String liftAge;
+	
 	
 	public LiftOrder() {}
 
@@ -59,6 +62,22 @@ public class LiftOrder {
 
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
+	}
+
+	public String getLiftType() {
+		return liftType;
+	}
+
+	public void setLiftType(String liftType) {
+		this.liftType = liftType;
+	}
+
+	public String getLiftAge() {
+		return liftAge;
+	}
+
+	public void setLiftAge(String liftAge) {
+		this.liftAge = liftAge;
 	}
 
 	@Override

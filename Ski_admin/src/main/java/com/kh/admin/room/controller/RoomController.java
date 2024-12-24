@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.admin.common.model.vo.PageInfo;
+import com.kh.admin.common.template.Pagination;
+import com.kh.admin.pack.model.vo.Pack;
 import com.kh.admin.room.model.service.RoomService;
 import com.kh.admin.room.model.vo.Room;
 import com.kh.admin.room.model.vo.RoomImg;
@@ -31,12 +34,53 @@ public class RoomController {
 	private RoomService roomService;
 	
 	@GetMapping("list.ro")
-	public ModelAndView selectRoomList(ModelAndView mv) {
-		mv.setViewName("room/roomList");
-		return mv;
+	public String selectRoomList(@RequestParam(value="cpage", defaultValue="1")int currentPage,
+										Model model) {
+		
+		
+		
+		int listCount = roomService.selectListCount();
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Room> list = roomService.selectRoomList(pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
+		return "room/roomList";
 	}
-
 	
+	// 객실 상세 조회
+	@ResponseBody // JSON 응답으로 처리
+	@GetMapping("roomDetail.ro")
+	public Room selectRoomDetail(@RequestParam("roomNo") int roomNo) {
+		System.out.println("객실 조회 컨트롤러 호출됨");
+		System.out.println("선택된 객실 번호 :  "+ roomNo);
+		
+		Room r = roomService.selectRoomDetail(roomNo);
+		
+		return r;
+	}
+	
+	// 객실 정보 수정 요청
+	@ResponseBody
+	@PostMapping("updateRoom.ro")
+	public String updateRoom(Room r) {
+		System.out.println("객실 정보 수정 요청 컨트롤러 호출됨");
+		System.out.println("수정할 객실 번호 : " + r.getRoomNo());
+		System.out.println("수정된 투숙인원 : " + r.getCapacity());
+		System.out.println("수정된 객실 요금 : " + r.getRoomPrice());
+		
+		int result = roomService.updateRoom(r);
+		
+		return (result>0) ? "success" : "fail";
+		
+	}
+	
+
 	// 객실 등록 페이지 요청
 	@GetMapping("roomEnrollForm.ro")
 	public ModelAndView enrollForm(ModelAndView mv) {

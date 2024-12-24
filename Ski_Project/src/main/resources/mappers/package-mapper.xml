@@ -14,6 +14,7 @@
 		<result column="PRODUCT_COMPOSIT" property="productComposit" />
 		<result column="PACKAGE_SET" property="packageSet" />
 	</resultMap>
+	
 
 	<!-- 패키지 상품 전체 갯수 조회용 쿼리문 -->
 	<select id="selectListCount" resultType="_int">
@@ -31,6 +32,7 @@
               , PACK_CHANGE_NAME
               , PACK_IMG_PATH
 		FROM PACKAGE_INFO
+		WHERE PACKAGE_STATUS = 'Y'
 		ORDER BY PACKAGE_NO DESC
 	</select>
 	
@@ -119,6 +121,40 @@
 		                , #{packageNo})
 	</insert>
 	
+<select id="selectReservedPackageList" parameterType="int" resultType="com.kh.ski.pack.model.vo.PackagePay">
+    SELECT
+        PR.PACKAGE_RESERV_NO AS packageReservNo,
+        PR.MEMBER_NO AS memberNo,
+        PR.PACKAGE_NO AS packageNo,
+        PR.CHECK_IN_DATE AS checkInDate,
+        PR.CHECK_OUT_DATE AS checkOutDate,
+        PI.PACKAGE_NAME AS packageName,
+        PI.PACKAGE_PRICE AS packagePrice
+    FROM PACKAGE_RESERV PR
+    JOIN PACKAGE_INFO PI
+    ON PR.PACKAGE_NO = PI.PACKAGE_NO
+    WHERE PR.MEMBER_NO = #{memberNo}
+</select>
+<select id="packageDetail" parameterType="_int" resultType="com.kh.ski.pack.model.vo.PackagePay">
+    SELECT
+        PR.PACKAGE_RESERV_NO AS packageReservNo,
+        PR.CHECK_IN_DATE AS checkInDate,
+        PR.CHECK_OUT_DATE AS checkOutDate,
+        PR.TID AS tid,
+        PR.MEMBER_NO AS memberNo,
+        PR.PACKAGE_NO AS packageNo,
+        PI.PACKAGE_NAME AS packageName, 
+        PI.PACKAGE_PRICE AS packagePrice
+    FROM PACKAGE_RESERV PR
+    JOIN PACKAGE_INFO PI
+    ON PR.PACKAGE_NO = PI.PACKAGE_NO
+    WHERE PR.PACKAGE_RESERV_NO = #{packageReservNo}
+</select>
 
+<select id="countReservedPackages" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM PACKAGE_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
 
 </mapper>

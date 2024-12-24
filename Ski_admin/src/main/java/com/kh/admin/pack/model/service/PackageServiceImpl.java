@@ -51,5 +51,12 @@ public class PackageServiceImpl implements PackageService {
 	public int updatePackage(Pack p) {
 		return packageDao.updatePackage(sqlSession, p);
 	}
+	
+	// 패키지 상품 삭제 
+	@Override
+	@Transactional
+	public int deletePackage(int packageNo) {
+		return packageDao.deletePackage(sqlSession, packageNo);
+	}
 
 }

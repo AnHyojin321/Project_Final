@@ -26,8 +26,7 @@
 		<result column="LIFT_PAY_CODE" property="liftPayCode"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="LIFT_LREFUND_STATUS" property="liftLrefundStatus"/>
-	</resultMap>
-	
+	</resultMap>		
 		<select id="selectDayPass" resultMap="liftResultSet">
 		    SELECT *
 		    FROM LIFT
@@ -50,6 +49,32 @@
 	            #{liftNo}, 
 	            #{memberId})
 	</insert>
+	
+	<!-- 리프트 일일권 구매  -->
+	<insert id="insertLiftPay" parameterType="liftpay">
+		INSERT INTO LIFT_PURCHASE (LIFT_PURCHASE_NO
+								 , LIFT_PURCHASE_DATE
+								 , TOTAL_PRICE
+								 , TOTAL_COUNT
+								 , TID
+								 , MEMBER_ID)
+		VALUES (SEQ_LIFT_PURCHASE_NO.NEXTVAL
+			  , SYSDATE
+			  , #{totalPrice}
+			  , #{totalCount}
+			  , #{tid}
+			  , #{memberId})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <!-- 김동준 마이페이지  -->
     <select id="selectReservedLiftList" parameterType="string" resultMap="liftOrderResultSet">
         SELECT
@@ -61,4 +86,19 @@
         FROM LIFT_ORDER LO
         WHERE LO.MEMBER_ID = #{memberId}
     </select>
+    <select id="selectLiftOrderByNo" parameterType="int" resultMap="liftOrderResultSet">
+    SELECT 
+        LIFT_ORDER_NO,
+        LIFT_NO,
+        LIFT_COUNT,
+        LIFT_TOTAL_PRICE
+    FROM LIFT_ORDER
+    WHERE LIFT_ORDER_NO = #{liftOrderNo}
+</select>
+    <select id="countReservedLifts" parameterType="string" resultType="int">
+    SELECT COUNT(*)
+    FROM LIFT_ORDER
+    WHERE MEMBER_ID = #{memberId}
+</select>
+    
 </mapper>

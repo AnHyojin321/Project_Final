@@ -24,10 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ski.lift.model.service.LiftService;
 import com.kh.ski.lift.model.vo.LiftOrder;
+import com.kh.ski.locker.model.service.LockerService;
+import com.kh.ski.locker.model.vo.LockerReservation;
 import com.kh.ski.member.model.service.KakaoService;
 import com.kh.ski.member.model.service.MemberService;
 import com.kh.ski.member.model.vo.KakaoUserInfo;
 import com.kh.ski.member.model.vo.Member;
+import com.kh.ski.pack.model.service.PackageService;
+import com.kh.ski.pack.model.vo.PackagePay;
 import com.kh.ski.room.model.service.RoomService;
 import com.kh.ski.room.model.vo.RoomPay;
 
@@ -155,7 +159,7 @@ public class MemberController {
 	    if (loginMember != null) {
 	        // 탈퇴한 회원인지 확인
 	        if ("N".equals(loginMember.getMemberStatus())) {
-	            mv.addObject("alertMsg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+	            session.setAttribute("alertMsg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
 	            mv.setViewName("member/MemberLogin");
 	            return mv;
 	        }
@@ -456,30 +460,56 @@ public class MemberController {
 	private RoomService roomService;
     @Autowired
     private LiftService liftService;
-	   @GetMapping("myPage.me")
-	    public String myPage(HttpSession session, Model model) {
-	        Member loginMember = (Member) session.getAttribute("loginMember");
+    @Autowired
+	private PackageService packageService;
+    @Autowired
+    private LockerService lockerService;
+    
+    
+    @GetMapping("myPage.me")
+    public String myPage(HttpSession session, Model model) {
+        Member loginMember = (Member) session.getAttribute("loginMember");
 
-	        // 로그인 여부 확인
-	        if (loginMember == null) {
-	            return "redirect:/login.me";
-	        }
+        // 로그인 여부 확인
+        if (loginMember == null) {
+            return "redirect:/login.me";
+        }
 
-	        int memberNo = loginMember.getMemberNo(); // 객실 예약 조회용
-	        String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
+        int memberNo = loginMember.getMemberNo(); // 객실 및 패키지, 락커 예약 조회용
+        String memberId = loginMember.getMemberId(); // 리프트 예약 조회용
 
-	        // 객실 예약 목록 조회
-	        ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
+        // 객실 예약 목록 조회
+        ArrayList<RoomPay> reservedRooms = roomService.selectReservedRoomList(memberNo);
+        int roomCount = roomService.countReservedRooms(memberNo);
 
-	        // 리프트권 예약 목록 조회
-	        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+        // 락커 예약 목록 조회
+        ArrayList<LockerReservation> reservedLockers = lockerService.selectReservedLockerList(memberNo);
+        int lockerCount = lockerService.countReservedLockers(memberNo);
 
-	        // Model에 데이터 추가
-	        model.addAttribute("reservedRooms", reservedRooms);
-	        model.addAttribute("reservedLiftList", reservedLiftList);
+        // 패키지 예약 목록 조회
+        ArrayList<PackagePay> reservedPackages = packageService.selectReservedPackageList(memberNo);
+        int packageCount = packageService.countReservedPackages(memberNo);
 
-	        return "mypage/myPage";
-	    }
+        // 리프트 예약 목록 조회
+        ArrayList<LiftOrder> reservedLiftList = liftService.selectReservedLiftList(memberId);
+        int liftCount = liftService.countReservedLifts(memberId);
+
+        // Model에 데이터 추가
+        model.addAttribute("reservedRooms", reservedRooms);
+        model.addAttribute("roomCount", roomCount);
+        model.addAttribute("reservedLockers", reservedLockers);
+        model.addAttribute("lockerCount", lockerCount);
+        model.addAttribute("reservedPackages", reservedPackages);
+        model.addAttribute("packageCount", packageCount);
+        model.addAttribute("reservedLiftList", reservedLiftList);
+        model.addAttribute("liftCount", liftCount);
+
+        return "mypage/myPage";
+    }
+
+
+
+
 
 /*
 	@GetMapping("myPage.me")

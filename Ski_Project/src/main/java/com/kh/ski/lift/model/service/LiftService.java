@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.ski.lift.model.vo.Lift;
 import com.kh.ski.lift.model.vo.LiftOrder;
+import com.kh.ski.lift.model.vo.LiftPay;
 
 public interface LiftService {
 	
@@ -15,6 +16,17 @@ public interface LiftService {
 	
     // 리프트권 주문요청 서비스
     int liftOrder(LiftOrder liftOrder);
+    
+    // 리프트 일일권 구매
+    int insertLiftPay(LiftPay lp);
+    
+    
 // 김동준 마이페이지
     ArrayList<LiftOrder> selectReservedLiftList(String memberId);
+    // 리프트 예약 상세 정보 조회
+    LiftOrder selectLiftOrderByNo(int liftOrderNo);
+ // 리프트 예약 갯수 조회
+    int countReservedLifts(String memberId);
+
+    
 }

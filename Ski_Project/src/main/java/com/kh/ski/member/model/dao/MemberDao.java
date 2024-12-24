@@ -147,8 +147,11 @@ public class MemberDao {
     public Member findMemberByEmail(SqlSessionTemplate sqlSession, String email) {
         return sqlSession.selectOne("member.findMemberByEmail", email);
     }
-
     
+    //락커예약조회
+    public Member findMemberById(SqlSessionTemplate sqlSession, int memberNo) {
+        return sqlSession.selectOne("member.findMemberById", memberNo);
+    }
     
     
     

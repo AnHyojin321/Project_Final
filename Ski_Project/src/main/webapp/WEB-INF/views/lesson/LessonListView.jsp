@@ -148,6 +148,11 @@
             color: #666;
             padding: 0 15px;
         }
+        .disabled {
+    pointer-events: none;
+    opacity: 0.6; /* 시각적으로 흐리게 표시 */
+    cursor: not-allowed;
+}
     </style>
 </head>
 <body>
@@ -173,9 +178,11 @@
     </button>
 
     <!-- 강습 예약하기 버튼: 오른쪽 -->
-    <button onclick="location.href='addLessonForm.le'" class="reservation-btn">
-        <i class="fas fa-plus"></i> 강습 예약하기
-    </button>
+    <c:if test="${!empty sessionScope.loginMember}">
+        <button onclick="location.href='addLessonForm.le'" class="reservation-btn">
+            <i class="fas fa-plus"></i> 강습 예약하기
+        </button>
+    </c:if>
 </div>
 
 <div class="search-bar">
@@ -208,28 +215,29 @@
                     <th>시작일</th>
                 </tr>
             </thead>
-			<tbody>
-			    <c:forEach var="les" items="${requestScope.list}">
-			        <tr>
-			            <td class="resNo">${les.resNo}</td>
-			            <td>
-			                <c:choose>
-			                    <c:when test="${les.resStatus == 'Y'}">
-			                        <span class="reservation-status success">예약 성공</span>
-			                    </c:when>
-			                    <c:otherwise>
-			                        <span class="reservation-status pending">예약 대기중</span>
-			                    </c:otherwise>
-			                </c:choose>
-			            </td>
-			            <td>${les.lessonTitle}</td>
-			            <td>${les.lessonType}</td>
-			            <td>${les.lessonTime}</td>
-			            <td>${les.lessonResDate}</td>
-			            <td>${les.lessonDate}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
+<tbody>
+    <c:forEach var="les" items="${requestScope.list}">
+        <tr class="<c:choose><c:when test="${empty sessionScope.loginMember}">disabled</c:when></c:choose>">
+            <td class="resNo">${les.resNo}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${les.resStatus == 'Y'}">
+                        <span class="reservation-status success">예약 성공</span>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="reservation-status pending">예약 대기중</span>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+            <td>${les.lessonTitle}</td>
+            <td>${les.lessonType}</td>
+            <td>${les.lessonTime}</td>
+            <td>${les.lessonResDate}</td>
+            <td>${les.lessonDate}</td>
+        </tr>
+    </c:forEach>
+</tbody>
+
 
         </table>
 
@@ -260,16 +268,28 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(function() {
-            $(".reservation-table tbody tr").click(function() {
-                let resNo = $(this).find(".resNo").text().trim();
-                if (resNo) {
-                    location.href = "lesson/" + resNo;
-                } else {
-                    console.error("글 번호를 가져올 수 없습니다.");
-                }
-            });
+
+        $(function () {
+            const isLoggedIn = "${!empty sessionScope.loginMember}";
+            
+            if (!isLoggedIn) {
+                $(".reservation-table tbody tr").addClass("disabled");
+                $(".reservation-table tbody tr").click(function (e) {
+                    e.preventDefault();
+                    alert("로그인 후 이용 가능합니다.");
+                });
+            } else {
+                $(".reservation-table tbody tr").click(function () {
+                    let resNo = $(this).find(".resNo").text().trim();
+                    if (resNo) {
+                        location.href = "lesson/" + resNo;
+                    } else {
+                        console.error("글 번호를 가져올 수 없습니다.");
+                    }
+                });
+            }
         });
+
     </script>
 </body>
 </html>

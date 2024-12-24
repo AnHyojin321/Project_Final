@@ -79,6 +79,10 @@ public class RoomServiceImpl implements RoomService {
 	public int cancelRoomReservation(int roomReservNo) {
 		return roomDao.cancelRoomReservation(sqlSession, roomReservNo);
 	}
+	@Override
+	public int countReservedRooms(int memberNo) {
+	    return roomDao.countReservedRooms(sqlSession, memberNo);
+	}
 
 }
 

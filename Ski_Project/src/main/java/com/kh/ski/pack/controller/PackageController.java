@@ -249,7 +249,12 @@ public class PackageController {
 		return "pack/packagePayStep2";
 		
 	}
-	
+	@GetMapping("/packageDetail.pk")
+	@ResponseBody
+	public PackagePay getPackageDetail(@RequestParam("packageReservNo") int packageReservNo) {
+	    return packageService.packageDetail(packageReservNo);
+	}
+
 
 
 

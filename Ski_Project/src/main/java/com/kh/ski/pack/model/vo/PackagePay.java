@@ -1,5 +1,7 @@
 package com.kh.ski.pack.model.vo;
 
+import java.sql.Date;
+
 public class PackagePay {
 	
 	private int packageReservNo;	//	PACKAGE_RESERV_NO
@@ -10,7 +12,9 @@ public class PackagePay {
 	private String prefuncDate;		//	PREFUND_DATE	
 	private int memberNo;			//	MEMBER_NO
 	private int packageNo;			//	PACKAGE_NO
-	
+	private String packageName; 
+	private int packagePrice;
+	private Date packPayDate;
 	
 	public PackagePay() {}
 
@@ -106,6 +110,36 @@ public class PackagePay {
 
 	public void setPackageNo(int packageNo) {
 		this.packageNo = packageNo;
+	}
+
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
+
+	public int getPackagePrice() {
+		return packagePrice;
+	}
+
+
+	public void setPackagePrice(int packagePrice) {
+		this.packagePrice = packagePrice;
+	}
+
+
+	public Date getPackPayDate() {
+		return packPayDate;
+	}
+
+
+	public void setPackPayDate(Date packPayDate) {
+		this.packPayDate = packPayDate;
 	}
 
 

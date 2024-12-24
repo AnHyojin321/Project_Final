@@ -2,26 +2,26 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
-	
-	
+
 <mapper namespace="locker">
-<resultMap id="lockerResultMap" type="com.kh.ski.locker.model.vo.Locker">
-    <result property="lockerNo" column="LOCKER_NO"/>
-    <result property="lockerPrice" column="LOCKER_PRICE"/>
-</resultMap>
+
+    <resultMap id="lockerResultMap" type="com.kh.ski.locker.model.vo.Locker">
+        <result property="lockerNo" column="LOCKER_NO"/>
+        <result property="lockerPrice" column="LOCKER_PRICE"/>
+    </resultMap>
+
     <!-- 모든 락커 조회 -->
     <select id="findAllLockers" resultType="Locker">
         SELECT * FROM LOCKER
     </select>
 
-<select id="findLockerById" parameterType="int" resultMap="lockerResultMap">
-    SELECT LOCKER_NO, LOCKER_PRICE
-    FROM LOCKER
-    WHERE LOCKER_NO = #{lockerNo}
-</select>
+    <select id="findLockerById" parameterType="int" resultMap="lockerResultMap">
+        SELECT LOCKER_NO, LOCKER_PRICE
+        FROM LOCKER
+        WHERE LOCKER_NO = #{lockerNo}
+    </select>
 
-
+ 
 <insert id="insertPayLocker" parameterType="lockerpay">
     INSERT INTO LOCKER_RESERV (LOCKER_RESERV_NO
                              , LOCKER_START_DATE
@@ -38,6 +38,50 @@
 	               , #{memberNo}
 	               , #{lockerNo})
 </insert>
+   <select id="findReservationsByMemberNo" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
+    SELECT 
+        LOCKER_RESERV_NO AS lockerReservNo,
+        LOCKER_START_DATE AS lockerStartDate,
+        LOCKER_END_DATE AS lockerEndDate,
+        LOCKER_TOTAL_PRICE AS lockerTotalPrice,
+        TID AS tid,
+        MEMBER_NO AS memberNo,
+        LOCKER_NO AS lockerNo,
+        PACK_LOCKER_USED AS packLockerUsed,
+        LREFUND_STATUS AS lrefundStatus,
+        LREFUND_DATE AS lrefundDate
+    FROM LOCKER_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
+
+
+
+
+<select id="findLockerReservationsByMemberNo" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
+    SELECT LOCKER_RESERV_NO AS lockerReservNo,
+           LOCKER_START_DATE AS lockerStartDate,
+           LOCKER_END_DATE AS lockerEndDate,
+           LOCKER_TOTAL_PRICE AS lockerTotalPrice
+      FROM LOCKER_RESERV
+     WHERE MEMBER_NO = #{memberNo}
+</select>
+<select id="findLockerReservationById" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
+    SELECT LOCKER_RESERV_NO AS lockerReservNo,
+           LOCKER_START_DATE AS lockerStartDate,
+           LOCKER_END_DATE AS lockerEndDate,
+           LOCKER_TOTAL_PRICE AS lockerTotalPrice,
+           MEMBER_NO AS memberNo,
+           LOCKER_NO AS lockerNo,
+           TID AS tid
+      FROM LOCKER_RESERV
+     WHERE LOCKER_RESERV_NO = #{lockerReservNo}
+</select>
+
+<select id="countReservedLockers" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM LOCKER_RESERV
+    WHERE MEMBER_NO = #{memberNo}
+</select>
 
 
 </mapper>
