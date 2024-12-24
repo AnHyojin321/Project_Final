@@ -249,6 +249,7 @@ public class PackageController {
 		return "pack/packagePayStep2";
 		
 	}
+	// 김동준마이페ㅇ지
 	@GetMapping("/packageDetail.pk")
 	@ResponseBody
 	public PackagePay getPackageDetail(@RequestParam("packageReservNo") int packageReservNo) {

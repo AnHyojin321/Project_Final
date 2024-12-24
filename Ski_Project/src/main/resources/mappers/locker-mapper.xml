@@ -56,7 +56,7 @@
 
 
 
-
+<!-- 김동준 -->
 <select id="findLockerReservationsByMemberNo" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
     SELECT LOCKER_RESERV_NO AS lockerReservNo,
            LOCKER_START_DATE AS lockerStartDate,
@@ -65,6 +65,7 @@
       FROM LOCKER_RESERV
      WHERE MEMBER_NO = #{memberNo}
 </select>
+<!-- 김동준 -->
 <select id="findLockerReservationById" parameterType="int" resultType="com.kh.ski.locker.model.vo.LockerReservation">
     SELECT LOCKER_RESERV_NO AS lockerReservNo,
            LOCKER_START_DATE AS lockerStartDate,
@@ -77,6 +78,7 @@
      WHERE LOCKER_RESERV_NO = #{lockerReservNo}
 </select>
 
+<!-- 김동준 -->
 <select id="countReservedLockers" parameterType="int" resultType="int">
     SELECT COUNT(*)
     FROM LOCKER_RESERV

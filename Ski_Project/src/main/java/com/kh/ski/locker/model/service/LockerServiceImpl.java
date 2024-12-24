@@ -32,14 +32,17 @@ public class LockerServiceImpl implements LockerService {
     public int insertPayLocker(LockerReservation lr) {
     	return lockerDao.insertPayLocker(sqlSession, lr);
     }
+ // 김동준	
     @Override
     public ArrayList<LockerReservation> selectReservedLockerList(int memberNo) {
         return lockerDao.findLockerReservationsByMemberNo(sqlSession, memberNo);
     }
+    // 김동준	
     @Override
     public LockerReservation findLockerReservationById(int lockerReservNo) {
         return lockerDao.findLockerReservationById(sqlSession, lockerReservNo);
     }
+ // 김동준	
     @Override
     public int countReservedLockers(int memberNo) {
         return lockerDao.countReservedLockers(sqlSession, memberNo);

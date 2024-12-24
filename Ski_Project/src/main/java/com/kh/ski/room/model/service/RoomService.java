@@ -35,6 +35,7 @@ public interface RoomService {
 	 // 객실 예약 환불 처리
 	 int cancelRoomReservation(int roomReserNo);
 	 
+	 // 객실 수조회 김동준
 	 int countReservedRooms(int memberNo);
 
 }

@@ -147,6 +147,7 @@
 		AND RREFUND_STATUS = 'N'
 	</update>
 
+<!-- 객실 수조회 김동준 -->
 	<select id="countReservedRooms" parameterType="int" resultType="int">
     SELECT COUNT(*)
     FROM ROOM_RESERV

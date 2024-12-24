@@ -36,9 +36,11 @@ public class LiftDao {
     public ArrayList<LiftOrder> selectReservedLiftList(SqlSessionTemplate sqlSession, String memberId) {
         return (ArrayList) sqlSession.selectList("lift.selectReservedLiftList", memberId);
     }
+ // 김동준마이페ㅇ지
     public LiftOrder selectLiftOrderByNo(SqlSessionTemplate sqlSession, int liftOrderNo) {
         return sqlSession.selectOne("lift.selectLiftOrderByNo", liftOrderNo);
     }
+ // 김동준마이페ㅇ지
     public int countReservedLifts(SqlSessionTemplate sqlSession, String memberId) {
         return sqlSession.selectOne("lift.countReservedLifts", memberId);
     }

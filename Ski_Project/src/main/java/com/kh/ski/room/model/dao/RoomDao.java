@@ -60,6 +60,7 @@ public class RoomDao {
 		return sqlSession.update("roomMapper.cancelRoomReservation", roomReservNo);
 	}
  
+	// 객실 수조회 김동준
 	public int countReservedRooms(SqlSessionTemplate sqlSession, int memberNo) {
 	    return sqlSession.selectOne("roomMapper.countReservedRooms", memberNo);
 	}

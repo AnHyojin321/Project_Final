@@ -86,6 +86,7 @@
         FROM LIFT_ORDER LO
         WHERE LO.MEMBER_ID = #{memberId}
     </select>
+    <!-- 김동준 마이페이지  -->
     <select id="selectLiftOrderByNo" parameterType="int" resultMap="liftOrderResultSet">
     SELECT 
         LIFT_ORDER_NO,
@@ -95,6 +96,7 @@
     FROM LIFT_ORDER
     WHERE LIFT_ORDER_NO = #{liftOrderNo}
 </select>
+<!-- 김동준 마이페이지  -->
     <select id="countReservedLifts" parameterType="string" resultType="int">
     SELECT COUNT(*)
     FROM LIFT_ORDER
