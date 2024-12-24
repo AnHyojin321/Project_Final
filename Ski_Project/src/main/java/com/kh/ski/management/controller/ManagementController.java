@@ -47,7 +47,7 @@ public class ManagementController {
 	}
 
 	
-	@GetMapping("Widget.sm")
+	@GetMapping("widget.sm")
 	public ModelAndView selectSkiResort(ModelAndView mv) {
 	    String city = "Seoul"; // 예시 도시
 	    String weatherData = weatherService.getWeather(city);

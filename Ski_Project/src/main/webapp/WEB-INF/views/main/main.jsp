@@ -249,6 +249,7 @@ p {
             <img src="resources/images/snow.png" class="snow-image"> 
             <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길</a></button>
             
+            
             <div id="top1">
                 <p style="font-size: 25px;">[Adv:nture]</p> 
                 <p>MAKE YOUR </p>      
@@ -285,6 +286,7 @@ p {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
                 </button>
             </div>
+            
 
         </div>
         

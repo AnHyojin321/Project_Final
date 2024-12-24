@@ -271,57 +271,6 @@
 	   #addItem:hover {
 	   	background-color: rgba(0, 10, 50, 0.13);
 	   }
-	   .modal {
-	        display: none;
-	        position: fixed;
-	        z-index: 1000;
-	        left: 0;
-	        top: 0;
-	        width: 100%;
-	        height: 100%;
-	        background-color: rgba(0, 0, 0, 0.5);
-	        justify-content: center;
-	        align-items: center;
-	    }
-	
-	    .modal-content {
-	        background-color: white;
-	        padding: 20px;
-	        border-radius: 5px;
-	        width: 400px;
-	        text-align: center;
-	    }
-	
-	    .modal-header {
-	        font-size: 1.5rem;
-	        margin-bottom: 10px;
-	    }
-	
-	    .modal-body {
-	        margin: 10px 0;
-	    }
-	
-	    .modal-footer {
-	        display: flex;
-	        justify-content: space-around;
-	    }
-	
-	    .modal-footer button {
-	        padding: 10px 20px;
-	        border: none;
-	        border-radius: 5px;
-	        cursor: pointer;
-	    }
-	
-	    .modal-footer button.confirm {
-	        background-color: green;
-	        color: white;
-	    }
-	
-	    .modal-footer button.cancel {
-	        background-color: red;
-	        color: white;
-	    }
 
         #otherLiftBtn {
             cursor: pointer;
@@ -434,21 +383,6 @@
 	                </div>
 	            </div>
 				<form action="liftOrder.li" method="post" id="liftForm"> </form> 
-				<!-- 모달창 -->
-				<div id="modal" class="modal">
-				    <div class="modal-content">
-				        <div class="modal-header">결제 확인</div>
-				        <div class="modal-body">
-				            <p>주문 내역:</p>
-				            <div id="modalOrderList"></div>
-				            <p>결제하시겠습니까?</p>
-				        </div>
-				        <div class="modal-footer">
-				           <button class="confirm" id="confirm">예</button>   
-				           <button class="cancel">아니오</button>
-				        </div>
-				    </div>
-				</div>
 	        </div>
 	    </div>
 	    <div class="liftDiv">
@@ -511,20 +445,6 @@ $(document).ready(function() {
         });
         updateTotalPrice();
     }
-    
-    function showModal() {
-        const modalOrderList = orderList.map(item => `
-            <p>
-        		\${item.type} (\${item.age}): \${item.count}개 - \${formatPrice(item.totalPrice)}원
-        	</p>
-        `).join('');
-        $('#modalOrderList').html(modalOrderList);
-        $('#modal').fadeIn();
-    }
-
-    function hideModal() {
-        $('#modal').fadeOut();
-    }
 
     $('#submit').click(function (event) {
     	if (${empty sessionScope.loginMember}) { 
@@ -534,29 +454,23 @@ $(document).ready(function() {
          if (orderList.length === 0) {
              alert('주문 항목을 추가하세요.');
              return;
+         } else {
+        	 $('form').find('input[name^="li["]').remove();
+
+             // orderList 데이터를 폼에 추가
+             orderList.forEach((item, index) => {
+                 $('form').append(`
+                     <input type="hidden" name="liftNo" value="\${item.liftNo}" />
+                     <input type="hidden" name="liftCount" value="\${item.count}" />
+                     <input type="hidden" name="liftTotalPrice" value="\${item.totalPrice}" />
+                     <input type="hidden" name="memberId" value="\${memberId}" />
+                 `);
+             });
+
+             // 폼 제출
+             $('#liftForm').submit();
          }
-         showModal();
   }
-    });
-
-    $('#confirm').click(function () {
-        hideModal();
-
-        // 폼 안의 기존 hidden input 요소 초기화
-        $('form').find('input[name^="li["]').remove();
-
-        // orderList 데이터를 폼에 추가
-        orderList.forEach((item, index) => {
-            $('form').append(`
-                <input type="hidden" name="liftNo" value="\${item.liftNo}" />
-                <input type="hidden" name="liftCount" value="\${item.count}" />
-                <input type="hidden" name="liftTotalPrice" value="\${item.totalPrice}" />
-                <input type="hidden" name="memberId" value="\${memberId}" />
-            `);
-        });
-
-        // 폼 제출
-        $('#liftForm').submit();
     });
 
 

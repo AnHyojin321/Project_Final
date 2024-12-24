@@ -8,38 +8,81 @@
 <title>Lift Payment Information</title>
 <script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+	#outer{
+		width: 90%;
+		margin:auto;
+	}
+	h1 {
+		padding : 20px 0;
+	}
+	#btnDiv {
+		text-align: right;
+		padding-right:10px;
+		padding-bottom : 20px;
+	}
+	.pay-btn {
+		width:200px;
+		height:50px;
+		border:none;
+		border-radius:7px;
+		background-color : blue;
+		color : white;
+		cursor : pointer;
+		transition: background-color 0.3s ease;
+	}
+	.pay-btn:hover {
+		background-color : indigo;
+		
+	}
+</style>
 </head>
 <body>
-    <h1>Lift Payment Information</h1>
+<jsp:include page="../common/header.jsp" />
 
-    <!-- 총 개수와 총 가격을 저장할 변수를 초기화 -->
+<div id="outer">
+    <h1>리프트권 주문 정보</h1>
+
     <c:set var="totalCount" value="0" />
     <c:set var="totalPrice" value="0" />
+    
 
-    <!-- 각 Lift 정보를 출력하면서 총합 계산 -->
     <c:forEach var="order" items="${list}">
         <p>
-            Lift No: ${order.liftNo} 
+            리프트권 종류 : ${order.liftType}
             <c:choose>
-                <c:when test="${order.liftNo == 400 || order.liftNo == 401}">
-                    (오전권)
+                <c:when test="${order.liftNo == 400}">
+                    오전권 (대인)
                 </c:when>
-                <c:when test="${order.liftNo == 402 || order.liftNo == 403}">
-                    (오후권)
+                <c:when test="${order.liftNo == 401}">
+                    오전권 (소인)
                 </c:when>
-                <c:when test="${order.liftNo == 404 || order.liftNo == 405}">
-                    (종일권)
+                <c:when test="${order.liftNo == 402}">
+                    오후권 (대인)
                 </c:when>
-                <c:when test="${order.liftNo == 406 || order.liftNo == 407}">
-                    (시즌권)
+                <c:when test="${order.liftNo == 403}">
+                    오후권 (소인)
+                </c:when>
+                <c:when test="${order.liftNo == 404}">
+                    종일권 (대인)
+                </c:when>
+                <c:when test="${order.liftNo == 405}">
+                    종일권 (소인)
+                </c:when>
+                <c:when test="${order.liftNo == 406}">
+                    시즌권 (대인)
+                </c:when>
+                <c:when test="${order.liftNo == 407}">
+                    시즌권 (소인)
                 </c:when>
                 <c:otherwise>
-                    (알 수 없음)
+                    알 수 없음
                 </c:otherwise>
             </c:choose>
         </p>
-        <p>Lift Count: ${order.liftCount}</p>
-        <p>Lift Total Price: ${order.liftTotalPrice}</p>
+        <p>리프트권 개수 : ${order.liftCount} 개</p>
+        <p>리프트권 금액 : ${order.liftTotalPrice} 원</p>
+        <hr>
         
         <!-- 총 개수와 총 가격을 업데이트 -->
         <c:set var="totalCount" value="${totalCount + order.liftCount}" />
@@ -48,13 +91,15 @@
 
     <hr>
 
-    <!-- 총 개수와 총 가격 출력 -->
-    <p>총 Lift Count: ${totalCount}</p>
-    <p>총 Lift Price: ${totalPrice}</p>
+    <p>총 리프트권 개수: ${totalCount} 개</p>
+    <p>총 금액: ${totalPrice} 원</p>
+    <p>구매자 : ${list[0].memberId}</p>
 
-    <p>예약자 아이디: ${list[0].memberId}</p>
-
-    <button class="pay-btn" onclick="serverAuth()">결제하기</button>
+	<div id="btnDiv">
+	    <button class="pay-btn" onclick="serverAuth()">${totalPrice}원 결제하기</button>	
+	</div>
+</div>
+<jsp:include page="../common/footer.jsp" />
 </body>
 <script>
 function serverAuth() {
@@ -78,7 +123,7 @@ function serverAuth() {
                     method: 'card',
                     orderId: '02e16b8c-779d-497f-b54d-07521212175d',
                     amount: totalPrice,
-                    goodsName: "리프트권 1매외 " + (totalCount - 1) + "건",
+                    goodsName: "리프트권 1매 외 " + (totalCount - 1) + "건",
                     returnUrl: "http://localhost:8090/ski/payResult.li",
                     fnError: function(result) {
                         alert('결제 실패: ' + result.errorMsg);
@@ -93,6 +138,9 @@ function serverAuth() {
             alert('서버와의 통신 중 오류가 발생했습니다.');
         }
     });
+}
+function formatPrice(price) {
+    return price.toLocaleString();
 }
 </script>
 </body>

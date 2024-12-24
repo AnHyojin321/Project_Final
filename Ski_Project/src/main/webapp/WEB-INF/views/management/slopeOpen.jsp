@@ -65,7 +65,7 @@
 	<div id="title">
 		<h1>슬로프 오픈 현황 <span id="currentDate"></span></h1>
 		<div>
-			<i class="fa-solid fa-o fa-xl" style="color:rgb(255, 0, 75);"></i> : OPEN
+			<i class="fa-solid fa-o fa-xl" style="color:rgb(40, 150, 255);"></i> : OPEN
 			&nbsp;&nbsp;
 			<i class="fa-solid fa-xmark fa-xl" style="color: #a0a0a0;"></i> : CLOSE		
 		</div>
@@ -126,11 +126,11 @@
 					        <td>
 							    <c:choose>
 							        <c:when test="${slope.slopeIsOpen == 'Y'}">
-							            <i class="fa-solid fa-o fa-2xl" style="color:rgb(255, 0, 75);"></i>
+							            <i class="fa-solid fa-o fa-2xl" style="color:rgb(40, 150, 255);"></i>
 							            <i class="fa-solid fa-xmark fa-2xl" style="color: #a0a0a0; display:none;"></i>
 							        </c:when>
 							        <c:otherwise>
-							            <i class="fa-solid fa-o fa-2xl" style="color:rgb(255, 0, 75); display:none;"></i>
+							            <i class="fa-solid fa-o fa-2xl" style="color:rgb(40, 150, 255); display:none;"></i>
 							            <i class="fa-solid fa-xmark fa-2xl" style="color: #a0a0a0;"></i>
 							        </c:otherwise>
 							    </c:choose>
