@@ -716,7 +716,6 @@
     <div class="container">
         <nav class="nav">
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
-
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>
             <a href="${pageContext.request.contextPath}/locker">락커 예약</a>
             <a href="${pageContext.request.contextPath}/list.pk">패키지</a>
