@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.admin.common.model.vo.PageInfo;
+import com.kh.admin.member.model.vo.Member;
 import com.kh.admin.pack.model.vo.Pack;
 import com.kh.admin.pack.model.vo.PackagePay;
 
@@ -66,6 +67,17 @@ public class PackageDao {
 				= new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("packageMapper.selectpackageReservedList", null, rowBounds);
+	}
+	
+	// 패키지 예약자 정보 조회
+	public Member selectMember(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("packageMapper.selectMember", memberNo);
+	}
+	
+	
+	// 패키지 예약 내역 상세 조회
+	public PackagePay selectPackagePayDetail(SqlSessionTemplate sqlSession, int packageReservNo) {
+		return sqlSession.selectOne("packageMapper.selectPackagePayDetail", packageReservNo);
 	}
 
 

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.admin.common.model.vo.PageInfo;
 import com.kh.admin.common.template.Pagination;
+import com.kh.admin.member.model.vo.Member;
 import com.kh.admin.pack.model.service.PackageService;
 import com.kh.admin.pack.model.vo.Pack;
 import com.kh.admin.pack.model.vo.PackagePay;
@@ -211,6 +215,29 @@ public class PackageController {
 		return "pack/reservedList";
 		
 	}
+	
+	// 예약 내역 상세 조회
+	@ResponseBody
+	@GetMapping("packageReservDetail.pk") 
+	public Map<String, Object> selectPackageReservedDetail(@RequestParam("packageReservNo")int packageReservNo
+										  , @RequestParam("memberNo") int memberNo) {
+		System.out.println("패키지 예약 내역 상세 조회 컨트롤러 호출됨");
+		System.out.println("패키지 예약 번호 : " + packageReservNo);
+		System.out.println("회원 번호 : " + memberNo);
+		
+		// 회원정보 조회
+		Member m = packageService.selectMember(memberNo);
+		
+		// 패키지 예약 정보 조회
+		PackagePay p = packageService.selectPackagePayDetail(packageReservNo);
+		
+		Map<String, Object> response = new HashMap<>();
+	    response.put("m", m);
+	    response.put("p", p);
+	    
+	    return response;
+	}
+	
 
 		
 	

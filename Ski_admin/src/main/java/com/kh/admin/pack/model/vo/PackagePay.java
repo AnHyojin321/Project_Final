@@ -1,6 +1,5 @@
 package com.kh.admin.pack.model.vo;
 
-import java.sql.Date;
 
 public class PackagePay {
 	
@@ -16,6 +15,11 @@ public class PackagePay {
 	private String packageName; 
 	private int packagePrice;
 	private String payDate;
+	
+	private String packageSet;
+	
+	private String memberName;
+	private String phone;
 	
 	public PackagePay() {}
 
@@ -33,6 +37,35 @@ public class PackagePay {
 		this.packageName = packageName;
 		this.packagePrice = packagePrice;
 		this.payDate = payDate;
+	}
+	
+	
+	
+	
+	
+
+	public String getPackageSet() {
+		return packageSet;
+	}
+
+	public void setPackageSet(String packageSet) {
+		this.packageSet = packageSet;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public int getPackageReservNo() {

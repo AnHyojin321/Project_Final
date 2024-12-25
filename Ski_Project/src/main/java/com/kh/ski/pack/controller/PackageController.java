@@ -251,7 +251,6 @@ public class PackageController {
 	}
 
 	// 마이페이지에서 패키지 예약 건수 조회하기 - 김동준
-
 	@GetMapping("/packageDetail.pk")
 	@ResponseBody
 	public PackagePay getPackageDetail(@RequestParam("packageReservNo") int packageReservNo) {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.admin.common.model.vo.PageInfo;
+import com.kh.admin.member.model.vo.Member;
 import com.kh.admin.pack.model.dao.PackageDao;
 import com.kh.admin.pack.model.vo.Pack;
 import com.kh.admin.pack.model.vo.PackagePay;
@@ -70,6 +71,18 @@ public class PackageServiceImpl implements PackageService {
 	@Override
 	public ArrayList<PackagePay> selectpackageReservedList(PageInfo pi) {
 		return packageDao.selectpackageReservedList(sqlSession, pi);
+	}
+	
+	// 패키지 예약자 정보 조회
+	@Override
+	public Member selectMember(int memberNo) {
+		return packageDao.selectMember(sqlSession, memberNo);
+	}
+	
+	// 패키지  예약 내역 상세 조회
+	@Override
+	public PackagePay selectPackagePayDetail(int packageReservNo) {
+		return packageDao.selectPackagePayDetail(sqlSession, packageReservNo);
 	}
 
 }

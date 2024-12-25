@@ -21,11 +21,14 @@
         font-size: 30px;
         color: #333;
     }
+    
+    
 
     table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
+       
     }
 
     table thead {
@@ -72,6 +75,10 @@
 
     .btn-delete:hover {
         background-color: #a71d2a;
+    }
+    
+    .packageList{
+    	border-radius: 10px;
     }
     
     table tbody tr {
@@ -225,7 +232,7 @@
 	                <tr>
 	                    <th>상품 번호</th>
 	                    <th>상품 구성</th>
-	                    <th width="300">상품 이름</th>
+	                    <th width="400">상품 이름</th>
 	                    <th>시작 날짜</th>
 	                    <th>마감 날짜</th>
 	                    <th>판매여부</th>
