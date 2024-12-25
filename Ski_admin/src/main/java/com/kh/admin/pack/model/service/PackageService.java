@@ -32,6 +32,7 @@ public interface PackageService {
 	
 	// 패키지 예약 내역 목록 조회
 	ArrayList<PackagePay> selectpackageReservedList(PageInfo pi);
+<<<<<<< Updated upstream
 	
 	// 패키지 예약한 회원 정보 조회
 	Member selectMember(int memberNo);
@@ -39,5 +40,7 @@ public interface PackageService {
 	// 패키지 예약 내역 상세 조회
 	PackagePay selectPackagePayDetail(int packageReservNo);
 	
+=======
+>>>>>>> Stashed changes
 
 }

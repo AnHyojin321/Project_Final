@@ -215,6 +215,7 @@ public class PackageController {
 		return "pack/reservedList";
 		
 	}
+<<<<<<< Updated upstream
 	
 	// 예약 내역 상세 조회
 	@ResponseBody
@@ -238,6 +239,8 @@ public class PackageController {
 	    return response;
 	}
 	
+=======
+>>>>>>> Stashed changes
 
 		
 	

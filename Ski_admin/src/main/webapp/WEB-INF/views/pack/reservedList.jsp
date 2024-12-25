@@ -82,6 +82,7 @@
         background-color: #fdecea;
         color: #e74c3c;
     }
+<<<<<<< Updated upstream
     
     /* 모달창 관련 CSS */
         .modal {
@@ -140,6 +141,8 @@
 		text-align : center;
 	}
     
+=======
+>>>>>>> Stashed changes
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -165,12 +168,18 @@
                         <th>예약 번호</th>
                         <th>패키지 이름</th>
                         <th>예약자 이름</th>
+<<<<<<< Updated upstream
                         <th>예약자 전화번호</th>
                         <th>예약 상태</th>
+=======
+                        <th>예약일</th>
+                        <th>상태</th>
+>>>>>>> Stashed changes
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="p" items="${list}">
+<<<<<<< Updated upstream
                         <tr data-status="${p.packageReservNo}" data-member="${p.memberNo}" onclick="openModal('${p.packageReservNo}', '${p.memberNo}')">
                         	<td>${p.packageReservNo}</td>
                             <td>${p.packageName}</td>
@@ -186,12 +195,28 @@
 							        </c:otherwise>
 							    </c:choose>
 							</td>
+=======
+                        <tr data-status="${p.packageReservNo}">
+                            <td>${p.packageReservNo}</td>
+                            <td>${p.packageReservNo}</td>
+                            <td>${p.packageReservNo}</td>
+                            <td>${p.packageReservNo}</td>
+                            <td>
+                                <span class="status ${reservation.status == 'confirmed' ? 'confirmed' : 'cancelled'}">
+                                    <c:choose>
+                                        <c:when test="${reservation.status == 'confirmed'}">예약 완료</c:when>
+                                        <c:otherwise>취소됨</c:otherwise>
+                                    </c:choose>
+                                </span>
+                            </td>
+>>>>>>> Stashed changes
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
         </main>
     </div>
+<<<<<<< Updated upstream
     <!-- 모달창 -->
     <div id="reservationModal" class="modal">
         <div class="modal-content">
@@ -256,5 +281,7 @@
             $("#reservationModal").css("display", "none");
         }
     </script>
+=======
+>>>>>>> Stashed changes
 </body>
 </html>

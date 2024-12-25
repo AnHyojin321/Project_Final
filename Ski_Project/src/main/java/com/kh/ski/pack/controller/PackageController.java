@@ -249,7 +249,11 @@ public class PackageController {
 		return "pack/packagePayStep2";
 		
 	}
+<<<<<<< Updated upstream
 
+=======
+	
+>>>>>>> Stashed changes
 	// 마이페이지에서 패키지 예약 건수 조회하기 - 김동준
 	@GetMapping("/packageDetail.pk")
 	@ResponseBody
