@@ -11,6 +11,7 @@ import com.kh.ski.lift.model.dao.LiftDao;
 import com.kh.ski.lift.model.vo.Lift;
 import com.kh.ski.lift.model.vo.LiftOrder;
 import com.kh.ski.lift.model.vo.LiftPay;
+import com.kh.ski.member.model.vo.Member;
 
 @Service
 public class LiftServiceImpl implements LiftService{
@@ -59,5 +60,27 @@ public class LiftServiceImpl implements LiftService{
     public int countReservedLifts(String memberId) {
         return liftDao.countReservedLifts(sqlSession, memberId);
     }
+
+	@Override
+	public Member selectMember(String memberId) {
+		return liftDao.selectMember(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<LiftPay> selectPurchasedLiftList(String memberId) {
+		return liftDao.selectPurchasedLiftList(sqlSession, memberId);
+	}
+
+	@Override
+	@Transactional
+	public int cancelLiftPurchase(int liftPurchaseNo) {
+		return liftDao.cancelLiftPurchase(sqlSession, liftPurchaseNo);
+	}
+
+	@Override
+	@Transactional
+	public int QRCode(int liftPurchaseNo) {
+		return liftDao.QRCode(sqlSession, liftPurchaseNo);
+	}
 
 }

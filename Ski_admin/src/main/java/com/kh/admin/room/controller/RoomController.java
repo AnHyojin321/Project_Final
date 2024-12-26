@@ -222,7 +222,6 @@ public class RoomController {
         mv.addObject("pageSize", pageSize);
         mv.setViewName("room/roomReservation");
 
-        System.out.println(roomReservationList);
         return mv;
     }
 

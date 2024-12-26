@@ -1,13 +1,7 @@
 package com.kh.ski.lift.model.vo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 public class LiftPay {
-	
-	// 리프트권 구매 테이블
+
 	private int liftPurchaseNo;
 	private String liftPurchaseDate;
 	private String packLiftUsed;
@@ -16,11 +10,13 @@ public class LiftPay {
 	private String tid;
 	private String memberId;
 	private String liftLrefundStatus;
+	private String liftLrefundDate;
+	private String QRCode;
 	
 	public LiftPay() {}
 
 	public LiftPay(int liftPurchaseNo, String liftPurchaseDate, String packLiftUsed, int totalPrice, int totalCount,
-			String tid, String memberId, String liftLrefundStatus) {
+			String tid, String memberId, String liftLrefundStatus, String liftLrefundDate, String qRCode) {
 		super();
 		this.liftPurchaseNo = liftPurchaseNo;
 		this.liftPurchaseDate = liftPurchaseDate;
@@ -30,7 +26,8 @@ public class LiftPay {
 		this.tid = tid;
 		this.memberId = memberId;
 		this.liftLrefundStatus = liftLrefundStatus;
-
+		this.liftLrefundDate = liftLrefundDate;
+		QRCode = qRCode;
 	}
 
 	public int getLiftPurchaseNo() {
@@ -97,16 +94,31 @@ public class LiftPay {
 		this.liftLrefundStatus = liftLrefundStatus;
 	}
 
+	public String getLiftLrefundDate() {
+		return liftLrefundDate;
+	}
 
+	public void setLiftLrefundDate(String liftLrefundDate) {
+		this.liftLrefundDate = liftLrefundDate;
+	}
+
+	public String getQRCode() {
+		return QRCode;
+	}
+
+	public void setQRCode(String qRCode) {
+		QRCode = qRCode;
+	}
 
 	@Override
 	public String toString() {
 		return "LiftPay [liftPurchaseNo=" + liftPurchaseNo + ", liftPurchaseDate=" + liftPurchaseDate
 				+ ", packLiftUsed=" + packLiftUsed + ", totalPrice=" + totalPrice + ", totalCount=" + totalCount
-				+ ", tid=" + tid + ", memberId=" + memberId + ", liftLrefundStatus=" + liftLrefundStatus  + "]";
+				+ ", tid=" + tid + ", memberId=" + memberId + ", liftLrefundStatus=" + liftLrefundStatus
+				+ ", liftLrefundDate=" + liftLrefundDate + ", QRCode=" + QRCode + "]";
 	}
 
-	
-	
 
+
+	
 }

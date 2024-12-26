@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.ski.lift.model.vo.Lift;
 import com.kh.ski.lift.model.vo.LiftOrder;
 import com.kh.ski.lift.model.vo.LiftPay;
+import com.kh.ski.member.model.vo.Member;
 
 @Repository
 public class LiftDao {
@@ -44,5 +45,23 @@ public class LiftDao {
     public int countReservedLifts(SqlSessionTemplate sqlSession, String memberId) {
         return sqlSession.selectOne("lift.countReservedLifts", memberId);
     }
+
+    
+    
+	public Member selectMember(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("lift.selectMember", memberId);
+	}
+
+	public ArrayList<LiftPay> selectPurchasedLiftList(SqlSessionTemplate sqlSession, String memberId) {
+		return (ArrayList)sqlSession.selectList("lift.selectPurchasedLiftList", memberId);
+	}
+	
+	public int cancelLiftPurchase(SqlSessionTemplate sqlSession, int liftPurchaseNo) {
+		return sqlSession.update("lift.cancelLiftPurchase", liftPurchaseNo);
+	}
+
+	public int QRCode(SqlSessionTemplate sqlSession, int liftPurchaseNo) {
+		return sqlSession.update("lift.QRCode", liftPurchaseNo);
+	}
 
 }

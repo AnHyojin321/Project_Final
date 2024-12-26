@@ -216,5 +216,61 @@ public class LiftController {
 
 	    return response;
 	}
+	
+	
+	@GetMapping("myLift.me")
+	public ModelAndView selectPurchasedLiftList(HttpSession session, ModelAndView mv) {
+		
+		Member loginMember = (Member)session.getAttribute("loginMember");
+	    
+	    String memberId = loginMember.getMemberId();
+	    
+	    Member m = liftService.selectMember(memberId);
+	    ArrayList<LiftPay> list = liftService.selectPurchasedLiftList(memberId);
+	    
+	    mv.addObject("m", m)
+	      .addObject("list", list)
+	  	  .setViewName("mypage/myLift");
+	    System.out.println(list);
+
+		return mv;
+	}
+	
+	// 예약 취소 처리 요청 컨트롤러
+	@RequestMapping(value = "canclePurchase.me", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String cancelLiftPurchase(@RequestParam("liftPurchaseNo") int liftPurchaseNo) {
+		System.out.println("환불하고자하는 예약 번호 : " + liftPurchaseNo);
+		
+		int result = liftService.cancelLiftPurchase(liftPurchaseNo);
+		
+	    if (result > 0) { 
+	        System.out.println("환불 성공");
+	        return "success";
+	    } else {
+	        System.out.println("환불 실패");
+	        return "fail";
+	    }
+	}
+	
+	
+	// QRCode 발급 컨트롤러
+	@RequestMapping(value = "qrCode.me", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String QRCode(@RequestParam("liftPurchaseNo") int liftPurchaseNo) {
+		
+		int result = liftService.QRCode(liftPurchaseNo);
+		
+		if (result > 0) { 
+			System.out.println("환불 성공");
+			return "success";
+		} else {
+			System.out.println("환불 실패");
+			return "fail";
+		}
+	}
+
+
+
  
 }
