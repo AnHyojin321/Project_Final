@@ -178,7 +178,7 @@
                 opacity: 0;
             }
         }
-                #top1 {
+        #top1 {
             position: absolute;
             top: 20px;
             color: white;
@@ -208,11 +208,11 @@
 
         <!-- 오른쪽 섹션 -->
         <div class="right">
-            <form method="post" action="findPwd.me" class="form-container">
+            <form method="post" action="findPwd.me" class="form-container" onsubmit="return preventMultipleSubmissions();">
                 <h1>비밀번호 찾기</h1>
                 <input type="text" name="memberId" placeholder="아이디" required>
                 <input type="email" name="email" placeholder="이메일" required>
-                <button type="submit">비밀번호 초기화</button>
+                <button type="submit" id="submitButton">비밀번호 초기화</button>
 
                 <div class="links">
                     <a href="${pageContext.request.contextPath}/login.me">로그인으로 돌아가기</a> | 
@@ -234,6 +234,18 @@
     </div>
 
     <script>
+        let isSubmitting = false;
+
+        // 중복 제출 방지
+        function preventMultipleSubmissions() {
+            if (isSubmitting) {
+                return false;
+            }
+            isSubmitting = true;
+            document.getElementById('submitButton').disabled = true;
+            return true;
+        }
+
         // 눈송이 생성 함수
         function createSnowflake() {
             var snowflake = document.createElement('div');
@@ -269,7 +281,6 @@
             }
             createSnowflake(); // 눈송이 생성
         };
-
     </script>
 </body>
 </html>
