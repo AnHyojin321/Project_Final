@@ -1,5 +1,7 @@
 package com.kh.ski.locker.model.vo;
 
+import java.sql.Date;
+
 public class LockerReservation {
     private int lockerReservNo;
     private String lockerStartDate;
@@ -11,6 +13,7 @@ public class LockerReservation {
     private String lrefundStatus; // 환불 상태
     private String packLockerUsed; // 사용 여부 (Y/N)
     private String lrefundDate; // 환불 처리일 추가
+    private String payDate; // 결제일 추가
 
     public LockerReservation() {}
 
@@ -111,11 +114,26 @@ public class LockerReservation {
         this.lrefundDate = lrefundDate;
     }
 
-    @Override
-    public String toString() {
-        return "LockerReservation [lockerReservNo=" + lockerReservNo + ", lockerStartDate=" + lockerStartDate
-                + ", lockerEndDate=" + lockerEndDate + ", lockerTotalPrice=" + lockerTotalPrice + ", tid=" + tid
-                + ", memberNo=" + memberNo + ", lockerNo=" + lockerNo + ", lrefundStatus=" + lrefundStatus
-                + ", packLockerUsed=" + packLockerUsed + ", lrefundDate=" + lrefundDate + "]";
-    }
+
+
+	public String getPayDate() {
+		return payDate;
+	}
+
+
+	public void setPayDate(String payDate) {
+		this.payDate = payDate;
+	}
+
+
+	@Override
+	public String toString() {
+		return "LockerReservation [lockerReservNo=" + lockerReservNo + ", lockerStartDate=" + lockerStartDate
+				+ ", lockerEndDate=" + lockerEndDate + ", lockerTotalPrice=" + lockerTotalPrice + ", tid=" + tid
+				+ ", memberNo=" + memberNo + ", lockerNo=" + lockerNo + ", lrefundStatus=" + lrefundStatus
+				+ ", packLockerUsed=" + packLockerUsed + ", lrefundDate=" + lrefundDate + ", payDate=" + payDate + "]";
+	}
+
+
+	
 }

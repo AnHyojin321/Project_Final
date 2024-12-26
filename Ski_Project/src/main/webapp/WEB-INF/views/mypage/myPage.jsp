@@ -955,7 +955,7 @@
 
                 <c:forEach var="liftOrder" items="${reservedLiftList}">
                     <div class="order-item">
-                        <div>[#${liftOrder.liftOrderNo}]</div>
+                        <div>[#${liftOrder.liftOrderNo}]<br>${liftOrder.liftPurchaseDate }</div>
                         <div>리프트 번호: ${liftOrder.liftNo}</div>
                         <div>${liftOrder.liftTotalPrice}원</div>
                         <div>
@@ -977,7 +977,7 @@
 
                 <c:forEach var="locker" items="${reservedLockers}">
                     <div class="order-item" data-reservno="${locker.lockerReservNo}">
-                        <div>[#${locker.lockerReservNo}]</div>
+                        <div>[#${locker.lockerReservNo}]<br>${locker.payDate }</div>
                         <div>락커</div>
                         <div>${locker.lockerTotalPrice}원</div>
                         <div>

@@ -137,7 +137,7 @@ public class MemberController {
 
 	        // **회원 ID 생성 규칙 수정**
 	        String emailPrefix = email != null ? email.split("@")[0] : "unknown"; // 이메일 아이디 추출
-	        String generatedMemberId = "naver_" + emailPrefix; // 네이버 ID 형식: naver_이메일아이디
+	        String generatedMemberId = emailPrefix; // 네이버 ID 형식: naver_이메일아이디
 
 	        // 특수 문자 제거 (닉네임을 대체용으로 추가 가능)
 	        generatedMemberId = generatedMemberId.replaceAll("[^a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]", "");
@@ -582,6 +582,7 @@ public class MemberController {
 
         // 락커 예약 목록 조회
         ArrayList<LockerReservation> reservedLockers = lockerService.selectReservedLockerList(memberNo);
+        System.out.println("락커 예약 내역 조회 : " + reservedLockers);
         int lockerCount = lockerService.countReservedLockers(memberNo);
 
         // 패키지 예약 목록 조회

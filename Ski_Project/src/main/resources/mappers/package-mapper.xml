@@ -139,6 +139,7 @@
 	
 <select id="selectReservedPackageList" parameterType="int" resultType="com.kh.ski.pack.model.vo.PackagePay">
     SELECT
+    	PR.PAY_DATE AS payDate,
         PR.PACKAGE_RESERV_NO AS packageReservNo,
         PR.MEMBER_NO AS memberNo,
         PR.PACKAGE_NO AS packageNo,

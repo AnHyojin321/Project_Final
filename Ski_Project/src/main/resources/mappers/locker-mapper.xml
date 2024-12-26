@@ -27,6 +27,7 @@
                              , LOCKER_START_DATE
                              , LOCKER_END_DATE
                              , LOCKER_TOTAL_PRICE
+                             , PAY_DATE
                              , TID
                              , MEMBER_NO
                              , LOCKER_NO)
@@ -34,6 +35,7 @@
 	               , #{lockerStartDate}
 	               , #{lockerEndDate}
 	               , #{lockerTotalPrice}
+	               , SYSDATE
 	               , #{tid}
 	               , #{memberNo}
 	               , #{lockerNo})
@@ -61,7 +63,8 @@
     SELECT LOCKER_RESERV_NO AS lockerReservNo,
            LOCKER_START_DATE AS lockerStartDate,
            LOCKER_END_DATE AS lockerEndDate,
-           LOCKER_TOTAL_PRICE AS lockerTotalPrice
+           LOCKER_TOTAL_PRICE AS lockerTotalPrice,
+           PAY_DATE AS payDate
       FROM LOCKER_RESERV
      WHERE MEMBER_NO = #{memberNo}
 </select>
@@ -73,6 +76,7 @@
            LOCKER_TOTAL_PRICE AS lockerTotalPrice,
            MEMBER_NO AS memberNo,
            LOCKER_NO AS lockerNo,
+           PAY_DATE AS payDate,
            TID AS tid
       FROM LOCKER_RESERV
      WHERE LOCKER_RESERV_NO = #{lockerReservNo}

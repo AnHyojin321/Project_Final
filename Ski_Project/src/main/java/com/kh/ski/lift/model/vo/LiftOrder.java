@@ -11,7 +11,7 @@ public class LiftOrder {
 	private String memberId;
     private String liftType; // 김동준 추가
     private String liftAge;
-	
+	private String liftPurchaseDate; // 김동준 추가 
 	
 	public LiftOrder() {}
 
@@ -78,6 +78,14 @@ public class LiftOrder {
 
 	public void setLiftAge(String liftAge) {
 		this.liftAge = liftAge;
+	}
+
+	public String getLiftPurchaseDate() {
+		return liftPurchaseDate;
+	}
+
+	public void setLiftPurchaseDate(String liftPurchaseDate) {
+		this.liftPurchaseDate = liftPurchaseDate;
 	}
 
 	@Override

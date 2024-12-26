@@ -19,7 +19,7 @@
 	
 	<resultMap id="liftPayResultSet" type="liftPay">
 		<id column="LIFT_PURCHASE_NO" property="liftPurchaseNo"/>
-		<result column="LIFT_PRUCHASE_DATE" property="liftPurchaseDate"/>
+		<result column="LIFT_PURCHASE_DATE" property="liftPurchaseDate"/>
 		<result column="PACK_LIFT_USED" property="packLiftUsed"/>
 		<result column="TOTAL_PRICE" property="totalPrice"/>
 		<result column="TOTAL_COUNT" property="totalCount"/>
@@ -77,16 +77,20 @@
 	
 	
 <!-- 김동준 마이페이지  -->
-    <select id="selectReservedLiftList" parameterType="string" resultMap="liftOrderResultSet">
-        SELECT
-            LO.LIFT_ORDER_NO AS LIFT_ORDER_NO,
-            LO.LIFT_COUNT AS LIFT_COUNT,
-            LO.LIFT_TOTAL_PRICE AS LIFT_TOTAL_PRICE,
-            LO.LIFT_NO AS LIFT_NO,
-            LO.MEMBER_ID AS MEMBER_ID
-        FROM LIFT_ORDER LO
-        WHERE LO.MEMBER_ID = #{memberId}
-    </select>
+<select id="selectReservedLiftList" parameterType="string" resultMap="liftOrderResultSet">
+SELECT
+    LO.LIFT_ORDER_NO AS LIFT_ORDER_NO,
+    LO.LIFT_COUNT AS LIFT_COUNT,
+    LO.LIFT_TOTAL_PRICE AS LIFT_TOTAL_PRICE,
+    LO.LIFT_NO AS LIFT_NO,
+    LO.MEMBER_ID AS MEMBER_ID,
+    TO_CHAR(LP.LIFT_PURCHASE_DATE, 'YYYY-MM-DD HH24:MI:SS') AS liftPurchaseDate
+FROM LIFT_ORDER LO
+JOIN LIFT_PURCHASE LP ON LO.MEMBER_ID = LP.MEMBER_ID
+WHERE LO.MEMBER_ID = #{memberId}
+
+</select>
+
     <!-- 김동준 마이페이지  -->
     <select id="selectLiftOrderByNo" parameterType="int" resultMap="liftOrderResultSet">
     SELECT 

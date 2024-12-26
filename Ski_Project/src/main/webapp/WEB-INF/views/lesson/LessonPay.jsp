@@ -12,9 +12,8 @@
             line-height: 1.5;
             color: #333;
             padding: 20px;
-                background-color: white !important; /* 흰색 강제 적용 */
+            background-color: white !important; /* 흰색 강제 적용 */
         }
-
 
         .container {
             max-width: 1000px;
@@ -100,21 +99,22 @@
             font-size: 0.9em;
             text-align: right;
         }
-       .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            white-space: nowrap;
+
+        .refund-policy {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .nav a {
-            text-decoration: none;
-            color: #666;
-            padding: 0 15px;
+        .refund-policy h3 {
+            margin-bottom: 15px;
+            color: #cc0000;
+        }
+
+        .refund-policy p {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -240,6 +240,15 @@
                 </tr>
             </table>
             <p class="footnote">*강습하기전 표보험 (연당 관련)</p>
+        </div>
+
+        <div class="refund-policy">
+            <h3>⛔ 환불 규정</h3>
+            <p>• 강습 시작 3일 전까지 취소: 전액 환불</p>
+            <p>• 강습 시작 2일 전까지 취소: 강습료의 50% 환불</p>
+            <p>• 강습 시작 당일 취소: 환불 불가</p>
+            <p>• 날씨 또는 리조트 사정으로 강습이 취소된 경우: 전액 환불</p>
+            <p class="footnote">*환불 요청은 리조트 문의를 통해 가능합니다.</p>
         </div>
     </div>
     

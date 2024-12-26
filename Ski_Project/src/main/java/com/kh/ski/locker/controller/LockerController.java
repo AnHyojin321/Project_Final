@@ -104,9 +104,12 @@ public class LockerController {
         System.out.println("Check-Out: " + lr.getLockerEndDate());
         System.out.println("Total Price: " + lr.getLockerTotalPrice());
 
+
         int result = lockerService.insertPayLocker(lr);
+        
 
         if (result > 0) {
+        	System.out.println(lr.getPayDate());
             // 성공 시 결과 페이지로 이동
             mv.setViewName("locker/payLocksuccess");
         } else {
