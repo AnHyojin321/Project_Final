@@ -401,7 +401,7 @@ p {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: white;
 }
 
 .modal-footer button {
@@ -417,7 +417,15 @@ p {
     background-color: #555;
 }
 
-
+  #widget {
+    	width:10px;
+    	height:30px;
+    	bottom:30px;
+    	left:30px;
+    	color:black;
+    	position: relative;
+    	
+    }
 
 </style>
 </head>
@@ -479,8 +487,8 @@ p {
               
             </div>
             <div class="modal-footer">
-                <button id="closeModal" style="background-color: #444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">오늘 하루 그만보기</button>
-                <button id="closeModal" style="background-color: #444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">닫기</button>
+                <button id="dismissToday" style="background-color: #004AAD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">오늘 하루 그만보기</button>
+                <button id="closeModal" style="background-color: #004AAD; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">닫기</button>
             </div>
         </div>
     </div>
@@ -542,42 +550,84 @@ p {
         <div style="display: flex; align-items: center; margin: 50px auto; position: relative; justify-content: center;">
     <img src="resources/images/question.png" 
          style="width: 20px; position: absolute; left: 490px; bottom: 0; z-index: 2; bottom:30px;">
-    <button id="qna" 
+    <button id="custom-kakao-channel-button" 
             style="background-color: #004AAD; color: white; border: none; 
                    width: 130px; height: 40px; border-radius: 8px; font-size: 15px; left:160px; bottom:20px;
                    position: relative; z-index: 1;">
         &nbsp;&nbsp;&nbsp;&nbsp;문의하기
     </button>
 </div>
+    <!-- 위젯 -->
+            <div id="widget">
+            	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				<script>
+				    $(document).ready(function () {
+				        // Ajax 요청
+				        $.ajax({
+				            url: "widget.sm", // 서버에서 데이터를 가져올 URL
+				            method: "GET",
+				            success: function (data) {
+				                // 데이터를 div에 삽입
+				                $("#widget").html(data);
+				            },
+				            error: function (xhr, status, error) {
+				                console.error("Error loading widget:", error);
+				            }
+				        });
+				    });
+				</script>
+            </div>
 
-
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
     <script>
     
   
     
     document.addEventListener("DOMContentLoaded", function () {
-        const popupModal = document.getElementById("popupModal");
-        const closeModalButtons = document.querySelectorAll("#closeModal");
+    	
+    	 Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
 
-        // 페이지 로드 후 2초 뒤에 팝업 표시
-        setTimeout(() => {
-            popupModal.style.display = "flex";
-        }, 1000);
+         // 커스텀 버튼 클릭 이벤트
+         const customButton = document.getElementById('custom-kakao-channel-button');
+         customButton.addEventListener('click', function () {
+           Kakao.Channel.addChannel({
+             channelPublicId: '_PPxdxln' // 채널 고유 ID
+           });
+         });
+    	
+    	 const popupModal = document.getElementById("popupModal");
+    	    const dismissTodayButton = document.getElementById("dismissToday");
+    	    const closeModalButtons = document.querySelectorAll("#closeModal");
 
-        // 닫기 버튼 클릭 시 팝업 닫기
-        closeModalButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                popupModal.style.display = "none";
-            });
-        });
+    	    // 로컬 스토리지를 확인하여 모달 표시 여부 결정
+    	    if (localStorage.getItem("dismissModalToday") === "true") {
+    	        popupModal.style.display = "none";
+    	    } else {
+    	        setTimeout(() => {
+    	            popupModal.style.display = "flex"; // 모달 표시
+    	        }, 1000);
+    	    }
 
-        // 배경 클릭 시 팝업 닫기
-        popupModal.addEventListener("click", (event) => {
-            if (event.target === popupModal) {
-                popupModal.style.display = "none";
-            }
-        });
+    	    // '오늘 하루 그만보기' 버튼 클릭 시 로컬 스토리지에 저장
+    	    dismissTodayButton.addEventListener("click", () => {
+    	        localStorage.setItem("dismissModalToday", "true");
+    	        popupModal.style.display = "none";
+    	    });
+
+    	    // '닫기' 버튼 클릭 시 모달 닫기
+    	    closeModalButtons.forEach((button) => {
+    	        button.addEventListener("click", () => {
+    	            popupModal.style.display = "none";
+    	        });
+    	    });
+
+    	    // 모달 외부 클릭 시 닫기
+    	    popupModal.addEventListener("click", (event) => {
+    	        if (event.target === popupModal) {
+    	            popupModal.style.display = "none";
+    	        }
+    	    });
     });
 
   

@@ -237,8 +237,6 @@
             </div>
             <div class="sub-menu">
                 <ul>
-                    <li>Project Request</li>
-                    <li>Contact</li>
 					<li onclick="location.href='${pageContext.request.contextPath}/list.le'">강습예약</li>
                     <li onclick="location.href='${pageContext.request.contextPath}/lostList'">분실물</li>
                     <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</li>

@@ -459,12 +459,7 @@ p {
         animation-delay: 0.6s;
     }
     
-    #widget {
-    	width:100%px;
-    	height:300px;
-    	margin-top:250px;
-    	color:black;
-    }
+  
 </style>
     
 </head>
@@ -611,26 +606,7 @@ p {
                     </div>
                 </div>
             </div>
-            <!-- 위젯 -->
-            <div id="widget">
-            	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-				<script>
-				    $(document).ready(function () {
-				        // Ajax 요청
-				        $.ajax({
-				            url: "widget.sm", // 서버에서 데이터를 가져올 URL
-				            method: "GET",
-				            success: function (data) {
-				                // 데이터를 div에 삽입
-				                $("#widget").html(data);
-				            },
-				            error: function (xhr, status, error) {
-				                console.error("Error loading widget:", error);
-				            }
-				        });
-				    });
-				</script>
-            </div>
+        
             
             
         </div>
