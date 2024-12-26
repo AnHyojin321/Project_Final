@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,24 +20,27 @@
 
     .menu-container {
       display: flex;
-      justify-content: center; /* 메뉴들을 가운데에 배치 */
+      justify-content: center;
       align-items: center;
+      right:100px;
       width: 100%;
       flex-grow: 1;
+      position: relative; /* 메뉴 컨테이너에 상대적인 위치 지정 */
     }
 
     .main-menu, .sub-menu {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0 30px; /* 좌우 메뉴 간격 설정 */
+      margin: 0 30px;
     }
-
+    
     .logo {
-      position: absolute;
-      top: 40px;
-      left: 60px;
-      text-align: left;
+      position: relative;
+      bottom: 250px; /* 로고를 메뉴 상단으로 위치 */
+      right:150px;
+      transform: translateX(-50%); /* 중앙 정렬 */
+      text-align: center;
     }
 
     .logo span {
@@ -84,60 +88,109 @@
       text-align: center;
       font-size: 12px;
       color: #666;
-      margin-top: 20px;
+      margin-top: 400px;
+      right: 700px;
     }
 
-    .close-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-      transition: color 0.3s;
+    /* 메인 메뉴 애니메이션 */
+    .main-menu {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: transform 1s ease-out, opacity 1s ease-out;
     }
 
-    .close-button:hover {
-      color: #999;
+    .main-menu.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* 서브 메뉴 애니메이션 */
+    .sub-menu {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .sub-menu.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
   </style>
 </head>
 <body>
   <div class="menu-container">
-
     <div class="logo">
-        <span>[Adv:nture]</span>
-        <p>Soul spirit SKI...</p>
-      </div>
+      <span>[Adv:nture]</span>
+      <p>Soul spirit SKI...</p>
+    </div>
     <div class="main-menu">
       <ul>
-        <li>Home</li>
+        <li onclick="toggleSubMenu()">Home</li>
         <li>About Us</li>
         <li>Works</li>
         <li>Partner</li>
       </ul>
     </div>
-            <button class="close-button">X</button>
     
-    <div class="sub-menu">
-      <ul>
-        <li>Project Request</li>
-        <li>Contact</li>
-        <li>Threeway Homepage</li>
-        <li>Company Brochure</li>
-        <li>Intranet</li>
-        <li>Extranet</li>
-      </ul>
-      
-    </div>
+	<div class="sub-menu">
+	  <ul>
+	    <li>Project Request</li>
+	    <li>Contact</li>
+	    <li>Threeway Homepage</li>
+	    <li>Company Brochure</li>
+	    <li>Intranet</li>
+	    <li>Extranet</li>
+	
+	    <!-- 로그인 상태 확인 -->
+	    <c:if test="${not empty sessionScope.loginMember}">
+	      <!-- 로그인 상태일 때 (Logout과 MyPage 보이기) -->
+	      <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">MyPage</li>
+	      <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">Logout</li>
+	    </c:if>
+	    <c:if test="${empty sessionScope.loginMember}">
+	      <!-- 로그인 상태가 아닐 때 (Login 보이기) -->
+	      <li onclick="location.href='${pageContext.request.contextPath}/login.me'">Login</li>
+	    </c:if>
+	  </ul>
+	</div>
+
   </div>
-  <footer>
-    <p>&copy; THREEWAY CO., LTD. ALL RIGHT RESERVED.</p>
-  </footer>
-  <button class="close-button">X</button>
+
+  <script>
+    // 서브 메뉴 보이기/숨기기
+    function toggleSubMenu() {
+      const subMenu = document.querySelector('.sub-menu');
+      const mainMenu = document.querySelector('.main-menu');
+
+      // 서브 메뉴가 이미 보이고 있다면 숨기기
+      if (subMenu.classList.contains('show')) {
+        subMenu.classList.remove('show');
+        setTimeout(() => {
+          subMenu.style.display = 'none'; // 애니메이션이 끝난 후 숨김
+        }, 1000); // 1초 후 서브 메뉴 숨기기
+      } else {
+        // 서브 메뉴가 보이지 않으면 1초 뒤에 보이게 하기
+        subMenu.style.display = 'block'; // 서브 메뉴를 보이게 설정
+        setTimeout(() => {
+          subMenu.classList.add('show');
+        }, 100); // 0.1초 뒤에 애니메이션 시작
+      }
+    }
+
+    // 페이지 로드 시 애니메이션 시작
+    window.onload = function() {
+      const mainMenu = document.querySelector('.main-menu');
+      const subMenu = document.querySelector('.sub-menu');
+
+      setTimeout(() => {
+        mainMenu.classList.add('show');
+      }, 100);
+
+      setTimeout(() => {
+        subMenu.classList.add('show');
+      }, 1000);
+    };
+  </script>
 </body>
 </html>
-

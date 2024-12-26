@@ -262,13 +262,6 @@
     <div class="content">
 
 
-        <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
-                    <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 74%; top: 53px; z-index: 4;">
-                    <button id="qna"   style="background-color: #0B3E74; color: white; border: none; 
-                        width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative;  top: 44px; left: 73%;  z-index: 3;">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
-                    </button>
-                </div>   
             <p style="font-size: 20px; color: rgb(55, 54, 54); bottom: 50px; position: relative;">
                 <br><br><br>
                 편안함과 모험이 공존하는 공간에서, 진정한 여유를 느끼세요. <br>
@@ -286,29 +279,7 @@
                 </div>
                 
 
-                <!--메뉴바, 문의하기-->
-                <button id="menuBtn" style="
-                width: 70px; 
-                height: 70px; 
-                background: url('resources/images/menu.png') no-repeat center center; 
-                background-size: cover; 
-                border: none; 
-                margin-left: 86%; 
-                bottom: 270px;
-                cursor: pointer;
-                z-index: 3;
-                position: relative;
-                transition: transform 0.2s ease, opacity 0.2s ease;">
-                </button>
-                <div style="margin-left: 87%; color: white; font-size: 16px; bottom: 275px; position: relative;  "><b>MENU</b></div>
-                
-                
-                
-                <img src="resources/images/snow.png" class="snow-image"> 
-				
-       
-              
-                <button id="btn1-vertical"><br>찾<br>아<br>오<br>는<br> 길</button>
+
 	
                 <div id="top1" style="z-index: 3; color: rgb(79, 78, 78);font-family: 'Roboto', sans-serif;
              font-weight: lighter; font-size: 33px;">
@@ -316,7 +287,7 @@
                  <p style="font-size: 20px; right: 20px; position: relative;">MAKE YOUR </p> 
                 </div>
 
-                <div   class="text2" style=" color: black; right: 390px; position: relative; bottom: 360px;">
+                <div   class="text2" style=" color: black; right: 390px; position: relative; bottom: 10px;">
                 <img src="resources/images/main4-img1.png" width="90px"  >
                 <p>서비스</p>
                 <p style="font-size: 20px;">1st movement <br>
@@ -325,7 +296,7 @@
                 </p>
             </div>
 
-            <div  class="text2" style="color: black; bottom: 670px; position: relative; ">
+            <div  class="text2" style="color: black; bottom: 320px; position: relative; ">
                 <img src="resources/images/main4-img2.png" width="90px" >
                 <p>소통</p>
                 <p style="font-size: 20px;">2st movement <br>
@@ -333,9 +304,9 @@
                          소통을 통해 더 나은 서비스를 <br>만들어가며 함께 공감하는 공간을 제공합니다.
                 </p>
             </div>
-            <div  class="text2" style="color: black;  left: 400px; position: relative; bottom: 975px;">
+            <div  class="text2" style="color: black;  left: 400px; position: relative; bottom: 625px;">
                 <img src="resources/images/main4-img3.png" width="90px" >
-                <p>오직</p>
+                <p>케어</p>
                 <p style="font-size: 20px;">3st movement <br>
                     <p style="font-size: 15px;">
                         차별화된 시설과 독창적인 <br>프로그램으로 당신의 겨울을 한층 더 빛나게 합니다. 
@@ -343,6 +314,9 @@
             </div>
     <script>
    
+    
+    
+    
     
     let hasScrolled = false; // 스크롤 이벤트가 발생한 여부를 추적하는 변수
 

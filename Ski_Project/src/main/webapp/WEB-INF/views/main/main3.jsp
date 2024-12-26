@@ -761,7 +761,7 @@ p {
             
             <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
                 <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 190px; bottom: 80px; z-index: 4;">
-                <button id="qna"   style="background-color: #0B3E74; color: white; border: none; 
+                <button id="custom-kakao-channel-button"   style="background-color: #0B3E74; color: white; border: none; 
                     width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 180px; bottom: 70px; z-index: 3;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
                 </button>
@@ -800,8 +800,22 @@ p {
         <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
     <div class="circle" id="circle"></div>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 카카오 SDK 초기화
+        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+
+        // 커스텀 버튼 클릭 이벤트
+        const customButton = document.getElementById('custom-kakao-channel-button');
+        customButton.addEventListener('click', function () {
+          Kakao.Channel.addChannel({
+            channelPublicId: '_PPxdxln' // 채널 고유 ID
+          });
+        });
+      });
+    
     
  // main2 클릭 시 Sketchfab Viewer 표시
    // main2 클릭 시 Sketchfab Viewer 표시

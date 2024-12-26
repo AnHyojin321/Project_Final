@@ -17,9 +17,5 @@ public class MController5 {
         return "main5";  
     }
 
-    @RequestMapping("/goToMain6")
-    public String goToMain6() {
-        mService5.processBeforeRedirect(); // 서비스 호출
-        return "main/main6";  // /WEB-INF/views/main/main2.jsp로 리다이렉트
-    }
+  
 }

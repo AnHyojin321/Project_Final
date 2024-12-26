@@ -21,5 +21,6 @@ public interface LockerService {
     LockerReservation findLockerReservationById(int lockerReservNo);
     int countReservedLockers(int memberNo);
 
+    int updateRefundStatus(int lockerReservNo);
 
 }

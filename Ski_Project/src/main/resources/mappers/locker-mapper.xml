@@ -86,4 +86,11 @@
 </select>
 
 
+<update id="updateRefundStatus">
+    UPDATE LOCKER_RESERV
+    SET LREFUND_STATUS = 'Y', LREFUND_DATE = SYSDATE
+    WHERE LOCKER_RESERV_NO = #{lockerReservNo}
+</update>
+
+
 </mapper>

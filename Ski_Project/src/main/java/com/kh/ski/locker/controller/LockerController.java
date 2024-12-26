@@ -149,84 +149,11 @@ public class LockerController {
         List<LockerReservation> reservations = lockerService.getReservationsByMemberNo(memberNo);
         model.addAttribute("reservations", reservations);
 
-        return "locker/myLockerReservation";
+        return "locker/myLockerReservation"; // JSP 파일 이름
     }
 
     
-    /*
-     * 알림톡 보내기 
-     * 
-     * 
-     * */
-  
-    
-    @GetMapping("/kakao/auth")
-    public String kakaoAuth(@RequestParam("code") String code, HttpSession session) {
-        RestTemplate restTemplate = new RestTemplate();
-        String requestUrl = "https://kauth.kakao.com/oauth/token";
-
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", "0cd68bfa45da0864628e982003503e2e"); // REST API 키
-        params.add("redirect_uri", "http://localhost:8090/ski/kakao/auth"); // Redirect URI 설정
-        params.add("code", code);
-
-        ResponseEntity<Map> response = restTemplate.postForEntity(requestUrl, params, Map.class);
-        String accessToken = (String) response.getBody().get("access_token");
-
-        if (accessToken != null) {
-            session.setAttribute("kakaoAccessToken", accessToken); // 세션에 저장
-            System.out.println("Access Token 저장 성공: " + accessToken);
-        } else {
-            System.out.println("Access Token 발급 실패: " + response.getBody());
-        }
-
-        return "redirect:/send-message"; // 메시지 전송 페이지로 리다이렉트
-    }
-
-
-
-    
-    @PostMapping("/send-message")
-    @ResponseBody
-    public String sendKakaoMessage(HttpSession session) {
-        String accessToken = (String) session.getAttribute("kakaoAccessToken");
-
-        if (accessToken == null) {
-            return "Error: Access token not found in session.";
-        }
-
-        // 메시지 내용 구성
-        String message = "안녕하세요, 설레눈 리조트입니다.\n" +
-                         "예약 정보:\n" +
-                         "락커 번호: 101\n" +
-                         "예약 번호: 12345\n" +
-                         "이용 기간: 2024-12-25 ~ 2024-12-26\n" +
-                         "총 결제 금액: 10,000원";
-
-        RestTemplate restTemplate = new RestTemplate();
-        String requestUrl = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        Map<String, Object> templateObject = new HashMap<>();
-        templateObject.put("object_type", "text");
-        templateObject.put("text", message);
-        templateObject.put("link", Map.of("web_url", "https://your-site.com"));
-
-        Map<String, Object> request = Map.of("template_object", templateObject);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
-
-        try {
-            ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, entity, String.class);
-            return "메시지 전송 성공: " + response.getBody();
-        } catch (Exception e) {
-            return "메시지 전송 실패: " + e.getMessage();
-        }
-    }
-
+   
 
     @GetMapping("/lockerDetail.lo")
     @ResponseBody
@@ -238,6 +165,29 @@ public class LockerController {
             System.out.println("해당 번호로 락커 예약 정보를 찾을 수 없습니다.");
         }
         return lockerReservation;
+    }
+    
+    @PostMapping("/cancelLockerReservation")
+    @ResponseBody
+    public Map<String, String> cancelLockerReservation(@RequestParam("lockerReservNo") int lockerReservNo) {
+        Map<String, String> response = new HashMap<>();
+        System.out.println("[DEBUG] 받은 lockerReservNo: " + lockerReservNo); // 로그 추가
+        try {
+            int result = lockerService.updateRefundStatus(lockerReservNo);
+            System.out.println("[DEBUG] updateRefundStatus 결과: " + result); // 로그 추가
+            if (result > 0) {
+                response.put("status", "success");
+                response.put("message", "예약이 성공적으로 취소되었습니다.");
+            } else {
+                response.put("status", "fail");
+                response.put("message", "예약 취소에 실패했습니다."); // 이 부분 실행
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류 발생: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return response;
     }
 
 

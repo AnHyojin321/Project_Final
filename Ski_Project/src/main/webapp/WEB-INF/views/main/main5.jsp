@@ -491,13 +491,13 @@ p {
             <div style="color: white; top: 250px; position: absolute; left: 90px; width: 100%;">
                 <p style="font-size: 70px;">Review</p>
                 <br><br>
-                지난 6개월간의 시간들을 되돌아보며,<br> 취업을 목표로 나가자!
+                지난 6개월간의 시간들을 되돌아보며,
             </div>
                                     <button class="btn-toggle">리뷰 보기</button>
             
             <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
                 <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 390px; bottom: 575px; z-index: 4;">
-                <button id="qna"   style="background-color: #0B3E74; color: white; border: none; 
+                <button id="custom-kakao-channel-button"   style="background-color: #0B3E74; color: white; border: none; 
                     width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 380px; bottom: 260px; z-index: 3;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
                 </button>
@@ -551,10 +551,24 @@ p {
             
 
         
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 카카오 SDK 초기화
+        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
 
+        // 커스텀 버튼 클릭 이벤트
+        const customButton = document.getElementById('custom-kakao-channel-button');
+        customButton.addEventListener('click', function () {
+          Kakao.Channel.addChannel({
+            channelPublicId: '_PPxdxln' // 채널 고유 ID
+          });
+        });
+      });
+    
+    
  // GSAP 애니메이션
     document.querySelector('.btn-toggle').addEventListener('click', function () {
         const scrollableDiv = document.querySelector('.scrollable-div');
@@ -620,7 +634,7 @@ p {
 
                // 애니메이션이 끝난 후 페이지 이동
                setTimeout(function() {
-                   window.location.href = "<c:url value='/goToMain6'/>"; // 페이지 이동
+                   window.location.href = "<c:url value='/goToMain4'/>"; // 페이지 이동
                }, 800); // 0.8초 후 이동
 
                hasScrolled = true; // 스크롤이 발생했음을 추적

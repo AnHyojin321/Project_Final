@@ -52,4 +52,13 @@ public class LockerServiceImpl implements LockerService {
     public List<LockerReservation> getReservationsByMemberNo(int memberNo) {
         return lockerDao.findReservationsByMemberNo(sqlSession, memberNo);
     }
+    
+    @Override
+    @Transactional
+    public int updateRefundStatus(int lockerReservNo) {
+        System.out.println("[DEBUG] updateRefundStatus 호출됨, lockerReservNo: " + lockerReservNo);
+        return lockerDao.updateRefundStatus(sqlSession, lockerReservNo);
+    }
+
+
 }

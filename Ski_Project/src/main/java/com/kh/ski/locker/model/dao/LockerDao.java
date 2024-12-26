@@ -54,4 +54,14 @@ public class LockerDao {
     public List<LockerReservation> findReservationsByMemberNo(SqlSessionTemplate sqlSession, int memberNo) {
         return sqlSession.selectList("locker.findReservationsByMemberNo", memberNo);
     }
+    
+    public int updateRefundStatus(SqlSessionTemplate sqlSession, int lockerReservNo) {
+        System.out.println("[DEBUG] DAO에서 받은 lockerReservNo: " + lockerReservNo);
+        int result = sqlSession.update("locker.updateRefundStatus", lockerReservNo);
+        System.out.println("[DEBUG] update 결과: " + result);
+        return result;
+    }
+
+
+
 }

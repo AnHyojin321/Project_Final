@@ -12,56 +12,7 @@
 
 
 <style>
- /* 전체 화면을 가리는 문 */
  
- 
-        .door {
-            position: absolute;
-            top: 0;
-            width: 50%;
-            height: 100%;
-            background-color: #004AAD;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        /* 왼쪽 문 */
-        .door.left {
-            left: 0;
-        }
-
-        /* 오른쪽 문 */
-        .door.right {
-            right: 0;
-        }
-
-        /* LOCKER 텍스트는 왼쪽 문에만 표시 */
-        .door.right::before {
-            content: '';
-        }
-
-        /* 실제 콘텐츠 */
-        .content {
-            opacity: 0; /* 초기 상태: 숨김 */
-            z-index: 5;
-            text-align: center;
-        }
-
-        .content h1 {
-            font-size: 3rem;
-            color: #333;
-        }
-
-        .content p {
-            font-size: 1.5rem;
-            color: #666;
-        }
 		
 		
 			.hero {
@@ -73,6 +24,12 @@
 	    align-items: center;
 	    justify-content: center;
 	}
+	
+	
+	
+	/* 문*/
+	
+	
 </style>
 </head>
 <script>
@@ -120,9 +77,10 @@ function serverAuth() {
     });
 }
 </script>
+
 <body>
- <div class="door left">LOCKER</div>
-    <div class="door right"></div>
+
+
 	<jsp:include page="../common/header.jsp" />
 
  
