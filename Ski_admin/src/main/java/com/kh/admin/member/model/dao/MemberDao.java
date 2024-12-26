@@ -49,5 +49,13 @@ public class MemberDao {
     public int totalMemberCount(SqlSession sqlSession) {
         return sqlSession.selectOne("member.totalMemberCount");
     }
+    // **추가된 메서드: 총 회원 수 조회**
+    public int selectTotalMemberCount(SqlSession sqlSession) {
+        return sqlSession.selectOne("member.selectTotalMemberCount");
+    }
 
+    // **추가된 메서드: 가입 중 회원 수 조회**
+    public int selectActiveMemberCount(SqlSession sqlSession) {
+        return sqlSession.selectOne("member.selectActiveMemberCount");
+    }
 }

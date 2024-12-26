@@ -19,5 +19,7 @@ public interface MemberService {
     // 총 회원 수 조회
     int totalMemberCount();
 
-		
+    int selectTotalMemberCount();
+    int selectActiveMemberCount();
+	
 }

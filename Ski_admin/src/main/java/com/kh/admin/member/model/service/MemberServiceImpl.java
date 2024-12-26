@@ -40,4 +40,14 @@ public class MemberServiceImpl implements MemberService {
     public int totalMemberCount() {
         return memberDao.totalMemberCount(sqlSession);
     }
+    @Override
+    public int selectTotalMemberCount() {
+        return memberDao.selectTotalMemberCount(sqlSession);
+    }
+
+    @Override
+    public int selectActiveMemberCount() {
+        return memberDao.selectActiveMemberCount(sqlSession);
+    }
+
 }

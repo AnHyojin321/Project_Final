@@ -19,7 +19,6 @@ import com.kh.admin.member.model.vo.Member;
 @Controller
 public class MemberController {
 
-
     @Autowired
     private MemberService memberService;
 
@@ -34,6 +33,10 @@ public class MemberController {
         // 총 회원 수 조회
         int listCount = memberService.selectListCount(keyword, memberStatus);
 
+        // **추가된 부분: 전체 회원 수 및 가입 중인 회원 수 조회**
+        int totalMembers = memberService.selectTotalMemberCount(); // 총 회원 수
+        int activeMembers = memberService.selectActiveMemberCount(); // 가입 중 회원 수
+
         // 페이징 처리
         PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, pageSize);
 
@@ -45,12 +48,16 @@ public class MemberController {
         mv.addObject("keyword", keyword);
         mv.addObject("memberStatus", memberStatus);
         mv.addObject("pageSize", pageSize);
+
+        // **추가된 부분: 회원 수 데이터 JSP에 전달**
+        mv.addObject("totalMembers", totalMembers);
+        mv.addObject("activeMembers", activeMembers);
+
         mv.setViewName("member/memberList");
 
         return mv;
     }
 
-    
     @PostMapping("updateStatus.ad")
     @ResponseBody
     public String updateMemberStatus(int memberNo, String memberStatus) {
@@ -63,5 +70,4 @@ public class MemberController {
             return "fail"; 
         }
     }
-    
 }

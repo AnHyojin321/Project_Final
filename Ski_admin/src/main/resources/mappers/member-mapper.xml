@@ -61,5 +61,12 @@
         WHERE MEMBER_NO = #{memberNo}
     </update>
 
+<select id="selectTotalMemberCount" resultType="int">
+    SELECT COUNT(*) FROM MEMBER
+</select>
+
+<select id="selectActiveMemberCount" resultType="int">
+    SELECT COUNT(*) FROM MEMBER WHERE MEMBER_STATUS = 'Y'
+</select>
 
 </mapper>

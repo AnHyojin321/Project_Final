@@ -280,6 +280,39 @@
         background-color: transparent;
         color: #aaa;
     }	
+    header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+header .welcome-msg {
+    font-size: 1.2em;
+    color: #6c757d;
+    margin: 5px 0;
+}
+
+header .stats-container {
+    margin-top: 10px;
+}
+
+header .stats {
+    font-size: 1em;
+    color: #343a40;
+    margin: 0;
+}
+
+header .stats strong {
+    color: #007bff;
+}
+    
     </style>
 </head>
 <body>
@@ -289,10 +322,17 @@
         
         <!-- 메인 콘텐츠 영역 -->
         <main class="content-area">
-                    <header>
-                <h1>회원 관리</h1>
-                <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
-            </header>
+ <header>
+    <h1>회원 관리</h1>
+    <p class="welcome-msg">환영합니다, <strong>관리자님</strong>!</p>
+    <div class="stats-container">
+        <p class="stats">
+            현재 총 회원 수: <strong>${totalMembers}</strong>명, 
+            가입 중인 회원 수: <strong>${activeMembers}</strong>명
+        </p>
+    </div>
+</header>
+
             
             <div class="filter-bar">
     <form action="members.ad" method="get" class="filter-form">

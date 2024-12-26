@@ -230,13 +230,13 @@ public class MemberController {
 	        } 
 	        // 3. 비밀번호 불일치
 	        else {
-	            mv.addObject("alertMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	            session.setAttribute("alertMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	            mv.setViewName("member/MemberLogin");
 	        }
 	    } 
 	    // 회원 정보 없음
 	    else {
-	        mv.addObject("alertMsg", "존재하지 않는 회원입니다.");
+	        session.setAttribute("alertMsg", "존재하지 않는 회원입니다.");
 	        mv.setViewName("member/MemberLogin");
 	    }
 
