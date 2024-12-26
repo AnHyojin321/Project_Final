@@ -15,13 +15,14 @@
 		min-height:75vh;
 	}
 	h1 {
-		padding : 30px 0;
+		padding-top : 30px;
+		padding-bottom: 15px;
 	}
 	#btnDiv {
 		text-align: right;
 		padding-right:10px;
-		padding-bottom : 20px;
-		padding-top:30px;
+		padding-bottom : 50px;
+		padding-top:20px;
 	}
 	.pay-btn {
 		width:200px;

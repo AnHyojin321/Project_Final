@@ -743,7 +743,7 @@
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>	
             <a href="${pageContext.request.contextPath}/myPackage.me">패키지</a>
-            <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
+            <a href="${pageContext.request.contextPath}/myLift.me">리프트권 구매</a>
             <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
         </nav>
