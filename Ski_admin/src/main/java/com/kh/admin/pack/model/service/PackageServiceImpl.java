@@ -85,6 +85,11 @@ public class PackageServiceImpl implements PackageService {
 	public PackagePay selectPackagePayDetail(int packageReservNo) {
 		return packageDao.selectPackagePayDetail(sqlSession, packageReservNo);
 	}
+	
+//	@Override
+//	public ArrayList<PackagePay> selectFilter(String prefundStatus) {
+//		return packageDao.selectFilter(sqlSession, prefundStatus);
+//	}
 
 
 }

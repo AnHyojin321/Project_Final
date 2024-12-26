@@ -40,6 +40,8 @@ public interface PackageService {
 	// 패키지 예약 내역 상세 조회
 	PackagePay selectPackagePayDetail(int packageReservNo);
 	
+	// 패키지 예약 내역 조회 - 필터링(환불상태여부)
+	// ArrayList<PackagePay> selectFilter(String prefundStatus);
 
 
 }

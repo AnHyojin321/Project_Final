@@ -93,7 +93,7 @@
             <span onclick="location.href='${pageContext.request.contextPath}/'">홈으로</span>
         </button>
         <button class="btn">
-            <span onclick="location.href='${pageContext.request.contextPath}/list.pk'">객실예약 바로가기</span>
+            <span onclick="location.href='${pageContext.request.contextPath}/list.pk'">패키지 예약 바로가기</span>
         </button>
     </div>
     

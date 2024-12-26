@@ -6,21 +6,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+
 
     .container {
-        width: 800px;
-        background-color: #fff;
+        width: 1000px;
         padding: 20px;
+        margin : 30px 50px;
+        item-align : center;
+        border : 1px dashed black;
+        border-radius : 10px;
     }
 
     .container h1 {
@@ -93,6 +87,9 @@
 </style>
 </head>
 <body>
+	<div class="admin-container">
+	<jsp:include page="../common/sidebar.jsp" />
+	<main class="content">
     <div class="container">
         <h1>패키지 등록</h1>
         <form action="insertPackage.pk" method="post" enctype="multipart/form-data">
@@ -137,6 +134,9 @@
                 <button type="submit">등록하기</button>
             </div>
         </form>
+    </div>
+    
+    </main>
     </div>
 </body>
 </html>

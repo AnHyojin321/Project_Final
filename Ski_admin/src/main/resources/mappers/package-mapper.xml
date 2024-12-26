@@ -162,5 +162,8 @@
 		JOIN PACKAGE_INFO B ON (A.PACKAGE_NO = B.PACKAGE_NO)
 		WHERE A.PACKAGE_RESERV_NO = #{packageReservNo}
 	</select>
+	
+		<!-- 패키지 예약 내역 목록 조회 - 필터링(환불여부)-->
+
 
 </mapper>

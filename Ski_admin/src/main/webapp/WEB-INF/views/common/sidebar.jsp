@@ -153,12 +153,18 @@ function saveDropdownState(event) {
                 <li><a href="/admin">대시보드</a></li>
 				<li><a href="members.ad">회원 관리</a></li>
 
-				<li><a href="list.pk">패키지 관리</a></li>
+				<li>
+				 <div class="dropdown" id="package" onclick="toggleDropdown(event); saveDropdownState(event)">패키지 관리</div>
+					<ul>
+						<li><a href="${pageContext.request.contextPath}/list.pk">패키지 관리</a></li>
+                    	<li><a href="packReservList.pk">패키지 예약 조회</a></li>
+                    </ul>	
+				</li>
                 <li>
                     <div class="dropdown" id="rooms" onclick="toggleDropdown(event); saveDropdownState(event)">객실 관리</div>
                     <ul>
                         <li><a href="${pageContext.request.contextPath}/list.ro">객실 관리</a></li>
-                        <li><a href="roomReservation.se">객실 예약 조회</a></li>
+                        <li><a href="packReservList.pk">객실 예약 조회</a></li>
                     </ul>
                 </li>
 

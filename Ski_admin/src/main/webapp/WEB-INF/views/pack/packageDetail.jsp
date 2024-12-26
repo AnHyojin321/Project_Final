@@ -11,7 +11,10 @@
 
 
 .card-container {
-    width: 80%;
+	border : 1px dashed black;
+	border-radius : 10px;
+    width: 50%;
+    margin : 30px auto;
     background-color: #fff;
     overflow: hidden;
     display: flex;
@@ -20,8 +23,7 @@
 }
 
 .card-header {
-    padding: 20px;
-    background-color: #90adca;
+    background-color: #2c3e50;
     color: #fff;
     text-align: center;
 }
@@ -33,8 +35,8 @@
 
 .card-header p {
     font-size: 20px;
-    opacity: 0.8;
-    margin-right : 360px;
+
+    margin-right : 200px;
 }
 
 .card-image-section {
@@ -81,7 +83,6 @@
     padding: 20px;
     display: flex;
     justify-content: space-around;
-    background-color: #f4f4f4;
 }
 
 .card-footer a {
@@ -100,31 +101,21 @@
 }
 
 .btn.edit {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn.edit:hover {
-    background-color: #0056b3;
+      color: #27ae60;
+      background-color: #eafaf1;
 }
 
 .btn.delete {
-    background-color: #dc3545;
-    color: #fff;
+      color: #e74c3c;
+      background-color: #fdecea;
 }
 
-.btn.delete:hover {
-    background-color: #a71d2a;
-}
 
 .btn.back {
-    background-color: #6c757d;
-    color: #fff;
+   color: #f39c12;
+   background-color: #fdf6e3;
 }
 
-.btn.back:hover {
-    background-color: #5a6268;
-}
 
 
 </style>

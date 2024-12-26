@@ -10,7 +10,10 @@
 <style>
 /* 기존 스타일 그대로 사용 */
 .card-container {
-    width: 80%; /* 너비를 원하는 크기로 줄임 */
+	border : 1px dashed black;
+	border-radius : 10px;
+    width: 50%;
+    margin : 30px auto;
     background-color: #fff;
     overflow: hidden;
     display: flex;
@@ -20,7 +23,7 @@
 
 .card-header {
     padding: 20px;
-    background-color: #85caed;
+    background-color: #2c3e50;
     color: #fff;
     text-align: center;
 }
@@ -51,8 +54,13 @@
     padding: 20px;
     display: flex;
     justify-content: flex-end;
-    background-color: #f4f4f4;
+    gap : 20px;
 }
+
+.card-footer a {
+	text-decoration : none;
+}
+
 .btn {
     padding: 10px 20px;
     font-size: 1rem;
@@ -62,19 +70,14 @@
     transition: background-color 0.3s ease;
 }
 .btn.save {
-    background-color: #28a745;
+    background-color: #6c757d;
     color: #fff;
-}
-.btn.save:hover {
-    background-color: #218838;
 }
 .btn.back {
     background-color: #6c757d;
     color: #fff;
 }
-.btn.back:hover {
-    background-color: #5a6268;
-}
+
 </style>
 </head>
 <body>

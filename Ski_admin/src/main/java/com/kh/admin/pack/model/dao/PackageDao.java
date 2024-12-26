@@ -80,6 +80,11 @@ public class PackageDao {
 	public PackagePay selectPackagePayDetail(SqlSessionTemplate sqlSession, int packageReservNo) {
 		return sqlSession.selectOne("packageMapper.selectPackagePayDetail", packageReservNo);
 	}
+	
+	// 패키지 예약 내역 조회 - 필터링(환불여부)
+//	public ArrayList<PackagePay> selectFilter(SqlSessionTemplate sqlSession, String prefundStatus) {
+//		return (ArrayList)sqlSession.selectList("packageMapper.selectFilter", prefundStatus);
+//	}
 
 
 }

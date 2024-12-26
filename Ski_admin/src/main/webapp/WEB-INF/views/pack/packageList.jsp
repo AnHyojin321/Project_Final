@@ -32,7 +32,7 @@
     }
 
     table thead {
-        background-color: #90adca;
+        background-color: #2c3e50;
         color: #fff;
     }
 
@@ -192,10 +192,10 @@
         padding: 8px 12px;
         font-size: 14px;
         font-weight: bold;
-        color: white;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
+        color: black;
+        background-color: #fff;
+        border: 1px solid black;
+        border-radius: 10px;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
@@ -214,13 +214,12 @@
 	
 	    <div class="container">
 	        <h1>패키지 상품 목록</h1>
-	        <a href="packReservList.pk">패키지 예약 내역 목록</a>
 	        
 		   <!-- 필터링 UI -->
 		    <div class="filter-container">
 		        <label for="packageFilter" class="filter-label">패키지 구성:</label>
 		        <select id="packageFilter" class="filter-select">
-		            <option value="">전체</option>
+		            <option value="전체">전체</option>
 		            <option value="객실+리프트">객실+리프트</option>
 		            <option value="리프트+락커">리프트+락커</option>
 		            <option value="객실+리프트+락커">객실+리프트+락커</option>
@@ -325,6 +324,38 @@
 
 	        });
 	    });
+	    
+	    $(function() {
+	        // 검색 버튼 클릭 시 이벤트 처리
+	        $("#applyFilter").click(function() {
+	            // 선택된 패키지 구성 값 가져오기
+	            var selectedValue = $("#packageFilter").val();
+
+	            // 콘솔에 출력
+	            console.log("선택된 패키지 구성: " + selectedValue);
+
+	            // 패키지 구성에 따른 필터링
+	            filterTable(selectedValue);
+	        });
+	    });
+
+	    function filterTable(selectedValue) {
+	        // 모든 패키지 리스트의 tr 요소를 선택
+	        $("#packageList tbody tr").each(function() {
+	            var packageSet = $(this).find("td").eq(1).text().trim();  // 패키지 구성 (td의 2번째 열)
+
+	            // 선택된 값에 따라 필터링
+	            if (selectedValue === "전체" || packageSet === selectedValue) {
+	                // "전체" 선택하거나, 패키지 구성 값이 일치하면 해당 행 표시
+	                $(this).show();
+	            } else {
+	                // 일치하지 않으면 해당 행 숨기기
+	                $(this).hide();
+	            }
+	        });
+	    }
+
+
 	</script>
 	
 	

@@ -152,11 +152,10 @@
             <h1>패키지 예약 내역</h1>
 
             <div class="filter-bar">
-                <input type="text" id="searchKeyword" placeholder="검색...">
                 <select id="statusFilter">
-                    <option value="all">모든 상태</option>
-                    <option value="confirmed">예약 완료</option>
-                    <option value="cancelled">취소됨</option>
+                    <option value="X">모든 상태</option>
+                    <option value="N">예약 완료</option>
+                    <option value="Y">취소됨</option>
                 </select>
             </div>
 
@@ -258,6 +257,54 @@
         function closeModal() {
             $("#reservationModal").css("display", "none");
         }
+        
+        
+        /// ---------  필터링
+        $(function() {
+    // 상태 필터 선택 시 이벤트 처리
+    $("#statusFilter").change(function() {
+        // 선택된 값 가져오기
+        var selectedValue = $(this).val();
+        
+        // 콘솔에 출력
+        console.log("선택된 예약 상태: " + selectedValue);
+
+        // 예약 상태에 따라 테이블 데이터 필터링
+        if (selectedValue === "N") {
+            // 예약 완료 상태만 필터링
+            filterTable("N");
+        } else if (selectedValue === "Y") {
+            // 예약 취소 상태만 필터링
+            filterTable("Y");
+        } else {
+            // "모든 상태" 선택 시, 모든 데이터 표시
+            filterTable("");
+        }
+    });
+
+    function filterTable(status) {
+        // 모든 예약 데이터가 들어있는 테이블의 tr 요소를 선택
+        $("#reservationTable tbody tr").each(function() {
+            var rowStatus = $(this).find("td").eq(4).text().trim(); // 예약 상태 (td의 5번째 열)
+
+            // 상태 필터링
+            if (status === "") {
+                // "모든 상태" 선택 시, 모든 행을 표시
+                $(this).show();
+            } else if (rowStatus === "예약 완료" && status === "N") {
+                // 예약 완료 상태에서 "예약 완료"인 행만 표시
+                $(this).show();
+            } else if (rowStatus === "예약 취소" && status === "Y") {
+                // 예약 취소 상태에서 "예약 취소"인 행만 표시
+                $(this).show();
+            } else {
+                // 조건에 맞지 않는 경우 해당 행 숨기기
+                $(this).hide();
+            }
+        });
+    }
+});
+
     </script>
 
 </body>

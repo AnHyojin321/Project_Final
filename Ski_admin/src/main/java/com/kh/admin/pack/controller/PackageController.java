@@ -238,6 +238,16 @@ public class PackageController {
 	    
 	    return response;
 	}
+	
+	// 패키지 예약 내역 조회 - 환불여부
+	@GetMapping("filterReservations.pk")
+	public void selectFilter(@RequestParam(value="prefundStatus")String prefundStatus) {
+		System.out.println("패키지 예약 내역 환불 조회 컨트롤러 호출");
+		System.out.println("환불상태여부 : " + prefundStatus);
+		
+		// ArrayList<PackagePay> list = packageService.selectFilter(prefundStatus);
+		
+	}
 
 
 		
