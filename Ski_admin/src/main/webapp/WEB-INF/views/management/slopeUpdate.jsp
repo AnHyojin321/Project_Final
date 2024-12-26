@@ -143,11 +143,11 @@ header h1 {
 		        <table border="1px solid black">
 		            <thead>
 		                <tr>
-		                    <th>SlopeNo</th>
-		                    <th>Name</th>
-		                    <th>Level</th>
-		                    <th>Open</th>
-		                    <th>Reason</th>
+		                    <th>번호</th>
+		                    <th>이름</th>
+		                    <th>난이도</th>
+		                    <th>오픈관리</th>
+		                    <th>사유</th>
 		                </tr>
 		                <c:forEach var="so" items="${requestScope.list}" varStatus="status">
 						    <tr>
