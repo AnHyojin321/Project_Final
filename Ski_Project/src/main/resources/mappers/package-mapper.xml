@@ -139,12 +139,12 @@
 	
 <select id="selectReservedPackageList" parameterType="int" resultType="com.kh.ski.pack.model.vo.PackagePay">
     SELECT
-    	PR.PAY_DATE AS payDate,
+        TO_CHAR(PR.PAY_DATE, 'yyyy-MM-dd') AS payDate,
         PR.PACKAGE_RESERV_NO AS packageReservNo,
         PR.MEMBER_NO AS memberNo,
         PR.PACKAGE_NO AS packageNo,
-        PR.CHECK_IN_DATE AS checkInDate,
-        PR.CHECK_OUT_DATE AS checkOutDate,
+        TO_CHAR(PR.CHECK_IN_DATE, 'yyyy-MM-dd') AS checkInDate,
+        TO_CHAR(PR.CHECK_OUT_DATE, 'yyyy-MM-dd') AS checkOutDate,
         PI.PACKAGE_NAME AS packageName,
         PI.PACKAGE_PRICE AS packagePrice
     FROM PACKAGE_RESERV PR
@@ -152,6 +152,7 @@
     ON PR.PACKAGE_NO = PI.PACKAGE_NO
     WHERE PR.MEMBER_NO = #{memberNo}
 </select>
+
 <select id="packageDetail" parameterType="_int" resultType="com.kh.ski.pack.model.vo.PackagePay">
     SELECT
         PR.PACKAGE_RESERV_NO AS packageReservNo,

@@ -64,7 +64,7 @@
            LOCKER_START_DATE AS lockerStartDate,
            LOCKER_END_DATE AS lockerEndDate,
            LOCKER_TOTAL_PRICE AS lockerTotalPrice,
-           PAY_DATE AS payDate
+           TO_CHAR(PAY_DATE, 'yyyy-MM-dd') AS payDate
       FROM LOCKER_RESERV
      WHERE MEMBER_NO = #{memberNo}
 </select>
@@ -76,7 +76,7 @@
            LOCKER_TOTAL_PRICE AS lockerTotalPrice,
            MEMBER_NO AS memberNo,
            LOCKER_NO AS lockerNo,
-           PAY_DATE AS payDate,
+           TO_CHAR(PAY_DATE, 'yyyy-MM-dd') AS payDate,
            TID AS tid
       FROM LOCKER_RESERV
      WHERE LOCKER_RESERV_NO = #{lockerReservNo}

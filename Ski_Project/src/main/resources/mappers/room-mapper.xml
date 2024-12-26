@@ -112,7 +112,7 @@
               , B.ROOM_TYPE
               , A.ROOM_RESERV_NO
               , A.AMOUNT
-              , A.RESERV_DATE
+              , TO_CHAR(A.RESERV_DATE, 'yyyy-MM-dd') AS RESERV_DATE
               , A.PAY_STATUS
               , B.ROOM_NO
 		FROM ROOM_RESERV A
@@ -130,7 +130,7 @@
               , A.AMOUNT
               , A.CHECK_IN_DATE
               , A.CHECK_OUT_DATE
-              , A.RESERV_DATE
+              , TO_CHAR(A.RESERV_DATE, 'yyyy-MM-dd') AS RESERV_DATE
               , A.TID
               , A.PAY_STATUS
               , A.ROOM_NO

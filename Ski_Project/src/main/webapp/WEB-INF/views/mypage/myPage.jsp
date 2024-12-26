@@ -743,7 +743,7 @@
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>	
             <a href="${pageContext.request.contextPath}/myPackage.me">패키지</a>
-            <a href="${pageContext.request.contextPath}/myLift.me">리프트권 구매</a>
+            <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
             <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
         </nav>
@@ -939,9 +939,8 @@
     </div>
     <div id="reservationItems">
         <c:choose>
-
             <c:when test="${not empty reservedRooms or not empty reservedLiftList or not empty reservedPackages or not empty reservedLockers}">
-
+                <!-- 객실 예약 -->
                 <c:forEach var="room" items="${reservedRooms}">
                     <div class="order-item" data-date="${room.reservDate}">
                         <div>[#${room.roomReservNo}]<br>${room.reservDate}</div>
@@ -952,10 +951,11 @@
                         </div>
                     </div>
                 </c:forEach>
-
+                
+                <!-- 리프트 예약 -->
                 <c:forEach var="liftOrder" items="${reservedLiftList}">
-                    <div class="order-item">
-                        <div>[#${liftOrder.liftOrderNo}]<br>${liftOrder.liftPurchaseDate }</div>
+                    <div class="order-item" data-date="${liftOrder.liftPurchaseDate}">
+                        <div>[#${liftOrder.liftOrderNo}]<br>${liftOrder.liftPurchaseDate}</div>
                         <div>리프트 번호: ${liftOrder.liftNo}</div>
                         <div>${liftOrder.liftTotalPrice}원</div>
                         <div>
@@ -963,9 +963,10 @@
                         </div>
                     </div>
                 </c:forEach>
-
+                
+                <!-- 패키지 예약 -->
                 <c:forEach var="packagePay" items="${reservedPackages}">
-                    <div class="order-item">
+                    <div class="order-item" data-date="${packagePay.payDate}">
                         <div>[#${packagePay.packageReservNo}]<br>${packagePay.payDate}</div>
                         <div>${packagePay.packageName}</div>
                         <div>${packagePay.packagePrice}원</div>
@@ -974,10 +975,11 @@
                         </div>
                     </div>
                 </c:forEach>
-
+                
+                <!-- 락커 예약 -->
                 <c:forEach var="locker" items="${reservedLockers}">
-                    <div class="order-item" data-reservno="${locker.lockerReservNo}">
-                        <div>[#${locker.lockerReservNo}]<br>${locker.payDate }</div>
+                    <div class="order-item" data-date="${locker.payDate}">
+                        <div>[#${locker.lockerReservNo}]<br>${locker.payDate}</div>
                         <div>락커</div>
                         <div>${locker.lockerTotalPrice}원</div>
                         <div>
@@ -986,7 +988,6 @@
                     </div>
                 </c:forEach>
             </c:when>
-
             <c:otherwise>
                 <div class="order-item" style="text-align: center; padding: 20px;">
                     예약 내역이 없습니다.
@@ -1128,19 +1129,20 @@ function closePackageDetailModal() {
 document.addEventListener("DOMContentLoaded", function () {
     const reservationContainer = document.getElementById("reservationItems");
 
-    // 모든 예약 항목 가져오기 (리프트 제외)
+    // 모든 예약 항목 가져오기
     const reservations = Array.from(reservationContainer.children);
 
-    // 날짜 기준으로 정렬 (오름차순)
+    // 날짜 기준으로 정렬 (내림차순: 최신 날짜가 위로)
     reservations.sort((a, b) => {
-        const dateA = new Date(a.getAttribute("data-date"));
-        const dateB = new Date(b.getAttribute("data-date"));
-        return dateA - dateB; // 오름차순
+        const dateA = new Date(a.getAttribute("data-date") || "1970-01-01"); // 기본값을 지정
+        const dateB = new Date(b.getAttribute("data-date") || "1970-01-01"); // 기본값을 지정
+        return dateB - dateA; // 내림차순
     });
 
     // 정렬된 요소를 다시 추가
     reservations.forEach(item => reservationContainer.appendChild(item));
 });
+
 
 function openReservationDetailModal(roomReservNo, memberNo) {
     if (!roomReservNo || !memberNo) {
