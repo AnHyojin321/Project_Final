@@ -301,7 +301,7 @@
         </div>
         <div class="purchaseDiv">
 		    <div>
-		        <div style="display:flex; gap:45%;">
+		        <div style="display:flex; gap:300px;">
 		            <h1>24&nbsp;/&nbsp;25&nbsp;&nbsp;일일권</h1>
 		            <div style="flex:right; margin:auto;">
 		                <a href="seasonPass.li">

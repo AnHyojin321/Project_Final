@@ -292,7 +292,7 @@
 	<div id="outer">
 	    <div class="purchaseDiv">
 	        <div>
-	            <div style="display:flex; gap:45%;">
+	            <div style="display:flex; gap:350px;">
 	                <h1>24&nbsp;/&nbsp;25&nbsp;&nbsp;시즌권</h1>
 	                <div style="flex:right; margin:auto;">
 	                    <a href="dayPass.li">
