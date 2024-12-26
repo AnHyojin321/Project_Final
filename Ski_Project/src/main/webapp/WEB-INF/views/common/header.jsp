@@ -198,6 +198,12 @@
 </style>
 </head>
 <body>
+<c:if test="${not empty sessionScope.alertMsg}">
+    <script>
+        alert("${sessionScope.alertMsg}");
+    </script>
+    <c:remove var="alertMsg" scope="session" />
+</c:if>
     <!-- 헤더 -->
     <header class="header">
         <div class="header-left">

@@ -298,74 +298,73 @@
         <div class="right">
             <div class="signup-container">
                 <h1>회원가입</h1>
-                <form method="post" action="insert.me" id="enrollForm">
-                    <div class="form-group">
-                        <label for="memberId">아이디 *</label>
-                        <input type="text" id="memberId" name="memberId" placeholder="아이디 입력(5~20자)" required>
-                        <div id="checkResult" style="font-size: 0.8em; display: none;"></div>
-                    </div>
+<form method="post" action="insert.me" id="enrollForm" autocomplete="off">
+    <div class="form-group">
+        <label for="memberId">아이디 *</label>
+        <input type="text" id="memberId" name="memberId" placeholder="아이디 입력(5~20자)" required autocomplete="username">
+        <div id="checkResult" style="font-size: 0.8em; display: none;"></div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="memberPwd">비밀번호 *</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="memberPwd" name="memberPwd"
-                                   placeholder="비밀번호는 영문 소문자, 대문자, 숫자, 특수기호(~!@#$^*)를 포함한 8 ~ 20자 이상입니다." required>
-                            <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
-                        </div>
-                        <div id="passwordMessage" class="message"></div> <!-- 비밀번호 메시지 -->
-                        <span id="pwd_hint" style="color:red;"></span>
-                    </div>
-                    
+    <div class="form-group">
+        <label for="memberPwd">비밀번호 *</label>
+        <div class="password-wrapper">
+            <input type="password" id="memberPwd" name="memberPwd"
+                   placeholder="비밀번호는 영문 소문자, 대문자, 숫자, 특수기호(~!@#$^*)를 포함한 8 ~ 20자 이상입니다." required autocomplete="new-password">
+            <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+        </div>
+        <div id="passwordMessage" class="message"></div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="checkPwd">비밀번호 확인 *</label>
-                        <input type="password" id="checkPwd" name="checkPwd" placeholder="비밀번호 재입력" required>
-                        <div id="passwordCheckMessage" class="message"></div> <!-- 비밀번호 확인 메시지 -->
-                    </div>
+    <div class="form-group">
+        <label for="checkPwd">비밀번호 확인 *</label>
+        <input type="password" id="checkPwd" name="checkPwd" placeholder="비밀번호 재입력" required autocomplete="off">
+        <div id="passwordCheckMessage" class="message"></div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="memberName">이름 *</label>
-                        <input type="text" id="memberName" name="memberName" placeholder="이름을 입력해주세요" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">이메일 주소 *</label>
-						<div class="email-wrapper">
-						    <input type="email" id="email" name="email" placeholder="이메일 주소 입력" required>
-						    <button type="button" id="cert" class="cert-btn">인증 요청</button>
-						</div>
-                    </div>
-                    
-                    <!-- 인증번호 입력란과 인증 버튼 -->
-					<div id="cert-area" style="display: none;">
-					    <div class="form-group">
-					        <label for="certNo">인증번호 입력 *</label>
-					        <div class="cert-wrapper">
-					            <input type="text" id="certNo" placeholder="인증번호를 입력하세요" disabled>
-					            <button type="button" id="validate" class="validate-btn" readonly>인증</button>
-					        </div>
-					    </div>
-					</div>
-                    
+    <div class="form-group">
+        <label for="memberName">이름 *</label>
+        <input type="text" id="memberName" name="memberName" placeholder="이름을 입력해주세요" required autocomplete="off">
+    </div>
 
-                    <div class="form-group">
-                        <label for="birthDate">생년월일 *</label>
-                        <input type="date" id="birthDate" name="birthDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">전화번호 *</label>
-                        <input type="text" id="phone" name="phone" placeholder="휴대폰 번호 입력 ('-' 포함)" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">주소 </label>
-                        <input type="text" id="address" name="address">
-                    </div>
-				                    
-				<div class="actions">
-				    <button type="submit" class="submit" disabled>가입완료</button>
-				    <button type="button" class="cancel" onclick="window.location.href='login.me'">가입취소</button>
-				</div>
+    <div class="form-group">
+        <label for="email">이메일 주소 *</label>
+        <div class="email-wrapper">
+            <input type="email" id="email" name="email" placeholder="이메일 주소 입력" required autocomplete="email">
+            <button type="button" id="cert" class="cert-btn">인증 요청</button>
+        </div>
+    </div>
+    
+    <div id="cert-area" style="display: none;">
+        <div class="form-group">
+            <label for="certNo">인증번호 입력 *</label>
+            <div class="cert-wrapper">
+                <input type="text" id="certNo" placeholder="인증번호를 입력하세요" disabled autocomplete="off">
+                <button type="button" id="validate" class="validate-btn" readonly>인증</button>
+            </div>
+        </div>
+    </div>
 
-                </form>
+    <div class="form-group">
+        <label for="birthDate">생년월일 *</label>
+        <input type="date" id="birthDate" name="birthDate" required autocomplete="bday">
+    </div>
+
+    <div class="form-group">
+        <label for="phone">전화번호 *</label>
+        <input type="text" id="phone" name="phone" placeholder="휴대폰 번호 입력 ('-' 포함)" required autocomplete="tel">
+    </div>
+
+    <div class="form-group">
+        <label for="address">주소</label>
+        <input type="text" id="address" name="address" autocomplete="street-address">
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="submit" disabled>가입완료</button>
+        <button type="button" class="cancel" onclick="window.location.href='login.me'">가입취소</button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>
@@ -417,7 +416,7 @@ $(function () {
                             .show();
                         $submitButton.prop("disabled", true); // 버튼 비활성화
                     } else {
-                        $checkResult.text("멋진 아이디네요!").css("color", "green").show();
+                        $checkResult.text("사용 가능한 아이디입니다!").css("color", "green").show();
                         checkFormValidity(); // 폼 유효성 확인
                     }
                 },

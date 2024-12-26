@@ -746,7 +746,6 @@
             <a href="${pageContext.request.contextPath}/liftList.li">리프트권</a>
             <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
-            <a href="#">결제 관리</a>
         </nav>
 
 
@@ -930,7 +929,7 @@
 </div>
 
 
-        <!-- 주문 목록 -->
+       <!-- 주문 목록 -->
 <div class="order-list">
     <div class="order-header">
         <div>예약번호</div>
@@ -939,76 +938,63 @@
         <div>상세 보기</div>
     </div>
     <div id="reservationItems">
-        <!-- 하드코딩된 예약 데이터 -->
-        <div class="order-item" data-date="2024-12-25">
-            <div>[#202310]<br>2024.12.25</div>
-            <div>리프트권 종일권 (소인)</div>
-            <div>35,000원</div>
-            <div><button class="btn-view">조회</button></div>
-        </div>
-        <div class="order-item" data-date="2024-12-27">
-            <div>[#312]<br>2024.12.27</div>
-            <div>[성수기] 대인 리프트 4인 + 락커 2인</div>
-            <div>150,000원</div>
-            <div><button class="btn-view">조회</button></div>
-        </div>
+        <c:choose>
 
-        <!-- 동적 예약 데이터 (룸) -->
-        <c:forEach var="room" items="${reservedRooms}">
-            <div class="order-item" data-date="${room.reservDate}">
-                <div>[#${room.roomReservNo}]<br>${room.reservDate}</div>
-                <div>${room.roomType} 룸</div>
-                <div>${room.amount}원</div>
-                <div>
-                    <button class="btn-view" onclick="openReservationDetailModal(${room.roomReservNo}, ${sessionScope.loginMember.memberNo})">조회</button>
+            <c:when test="${not empty reservedRooms or not empty reservedLiftList or not empty reservedPackages or not empty reservedLockers}">
+
+                <c:forEach var="room" items="${reservedRooms}">
+                    <div class="order-item" data-date="${room.reservDate}">
+                        <div>[#${room.roomReservNo}]<br>${room.reservDate}</div>
+                        <div>${room.roomType} 룸</div>
+                        <div>${room.amount}원</div>
+                        <div>
+                            <button class="btn-view" onclick="openReservationDetailModal(${room.roomReservNo}, ${sessionScope.loginMember.memberNo})">조회</button>
+                        </div>
+                    </div>
+                </c:forEach>
+
+                <c:forEach var="liftOrder" items="${reservedLiftList}">
+                    <div class="order-item">
+                        <div>[#${liftOrder.liftOrderNo}]</div>
+                        <div>리프트 번호: ${liftOrder.liftNo}</div>
+                        <div>${liftOrder.liftTotalPrice}원</div>
+                        <div>
+                            <button class="btn-view" onclick="openLiftDetailModal(${liftOrder.liftOrderNo})">조회</button>
+                        </div>
+                    </div>
+                </c:forEach>
+
+                <c:forEach var="packagePay" items="${reservedPackages}">
+                    <div class="order-item">
+                        <div>[#${packagePay.packageReservNo}]<br>${packagePay.payDate}</div>
+                        <div>${packagePay.packageName}</div>
+                        <div>${packagePay.packagePrice}원</div>
+                        <div>
+                            <button class="btn-view" onclick="openPackageDetailModal(${packagePay.packageReservNo})">조회</button>
+                        </div>
+                    </div>
+                </c:forEach>
+
+                <c:forEach var="locker" items="${reservedLockers}">
+                    <div class="order-item" data-reservno="${locker.lockerReservNo}">
+                        <div>[#${locker.lockerReservNo}]</div>
+                        <div>락커</div>
+                        <div>${locker.lockerTotalPrice}원</div>
+                        <div>
+                            <button class="btn-view" onclick="openLockerDetailModal(${locker.lockerReservNo})">조회</button>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+
+            <c:otherwise>
+                <div class="order-item" style="text-align: center; padding: 20px;">
+                    예약 내역이 없습니다.
                 </div>
-            </div>
-        </c:forEach>
-        <!-- 리프트 예약 리스트 -->
-		<c:forEach var="liftOrder" items="${reservedLiftList}">	
-		    <div class="order-item">
-		        <div>[#${liftOrder.liftOrderNo}]</div>
-		        <div>리프트 번호: ${liftOrder.liftNo}</div>
-		        <div>${liftOrder.liftTotalPrice}원</div>
-		        <div>
-		            <button class="btn-view" onclick="openLiftDetailModal(${liftOrder.liftOrderNo})">조회</button>
-		        </div>
-		    </div>
-		</c:forEach>
-		<!-- 패키지 예약 리스트 -->
-		<c:forEach var="packagePay" items="${reservedPackages}">
-		    <div class="order-item">
-		        <div>[#${packagePay.packageReservNo}]<br>${packagePay.payDate }</div>
-		        <div>${packagePay.packageName}</div>
-		        <div>${packagePay.packagePrice}원</div>
-		        <div>
-		            <button class="btn-view" onclick="openPackageDetailModal(${packagePay.packageReservNo})">조회</button>
-		        </div>
-		    </div>
-		</c:forEach>
-		
-<c:forEach var="locker" items="${reservedLockers}">
-    <div class="order-item" data-reservno="${locker.lockerReservNo}">
-        <div>[#${locker.lockerReservNo}]</div>
-        <div>락커</div>
-        <div>${locker.lockerTotalPrice}원</div>
-        <div>
-            <button class="btn-view" onclick="openLockerDetailModal(${locker.lockerReservNo})">조회</button>
-        </div>
+            </c:otherwise>
+        </c:choose>
     </div>
-</c:forEach>
-
-
-		<!-- 패키지 예약 상세 정보 모달 -->
-		<div id="packageDetailModal" class="modal-reservation" style="display: none;">
-		    <div class="modal-reservation-content">
-		        <span class="close-reservation" onclick="closePackageDetailModal()">&times;</span>
-		        <h1>패키지 예약 상세 정보</h1>
-		        <div id="packageModalContent">
-		            <!-- AJAX를 통해 동적으로 데이터를 로드 -->
-		        </div>
-		    </div>
-		</div>
+</div>
 
 <!-- 락커 상세 정보 모달 -->
 <div id="lockerDetailModal" class="modal-reservation" style="display: none;">
@@ -1032,10 +1018,6 @@
         </div>
     </div>
 </div>
-
-		</div>
-
-        </div>
 
 
     <div id="liftDetailModal" class="modal-reservation" style="display: none;">
@@ -1261,109 +1243,163 @@ function showPasswordChangeForm() {
     hideAllSections(); // 모든 섹션 숨기기
     document.getElementById('passwordChangeSection').style.display = 'block';
 }
+$(document).ready(function () {
+    // 비밀번호 표시/숨김 토글 기능
+    $(".toggle-password").on("click", function () {
+        const $input = $(this).siblings("input");
+        const currentType = $input.attr("type");
 
-
-    $(document).ready(function () {
-        // 기존 비밀번호 표시/숨김 기능 유지
-        $(".toggle-password").on("click", function () {
-            const $input = $(this).siblings("input");
-            const currentType = $input.attr("type");
-
-            if (currentType === "password") {
-                $input.attr("type", "text");
-                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
-            } else {
-                $input.attr("type", "password");
-                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-            }
-        });
-
-        // 기존 비밀번호 유효성 검사 유지
-        const $newPwdInput = $("#newPwd");
-        const $checkPwdInput = $("#checkPwd");
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
-
-        function validateNewPassword() {
-            const newPwd = $newPwdInput.val();
-            const message = $("#newPasswordMessage");
-            if (newPwd === "") {
-                message.removeClass("visible success error");
-                return;
-            }
-            if (passwordRegex.test(newPwd)) {
-                message.text("사용 가능한 비밀번호입니다.")
-                    .removeClass("error")
-                    .addClass("success visible");
-            } else {
-                message.text("비밀번호는 8~20자이며, 대문자, 소문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
-                    .removeClass("success")
-                    .addClass("error visible");
-            }
+        if (currentType === "password") {
+            $input.attr("type", "text");
+            $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+        } else {
+            $input.attr("type", "password");
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
         }
-
-        function checkPasswordMatch() {
-            const newPwd = $newPwdInput.val();
-            const checkPwd = $checkPwdInput.val();
-            const message = $("#checkPasswordMessage");
-            if (newPwd === checkPwd) {
-                message.text("비밀번호가 일치합니다.")
-                    .removeClass("error")
-                    .addClass("success visible");
-            } else {
-                message.text("비밀번호가 일치하지 않습니다.")
-                    .removeClass("success")
-                    .addClass("error visible");
-            }
-        }
-
-        $newPwdInput.on("keyup", function () {
-            validateNewPassword();
-            checkPasswordMatch();
-        });
-
-        $checkPwdInput.on("keyup", checkPasswordMatch);
-
-        $("#changePwdForm").on("submit", function (e) {
-            const newPwd = $newPwdInput.val();
-            const checkPwd = $checkPwdInput.val();
-
-            if (!passwordRegex.test(newPwd)) {
-                alert("비밀번호 조건을 확인해주세요.");
-                e.preventDefault();
-                return;
-            }
-            if (newPwd !== checkPwd) {
-                alert("비밀번호가 일치하지 않습니다.");
-                e.preventDefault();
-            }
-        });
-
-        // 모달 관련 스크립트 유지
-        var modal = document.getElementById("withdrawalModal");
-        var span = document.getElementsByClassName("close")[0];
-
-        function showModal() {
-            $("#withdrawalModal").css("display", "flex");
-        }
-
-        function closeModal() {
-            $("#withdrawalModal").hide();
-        }
-
-        $(document).on("click", ".account-link.delete", function () {
-            showModal();
-        });
-
-        $(window).on("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        $(document).on("click", ".close", function () {
-            closeModal();
-        });
     });
+
+    // 비밀번호 유효성 검사
+    const $currentPwdInput = $("#currentPwd"); // 현재 비밀번호
+    const $newPwdInput = $("#newPwd");       // 새 비밀번호
+    const $checkPwdInput = $("#checkPwd");   // 새 비밀번호 확인
+    const $submitBtn = $("#changePwdForm button[type='submit']"); // 변경 버튼
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$^*])[A-Za-z\d~!@#$^*]{8,20}$/;
+
+    // 새 비밀번호 유효성 검사 함수
+    function validateNewPassword() {
+        const currentPwd = $currentPwdInput.val(); // 현재 비밀번호 값
+        const newPwd = $newPwdInput.val();        // 새 비밀번호 값
+        const $message = $("#newPasswordMessage");
+
+        if (newPwd === "") {
+            $message.removeClass("visible success error");
+            return false;
+        }
+
+        if (newPwd === currentPwd) {
+            // 새 비밀번호와 현재 비밀번호가 동일한 경우
+            $message.text("새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.")
+                .removeClass("success")
+                .addClass("error visible");
+            return false;
+        } else if (passwordRegex.test(newPwd)) {
+            $message.text("사용 가능한 비밀번호입니다.")
+                .removeClass("error")
+                .addClass("success visible");
+            return true;
+        } else {
+            $message.text("비밀번호는 8~20자이며, 대문자, 소문자, 숫자, 특수기호(~!@#$^*)를 포함해야 합니다.")
+                .removeClass("success")
+                .addClass("error visible");
+            return false;
+        }
+    }
+
+    // 비밀번호 일치 여부 검사 함수
+    function checkPasswordMatch() {
+        const currentPwd = $currentPwdInput.val(); // 현재 비밀번호
+        const newPwd = $newPwdInput.val();        // 새 비밀번호 값
+        const checkPwd = $checkPwdInput.val();    // 확인 비밀번호 값
+        const $message = $("#checkPasswordMessage");
+
+        if (checkPwd === "") {
+            $message.removeClass("visible success error");
+            return false;
+        }
+
+        if (checkPwd !== newPwd) {
+            $message.text("비밀번호가 일치하지 않습니다.")
+                .removeClass("success")
+                .addClass("error visible");
+            return false;
+        }
+
+        if (newPwd === currentPwd) {
+            // 새 비밀번호가 현재 비밀번호와 동일한 경우
+            $message.text("새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.")
+                .removeClass("success")
+                .addClass("error visible");
+            return false;
+        }
+
+        $message.text("비밀번호가 일치합니다.")
+            .removeClass("error")
+            .addClass("success visible");
+        return true;
+    }
+
+    // 버튼 활성화/비활성화 관리
+    function toggleSubmitButton() {
+        const isValidNewPwd = validateNewPassword();
+        const isPwdMatch = checkPasswordMatch();
+
+        // 새 비밀번호가 유효하고 확인 비밀번호와 일치하며, 기존 비밀번호와 다를 때만 활성화
+        if (isValidNewPwd && isPwdMatch) {
+            $submitBtn.prop("disabled", false);
+        } else {
+            $submitBtn.prop("disabled", true);
+        }
+    }
+
+    // 입력 이벤트 연결
+    $currentPwdInput.on("keyup", toggleSubmitButton);
+    $newPwdInput.on("keyup", toggleSubmitButton);
+    $checkPwdInput.on("keyup", toggleSubmitButton);
+
+    // 초기 상태에서 버튼 비활성화
+    $submitBtn.prop("disabled", true);
+
+    // 폼 제출 시 유효성 검사
+    $("#changePwdForm").on("submit", function (e) {
+        const currentPwd = $currentPwdInput.val(); // 현재 비밀번호
+        const newPwd = $newPwdInput.val();        // 새 비밀번호
+        const checkPwd = $checkPwdInput.val();    // 새 비밀번호 확인
+
+        if (!passwordRegex.test(newPwd)) {
+            alert("새 비밀번호 조건을 확인해주세요.");
+            e.preventDefault();
+            return;
+        }
+
+        if (newPwd === currentPwd) {
+            alert("새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.");
+            e.preventDefault();
+            return;
+        }
+
+        if (newPwd !== checkPwd) {
+            alert("새 비밀번호가 일치하지 않습니다.");
+            e.preventDefault();
+        }
+    });
+
+    // 회원 탈퇴 모달 관련 함수
+    const $modal = $("#withdrawalModal");
+
+    function showModal() {
+        $modal.css("display", "flex");
+    }
+
+    function closeModal() {
+        $modal.hide();
+    }
+
+    // 회원 탈퇴 모달 이벤트 연결
+    $(document).on("click", ".account-link.delete", function () {
+        showModal();
+    });
+
+    $(window).on("click", function (event) {
+        if (event.target === $modal[0]) {
+            closeModal();
+        }
+    });
+
+    $(document).on("click", ".close", function () {
+        closeModal();
+    });
+});
+
 
 
     function closeModal() {

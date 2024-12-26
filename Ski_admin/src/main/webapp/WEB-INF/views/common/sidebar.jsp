@@ -144,10 +144,16 @@ function saveDropdownState(event) {
 
     <div class="admin-container">
         <aside class="sidebar">
-            <h2>관리자 메뉴</h2>
+			<h2>
+			    <a href="/admin" style="text-decoration: none; color: inherit;">
+			        관리자 메뉴
+			    </a>
+			</h2>
             <ul>
                 <li><a href="/admin">대시보드</a></li>
+				<li><a href="members.ad">회원 관리</a></li>
 
+				<li><a href="list.pk">패키지 관리</a></li>
                 <li>
                     <div class="dropdown" id="rooms" onclick="toggleDropdown(event); saveDropdownState(event)">객실 관리</div>
                     <ul>
@@ -173,7 +179,7 @@ function saveDropdownState(event) {
                 </li>
 
                 <li>
-                    <div class="dropdown" id="reservations" onclick="toggleDropdown(event); saveDropdownState(event)">예약 관리</div>
+                    <div class="dropdown" id="reservations" onclick="toggleDropdown(event); saveDropdownState(event)">스키장 관리</div>
                     <ul>
                         <li><a href="skiResortUpdate.sm">스키장 관리</a></li>
                         <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
@@ -187,13 +193,11 @@ function saveDropdownState(event) {
                         <li><a href="/admin/refund/packageRefund">패키지 환불</a></li>
                         <li><a href="/admin/refund/liftRefund">리프트권 환불</a></li>
                         <li><a href="/admin/refund/roomRefund">객실 환불</a></li>
-                        <li><a href="/admin/refund/roomRefund">객실 환불</a></li>
                     </ul>
                 </li>
-
-                <li><a href="/admin/reports">통계 및 리포트</a></li>
-                <li><a href="/admin/settings">설정</a></li>
+   				<li><a href="lesson.ad">강습 예약 관리</a></li>
             </ul>
+            
         </aside>
     </div>
 </body>

@@ -123,16 +123,6 @@
     <div class="container">
         <h1>🎿 강습요금 안내</h1>
         <p class="subtitle">설레눈 리조트 스키 아카데미의 강습요금은 다음과 같습니다.</p>
-        <nav class="nav">
-            <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
-            <a href="#">락커 예약</a>
-            <a href="#">패키지</a>
-            <a href="#">리프트권</a>
-            <a href="#">객실 예약</a>
-            <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
-            <a href="#">결제 관리</a>
-        </nav>
-
         <div class="notice">
             <p>• 설레눈 리조트 스키 아카데미에서는 초급 1:3 강습을 진행합니다.</p>
             <p>• 정규 강습은 2시간을 기준으로 하나 수강생 건강 진단에 따라 2시간 이내 여유롭게 진행됩니다.</p>

@@ -643,40 +643,84 @@ public class MemberController {
 	    return "member/MemberFindPwd"; // 결과 메시지 포함하여 같은 페이지로 반환
 	}
 */
-	@RequestMapping(value = "findPwd.me", method = {RequestMethod.GET, RequestMethod.POST})
-	public String findPwd(String memberId, String email, Model model) {
-	    if (memberId == null || email == null) {
-	        // 아무 메시지도 설정하지 않고 초기 렌더링
-	        return "member/MemberFindPwd";
-	    }
+    @RequestMapping(value = "findPwd.me", method = {RequestMethod.GET, RequestMethod.POST})
+    public String findPwd(String memberId, String email, Model model) {
+        if (memberId == null || email == null) {
+            // 아무 메시지도 설정하지 않고 초기 렌더링
+            return "member/MemberFindPwd";
+        }
 
-	    // 기존 비밀번호 조회 로직과 초기화 로직 유지
-	    String existingPwd = memberService.findPwd(memberId, email);
-	    if (existingPwd != null) {
-	        String tempPwd = generateTempPassword(10);
-	        String encTempPwd = bcryptPasswordEncoder.encode(tempPwd);
-	        int result = memberService.updatePassword(memberId, encTempPwd);
+        // 기존 비밀번호 조회 로직과 초기화 로직 유지
+        String existingPwd = memberService.findPwd(memberId, email);
+        if (existingPwd != null) {
+            String tempPwd = generateTempPassword(10);
+            String encTempPwd = bcryptPasswordEncoder.encode(tempPwd);
+            int result = memberService.updatePassword(memberId, encTempPwd);
 
-	        if (result > 0) {
-	            try {
-	                SimpleMailMessage message = new SimpleMailMessage();
-	                message.setSubject("[SEOLLENEUN RESORT] 임시 비밀번호 안내");
-	                message.setText("임시 비밀번호: " + tempPwd + "\n로그인 후 비밀번호를 반드시 변경해주세요.");
-	                message.setTo(email);
-	                mailSender.send(message);
+            if (result > 0) {
+                try {
+                    MimeMessage message = mailSender.createMimeMessage();
+                    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-	                model.addAttribute("resultMsg", "임시 비밀번호가 이메일로 발송되었습니다. 확인해주세요.");
-	            } catch (Exception e) {
-	                model.addAttribute("resultMsg", "임시 비밀번호 생성은 성공했지만 이메일 발송에 실패했습니다.");
-	            }
-	        } else {
-	            model.addAttribute("resultMsg", "임시 비밀번호 생성에 실패했습니다.");
-	        }
-	    } else {
-	        model.addAttribute("resultMsg", "입력하신 정보와 일치하는 회원을 찾을 수 없습니다.");
-	    }
-	    return "member/MemberFindPwd";
-	}
+                    // HTML 템플릿 작성
+                    String emailContent = "" +
+                        "<!DOCTYPE html>\n" +
+                        "<html lang=\"ko\">\n" +
+                        "<head>\n" +
+                        "    <meta charset=\"UTF-8\">\n" +
+                        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                        "    <title>임시 비밀번호 발송</title>\n" +
+                        "</head>\n" +
+                        "<body style=\"margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;\">\n" +
+                        "    <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff;\">\n" +
+                        "        <tr>\n" +
+                        "            <td style=\"text-align: center; padding: 20px;\">\n" +
+                        "                <h1 style=\"color: #1a4741; font-size: 24px; margin: 0 0 20px 0;\">SEOLLENEUN RESORT</h1>\n" +
+                        "                <h2 style=\"color: #333333; font-size: 20px; margin: 0 0 30px 0; font-weight: normal;\">\n" +
+                        "                    요청하신 임시 비밀번호를<br>\n" +
+                        "                    발송해드립니다.\n" +
+                        "                </h2>\n" +
+                        "                <div style=\"margin: 30px 0; padding: 30px; background-color: #f8f9fa; border-radius: 8px;\">\n" +
+                        "                    <p style=\"color: #666666; font-size: 14px; margin: 0 0 10px 0;\">\n" +
+                        "                        아래의 임시 비밀번호로 로그인 후, 비밀번호를 변경해주세요.\n" +
+                        "                    </p>\n" +
+                        "                    <div style=\"font-size: 24px; font-weight: bold; color: #1a4741; letter-spacing: 4px; margin: 20px 0;\">\n" +
+                        "                        " + tempPwd + "\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "                <p style=\"color: #999999; font-size: 13px; margin: 20px 0;\">\n" +
+                        "                    본 메일은 발신전용입니다. 설레눈리조트를 사칭하거나 스팸메일을 발송하는 경우 관련 법률에 의거 처벌될 수 있습니다.\n" +
+                        "                </p>\n" +
+                        "                <div style=\"margin-top: 30px; padding-top: 20px; border-top: 1px solid #eeeeee;\">\n" +
+                        "                    <p style=\"color: #999999; font-size: 12px; margin: 0;\">\n" +
+                        "                        Copyright © SEOLLENEUN RESORT Corp. All Rights Reserved.\n" +
+                        "                    </p>\n" +
+                        "                </div>\n" +
+                        "            </td>\n" +
+                        "        </tr>\n" +
+                        "    </table>\n" +
+                        "</body>\n" +
+                        "</html>";
+
+                    helper.setTo(email);
+                    helper.setSubject("[SEOLLENEUN RESORT] 임시 비밀번호 안내");
+                    helper.setText(emailContent, true); // HTML 텍스트로 전송
+
+                    mailSender.send(message);
+
+                    model.addAttribute("resultMsg", "임시 비밀번호가 이메일로 발송되었습니다. 확인해주세요.");
+                } catch (Exception e) {
+                    model.addAttribute("resultMsg", "임시 비밀번호 생성은 성공했지만 이메일 발송에 실패했습니다.");
+                    e.printStackTrace();
+                }
+            } else {
+                model.addAttribute("resultMsg", "임시 비밀번호 생성에 실패했습니다.");
+            }
+        } else {
+            model.addAttribute("resultMsg", "입력하신 정보와 일치하는 회원을 찾을 수 없습니다.");
+        }
+        return "member/MemberFindPwd";
+    }
 
 	
 	@PostMapping("update.me")
@@ -798,13 +842,6 @@ public class MemberController {
 	        model.addAttribute("alertMsg", "현재 비밀번호가 일치하지 않거나 변경에 실패했습니다.");
 	        return "mypage/myPage";
 	    }
-	}
-
-	@GetMapping("myPage1.me")
-	public String myPage1() {
-		
-		return "mypage/myPage1";
-		
 	}
 	
 	@GetMapping("idDelete.me")
