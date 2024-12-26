@@ -48,7 +48,7 @@
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #3498db;
+            background-color: #2c3e50;
             color: #fff;
             border-radius: 5px;
             text-decoration: none;
@@ -59,7 +59,7 @@
         }
 
         .btn:hover {
-            background-color: #2980b9;
+            background-color: #2c3e50;
         }
 
         table {
@@ -80,7 +80,7 @@
         }
 
         th {
-            background-color: #3498db;
+            background-color: #2c3e50;
             color: #fff;
             font-weight: bold;
         }
@@ -120,7 +120,7 @@
         }
 
         .pagination b {
-            background-color: #3498db;
+            background-color: #2c3e50;
             color: #fff;
         }
         

@@ -22,9 +22,19 @@
         tbody tr:hover {
             background-color: #f2f2f2;
         }
+            .container {
+        width: 90%;
+        max-width: 1200px;
+        padding: 20px;
+        overflow-x: auto;
+    }
     </style>
 </head>
 <body>
+<div class="admin-container">
+		<jsp:include page="../common/sidebar.jsp" />
+	
+	    <div class="container">
     <h1>패키지 환불 조회</h1>
     <table>
         <thead>
@@ -48,5 +58,7 @@
             </c:forEach>
         </tbody>
     </table>
+    </div>
+    </div>
 </body>
 </html>

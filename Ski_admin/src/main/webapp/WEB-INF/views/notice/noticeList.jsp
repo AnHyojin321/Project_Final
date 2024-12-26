@@ -116,7 +116,7 @@
             display: inline-block;
             padding: 10px 20px;
             font-size: 14px;
-            background-color: #3498db;
+            background-color: #2c3e50;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;

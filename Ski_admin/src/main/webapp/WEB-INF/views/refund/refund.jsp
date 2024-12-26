@@ -8,7 +8,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f8f9fa;
-            padding: 50px;
+           
         }
         .menu {
             display: flex;
@@ -28,9 +28,18 @@
         .menu button:hover {
             background-color: #45a049;
         }
+          .container {
+        width: 90%;
+        max-width: 1200px;
+        padding: 20px;
+        overflow-x: auto;
+    }
+        
     </style>
 </head>
 <body>
+
+
     <h1>환불 유형 선택</h1>
     <div class="menu">
         <form action="refund/lockerRefund" method="get">
@@ -46,5 +55,8 @@
             <button type="submit">객실 환불</button>
         </form>
     </div>
+    
+	
+   
 </body>
 </html>

@@ -19,7 +19,9 @@
 	width:100%;
     padding: 30px;
     background-color: #f8f9fa;
-}</style>
+}
+	
+</style>
 <body>
 
               <div class="admin-container">
@@ -46,7 +48,7 @@
         <label for="lostContent">내용:</label>
         <textarea id="lostContent" name="lostContent"></textarea><br>
 
-        <button type="submit">등록</button>
+        <button class=btn type="submit">등록</button>
     </form>
 
     <!-- Summernote 초기화 -->

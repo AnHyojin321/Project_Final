@@ -109,7 +109,6 @@ hr {
                 <li><a href="liftSelect.li">리프트권 관리</a></li>
                 <li><a href="liftPurchase.se">리프트권 구매 조회</a>
                 <hr>
-                <li><a href="/admin/rooms">락커 관리</a></li>
                 <hr>
                 <li><a href="list.pk">패키지 관리</a></li>
                 <hr>
@@ -123,6 +122,10 @@ hr {
                 <li><a href="slopeUpdate.sm">슬로프 관리</a></li>
                 <hr>
                 <li><a href="/admin/refund">환불 통합</a></li>
+                <li><a href="/admin/refund/lockerRefund">락커 환불</a></li>
+                <li><a href="/admin/refund/packageRefund">패키지 환불</a></li>
+                <li><a href="/admin/refund/liftRefund">리프트권 환불</a></li>
+				<li><a href="/admin/refund/roomRefund">객실 환불</a></li>
                 <li><a href="/admin/reports">통계 및 리포트</a></li>
                 <li><a href="/admin/settings">설정</a></li>
             </ul>
