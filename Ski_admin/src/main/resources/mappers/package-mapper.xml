@@ -27,7 +27,6 @@
 		<result column="PACKAGE_NAME" property="packageName" />
 		<result column="PACKAGE_PRICE" property="packagePrice" />
 		<result column="PAY_DATE" property="payDate" />
-<<<<<<< Updated upstream
 		<result column="MEMBER_NAME" property="memberName" />
 		<result column="PHONE" property="phone" />
 		<result column="PACKAGE_SET" property="packageSet" />
@@ -38,8 +37,6 @@
 		<result column="MEMBER_NAME" property="memberName" />
 		<result column="EMAIL" property="email" />
 		<result column="TEMP_PWD" property ="tempPwd" />
-=======
->>>>>>> Stashed changes
 	</resultMap>
 	
 	<!-- 패키지 상품 갯수 조회용 쿼리문 -->
@@ -131,7 +128,6 @@
 	
 	<!-- 패키지 예약 내역 목록 조회 -->
 	<select id="selectpackageReservedList" resultMap="packagepayResultSet">
-<<<<<<< Updated upstream
 		SELECT A.PACKAGE_RESERV_NO
 					 , A.PACKAGE_NO
 		             , B.PACKAGE_NAME
@@ -165,10 +161,6 @@
 		FROM PACKAGE_RESERV A
 		JOIN PACKAGE_INFO B ON (A.PACKAGE_NO = B.PACKAGE_NO)
 		WHERE A.PACKAGE_RESERV_NO = #{packageReservNo}
-=======
-		SELECT *
-		FROM PACKAGE_RESERV
->>>>>>> Stashed changes
 	</select>
 
 </mapper>

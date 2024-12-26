@@ -68,7 +68,7 @@ public class PackageDao {
 		
 		return (ArrayList)sqlSession.selectList("packageMapper.selectpackageReservedList", null, rowBounds);
 	}
-<<<<<<< Updated upstream
+
 	
 	// 패키지 예약자 정보 조회
 	public Member selectMember(SqlSessionTemplate sqlSession, int memberNo) {
@@ -80,8 +80,6 @@ public class PackageDao {
 	public PackagePay selectPackagePayDetail(SqlSessionTemplate sqlSession, int packageReservNo) {
 		return sqlSession.selectOne("packageMapper.selectPackagePayDetail", packageReservNo);
 	}
-=======
->>>>>>> Stashed changes
 
 
 }

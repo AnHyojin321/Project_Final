@@ -1,10 +1,5 @@
 package com.kh.admin.pack.model.vo;
 
-<<<<<<< Updated upstream
-=======
-import java.sql.Date;
->>>>>>> Stashed changes
-
 public class PackagePay {
 	
 	private int packageReservNo;	//	PACKAGE_RESERV_NO
@@ -20,14 +15,11 @@ public class PackagePay {
 	private int packagePrice;
 	private String payDate;
 	
-<<<<<<< Updated upstream
 	private String packageSet;
 	
 	private String memberName;
 	private String phone;
-	
-=======
->>>>>>> Stashed changes
+
 	public PackagePay() {}
 
 	public PackagePay(int packageReservNo, String checkInDate, String checkOutDate, String tid, String prefundStatus,
@@ -45,9 +37,7 @@ public class PackagePay {
 		this.packagePrice = packagePrice;
 		this.payDate = payDate;
 	}
-<<<<<<< Updated upstream
-	
-	
+
 	
 	
 	
@@ -75,8 +65,7 @@ public class PackagePay {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-=======
->>>>>>> Stashed changes
+
 
 	public int getPackageReservNo() {
 		return packageReservNo;

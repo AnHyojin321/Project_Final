@@ -72,7 +72,7 @@ public class PackageServiceImpl implements PackageService {
 	public ArrayList<PackagePay> selectpackageReservedList(PageInfo pi) {
 		return packageDao.selectpackageReservedList(sqlSession, pi);
 	}
-<<<<<<< Updated upstream
+
 	
 	// 패키지 예약자 정보 조회
 	@Override
@@ -85,7 +85,6 @@ public class PackageServiceImpl implements PackageService {
 	public PackagePay selectPackagePayDetail(int packageReservNo) {
 		return packageDao.selectPackagePayDetail(sqlSession, packageReservNo);
 	}
-=======
->>>>>>> Stashed changes
+
 
 }
