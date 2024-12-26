@@ -17,18 +17,7 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: url('resources/images/main5.jpg') no-repeat center center fixed; /* 배경 이미지 경로 설정 */
-            background-size: cover; /* 배경 이미지가 화면을 꽉 채우도록 설정 */
-            margin: 0; /* 기본 margin 제거 */
-            height: 100vh; /* 화면 높이를 100%로 설정 */
-            overflow:hidden;
-            z-index: 1;
-        	  /* 페이지 로드 시 부드럽게 나타나도록 설정 */
-            opacity: 0;
-            animation: fadeIn 1s forwards; /* 화면이 부드럽게 나타나는 애니메이션 */
-        }
+       
 	
 
 
@@ -424,7 +413,16 @@ p {
        
 </style>
 </head>
-<body>
+<body style="
+    font-family: 'Roboto', sans-serif;
+    background: url('resources/images/main5.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 1s forwards;">
     <div class="container ">
                     
             <div id="circle" class="circle"></div>
@@ -651,8 +649,8 @@ p {
     //main2.jsp 페이지에 나타날 때 천천히 보이도록 설정
     function showMain5() {
      let main5 = document.querySelector('.main6');
-     if (main4) {
-         main4.classList.add('visible');
+     if (main5) {
+         main5.classList.add('visible');
      }
     }
 

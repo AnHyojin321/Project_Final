@@ -10,6 +10,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 
 <style>
  
@@ -25,9 +31,35 @@
 	    justify-content: center;
 	}
 	
+	.flatpickr-calendar {
+    background-color: #f9f9f9;
+    border: 1px solid #2a2a72;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.flatpickr-day {
+    font-size: 14px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.flatpickr-day:hover {
+    background-color: #2a2a72;
+    color: white;
+}
+
+.flatpickr-day.selected {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.flatpickr-month {
+    font-size: 16px;
+    color: #2a2a72;
+    font-weight: bold;
+}
 	
-	
-	/* 문*/
 	
 	
 </style>
@@ -92,18 +124,18 @@ function serverAuth() {
     <div id="lockerModal" class="modal">
         <div class="modal-content">
           <div class="image-section">
-                <img src="resources/images/locker/89.jpg" alt="락커 이미지">
+                <img src="resources/images/locker/locker.png" alt="락커 이미지">
             </div>
         
             <h2>락커 예약</h2>
             <!-- 예약 폼태그 잠시 보류 -->
           <!-- <form id="reservationForm">    --> 
                 <p><strong>시작 날짜:</strong> 
-                    <input type="date" id="lockerStartDate" name="lockerStartDate" required>
-                </p>
-                <p><strong>종료 날짜:</strong> 
-                    <input type="date" id="lockerEndDate" name="lockerEndDate" required>
-                </p>
+    <input type="text" id="lockerStartDate" name="lockerStartDate" required>
+</p>
+<p><strong>종료 날짜:</strong> 
+    <input type="text" id="lockerEndDate" name="lockerEndDate" required>
+</p>
                 <p><strong>하루 가격:</strong> 5,000 원</p>
                 <p><strong>이용 일수:</strong> <span id="daysCount">0</span> 일</p>
                 <p><strong>총 금액:</strong> <span id="totalPrice">0</span> 원</p>
@@ -133,6 +165,28 @@ function serverAuth() {
     <h2>SEOLLENEUN RESORT</h2>
    
 <button id="openModalBtn" class="fixed-reserve-button">락커 예약</button>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const startDateInput = document.getElementById("lockerStartDate");
+    const endDateInput = document.getElementById("lockerEndDate");
+
+    // Flatpickr 초기화
+    flatpickr(startDateInput, {
+        locale: "ko", // 한국어 로케일 설정
+        dateFormat: "Y-m-d", // 날짜 형식
+    });
+
+    flatpickr(endDateInput, {
+        locale: "ko", // 한국어 로케일 설정
+        dateFormat: "Y-m-d", // 날짜 형식
+    });
+});
+
+</script>
+
 
 <script>
 var isLoggedIn = ${sessionScope.loginMember != null};
@@ -234,7 +288,6 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 </div>
 
-<jsp:include page="../common/chat.jsp" />
 <jsp:include page="../common/footer.jsp" />
 </body>
  <script>

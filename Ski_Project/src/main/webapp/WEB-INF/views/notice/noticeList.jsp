@@ -76,8 +76,7 @@
         }
 
         .pagination a:hover, .pagination b {
-            background-color: #555;
-            color: #fff;
+            color: black;
         }
 
         .btn {
@@ -98,7 +97,7 @@
 
     <!-- 안내 메시지 -->
     <div class="info-box">
-        <p>- 공지사항 목록입니다. 최신 공지사항을 확인하세요.</p>
+        <p> 공지사항 목록입니다. 최신 공지사항을 확인하세요. [추가 문의 필요 시 채널을 통해 문의 부탁드립니다.]</p>
     </div>
 
    <table>

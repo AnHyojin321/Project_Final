@@ -11,14 +11,14 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
 }
-
 .footer {
-    background-color: #2a2a72;
+    background: linear-gradient(to bottom, #2a2a72, #304987);
     color: #fff;
     position: relative;
-    padding: 30px 20px;
+    padding: 40px 20px;
     text-align: center;
     overflow: hidden;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .footer-container {
@@ -28,17 +28,20 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 .footer-left h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 10px;
+    color: #85caed;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.6);
 }
 
 .footer-left p {
     margin: 5px 0;
     font-size: 0.9rem;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .footer-right {
@@ -50,7 +53,7 @@ body {
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 .footer-right ul li {
@@ -60,12 +63,13 @@ body {
 .footer-right ul li a {
     color: #85caed;
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .footer-right ul li a:hover {
     color: #fff;
+    transform: scale(1.1);
 }
 
 .footer-decoration {
@@ -83,6 +87,7 @@ body {
     font-size: 1.5rem;
     color: #85caed;
     animation: fall 10s linear infinite;
+    opacity: 0.8;
 }
 
 .snowflake:nth-child(1) {
@@ -91,13 +96,23 @@ body {
 }
 
 .snowflake:nth-child(2) {
-    left: 50%;
-    animation-delay: 3s;
+    left: 30%;
+    animation-delay: 2s;
 }
 
 .snowflake:nth-child(3) {
-    left: 80%;
-    animation-delay: 5s;
+    left: 50%;
+    animation-delay: 4s;
+}
+
+.snowflake:nth-child(4) {
+    left: 70%;
+    animation-delay: 6s;
+}
+
+.snowflake:nth-child(5) {
+    left: 90%;
+    animation-delay: 8s;
 }
 
 @keyframes fall {
@@ -135,6 +150,8 @@ body {
         <div class="footer-decoration">
             <div class="snowflake">❄</div>
             <div class="snowflake">❄</div>
+            <div class="snowflake">❄</div>
+              <div class="snowflake">❄</div>
             <div class="snowflake">❄</div>
         </div>
     </footer>

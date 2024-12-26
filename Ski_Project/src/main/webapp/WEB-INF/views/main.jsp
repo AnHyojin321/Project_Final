@@ -525,7 +525,7 @@ p {
               <div id="overlay">
 	    		<div class="overlay-content">
            	 <jsp:include page="header1.jsp" />
-			<button id="closeBtn" style="right: 900px; bottom:270px; position: relative; 
+			<button id="closeBtn" style="left: 400px; bottom:270px; position: relative; 
                              background-color: black; 
                              color: white; 
                              border: none; 

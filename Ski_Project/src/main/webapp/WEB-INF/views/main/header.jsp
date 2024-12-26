@@ -12,7 +12,7 @@
       margin: 0;
       padding: 0;
       background: linear-gradient(120deg, #1a1a1a, #333);
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -30,23 +30,25 @@
 
     .logo {
       position: absolute;
-      bottom: 300px;
+      top: 15%;
       text-align: center;
-      left:250px;
+      width: 100%;
       opacity: 0;
     }
 
     .logo span {
-      font-size: 30px;
-      color: #fff;
+      font-size: 48px;
+      color: #85caed;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 5px;
+      text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.6);
     }
 
     .logo p {
-      font-size: 16px;
+      font-size: 18px;
       margin-top: 10px;
       color: #ddd;
+      font-style: italic;
     }
 
     .main-menu ul,
@@ -61,27 +63,70 @@
       font-size: 24px;
       font-weight: bold;
       color: #bbb;
-      margin: 15px 0;
+      margin: 20px 0;
       cursor: pointer;
       transform: translateY(50px);
       opacity: 0;
+      transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
     }
 
     .main-menu ul li:hover,
     .sub-menu ul li:hover {
-      color: #fff;
+      color: #85caed;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
     }
 
     .sub-menu ul li {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: normal;
+    }
+
+    /* 배경 애니메이션 */
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(120deg, #1a1a1a, #333);
+      overflow: hidden;
+    }
+
+    .background .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: float 10s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.7;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="background">
+    <!-- 부드러운 원형 애니메이션 -->
+    <div class="circle" style="width: 200px; height: 200px; background: rgba(255, 255, 255, 0.1); top: 10%; left: 15%;"></div>
+    <div class="circle" style="width: 300px; height: 300px; background: rgba(255, 255, 255, 0.2); top: 30%; left: 50%;"></div>
+    <div class="circle" style="width: 150px; height: 150px; background: rgba(255, 255, 255, 0.05); top: 60%; left: 20%;"></div>
+  </div>
+
   <div class="menu-container">
     <div class="logo">
-      <span>[Adv:nture]</span>
+      <span>[Adventure]</span>
       <p>Soul spirit SKI...</p>
     </div>
     <div class="main-menu">
@@ -119,7 +164,7 @@
       gsap.fromTo(
         logo,
         { opacity: 0, y: -50 },
-        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+        { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' }
       );
 
       // 메인 메뉴 애니메이션
@@ -129,7 +174,7 @@
         stagger: 0.3,
         duration: 1.5,
         ease: 'power3.out',
-        delay: 1,
+        delay: 0.5,
       });
 
       // 서브 메뉴 애니메이션
@@ -139,10 +184,9 @@
         stagger: 0.3,
         duration: 1.5,
         ease: 'power3.out',
-        delay: 2,
+        delay: 1,
       });
     };
   </script>
 </body>
 </html>
-

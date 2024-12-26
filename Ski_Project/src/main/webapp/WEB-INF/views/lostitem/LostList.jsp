@@ -43,7 +43,7 @@
         }
    .filter-form {
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px auto;
             padding: 15px;
             background-color: #fff;
@@ -69,17 +69,23 @@
         }
 
 
-         .filter-form button {
-            background-color: #4a90e2;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+          .filter-form button {
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+        color: #fff;
+        background: linear-gradient(to right, #4a90e2, #74b9ff); /* 그라데이션 */
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); /* 약간의 텍스트 그림자 */
+    }
 
       .filter-form button:hover {
-            background-color: #357ab7;
-        }
+        background: linear-gradient(to right, #357ab7, #5caeff); /* 호버 효과 */
+        transform: translateY(-2px); /* 약간 위로 이동 */
+    }
 
         table {
             width: 90%;
@@ -130,24 +136,26 @@ a {
         }
 
         .pagination a:hover, .pagination b {
-            background-color: #4a90e2;
             color: #fff;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #4a90e2;
-            color: #fff;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 5px;
-            transition: background-color 0.3s ease;
-        }
+       .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 25px;
+        text-decoration: none;
+        color: white;
+        background: linear-gradient(to right, #4a90e2, #74b9ff);
+        text-align: center;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
 
         .btn:hover {
-            background-color: #357ab7;
-        }
+        background: linear-gradient(to right, #357ab7, #5caeff);
+        transform: translateY(-2px);
+    }
 
        
         @media (max-width: 768px) {
@@ -162,7 +170,6 @@ a {
         }
         
            #content {
-        background: url('${pageContext.request.contextPath}/resources/images/lost/lockerback.jpg') no-repeat center center fixed;
         background-size: cover;
         position: relative;
         padding: 20px;
@@ -210,8 +217,10 @@ a {
             <select id="location" name="location">
                 <option value="">전체</option>
                 <option value="로비" ${filter.location == '로비' ? 'selected' : ''}>로비</option>
-                <option value="식당" ${filter.location == '식당' ? 'selected' : ''}>식당</option>
-                <option value="객실" ${filter.location == '객실' ? 'selected' : ''}>객실</option>
+                <option value="리조트" ${filter.location == '리조트' ? 'selected' : ''}>리조트</option>
+                <option value="슬로프" ${filter.location == '슬로프' ? 'selected' : ''}>슬로프</option>
+                <option value="리프트" ${filter.location == '리프트' ? 'selected' : ''}>리프트</option>
+                <option value="주차장" ${filter.location == '주차장' ? 'selected' : ''}>주차장</option>
             </select>
             
             <button type="submit">검색</button>

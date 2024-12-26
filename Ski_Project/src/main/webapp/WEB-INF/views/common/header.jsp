@@ -8,88 +8,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stylish Menu Toggle</title>
 <style>
-    /* Reset */
-    body, html {
+     body, html {
         margin: 0;
         padding: 0;
         font-family: 'Arial', sans-serif;
         box-sizing: border-box;
     }
 
-    /* 헤더 스타일 */
-    header {
+   header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 20px 40px;
-        background: linear-gradient(to right, #0B3E74, #1e2a50);
-        color: white;
-        height: 40px;
+        background: linear-gradient(to bottom, #2a2a72, #304987); /* 푸터와 일관된 그라데이션 */
+        color: #f9f9f9; /* 밝은 텍스트 */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
+        top: 0;
+        z-index: 1000;
     }
 
+    /* 왼쪽 타이틀 */
     .header-left {
         display: flex;
         flex-direction: column;
     }
 
     .brand-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: bold;
         margin: 0;
+        color: #85caed; /* 푸른 계열로 통일 */
+        text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.6); /* 밝은 그림자 */
     }
 
-    .brand-subtitle {
-        font-size: 0.9rem;
+      .brand-subtitle {
+        font-size: 1rem;
         margin: 5px 0 0;
-        opacity: 0.8;
+        opacity: 0.9;
+        color: #b3d9f9; /* 밝은 하늘색으로 강조 */
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6);
     }
 
+     /* 오른쪽 버튼 및 메뉴 */
     .header-right {
         display: flex;
         align-items: center;
         gap: 20px;
     }
-
-    /* 문의 버튼 스타일 */
-    .btn-contact {
+   .btn-contact {
         display: flex;
         align-items: center;
-        background-color: #0B3E74;
-        color: white;
-        padding: 8px 16px;
+        background: linear-gradient(to right, #85caed, #b3d9f9); /* 연한 푸른 계열 그라데이션 */
+        color: #2a2a72; /* 텍스트 대비 효과 */
+        padding: 10px 20px;
         border: none;
-        border-radius: 10px;
+        border-radius: 50px;
         font-size: 0.9rem;
+        font-weight: bold;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .btn-contact:hover {
-        background-color: #06264b;
+
+      .btn-contact:hover {
+        background: linear-gradient(to right, #b3d9f9, #85caed); /* 호버 시 색상 반전 */
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    .btn-contact .icon {
-        width: 16px;
-        height: 16px;
+
+        .btn-contact .icon {
+        width: 20px;
+        height: 20px;
         margin-right: 8px;
     }
 
-    .menu-icon {
+         .menu-icon {
         position: relative;
         text-align: center;
         font-size: 1rem;
         font-weight: bold;
-        color: white;
+        color: #f9f9f9;
         cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+	   .menu-icon:hover {
+        transform: scale(1.1);
     }
 
-    .menu-icon span {
-        font-size: 13px;
+	
+       .menu-icon span {
+        font-size: 14px;
         display: block;
         margin-top: 40px;
     }
 
-    .menu-icon::before {
+     .menu-icon::before {
         content: "";
         position: absolute;
         top: -15px;
@@ -195,6 +210,92 @@
         transform: scale(1.2);
         color: #f00;
     }
+    
+     /* 바운스와 정지 포함 애니메이션 */
+    @keyframes bounce-fade-pause {
+        0%, 20% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        10% {
+            transform: translateY(-10px); /* 바운스 효과 */
+        }
+        50% {
+            transform: rotate(360deg); /* 회전하며 사라짐 */
+            opacity: 0;
+        }
+        70%, 100% {
+            transform: translateY(0);
+            opacity: 1; /* 다시 나타난 상태로 정지 */
+        }
+    }
+
+    /* 기본 스타일 */
+    .header-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    /* 글자 개별 애니메이션 */
+    .brand-title span,
+    .brand-subtitle span {
+        display: inline-block;
+        animation: bounce-fade-pause 7s ease-in-out infinite; /* 애니메이션 주기 5초 */
+        opacity: 0;
+    }
+
+    .brand-title span:nth-child(1) { animation-delay: 0s; }
+    .brand-title span:nth-child(2) { animation-delay: 0.2s; }
+    .brand-title span:nth-child(3) { animation-delay: 0.4s; }
+    .brand-title span:nth-child(4) { animation-delay: 0.6s; }
+    .brand-title span:nth-child(5) { animation-delay: 0.8s; }
+    .brand-title span:nth-child(6) { animation-delay: 1s; }
+
+    .brand-subtitle span:nth-child(1) { animation-delay: 1.2s; }
+    .brand-subtitle span:nth-child(2) { animation-delay: 1.4s; }
+    .brand-subtitle span:nth-child(3) { animation-delay: 1.6s; }
+    .brand-subtitle span:nth-child(4) { animation-delay: 1.8s; }
+    .brand-subtitle span:nth-child(5) { animation-delay: 2s; }
+    .brand-subtitle span:nth-child(6) { animation-delay: 2.2s; }
+    .brand-subtitle span:nth-child(7) { animation-delay: 2.4s; }
+    .brand-subtitle span:nth-child(8) { animation-delay: 2.6s; }
+    .brand-subtitle span:nth-child(9) { animation-delay: 2.8s; }
+    .brand-subtitle span:nth-child(10) { animation-delay: 3s; }
+    
+    
+    
+ .ski-animation {
+    position: absolute;
+    top: 50px;
+    left: 120px;
+    width: 20px;
+    height: 20px;
+    z-index: 3; /* 텍스트 아래로 배치 */
+}
+
+.ski-icon {
+    width: 60px; /* 애니메이션 크기 */
+    position: absolute;
+    left: -100px; /* 화면 왼쪽 밖에서 시작 */
+    animation: skiMove 6s linear infinite; /* 5초 동안 무한 반복 */
+    opacity: 0.8; /* 텍스트와 자연스럽게 겹치기 위해 약간 투명 */
+}
+
+/* 스키 애니메이션 이동 */
+@keyframes skiMove {
+    0% {
+        left: -100px; /* 화면 왼쪽 밖 */
+    }
+    100% {
+        left: 120%; /* 화면 오른쪽 밖 */
+    }
+}
+
+
+
+
 </style>
 </head>
 <body>
@@ -206,10 +307,20 @@
 </c:if>
     <!-- 헤더 -->
     <header class="header">
-        <div class="header-left">
-            <p class="brand-title">[Adv:nture]</p>
-            <p class="brand-subtitle">MAKE YOUR</p>
-        </div>
+       <div class="header-left">
+    <!-- 개별 글자에 span 태그 적용 -->
+    <p class="brand-title">
+    <span>설</span><span>레</span><span>눈</span> <span>리</span><span>조</span><span>트</span>
+</p>
+<p class="brand-subtitle">
+    <span>눈</span><span>과</span><span> 함</span><span>께</span> <span>시</span><span>작</span><span>되</span><span>는</span> <span>행</span><span>복</span>
+</p>
+<div class="ski-animation">
+<img src="/ski/resources/images/iceski.gif" alt="스키 타는 애니메이션" class="ski-icon">
+    </div>
+</div>
+
+
         <div class="header-right">
             <button class="btn-contact">
                 <img src="resources/images/question.png" alt="돋보기 아이콘" class="icon"> 문의하기
@@ -218,6 +329,8 @@
                 <span>&nbsp;&nbsp;&nbsp;MENU</span>
             </div>
         </div>
+        
+       
     </header>
 
     <!-- 원형 오버레이 -->
