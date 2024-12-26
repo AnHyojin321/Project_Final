@@ -13,7 +13,7 @@
       padding: 0;
       background: linear-gradient(135deg, #1a1a1a, #333);
       font-family: 'Arial', sans-serif;
-      color: #fff;
+      color: #fff; 
       display: flex;
       flex-direction: column;
       height: 100vh;
@@ -82,7 +82,7 @@
     .main-menu ul li {
       font-size: 28px;
       font-weight: bold;
-      color: #aaa;
+      color: white;
       cursor: pointer;
       transition: color 0.3s, transform 0.3s;
       position: relative;
@@ -101,10 +101,7 @@
         flex-direction: row; /* 가로로 정렬 */
         flex-wrap: nowrap; /* 줄바꿈 방지 */
         gap: 20px; /* 항목 간 간격 */
-        background: rgba(0, 0, 0, 0.8);
         padding: 10px 15px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     }
 
@@ -119,7 +116,7 @@
 
      .sub-menu ul li {
         font-size: 20px;
-        color: #ddd;
+        color: white;
         cursor: pointer;
         transition: color 0.3s, transform 0.3s;
     }
@@ -167,6 +164,8 @@
             <ul>
               <li onclick="location.href='${pageContext.request.contextPath}/lostList'">분실물</li>
               <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/slopeOpen.sm'">슬로프 개장</li>
+              
             </ul>
           </div>
         </li>

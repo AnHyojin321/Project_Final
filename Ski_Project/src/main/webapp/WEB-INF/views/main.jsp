@@ -219,14 +219,31 @@ p {
 
     .background-circle {
     position: absolute;
-    width: 60px; /* 원의 크기 */
-    height: 60px;
-    background-color: rgba(255, 255, 255, 0.1); /* 반투명 흰색 */
+    width: 90px; /* 원의 크기 */
+    height: 90px;
+    background: linear-gradient(135deg, #004AAD, #00BFFF); /* 그라데이션 색상 */
     border-radius: 50%; /* 원 모양 */
-    top: 70%; /* 중앙에 배치 */
-    left: 65%   ; /* 중앙에 배치 */
+    top: 87%; /* 위치 조정 */
+    left: 93%; /* 위치 조정 */
     transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 입체감 추가 */
     z-index: 0; /* 텍스트 뒤로 배치 */
+    animation: pulse 4s infinite; /* 펄스 애니메이션 추가 */
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+    }
 }
 
 .container {
@@ -272,7 +289,7 @@ p {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: white; /* 오버레이 색상 */
+        background: radial-gradient(circle, #0B3E74, #1e2a50);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 1s ease-in-out, height 1s ease-in-out, background-color 0.5s;
@@ -286,7 +303,7 @@ p {
     width: 200vw; /* 충분히 큰 값으로 설정 */
     height: 200vw;
     visibility: visible;
-    background-color: rgba(0, 0, 0, 0.8); /* 부드러운 반투명 효과 */
+        background: radial-gradient(circle, #0B3E74, #1e2a50);
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
                 height 0.8s cubic-bezier(0.4, 0, 0.2, 1),
                 background-color 0.3s ease;
@@ -304,7 +321,7 @@ p {
     align-items: center; /* 세로 중앙 정렬 */
     text-align: center;
     color: white;
-    background-color: black; /* 콘텐츠 배경 */
+    background: radial-gradient(circle, #0B3E74, #1e2a50);
     padding: 20px;
     box-sizing: border-box; /* 패딩 포함 크기 계산 */
     border-radius: 0; /* 둥근 모서리 제거 (선택 사항) */
@@ -445,12 +462,10 @@ p {
             <div class="text-container">
                 <h1>SEOLLEENUN</h1>
                 <h2>SKI & RESORT</h2>
-                <div class="background-circle"></div>
 
                 <p>Premium Adventure Shop</p>
               </div>
             <img src="resources/images/snow.png" class="snow-image"> 
-            <button style="width:200px; height:100px;"><a href="slopeOpen.sm" style="text-decoration:none;">슬로프 오픈 현황</a></button>
             <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길&nbsp;&nbsp;</a></button>
             
             <div id="top1">
@@ -523,8 +538,8 @@ p {
               <div id="overlay">
 	    		<div class="overlay-content">
            	 <jsp:include page="header1.jsp" />
-			<button id="closeBtn" style="left: 400px; bottom:270px; position: relative; 
-                             background-color: black; 
+			<button id="closeBtn" style="left: 500px; bottom:270px; position: relative; 
+                             background-color: #0B3E74; 
                              color: white; 
                              border: none; 
                              border-radius: 50%; 
@@ -543,7 +558,10 @@ p {
     	</div>
 	  
 	  </div>
-            
+            				   <img src="resources/images/whitetrack.png" 
+     style="width: 60px; position: absolute; left: 91%; top: 570px; z-index: 2; bottom: 30px; cursor: pointer;"
+     id="whitetrack">
+                            <div class="background-circle"></div>
             
         <div style="display: flex; align-items: center; margin: 50px auto; position: relative; justify-content: center;">
     <img src="resources/images/question.png" 
@@ -579,7 +597,9 @@ p {
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
     <script>
-    
+    document.getElementById('whitetrack').addEventListener('click', function () {
+        window.location.href = "<c:url value='/slopeOpen.sm' />"; // 슬로프 오픈 현황 페이지로 이동
+    });
   
     
     document.addEventListener("DOMContentLoaded", function () {

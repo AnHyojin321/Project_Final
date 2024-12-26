@@ -121,7 +121,7 @@ function shareLockerInfo(lockerReservNo, lockerStartDate, lockerEndDate, lockerT
         objectType: 'feed',
         content: {
             title: `락커 예약 정보`,
-            description: `예약 번호: ${lockerReservNo}\n이용 기간: ${lockerStartDate} ~ ${lockerEndDate}\n총 결제 금액: ${lockerTotalPrice}원`,
+            description: `예약 번호: 107-12445\n이용 기간: ${lockerStartDate} ~ ${lockerEndDate}\n총 결제 금액: ${lockerTotalPrice}원`,
             imageUrl: 'https://ifh.cc/g/T9snYO.jpg',
             link: {
                 webUrl: detailPageUrl,
@@ -130,7 +130,7 @@ function shareLockerInfo(lockerReservNo, lockerStartDate, lockerEndDate, lockerT
         },
         buttons: [
             {
-                title: '자세히 보기',
+                title: '누르지마세요(돈 나가요).',
                 link: {
                     webUrl: detailPageUrl,
                     mobileWebUrl: detailPageUrl

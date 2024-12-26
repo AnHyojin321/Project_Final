@@ -165,12 +165,17 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        right:50px;
+                position: relative;
     }
 
     .main-menu ul li {
-        font-size: 48px;
+        font-size: 38px;
         font-weight: bold;
         color: #f2f2f2;
+        right:50px;
+                position: relative;
+        
         margin: 10px 0;
         text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
         transition: all 0.3s ease-in-out;
@@ -183,7 +188,7 @@
     }
 
     .sub-menu ul li {
-        font-size: 18px;
+        font-size: 25px;
         color: #ccc;
         margin: 5px 0;
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
@@ -198,9 +203,9 @@
 
     .menu-close {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
+        top: 120px;
+        right: 300px;
+        font-size: 44px;
         cursor: pointer;
         color: #f2f2f2;
         transition: transform 0.2s, color 0.3s;
@@ -209,6 +214,12 @@
     .menu-close:hover {
         transform: scale(1.2);
         color: #f00;
+    }
+    
+     .sub-menu {
+        display: none; /* 초기 상태에서 서브 메뉴 숨김 */
+        opacity: 0; /* 부드러운 전환을 위해 투명도 설정 */
+        transition: opacity 0.3s ease; /* 전환 효과 */
     }
     
      /* 바운스와 정지 포함 애니메이션 */
@@ -293,7 +304,30 @@
     }
 }
 
+.logo {
+      position: relative;
+      top: 100px;
+      right:500px;
+      text-align: left;
+      animation: fadeInLogo 2s ease-in-out;
+    }
 
+    .logo span {
+      font-size: 40px;
+      font-weight: bold;
+      color: #4a90e2;
+      letter-spacing: 4px;
+      text-shadow: 3px 3px 10px rgba(255, 204, 0, 0.7);
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    .logo p {
+      font-size: 18px;
+      margin-top: 5px;
+      color: #ccc;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    }
 
 
 </style>
@@ -339,35 +373,88 @@
     <!-- 메뉴 콘텐츠 -->
     <div class="menu-overlay-content" id="menuOverlayContent">
         <div class="menu-close" id="menuClose">&times;</div>
-        <div class="menu-container">
-            <div class="main-menu">
-                <ul>
-		<li onclick="location.href='${pageContext.request.contextPath}'">HOME</li>
-                    <li>About</li>
-                    <li>Works</li>
-                    <li>Partner</li>
-                </ul>
-            </div>
-            <div class="sub-menu">
-                <ul>
-					<li onclick="location.href='${pageContext.request.contextPath}/list.le'">강습예약</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/lostList'">분실물</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/locker'">락커예약</li>
-                    <c:if test="${not empty sessionScope.loginMember}">
-                        <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">마이페이지</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">로그아웃</li>
-                    </c:if>
-                    <c:if test="${empty sessionScope.loginMember}">
-                        <li onclick="location.href='${pageContext.request.contextPath}/login.me'">로그인</li>
-                    </c:if>
-                </ul>
-            </div>
-        </div>
+        <div class="logo">
+      <span>[Adventure]</span>
+      <p>Explore the possibilities...</p>
+    </div>
+    <div class="menu-container">
+    <div class="main-menu">
+        <ul>
+                <li onclick="location.href='${pageContext.request.contextPath}'">처음으로</li>
+            <li data-menu="use">이용하기</li>
+            <li data-menu="board">게시판</li>
+            <li data-menu="info">내 정보</li>
+        </ul>
+    </div>
+    <div class="sub-menu" id="use">
+        <ul>
+            <li onclick="location.href='${pageContext.request.contextPath}/list.le'">강습 예약</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/locker'">락커 구매</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/list.pk'">패키지 구매</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/liftList.li'">리프트권 구매</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/list.ro'">객실 예약</li>
+        </ul>
+    </div>
+    <div class="sub-menu" id="board">
+        <ul>
+            <li onclick="location.href='${pageContext.request.contextPath}/lostList'">분실물</li>
+            <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/slopeOpen.sm'">슬로프 개장</li>
+            
+        </ul>
+    </div>
+    <div class="sub-menu" id="info">
+        <ul>
+            <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">마이페이지</li>
+            <li onclick="location.href='${pageContext.request.contextPath}/login.me'">로그인</li>
+              <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">로그아웃</li>
+            
+        </ul>
+    </div>
+</div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
+    
+    const mainMenuItems = document.querySelectorAll('.main-menu ul li');
+    const subMenus = document.querySelectorAll('.sub-menu');
+
+    mainMenuItems.forEach(item => {
+        const menuId = item.getAttribute('data-menu'); // 메인 메뉴와 연결된 서브 메뉴 ID
+        const targetSubMenu = document.getElementById(menuId);
+
+        item.addEventListener('click', () => {
+            if (targetSubMenu.style.display === 'flex') {
+                // 서브 메뉴가 열려 있다면 닫기
+                gsap.to(targetSubMenu, {
+                    opacity: 0,
+                    duration: 0.3,
+                    onComplete: () => (targetSubMenu.style.display = 'none'),
+                });
+            } else {
+                // 다른 서브 메뉴 닫기
+                subMenus.forEach(subMenu => {
+                    if (subMenu !== targetSubMenu && subMenu.style.display === 'flex') {
+                        gsap.to(subMenu, {
+                            opacity: 0,
+                            duration: 0.3,
+                            onComplete: () => (subMenu.style.display = 'none'),
+                        });
+                    }
+                });
+
+                // 클릭한 서브 메뉴 열기
+                targetSubMenu.style.display = 'flex';
+                gsap.fromTo(
+                    targetSubMenu,
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.3 }
+                );
+            }
+        });
+    });
+    
     const menuIcon = document.getElementById('menuIcon');
     const circleOverlay = document.getElementById('circleOverlay');
     const menuOverlayContent = document.getElementById('menuOverlayContent');

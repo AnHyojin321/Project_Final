@@ -136,7 +136,7 @@ a {
         }
 
         .pagination a:hover, .pagination b {
-            color: #fff;
+            color: black;
         }
 
        .btn {

@@ -352,7 +352,7 @@ p {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+    background: radial-gradient(circle, #0B3E74, #1e2a50);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -504,7 +504,7 @@ p {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: white; /* 오버레이 색상 */
+    background: radial-gradient(circle, #0B3E74, #1e2a50);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 1s ease-in-out, height 1s ease-in-out, background-color 0.5s;
@@ -518,6 +518,8 @@ p {
 #overlay.active {
     width: 2000px; /* 화면을 충분히 채울 수 있을 만큼 큰 값 */
     height: 2000px;
+        background: radial-gradient(circle, #0B3E74, #1e2a50);
+    
     visibility: visible;
 }
 /* 오버레이 콘텐츠 */
@@ -532,7 +534,7 @@ p {
     align-items: center; /* 세로 중앙 정렬 */
     text-align: center;
     color: white;
-    background-color: black; /* 콘텐츠 배경 */
+    background: radial-gradient(circle, #0B3E74, #1e2a50);
     padding: 20px;
     box-sizing: border-box; /* 패딩 포함 크기 계산 */
     border-radius: 0; /* 둥근 모서리 제거 (선택 사항) */
@@ -736,8 +738,8 @@ p {
             	  <div id="overlay">
 	    		<div class="overlay-content">
            	 <jsp:include page="header.jsp" />
-			<button id="closeBtn" style="right: 400px; bottom:270px; position: relative; 
-                             background-color: black; 
+			<button id="closeBtn" style="left: 500px; bottom:270px; position: relative; 
+                             background-color: #0B3E74; 
                              color: white; 
                              border: none; 
                              border-radius: 50%; 
