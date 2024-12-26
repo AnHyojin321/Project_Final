@@ -49,7 +49,7 @@ h2 {
 
 .room-card {
     width: 100%; /* 카드가 전체 너비를 차지 */
-    max-width: 500px; /* 카드의 최대 너비 제한 */
+    max-width: 1000px; /* 카드의 최대 너비 제한 */
     box-sizing: border-box; /* 내부 여백 포함 */
     
 }
@@ -80,8 +80,12 @@ h2 {
     align-items: flex-start; /* 수직 정렬 */
     gap: 20px; /* 두 영역 사이 간격 */
     display: none; /* 기본적으로 숨김 처리 */
-    border-bottom : 2px solid black;
+    border-bottom : 2px dashed black;
+    background-color : #f4f4f4;
+    border-radius : 10px;
+    border-top : 2px dashed black;
 }
+
 
 .reserver-info,
 .room-info-detail {
@@ -130,7 +134,7 @@ h2 {
 
 /*예약 취소 버튼 관련 css */
 .room-detail button {
-    background-color: #ff4d4f; /* 붉은색 배경 */
+    background-color: #f2a4a5; /* 붉은색 배경 */
     color: #fff; /* 흰색 텍스트 */
     border: none; /* 테두리 제거 */
     border-radius: 5px; /* 둥근 모서리 */
@@ -139,7 +143,6 @@ h2 {
     font-weight: bold; /* 글자 굵기 */
     cursor: pointer; /* 클릭 커서 */
     transition: all 0.3s ease; /* 부드러운 전환 효과 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 살짝 튀어나온 느낌 */
 }
 
 .room-detail button:hover {
@@ -152,6 +155,16 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 감소 */
 }
 
+.reserver-info,
+.room-info-detail {
+	background-color : #f4f4f4;
+}
+
+.cancel-button {
+	margin-bottom : 10px;
+    magin-left : 100px;
+}
+
 </style>
 </head>
 <body>
@@ -161,7 +174,7 @@ h2 {
         <p class="smallTitle">설레눈 리조트를 이용해주셔서 감사합니다.</p>
         <div class="room-cards">
             <c:forEach var="r" items="${list}">
-            <div class="room-card" data-roomreservno="${r.roomReservNo}">
+            <div class="room-card" data-roomno="${r.roomNo}" data-roomreservno="${r.roomReservNo}">
 				<h3>${fn:substring(r.reservDate, 0, 10)}</h3>
                 <div class="room-info">
                     <h3>${r.roomType} ${r.roomName}</h3>
@@ -191,7 +204,10 @@ h2 {
 				    <!-- 객실 정보 영역 -->
 				    <h4>객실정보</h4>
 				    <div class="room-info-detail"></div>
-				    <button class="cancel-button" style="<c:if test='${r.payStatus == "N"}'>display:none;</c:if>">예약 취소</button>
+				       <!-- 예약 취소 버튼 -->
+				    <div class="cancel-button-wrapper" style="display: flex; justify-content: flex-end; margin-right">
+				        <button class="cancel-button" style="<c:if test='${r.payStatus == "N"}'>display:none;</c:if>">예약 취소</button>
+				    </div>
 				</div>
 
             </div>
@@ -220,13 +236,7 @@ h2 {
             var card = $(this).closest(".room-card"); // 클릭된 카드
             var link = $(this); // 클릭된 링크
 
-            // 다른 카드 축소
-            $(".room-card").not(card).each(function () {
-                $(this).removeClass("expanded");
-                $(this).find(".room-detail").hide(); // 숨기기
-                gsap.to(this, { width: "500px", duration: 0.5 }); // 너비 축소
-                $(this).find(".detail-link").text("> 자세히보기"); // 링크 텍스트 복구
-            });
+
 
             // AJAX 요청
             $.ajax({
@@ -263,12 +273,12 @@ h2 {
                     if (!card.hasClass("expanded")) {
                         card.addClass("expanded");
                         detailDiv.show(); // 상세 정보 표시
-                        gsap.to(card[0], { width: "90%", duration: 0.5 }); // 가로로 확장
+                        gsap.to(card[0], { width: "1000px", duration: 0.5 }); // 가로로 확장
                         link.text("< 접기"); // 링크 텍스트를 '접기'로 변경
                     } else {
                         card.removeClass("expanded");
                         detailDiv.hide(); // 상세 정보 숨기기
-                        gsap.to(card[0], { width: "500px", duration: 0.5 }); // 가로로 축소
+                        gsap.to(card[0], { width: "1000px", duration: 0.5 }); // 가로로 축소
                         link.text("> 자세히보기"); // 링크 텍스트를 '자세히보기'로 복구
                     }
                 },
@@ -289,7 +299,10 @@ h2 {
 	        var roomReservNo = card.data("roomreservno");
 	        var checkInDate = card.find(".room-info-detail p:contains('체크인')").text().replace("체크인: ", "").trim(); // 체크인 날짜 가져오기
 	        var amount = parseInt(card.find(".room-info-detail p:contains('결제금액')").text().replace("결제금액: ", "").replace("원", "").trim()); // 결제 금액 가져오기
-	
+			var roomNo = card.data("roomno");
+	        console.log("객실번호 : ",roomNo);
+	        
+	        
 	        var today = new Date(); // 오늘 날짜
 	        var checkIn = new Date(checkInDate); // 체크인 날짜
 	
@@ -327,10 +340,11 @@ h2 {
 	  	
 	  	// AJAX 요청으로 서버에 취소 요청 전송
 	        $.ajax({
-	            url: "cancelReservation.", // 예약 취소 처리 API URL
+	            url: "cancelReservation.ro", // 예약 취소 처리 API URL
 	            type: "POST",
 	            data: {
-	                roomReservNo: roomReservNo
+	                roomReservNo: roomReservNo,
+	                roomNo : roomNo
 	            },
 	            success: function (response) {
 	                if (response === "success") {

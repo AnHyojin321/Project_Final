@@ -57,61 +57,40 @@ function serverAuth() {
 </script>
 
 <style>
-	/* step1 과 공통 css 영역 */
-	.reservation-menu {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  background-color: #f8f8f8;
-	  padding: 20px 0;
-	  gap: 60px;
-	}
-	
-	.menu-item {
-	  text-align: center;
-	}
-	
-	.menu-item .icon {
-	  width: 100px;
-	  height: 100px;
-	  border-radius: 50%;
-	  background-color: #fff;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  margin-bottom: 5px;
-	  transition: background-color 0.3s ease;
-	}
-	
-	.menu-item img {
-	  width: 50px;
-	  height: 50px;
-	}
-	
-	.menu-item span {
-	  font-size: 14px;
-	  color: #333;
-	}
-	
-	.menu-item.active .icon {
-	  background-color: #2a4d9e;
-	}
-	
-	.menu-item.active span {
-	  color: #2a4d9e;
-	}
-	
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+	background: url('${pageContext.request.contextPath}/resources/images/room/background.jpg') no-repeat center center fixed; /* 배경 이미지 경로 */
+    background-size: cover; /* 화면 크기에 맞게 이미지 크기 조정 */
+    background-position: center center; /* 배경 이미지를 중앙에 위치 */
+    background-attachment: fixed; /* 스크롤 시 배경 이미지 고정 */
+}
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 투명도 설정 (0.5는 50% 투명) */
+      z-index: -1; /* 배경 이미지보다 뒤로 보내기 */
+    }
+
+
+
 	.reservation-steps {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
-	  margin-top: 20px;
+	  margin-top: 30px;
 	  gap: 20px;
 	}
 	
 	.step {
-	  font-size: 14px;
-	  color: #333;
+	  font-size: 18px;
+	  font-weight : bold;
+	  color: white;
 	  position: relative;
 	}
 	
@@ -124,15 +103,7 @@ function serverAuth() {
 	  margin-left: 10px;
 	  color: #aaa;
 	}
-	
-	/* 예약자 정보 관련 css */
-	/* 기본 스타일 */
-	body {
-	    font-family: 'Arial', sans-serif;
-	    margin: 0;
-	    padding: 0;
-	}
-	
+
 	h1, h2 {
 	    margin: 0;
 	    font-weight: bold;
@@ -151,9 +122,10 @@ function serverAuth() {
 	.reservation-check-container {
 	    max-width: 1000px;
 	    margin: 20px auto;
-	    margin-top : 50px;
+	    margin-top : 30px;
 	    background: #fff;
 	    padding: 20px;
+	    border-radius: 10px;
 	}
 	
 	.reservation-details {
@@ -307,32 +279,7 @@ function serverAuth() {
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-	  <div class="reservation-menu">
-	    <div class="menu-item active">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
-	      </div>
-	      <span>객실</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/locker.png">
-	      </div>
-	      <span>락커</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/lift.png">
-	      </div>
-	      <span>리프트</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
-	      </div>
-	      <span>패키지</span>
-	    </div>
-	  </div>
+
   
     <div class="reservation-steps">
 	    <span class="step">STEP1. 객실/날짜 선택</span>

@@ -34,6 +34,8 @@ public interface RoomService {
 	 
 	 // 객실 예약 환불 처리
 	 int cancelRoomReservation(int roomReserNo);
+	 // 객실 예약 환불 후 객실 상태 변경
+	 int updateRefundRoomStatus(int roomNo);
 	 
 	 // 객실 수조회 김동준
 	 int countReservedRooms(int memberNo);

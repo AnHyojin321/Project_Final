@@ -8,22 +8,40 @@
 <title>Insert title here</title>
     <style>
 
-		body {
-		    margin: 0;
-		    padding: 0;
-		    font-family: Arial, sans-serif;
-		}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+	background: url('${pageContext.request.contextPath}/resources/images/room/background.jpg') no-repeat center center fixed; /* 배경 이미지 경로 */
+    background-size: cover; /* 화면 크기에 맞게 이미지 크기 조정 */
+    background-position: center center; /* 배경 이미지를 중앙에 위치 */
+    background-attachment: fixed; /* 스크롤 시 배경 이미지 고정 */
+}
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 투명도 설정 (0.5는 50% 투명) */
+      z-index: -1; /* 배경 이미지보다 뒤로 보내기 */
+    }
+
 		
 		/* wrap 클래스에만 flex 스타일 적용 */
 		.wrap {
+
 		    display: flex;
 		    flex-direction: column;
 		    align-items: center;
 		    justify-content: center;
-		    max-width: 1200px;
-		    margin: 0 auto;
+		    max-width: 1000px;
+		    border-radius: 10px;
+		    margin: 30px auto;
 		    padding: 20px;
 		    background-color: #fff; /* 필요에 따라 배경 색상 지정 */
+
 		}
 
 
@@ -212,6 +230,28 @@
 		    color: #666;
 		}
 
+		/* 슬라이드 효과 ? */
+/* .slider-image 클래스를 수정하여 이미지 전환 애니메이션 효과 추가 */
+.slider-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute; /* 절대 위치로 설정하여 다른 콘텐츠 위에 겹치게 */
+    transition: opacity 0.5s ease-in-out; /* 슬라이드 전환 시 페이드 효과 */
+}
+
+/* 슬라이드 전환을 위한 효과 */
+.slider-image.slide-left {
+    opacity: 0; /* 이미지가 사라지도록 */
+}
+
+.slider-image.slide-right {
+    opacity: 0; /* 이미지가 사라지도록 */
+}
+
+.slider-image.fade-in {
+    opacity: 1; /* 이미지가 부드럽게 나타나도록 */
+}
 
     </style>
 </head>
@@ -258,24 +298,39 @@
 	        document.getElementById("totalImages").textContent = totalImages; // 총 이미지 개수
 	    }
 	
-	    // 슬라이드 이미지 변경 함수
-	    function changeImage() {
-	        const imgElement = document.querySelector(".slider-image"); // 이미지 요소
-	        imgElement.src = images[currentIndex]; // 현재 인덱스에 해당하는 이미지로 변경
-	        updateImageCounter(); // 이미지 번호 업데이트
-	    }
-	
-	    // 이전 버튼 클릭 시
-	    document.querySelector(".prev-btn").addEventListener("click", function() {
-	        currentIndex = (currentIndex === 0) ? totalImages - 1 : currentIndex - 1; // 인덱스를 순환
-	        changeImage();
-	    });
-	
-	    // 다음 버튼 클릭 시
-	    document.querySelector(".next-btn").addEventListener("click", function() {
-	        currentIndex = (currentIndex === totalImages - 1) ? 0 : currentIndex + 1; // 인덱스를 순환
-	        changeImage();
-	    });
+	     // 슬라이드 이미지 변경 함수
+	     function changeImage(direction) {
+	         const imgElement = document.querySelector(".slider-image"); // 이미지 요소
+
+	         // 슬라이드 효과 적용
+	         imgElement.classList.remove("fade-in", "slide-left", "slide-right");
+
+	         // 이동 방향에 맞는 클래스 추가
+	         if (direction === 'left') {
+	             imgElement.classList.add("slide-left"); // 왼쪽으로 슬라이드
+	         } else if (direction === 'right') {
+	             imgElement.classList.add("slide-right"); // 오른쪽으로 슬라이드
+	         }
+
+	         // 이미지 변경 후 다시 원위치로 복귀
+	         setTimeout(() => {
+	             imgElement.src = images[currentIndex]; // 현재 인덱스에 해당하는 이미지로 변경
+	             imgElement.classList.add("fade-in"); // 원위치로 돌아가면서 페이드 인 효과
+	             updateImageCounter(); // 이미지 번호 업데이트
+	         }, 600); // 애니메이션 시간과 맞추기 위해 600ms 후에 이미지 변경
+	     }
+
+	     // 이전 버튼 클릭 시
+	     document.querySelector(".prev-btn").addEventListener("click", function() {
+	         currentIndex = (currentIndex === 0) ? totalImages - 1 : currentIndex - 1; // 인덱스를 순환
+	         changeImage('left');
+	     });
+
+	     // 다음 버튼 클릭 시
+	     document.querySelector(".next-btn").addEventListener("click", function() {
+	         currentIndex = (currentIndex === totalImages - 1) ? 0 : currentIndex + 1; // 인덱스를 순환
+	         changeImage('right');
+	     });
 	
 	    // 초기 이미지 설정
 	    changeImage();

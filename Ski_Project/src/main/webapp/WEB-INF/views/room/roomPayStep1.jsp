@@ -10,55 +10,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
 <style>
-    body {
-	  font-family: Arial, sans-serif;
-	  margin: 0;
-	  padding: 0;
-	}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+	background: url('${pageContext.request.contextPath}/resources/images/room/background.jpg') no-repeat center center fixed; /* 배경 이미지 경로 */
+    background-size: cover; /* 화면 크기에 맞게 이미지 크기 조정 */
+    background-position: center center; /* 배경 이미지를 중앙에 위치 */
+    background-attachment: fixed; /* 스크롤 시 배경 이미지 고정 */
+}
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 투명도 설정 (0.5는 50% 투명) */
+      z-index: -1; /* 배경 이미지보다 뒤로 보내기 */
+    }
 	
-	.reservation-menu {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  background-color: #f8f8f8;
-	  padding: 20px 0;
-	  gap: 60px;
-	}
-	
-	.menu-item {
-	  text-align: center;
-	  cursor: pointer;
-	}
-	
-	.menu-item .icon {
-	  width: 100px;
-	  height: 100px;
-	  border-radius: 50%;
-	  background-color: #fff;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  margin-bottom: 5px;
-	  transition: background-color 0.3s ease;
-	}
-	
-	.menu-item img {
-	  width: 50px;
-	  height: 50px;
-	}
-	
-	.menu-item span {
-	  font-size: 14px;
-	  color: #333;
-	}
-	
-	.menu-item.active .icon {
-	  background-color: #2a4d9e;
-	}
-	
-	.menu-item.active span {
-	  color: #2a4d9e;
-	}
+
 	
 	.reservation-steps {
 	  display: flex;
@@ -69,8 +41,9 @@
 	}
 	
 	.step {
-	  font-size: 14px;
-	  color: #333;
+	  font-size: 18px;
+	  font-weight : bold;
+	  color: white;
 	  position: relative;
 	}
 	
@@ -97,7 +70,10 @@
 	    justify-content: space-between;
 	    align-items: flex-start;
 	    gap: 20px; /* 요소 간 간격 조정 */
-	    margin: 50px; /* 전체 여백 */
+	    margin: 30px; /* 전체 여백 */
+	    background-color : white;
+	    border-radius : 10px;
+	    
 	  }
 
 	  .info1, .info2 {
@@ -109,34 +85,86 @@
 	  }
 	
 	  .info2 {
-	    display: flex;
-	    flex-direction: column; /* 수직 정렬 */
-	    gap: 20px; /* 내부 요소 간 간격 */
-	    margin-top : 50px;
+		    width: 50%; /* 너비를 50%로 설정하여 info1과 동일한 크기로 맞추기 */
+		    display: flex;
+		    flex-direction: column; /* 수직 정렬 */
+		    gap: 20px; /* 내부 요소 간 간격 */
+		    margin-top: 50px; /* 상단 간격 줄이기 */
+		    background-color : white;
 	  }
+	  
+	  /* 일요일 날짜 빨간색 */
+		.fc-day-sun a {
+		  color: red;
+		  text-decoration: none;
+		}
+		
+		/* 토요일 날짜 파란색 */
+		.fc-day-sat a {
+		  color: blue;
+		  text-decoration: none;
+		}
+		
+/* prev 버튼 스타일 */
+.fc-prev-button {
+    background-color: white !important;  /* 녹색 배경 */
+    color: black !important;               /* 흰색 텍스트 */
+    border-radius: 15px !important;         /* 둥근 모서리 */
+    padding: 5px 10px !important;          /* 버튼 안쪽 여백 */
+    font-size: 16px !important;            /* 폰트 크기 */
+    cursor: pointer !important;           /* 마우스 커서가 포인터로 변경 */
+}
+
+/* next 버튼 스타일 */
+.fc-next-button {
+    background-color: white !important;  /* 오렌지색 배경 */
+    color: black !important;               /* 흰색 텍스트 */
+    border-radius: 15px !important;         /* 둥근 모서리 */
+    padding: 5px 10px !important;          /* 버튼 안쪽 여백 */
+    font-size: 16px !important;            /* 폰트 크기 */
+    cursor: pointer !important;           /* 마우스 커서가 포인터로 변경 */
+}
+
+/* 버튼 호버 시 스타일 */
+.fc-prev-button:hover, .fc-next-button:hover {
+    opacity: 0.8 !important;               /* 호버 시 버튼 투명도 */
+    transform: scale(1.1) !important;       /* 버튼 크기 약간 확대 */
+}
+
+		
+		
+		
+	  
+
 	  
 	  /* 이용가능한 객실이름 조회 */
 		#roomResults {
 		    display: flex;
 		    flex-wrap: wrap; /* 다음 줄로 넘기기 */
 		    gap: 20px; /* 버튼 간격 */
+		    width : 80%;
 		}
 		
-		#roomResults button {
-		    flex: 0 0 calc(20% - 10px); /* 5개씩 배치 (100% ÷ 5 - 간격) */
-		    text-align: center;
-		    padding: 10px;
-		    margin: 0; /* 추가 여백 제거 */
-		    cursor: pointer;
-		    border: 1px solid #ddd;
-		    border-radius: 4px;
-		    background-color: #f8f8f8;
-		}
+#roomResults button {
+    flex: 0 0 calc(20% - 10px); /* 5개씩 배치 (100% ÷ 5 - 간격) */
+    text-align: center;
+    padding: 5px 8px; /* 세로 여백은 그대로 두고, 가로 여백 줄이기 */
+    margin: 0; /* 추가 여백 제거 */
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    width: 50px; /* 버튼 너비를 더 작게 설정 */
+    font-size: 12px; /* 텍스트 크기 줄이기 */
+}
+
+
 		
 	/* 체크인-체크아웃 관련 css */
 	.date-info {
+		margin-right : 200px;
 	    text-align: center;
-	    margin: 20px 0; /* 위아래 간격 */
+	    margin-top: 20px;
 	    font-family: Arial, sans-serif;
 	}
 	
@@ -161,12 +189,14 @@
 	    color: #000; /* 텍스트 색상 */
 	    background-color: transparent; /* 투명한 배경 */
 	    border: 1px solid #000; /* 검은색 테두리 */
-	    border-radius: 5px; /* 살짝 둥근 모서리 */
+	    border-radius: 15px; /* 살짝 둥근 모서리 */
 	    padding: 10px 20px; /* 내부 여백 */
 	    text-transform: uppercase; /* 텍스트 대문자 변환 */
 	    cursor: pointer; /* 클릭 시 포인터 표시 */
 	    transition: all 0.3s ease; /* 애니메이션 효과 */
+	    width : 500px;
 	}
+	
 	
 	.minimal-button:hover {
 	    background-color: #f8f8f8; /* 호버 시 밝은 배경색 */
@@ -185,32 +215,7 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-  <div class="reservation-menu">
-    <div class="menu-item active">
-      <div class="icon">
-        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
-      </div>
-      <span>객실</span>
-    </div>
-    <div class="menu-item">
-      <div class="icon">
-        <img src="${pageContext.request.contextPath}/resources/images/room/locker.png">
-      </div>
-      <span>락커</span>
-    </div>
-    <div class="menu-item">
-      <div class="icon">
-        <img src="${pageContext.request.contextPath}/resources/images/room/lift.png">
-      </div>
-      <span>리프트</span>
-    </div>
-    <div class="menu-item">
-      <div class="icon">
-        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
-      </div>
-      <span>패키지</span>
-    </div>
-  </div>
+
 
   <div class="reservation-steps">
     <span class="step active">STEP1. 객실/날짜 선택</span>
@@ -242,7 +247,7 @@
 	     
 	      	<button id="searchRooms" class="minimal-button">SEARCH</button>
 			<div id="roomResults" style="height:190px"></div>
-			<button id="nextButton" class="minimal-button" style="margin-top: 20px;">다음 예약 페이지로</button>
+			<button id="nextButton" class="minimal-button">다음 예약 페이지로</button>
      </div>
     </div>
   <script>
@@ -257,9 +262,9 @@
 	        initialView: 'dayGridMonth',
 	        locale: 'ko',
 	        headerToolbar: {
-	            left: 'prev,next today',
+	            left: 'prev',
 	            center: 'title',
-	            right: 'dayGridMonth'
+	            right: 'next'
 	        },
 	        dateClick: function (info) {
 	            if (!checkInDate) {

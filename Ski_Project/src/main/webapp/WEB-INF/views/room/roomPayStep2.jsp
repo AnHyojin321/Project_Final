@@ -7,56 +7,27 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
-	body {
-	    font-family: Arial, sans-serif;
-	    margin: 0;
-	    padding: 20px;
-	}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+	background: url('${pageContext.request.contextPath}/resources/images/room/background.jpg') no-repeat center center fixed; /* 배경 이미지 경로 */
+    background-size: cover; /* 화면 크기에 맞게 이미지 크기 조정 */
+    background-position: center center; /* 배경 이미지를 중앙에 위치 */
+    background-attachment: fixed; /* 스크롤 시 배경 이미지 고정 */
+}
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* 투명도 설정 (0.5는 50% 투명) */
+      z-index: -1; /* 배경 이미지보다 뒤로 보내기 */
+    }
 
-	/* step1 과 공통 css 영역 */
-	.reservation-menu {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  background-color: #f8f8f8;
-	  padding: 20px 0;
-	  gap: 60px;
-	}
-	
-	.menu-item {
-	  text-align: center;
-	}
-	
-	.menu-item .icon {
-	  width: 100px;
-	  height: 100px;
-	  border-radius: 50%;
-	  background-color: #fff;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  margin-bottom: 5px;
-	  transition: background-color 0.3s ease;
-	}
-	
-	.menu-item img {
-	  width: 50px;
-	  height: 50px;
-	}
-	
-	.menu-item span {
-	  font-size: 14px;
-	  color: #333;
-	}
-	
-	.menu-item.active .icon {
-	  background-color: #2a4d9e;
-	}
-	
-	.menu-item.active span {
-	  color: #2a4d9e;
-	}
-	
+
 	.reservation-steps {
 	  display: flex;
 	  justify-content: center;
@@ -66,9 +37,11 @@
 	}
 	
 	.step {
-	  font-size: 14px;
-	  color: #333;
+	  font-size: 18px;
+	  font-weight : bold;
+	  color: white;
 	  position: relative;
+	  margin-bottom : 20px;
 	}
 	
 	.step.active {
@@ -87,6 +60,8 @@
 	    gap: 20px;
 	    max-width: 1200px;
 	    margin: 0 auto;
+	    background-color: #fff; /* 필요에 따라 배경 색상 지정 */
+	    border-radius : 10px;
 	}
 	
 	/* 왼쪽 기존 내용 */
@@ -96,12 +71,13 @@
 	
 	/* 오른쪽 예약 정보 */
 	.reservation-info {
-		margin-top : 130px;
-	    width: 30%;
-	    height : 550px;
+		margin-top : 80px;
+	    width: 25%;
+	    height : 500px;
 	    background-color: #fff;
 	    border: 1px solid #ddd;
 	    padding: 15px;
+	    margin-right : 20px;
 	}
 	
 	/* 전화번호 입력 필드 스타일 */
@@ -135,11 +111,11 @@
 	.reservation-info h2 {
 	    font-size: 18px;
 	    margin-bottom: 10px;
-	    color: #333;
-	    background-color: #b89c73;
+	    color: black;
+	    border : 1px solid black;
 	    padding: 8px;
-	    color: white;
 	    text-align: center;
+	    border-radius : 20px;
 	}
 	
 	.info-section {
@@ -207,7 +183,6 @@
 	.customer-info-container {
 	    max-width: 800px;
 	    margin: 0 auto;
-	    margin-top: 50px;
 	    background-color: #ffffff;
 	    padding: 20px;
 	}
@@ -303,9 +278,9 @@
 
 	/* 이용 약관 관련 css */
 .terms-container {
-    max-width: 770px;
+    max-width: 1160px;
     margin: 0 auto;
-    margin-right : 550px;
+	margin-bottom : 40px;
     background-color: #ffffff;
     padding: 20px;
 }
@@ -389,8 +364,7 @@ button:hover {
 
 /* 투숙인원 영역 관련 css */
     .guest-container {
-        width: 100%;
-        max-width: 760px;
+        width: 95%;
         margin: 0 auto;
         border-collapse: collapse;
         font-size: 18px;
@@ -468,32 +442,7 @@ button:hover {
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-	  <div class="reservation-menu">
-	    <div class="menu-item active">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
-	      </div>
-	      <span>객실</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/locker.png">
-	      </div>
-	      <span>락커</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/lift.png">
-	      </div>
-	      <span>리프트</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
-	      </div>
-	      <span>패키지</span>
-	    </div>
-	  </div>
+
   
     <div class="reservation-steps">
 	    <span class="step">STEP1. 객실/날짜 선택</span>
@@ -655,6 +604,7 @@ button:hover {
             <span>(VAT 포함)</span>
         </div>
     </div>
+    
 </div>
 <div class="terms-container">
         <h1 class="terms-title">이용 약관 동의</h1>
@@ -663,12 +613,12 @@ button:hover {
             <div class="terms-content">
                 <p><strong>제 1조 (목적)</strong></p>
                 <p>
-                    이 규정은 평창 알펜시아 리조트 이용하기 위하여 예약접수를 한 고객(이하 “예약자”)이 체결한 예약의 세부 이행 및 준수사항을 정함을 목적으로 합니다.
+                    이 규정은 당산 설레눈 리조트 이용하기 위하여 예약접수를 한 고객(이하 “예약자”)이 체결한 예약의 세부 이행 및 준수사항을 정함을 목적으로 합니다.
                 </p>
-                <p><strong>제 2조 (평창 알펜시아 리조트와 예약자의 의무)</strong></p>
+                <p><strong>제 2조 (당산 설레눈 리조트 리조트와 예약자의 의무)</strong></p>
                 <p>
-                    평창 알펜시아 리조트는 예약자에게 예약서비스를 제공하기 위하여 예약수립 및 실행과정에서 맡은 바 임무를 충실히 수행하여야 합니다.<br>
-                    예약자는 안전하고 즐거운 여행을 위하여 평창 알펜시아 리조트의 예약규정 및 질서 유지에 적극 협조하여야 합니다.
+                    당산 설레눈 리조트는 예약자에게 예약서비스를 제공하기 위하여 예약수립 및 실행과정에서 맡은 바 임무를 충실히 수행하여야 합니다.<br>
+                    예약자는 안전하고 즐거운 여행을 위하여 당산 설레눈 리조트의 예약규정 및 질서 유지에 적극 협조하여야 합니다.
                 </p>
                 <p>... (추가 내용)</p>
             </div>

@@ -300,6 +300,7 @@ public class RoomController {
 	    
 	    Member m = roomService.selectMember(memberNo);
 	    ArrayList<RoomPay> list = roomService.selectReservedRoomList(memberNo);
+	    System.out.println("예약한 객실 목록 : " + list);
 	    
 	    mv.addObject("m", m)
 	      .addObject("list", list)
@@ -331,12 +332,17 @@ public class RoomController {
 	// 예약 취소 처리 요청 컨트롤러
 	@PostMapping(value="cancelReservation.ro")
 	@ResponseBody
-	public String cancelRoomReservation(@RequestParam("roomReservNo") int roomReservNo) {
+	public String cancelRoomReservation(@RequestParam("roomReservNo") int roomReservNo,
+										@RequestParam("roomNo")int roomNo) {
 		System.out.println("환불하고자하는 예약 번호 : " + roomReservNo);
+		System.out.println("환불하고자하는 객실 번호 : " + roomNo);
+		// 객실 환불 시 객실 상태 변경
+		int result1 = roomService.updateRefundRoomStatus(roomNo);
 		
-		int result = roomService.cancelRoomReservation(roomReservNo);
+		// 객실 예약 환불 처리
+		int result2 = roomService.cancelRoomReservation(roomReservNo);
 		
-	    if (result > 0) { 
+	    if (result1*result2 > 0) { 
 	        System.out.println("환불 성공");
 	        return "success";
 	    } else {

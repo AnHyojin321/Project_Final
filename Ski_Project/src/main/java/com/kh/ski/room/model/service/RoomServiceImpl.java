@@ -85,5 +85,12 @@ public class RoomServiceImpl implements RoomService {
 	    return roomDao.countReservedRooms(sqlSession, memberNo);
 	}
 
+	// 객실 예약 환불 후 객실 상태 변경
+	@Override
+	@Transactional
+	public int updateRefundRoomStatus(int roomNo) {
+		return roomDao.updateRefundRoomStatus(sqlSession, roomNo);
+	}
+	
 }
 
