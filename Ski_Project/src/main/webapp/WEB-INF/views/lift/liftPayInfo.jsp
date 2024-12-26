@@ -10,29 +10,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 	#outer{
-		width: 90%;
+		width: 80%;
 		margin:auto;
+		min-height:75vh;
 	}
 	h1 {
-		padding : 20px 0;
+		padding : 30px 0;
 	}
 	#btnDiv {
 		text-align: right;
 		padding-right:10px;
 		padding-bottom : 20px;
+		padding-top:30px;
 	}
 	.pay-btn {
 		width:200px;
 		height:50px;
 		border:none;
 		border-radius:7px;
-		background-color : blue;
+		background-color : rgba(0, 10, 50, 0.7);
 		color : white;
 		cursor : pointer;
 		transition: background-color 0.3s ease;
 	}
 	.pay-btn:hover {
-		background-color : indigo;
+		background-color : rgba(0, 10, 50, 0.8);
 		
 	}
 </style>
@@ -46,9 +48,10 @@
     <c:set var="totalCount" value="0" />
     <c:set var="totalPrice" value="0" />
     
-
+	<hr><hr>
     <c:forEach var="order" items="${list}">
         <p>
+        	<br>
             리프트권 종류 : ${order.liftType}
             <c:choose>
                 <c:when test="${order.liftNo == 400}">
@@ -79,9 +82,11 @@
                     알 수 없음
                 </c:otherwise>
             </c:choose>
+            <br>
         </p>
         <p>리프트권 개수 : ${order.liftCount} 개</p>
         <p>리프트권 금액 : ${order.liftTotalPrice} 원</p>
+        <br>
         <hr>
         
         <!-- 총 개수와 총 가격을 업데이트 -->
@@ -91,9 +96,12 @@
 
     <hr>
 
+	<br>
     <p>총 리프트권 개수: ${totalCount} 개</p>
     <p>총 금액: ${totalPrice} 원</p>
     <p>구매자 : ${list[0].memberId}</p>
+    <br>
+    <hr><hr>
 
 	<div id="btnDiv">
 	    <button class="pay-btn" onclick="serverAuth()">${totalPrice}원 결제하기</button>	
