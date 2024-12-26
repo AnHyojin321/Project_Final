@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>객실 내역</title>
+<title>패키지 구매 내역</title>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -42,22 +42,24 @@ h2 {
 
 .package-cards {
     display: flex;
-    gap: 20px;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    gap: 20px; /* 카드 사이 간격 */
+    align-items: center; /* 카드 중앙 정렬 */
 }
 
 .package-card {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    background-color: #fff;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    padding: 20px;
-    transition: width 0.5s ease; /* 부드러운 확장 효과 */
+    width: 100%; /* 카드가 전체 너비를 차지 */
+    max-width: 1000px; /* 카드의 최대 너비 제한 */
+    box-sizing: border-box; /* 내부 여백 포함 */
+    
 }
 
 .package-card.expanded {
     width: 90%; /* 확장된 상태 */
+}
+
+.package-info {
+	border-top : 2px solid black;
 }
 
 .package-info h3 {
@@ -80,6 +82,10 @@ h2 {
     padding: 20px;
     border-radius: 5px;
     display: none; /* 기본적으로 숨김 처리 */
+    background-color : #f4f4f4;
+    border-radius : 10px;
+    border-top : 2px dashed black;
+    border-bottom : 2px dashed black;
 }
 
 .reserver-info,
@@ -89,6 +95,7 @@ h2 {
     background-color: #ffffff;
     box-sizing: border-box; /* 내부 여백 포함 계산 */
     width : 100%;
+    background-color : #f4f4f4;
 }
 
 .reserver-info p,
@@ -97,10 +104,6 @@ h2 {
     font-size: 1em;
     color: #333;
 }
-
-
-
-
 
 
 .package-actions {
@@ -130,20 +133,35 @@ h2 {
     color: #e74c3c;
     background-color: #fdecea;
 }
-
-/*예약 취소 버튼 관련 css */
-.package-detail button {
-    background-color: #ff4d4f; /* 붉은색 배경 */
-    color: #fff; /* 흰색 텍스트 */
-    border: none; /* 테두리 제거 */
+.cancel-button {
+	border: none; /* 테두리 제거 */
     border-radius: 5px; /* 둥근 모서리 */
     padding: 10px 20px; /* 버튼 내부 여백 */
     font-size: 1em; /* 글자 크기 */
     font-weight: bold; /* 글자 굵기 */
     cursor: pointer; /* 클릭 커서 */
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 살짝 튀어나온 느낌 */
+    color: #e74c3c;
+    background-color: #fdecea;
+    border : 1px solid #e74c3c;
+
 }
+
+.open-modal-btn {
+	border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    font-size: 1em; /* 글자 크기 */
+    font-weight: bold; /* 글자 굵기 */
+    cursor: pointer; /* 클릭 커서 */
+    color: #e74c3c;
+    background-color: #eafbea; /* 연한 초록색 배경 */
+    color: #28a745; /* 초록색 텍스트 */
+    border : 1px solid #28a745;
+}
+
+/*예약 취소 버튼 관련 css */
+
+
 
 .package-detail button:hover {
     background-color: #d9363e; /* 호버 시 조금 더 어두운 색 */
@@ -224,6 +242,10 @@ h2 {
     position: relative;
 }
 
+.ticketTitle {
+	margin-bottom : 0px !important;
+}
+
 /* 티켓 앞면, 뒷면 */
 .ticket-front, .ticket-back {
     position: absolute;
@@ -268,14 +290,16 @@ h2 {
     font-family: Arial, sans-serif;
     font-size: 14px; /* 기본 폰트 크기 */
     color: #333; /* 기본 색상 */
-    text-align: center; /* 텍스트 중앙 정렬 */
+    text-align: left; /* 텍스트 중앙 정렬 */
     line-height: 1.8; /* 줄 간격 */
     background-color: white; /* 배경 흰색 */
     border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
     width: 100%; /* 박스 넓이 */
     height: 100%; /* 박스 높이 */
+    
 }
+
 
 /* 주요 텍스트 (이벤트 코드) 강조 */
 .ticket-main .event-code {
@@ -363,7 +387,7 @@ h2 {
 					             <span class="status confirmed">예약완료</span>
 					        </c:when>
 					        <c:when test="${p.prefundStatus == 'Y'}">
-					            <span class="status pending">예약취소</span
+					            <span class="status pending">예약취소</span>
 					        </c:when>
 					        <c:otherwise>
 					            상태 미정
@@ -371,7 +395,7 @@ h2 {
 					    </c:choose>
 					</p>
                 </div>
-                <div class="packageactions">
+                <div class="package-actions">
                     <a href="#" class="detail-link" data-id="${p.packageReservNo}" data-member="${sessionScope.loginMember.memberNo}"> &gt; 자세히보기</a>
                 </div>
                 <!-- 상세 정보를 표시할 영역 -->
@@ -384,8 +408,10 @@ h2 {
 				    <h4>객실정보</h4>
 				    <div class="package-info-detail"></div>
 				    <c:if test="${p.prefundStatus == 'N'}">
+				    <div class="cancel-button-wrapper" style="display: flex; justify-content: flex-end; margin-right; gap:20px;">
 					    <button class="cancel-button">예약 취소</button>
-				    	<button class="open-modal-btn"">패키지 티켓</button>
+				    	<button class="open-modal-btn" data-id="${p.packageReservNo}">패키지 티켓</button>
+				    </div>
 				    </c:if>	
 				</div>
 
@@ -408,15 +434,13 @@ h2 {
                         <div class="ticket-left">
                             <h3>SEOLLENEUN</h3>
                         </div>
-                        <c:forEach var="p" items="${list}">
                         <div class="ticket-main">
                            <!-- 동적으로 화면이 보여질 영역 -->
                         </div>
-                        </c:forEach>
                     </div>
                     <!-- 티켓 뒷면 -->
                     <div class="ticket-back">
-                        <img class="barcode" src="https://via.placeholder.com/300x150?text=BARCODE" alt="Barcode">
+                      
                     </div>
                 </div>
             </div>
@@ -455,14 +479,6 @@ h2 {
             console.log(packageNo);
             console.log(tid);
             
-            // 다른 카드 축소
-            $(".package-card").not(card).each(function () {
-                $(this).removeClass("expanded");
-                $(this).find(".package-detail").hide(); // 숨기기
-                gsap.to(this, { width: "500px", duration: 0.5 }); // 너비 축소
-                $(this).find(".detail-link").text("> 자세히보기"); // 링크 텍스트 복구
-            });
-
             // AJAX 요청
             $.ajax({
                 url: "myPackDetail.me",
@@ -476,6 +492,8 @@ h2 {
                 success: function (data) {
                     var p = data.packageDetail;
                     var m = data.memberInfo;
+                    var no = data.packageReservNo;
+                    console.log("바코드 : ",no);
 
                     // 예약자 정보
                     var reserverHtml = '<p>이름: ' + m.memberName + '</p>' +
@@ -498,28 +516,20 @@ h2 {
                     if (!card.hasClass("expanded")) {
                         card.addClass("expanded");
                         detailDiv.show(); // 상세 정보 표시
-                        gsap.to(card[0], { width: "90%", duration: 0.5 }); // 가로로 확장
+                        gsap.to(card[0], { width: "1000px", duration: 0.5 }); // 가로로 확장
                         link.text("< 접기"); // 링크 텍스트를 '접기'로 변경
                     } else {
                         card.removeClass("expanded");
                         detailDiv.hide(); // 상세 정보 숨기기
-                        gsap.to(card[0], { width: "500px", duration: 0.5 }); // 가로로 축소
+                        gsap.to(card[0], { width: "1000px", duration: 0.5 }); // 가로로 축소
                         link.text("> 자세히보기"); // 링크 텍스트를 '자세히보기'로 복구
                     }
-                    
-                    var ticketMain = document.querySelector('.ticket-main');
-
-                    // ticket-main 내용을 업데이트
-                    var content = 
-                        '<p class="event-code">' + p.packageName + '</p>';
-                        
-
-                    ticketMain.innerHTML = content;
                 },
                 error: function (xhr, status, error) {
                     console.error("데이터 요청 실패:", error);
                 }
             });
+
         });
 
         //--------------------
@@ -554,7 +564,8 @@ $(".cancel-button").on("click", function (e) {
     today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 초기화
     console.log("오늘 날짜:", today);
     console.log("시작 날짜:", available);
-
+    
+    
     // 날짜 차이 계산 (일 단위)
     var diffInTime = available - today; // 밀리초 단위 차이
     var diffInDays = Math.ceil(diffInTime / (1000 * 60 * 60 * 24)); // 밀리초 -> 일 단위
@@ -596,37 +607,80 @@ $(".cancel-button").on("click", function (e) {
 });
         
         
-        const modal = document.getElementById('ticketModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const ticket = document.getElementById('ticket');
+     // "패키지 티켓" 버튼 클릭 시 모달 열기
+        $(".open-modal-btn").on("click", function (e) {
+        	
+            e.preventDefault();
+            
+            var packageReservNo = $(this).data("id"); // 예약 번호 가져오기
+            console.log("패키지 예약 번호:", packageReservNo); // 콘솔에 packageReservNo 출력
 
-        // 모달 열기 버튼들 선택
-        const openModalBtns = document.querySelectorAll('.open-modal-btn'); // 클래스 선택
 
-        openModalBtns.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                modal.style.display = 'flex';
+         // 티켓 클릭 시 뒤집기
+            ticket.addEventListener('click', () => {
+                ticket.classList.toggle('flipped');
+            });
+
+
+
+
+            
+           
+            // 모달 열기
+            $("#ticketModal").css("display", "flex");
+
+            // AJAX 요청
+            $.ajax({
+                url: "myPackageTicket.me",  // 패키지 정보 가져오는 URL
+                type: "POST",
+                data: {
+                    packageReservNo: packageReservNo  // 패키지 예약 번호를 서버로 전달
+                },
+                dataType: "json",
+                success: function (data) {
+                  
+					console.log("패키지 티켓 조회 ajax 통신 성공");
+					var p = data.p;
+					console.log(p);
+					
+					 var ticketMain = $(".ticket-main");
+			            ticketMain.html(  // ticket-main에 정보 삽입
+			            	"<h2 class='ticketTitle'><strong>Package Ticket</strong></h2>" + 
+			                '<p><strong>패키지명:</strong> ' + p.packageName + '</p>' +
+			                '<p><strong>패키지 구성:</strong> ' + p.productComposit + '</p>' +
+			                '<p><strong>이용 가능 기간:</strong> ' + formatDate(p.availableStartDate) + ' ~ ' + formatDate(p.availableEndDate) + '</p>'
+			            );  
+			            
+			            // 바코드 이미지 경로 생성
+			            var barcodeImagePath = "${pageContext.request.contextPath}/resources/uploadFiles/barcode/" + p.packageReservNo + ".png";
+			            console.log("바코드 경로 : ", barcodeImagePath);  // 경로 확인용 로그
+
+			            // 티켓 뒷면에 바코드 이미지를 동적으로 추가
+			            var ticketBack = $(".ticket-back");
+			            var imgTag = '<img src="' + barcodeImagePath + '" class="barcode">';
+			            ticketBack.html(imgTag);  // 기존 내용을 지우고 이미지를 추가
+               
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("데이터 요청 실패:", error);
+                }
             });
         });
-
-        // 모달 닫기
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            ticket.classList.remove('flipped'); // 닫을 때 초기 상태로
+        // 닫기 버튼 클릭 시 모달 닫기
+        $("#closeModal").on("click", function () {
+            $("#ticketModal").css("display", "none");  // 모달 숨기기
+            $(".ticket").removeClass("flipped");  // 티켓 뒤집기 상태 리셋
         });
 
-        // 티켓 클릭 시 뒤집기
-        ticket.addEventListener('click', () => {
-            ticket.classList.toggle('flipped');
-        });
-
-        // 모달 외부 클릭 시 닫기
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                ticket.classList.remove('flipped'); // 닫을 때 초기 상태로
+        // 모달 외부 클릭 시 모달 닫기
+        $(window).on("click", function (event) {
+            if ($(event.target).is("#ticketModal")) {
+                $("#ticketModal").css("display", "none");
+                $(".ticket").removeClass("flipped");  // 티켓 뒤집기 상태 리셋
             }
         });
+
     });
 </script>
 

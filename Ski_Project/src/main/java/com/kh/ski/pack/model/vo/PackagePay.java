@@ -14,6 +14,9 @@ public class PackagePay {
 	private int packageNo;			//	PACKAGE_NO
 	
 	private String packageName; 
+	private String productComposit;
+	private String availableStartDate;
+	private String availableEndDate;
 	private int packagePrice;
 	private String payDate;
 	
@@ -33,6 +36,34 @@ public class PackagePay {
 		this.packageName = packageName;
 		this.packagePrice = packagePrice;
 		this.payDate = payDate;
+	}
+	
+	
+
+	public String getProductComposit() {
+		return productComposit;
+	}
+
+	public void setProductComposit(String productComposit) {
+		this.productComposit = productComposit;
+	}
+
+	public String getAvailableStartDate() {
+		return availableStartDate;
+	}
+
+	public void setAvailableStartDate(String availableStartDate) {
+		this.availableStartDate = availableStartDate;
+	}
+
+	
+
+	public String getAvailableEndDate() {
+		return availableEndDate;
+	}
+
+	public void setAvailableEndDate(String availableEndDate) {
+		this.availableEndDate = availableEndDate;
 	}
 
 	public int getPackageReservNo() {
@@ -128,8 +159,13 @@ public class PackagePay {
 		return "PackagePay [packageReservNo=" + packageReservNo + ", checkInDate=" + checkInDate + ", checkOutDate="
 				+ checkOutDate + ", tid=" + tid + ", prefundStatus=" + prefundStatus + ", prefuncDate=" + prefuncDate
 				+ ", memberNo=" + memberNo + ", packageNo=" + packageNo + ", packageName=" + packageName
-				+ ", packagePrice=" + packagePrice + ", payDate=" + payDate + "]";
+				+ ", productComposit=" + productComposit + ", availableStartDate=" + availableStartDate
+				+ ", availableEndDate=" + availableEndDate + ", packagePrice=" + packagePrice + ", payDate=" + payDate
+				+ "]";
 	}
+
+	
+	
 
 
 	

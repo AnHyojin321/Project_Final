@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/pack/packagePayStep.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 
 </head>
 <style>
@@ -58,6 +61,14 @@
     display: flex; /* 'active' 클래스가 추가되면 표시 */
 }
 
+.title {
+	margin-top : 30px;
+	font-size : 50px;
+	text-align: center;
+  font-family: "Do Hyeon", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 
 
@@ -67,33 +78,8 @@
 
 <body>
 <jsp:include page="../common/header.jsp" />
-	  <div class="package-menu">
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
-	      </div>
-	      <span>객실</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/locker.png">
-	      </div>
-	      <span>락커</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/lift.png">
-	      </div>
-	      <span>리프트</span>
-	    </div>
-	    <div class="menu-item active">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
-	      </div>
-	      <span>패키지</span>
-	    </div>
-	  </div>
-  
+
+  	<h1 class="title">패키지 예약</h1>
     <div class="package-steps">
 	    <span class="step">STEP1. 패키지 선택</span>
 	    <span class="step active">STEP2. 예약정보 확인</span>

@@ -94,6 +94,7 @@ h2 {
     background-color: #ffffff;
     box-sizing: border-box; /* 내부 여백 포함 계산 */
     width : 100%;
+    background-color : #f4f4f4;
 }
 
 .reserver-info p,
@@ -155,10 +156,6 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 감소 */
 }
 
-.reserver-info,
-.room-info-detail {
-	background-color : #f4f4f4;
-}
 
 .cancel-button {
 	margin-bottom : 10px;

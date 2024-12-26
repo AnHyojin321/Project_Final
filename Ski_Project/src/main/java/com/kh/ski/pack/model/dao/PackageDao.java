@@ -88,5 +88,10 @@ public class PackageDao {
 	public int cancelMyPackage(SqlSessionTemplate sqlSession, int packageReserveNo) {
 		return sqlSession.update("packageMapper.cancelMyPackage", packageReserveNo);
 	}
+	
+	// 패키지 티켓 조회
+	public PackagePay selectTicket(SqlSessionTemplate sqlSession, int packageReservNo) {
+		return sqlSession.selectOne("packageMapper.selectTicket", packageReservNo);
+	}
 
 }

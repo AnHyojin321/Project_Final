@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.ski.common.model.vo.PageInfo;
 import com.kh.ski.common.template.Pagination;
 import com.kh.ski.member.model.vo.Member;
+import com.kh.ski.pack.model.service.BarcodeService;
 import com.kh.ski.pack.model.service.PackageService;
 import com.kh.ski.pack.model.vo.Pack;
 import com.kh.ski.pack.model.vo.PackagePay;
@@ -35,6 +37,8 @@ public class PackageController {
 	private PackageService packageService;
 	@Autowired
 	private RoomService roomService;
+	@Autowired
+	private BarcodeService barcodeService;
 	
 	
 	
@@ -133,7 +137,7 @@ public class PackageController {
 		
 		int listCount = packageService.selectListCount();
 		int pageLimit = 5;
-		int boardLimit = 4;
+		int boardLimit = 12;
 		
 		PageInfo pi 
 			= Pagination.getPageInfo(listCount, currentPage, 
@@ -188,7 +192,7 @@ public class PackageController {
 		
 		int listCount = packageService.selectPackageSetCount(packageSet);
 		int pageLimit = 5;
-		int boardLimit = 4;
+		int boardLimit = 12;
 		
 		PageInfo pi 
 			= Pagination.getPageInfo(listCount, currentPage, 
@@ -270,6 +274,7 @@ public class PackageController {
 	    
 	    Member m = roomService.selectMember(memberNo);
 	    
+	    
 	    ArrayList<PackagePay> list = packageService.selectMyPackage(memberNo);
 	    
 	    System.out.println("조회된 패키지 : " + list);
@@ -284,7 +289,7 @@ public class PackageController {
 	// 패키지 구매 내역 상세 조회
 	@PostMapping("myPackDetail.me")
 	@ResponseBody
-	public Map<String, Object> selectMyPackDetail(PackagePay pp) {
+	public Map<String, Object> selectMyPackDetail(PackagePay pp, HttpSession session) {
 		System.out.println("패키지 구매 내역 상세 조회 컨트롤러 호출됨");
 		System.out.println(pp.getMemberNo());
 		System.out.println(pp.getPackageNo());
@@ -292,6 +297,7 @@ public class PackageController {
 		
 		int packageNo = pp.getPackageNo();
 		int memberNo = pp.getMemberNo();
+		int packageReservNo = pp.getPackageReservNo();
 		
 		Member m = roomService.selectMember(memberNo);
 		Pack p = packageService.selectPackageDetail(packageNo);
@@ -300,6 +306,7 @@ public class PackageController {
 	    Map<String, Object> response = new HashMap<>();
 	    response.put("packageDetail", p);
 	    response.put("memberInfo", m);
+	    response.put("packageReservNo", packageReservNo); // 파일 경로를 응답에 추가
 
 	    // JSON 형식으로 반환
 	    return response;
@@ -316,6 +323,38 @@ public class PackageController {
 		int result = packageService.cancelMyPackage(packageReservNo);
 		
 		return (result>0) ? "success" : "fail";
+	}
+	
+	// 패키지 티켓 조회
+	@PostMapping("myPackageTicket.me")
+	@ResponseBody
+	public Map<String, Object> selectPackageTicket(@RequestParam(value="packageReservNo")int packageReservNo,
+									HttpSession session) {
+		System.out.println("패키지 티켓 조회 컨트롤러 조회됨");
+		System.out.println(packageReservNo);
+		
+		PackagePay p = packageService.selectTicket(packageReservNo);
+		
+		System.out.println("조회해온 패키지 티켓 : "  + p);
+		
+		// 바코드 생성
+	    String barcodeData = "PackageReservNo" + packageReservNo;
+	    String barcodeFilePath = null;
+	    String root = session.getServletContext().getRealPath("/resources/uploadFiles/barcode/" + packageReservNo + ".png");
+
+	    try {
+	        // 바코드를 파일로 저장하고 경로를 받음
+	        barcodeFilePath = barcodeService.generateBarcodeFile(barcodeData, root);
+	        System.out.println("바코드 파일 경로: " + barcodeFilePath);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("p", p);
+	    
+	    return response;
+		
 	}
 
 

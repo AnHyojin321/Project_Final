@@ -47,6 +47,9 @@ public interface PackageService {
 	
 	// 패키지 상품 환불
 	int cancelMyPackage(int packageReservNo);
+	
+	// 패키지 티켓 조회
+	PackagePay selectTicket(int packageReservNo);
 
 
 }

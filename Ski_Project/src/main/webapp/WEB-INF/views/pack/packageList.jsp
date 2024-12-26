@@ -165,6 +165,19 @@ header1 p {
     color: #34495e;
 }
 
+/* 판매중일 경우 */
+.status.available {
+    background-color: #28a745; /* 초록색 */
+    color: white;
+}
+
+/* 판매종료일 경우 */
+.status.sold-out {
+    background-color: #e74c3c; /* 빨간색 */
+    color: white;
+}
+
+
 
 
 
@@ -210,8 +223,8 @@ header1 p {
 	            <img src="/admin/${pack.packImgPath}" class="card-image">
 	            <div class="card-content">
 	                <div class="title">${fn:substring(pack.packageName, 0, 20)} ..</div>
-	                <div class="date">${pack.availableStartDate} ~ ${pack.availableEndDate}</div>
-	                <div class="status">
+	                <div class="date">${fn:substring(pack.availableStartDate, 0, 10)} ~ ${fn:substring(pack.availableEndDate, 0, 10)}</div>
+	                <div class="status ${pack.packageStatus == 'Y' ? 'available' : (pack.packageStatus == 'N' ? 'sold-out' : '')}">
 					    <c:choose>
 					        <c:when test="${pack.packageStatus == 'Y'}">판매중</c:when>
 					        <c:when test="${pack.packageStatus == 'N'}">판매종료</c:when>

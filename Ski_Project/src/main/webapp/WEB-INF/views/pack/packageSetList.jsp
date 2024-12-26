@@ -17,17 +17,17 @@ body {
     box-sizing: border-box;
 }
 
-header {
+header1 {
     text-align: center;
     margin: 20px 0;
 }
 
-header h1 {
+header1 h1 {
     font-size: 2rem;
     margin-bottom: 10px;
 }
 
-header p {
+header1 p {
     font-size: 1rem;
     color: gray;
 }
@@ -165,16 +165,27 @@ header p {
     color: #34495e;
 }
 
+/* 판매중일 경우 */
+.status.available {
+    background-color: #28a745; /* 초록색 */
+    color: white;
+}
 
+/* 판매종료일 경우 */
+.status.sold-out {
+    background-color: #e74c3c; /* 빨간색 */
+    color: white;
+}
 
 
 </style>
 </head>
 <body>
-    <header>
+<jsp:include page="../common/header.jsp" />
+    <header1>
         <h1>패키지상품</h1>
         <p>설레눈 리조트의 특별한 티켓상품을 만나보세요.</p>
-    </header>
+    </header1>
 
     <hr style="width:500px;">
     <div class="category-menu">
@@ -230,8 +241,8 @@ header p {
 	            <img src="/admin/${pack.packImgPath}" class="card-image">
 	            <div class="card-content">
 	                <div class="title">${fn:substring(pack.packageName, 0, 20)} ..</div>
-	                <div class="date">${pack.availableStartDate} ~ ${pack.availableEndDate}</div>
-	                <div class="status">
+	                <div class="date">${fn:substring(pack.availableStartDate, 0, 10)} ~ ${fn:substring(pack.availableEndDate, 0, 10)}</div>
+	                <div class="status ${pack.packageStatus == 'Y' ? 'available' : (pack.packageStatus == 'N' ? 'sold-out' : '')}">
 					    <c:choose>
 					        <c:when test="${pack.packageStatus == 'Y'}">판매중</c:when>
 					        <c:when test="${pack.packageStatus == 'N'}">판매종료</c:when>
@@ -310,6 +321,6 @@ header p {
 
     </script>
 
-    
+<jsp:include page="../common/footer.jsp" />    
 </body>
 </html>

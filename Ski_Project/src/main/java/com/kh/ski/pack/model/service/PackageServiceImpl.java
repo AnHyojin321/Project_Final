@@ -102,6 +102,12 @@ public class PackageServiceImpl implements PackageService {
 		return packageDao.cancelMyPackage(sqlSession, packageReservNo);
 	}
 	
+	// 패키지 티켓 조회
+	@Override
+	public PackagePay selectTicket(int packageReservNo) {
+		return packageDao.selectTicket(sqlSession, packageReservNo);
+	}
+	
 	
 
 }

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,7 +109,7 @@ body {
 }
 
 .info-section {
-    margin-bottom: 30px;
+
     border-bottom: 1px solid #ddd;
     padding-bottom: 15px;
 }
@@ -133,9 +134,8 @@ body {
 
 .info-contact {
     text-align: center;
-    margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .info-contact h2 {
@@ -227,6 +227,7 @@ body {
 </style>
 </head>
 <body>
+<jsp:include page="../common/header2.jsp" />
     <div class="product-detail">
         <div class="product-header">
             <p class="product-title">${p.packageName}
@@ -245,7 +246,7 @@ body {
             </tr>
             <tr>
                 <th>이용기간</th>
-                <td>${p.availableStartDate} ~ ${p.availableEndDate}</td>
+                <td>${fn:substring(p.availableStartDate, 0, 10)} ~ ${fn:substring(p.availableEndDate, 0, 10)}</td>
             </tr>
             <tr>
                 <th>티켓 종류</th>
@@ -265,7 +266,12 @@ body {
 
             </tr>
         </table>
-        <button class="purchase-btn" onclick="payStep(this);">구매</button>
+        <button class="purchase-btn" data-package-status="${p.packageStatus}" onclick="payStep(this);">구매</button>
+
+<script>
+
+</script>
+
         
         <form id="packagePayForm" action="${pageContext.request.contextPath}/packPayInfo.pk" method="post">
         	<input type="hidden" id="packageNo" name="packageNo" value="${p.packageNo}" />
@@ -362,26 +368,39 @@ body {
 	  <script>
 	  // 서버에서 로그인 상태를 JavaScript 변수로 전달
 	    const memberNo = "${sessionScope.loginMember != null ? sessionScope.loginMember.memberNo : null}";
-
+   
 	    function payStep(button) {
 	        console.log("payStep 함수 호출됨");
+	        
+	     // data-package-status 속성에서 packageStatus 값을 가져오기
+	        var packageStatus = button.getAttribute('data-package-status');
+	        console.log(packageStatus);
 
-	        // 로그인 여부 확인
-	        if (!memberNo) { // 로그인 상태 확인
-	            alert("로그인 후 이용 가능합니다.");
-	            location.href = "/ski/login.me"; // 로그인 페이지로 리다이렉트
-	        } else {
-	            // roomType 데이터를 컨트롤러로 전달
-	            // 폼의 hidden input 값 설정
-	            document.getElementById("memberNo").value = memberNo;
+	        // packageStatus가 "n"인 경우 알림을 띄우기
+	        if (packageStatus === 'N') {
+	            alert("판매 종료된 상품입니다");
+	            return; // 알림을 띄운 후 함수 종료
+	        }else {
+	        	// 로그인 여부 확인
+		        if (!memberNo) { // 로그인 상태 확인
+		            alert("로그인 후 이용 가능합니다.");
+		            location.href = "/ski/login.me"; // 로그인 페이지로 리다이렉트
+		        } else {
+		            // roomType 데이터를 컨트롤러로 전달
+		            // 폼의 hidden input 값 설정
+		            document.getElementById("memberNo").value = memberNo;
 
-	            // 디버그용 콘솔 출력
-	            console.log("Member No:", memberNo);
+		            // 디버그용 콘솔 출력
+		            console.log("Member No:", memberNo);
 
-	            // 폼 제출
-	            document.getElementById("packagePayForm").submit();
+		            // 폼 제출
+		            document.getElementById("packagePayForm").submit();
+		        }
 	        }
+
+	        
 	    }
 	  </script>
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

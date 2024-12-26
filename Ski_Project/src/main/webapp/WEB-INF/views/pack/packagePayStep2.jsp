@@ -7,7 +7,9 @@
 <title>Insert title here</title>
 <script src="https://pay.nicepay.co.kr/v1/js/"></script> <!-- Server 승인 운영계 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet"><script>
 function serverAuth() {
 
     // HTML에서 totalPrice 값을 가져오기
@@ -58,49 +60,7 @@ function serverAuth() {
 </script>
 
 <style>
-	/* step1 과 공통 css 영역 */
-	.package-menu {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  padding: 20px 0;
-	  gap: 60px;
-	}
-	
-	.menu-item {
-	  text-align: center;
-	}
-	
-	.menu-item .icon {
-	  width: 100px;
-	  height: 100px;
-	  border-radius: 50%;
-	  background-color: #fff;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  margin-bottom: 5px;
-	  transition: background-color 0.3s ease;
-	}
-	
-	.menu-item img {
-	  width: 50px;
-	  height: 50px;
-	}
-	
-	.menu-item span {
-	  font-size: 14px;
-	  color: #333;
-	}
-	
-	.menu-item.active .icon {
-	  background-color: #2a4d9e;
-	}
-	
-	.menu-item.active span {
-	  color: #2a4d9e;
-	}
-	
+
 	.package-steps {
 	  display: flex;
 	  justify-content: center;
@@ -300,6 +260,14 @@ function serverAuth() {
     font-weight: bold;
     cursor: pointer;
 }
+.title {
+	margin-top : 30px;
+	font-size : 50px;
+	text-align: center;
+  font-family: "Do Hyeon", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 
 
@@ -307,33 +275,8 @@ function serverAuth() {
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-	  <div class="package-menu">
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/bed.png">
-	      </div>
-	      <span>객실</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/locker.png">
-	      </div>
-	      <span>락커</span>
-	    </div>
-	    <div class="menu-item">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/lift.png">
-	      </div>
-	      <span>리프트</span>
-	    </div>
-	    <div class="menu-item active">
-	      <div class="icon">
-	        <img src="${pageContext.request.contextPath}/resources/images/room/package.png">
-	      </div>
-	      <span>패키지</span>
-	    </div>
-	  </div>
-  
+	  
+  	<h1 class="title">패키지 예약</h1>
     <div class="package-steps">
 	    <span class="step">STEP1. 패키지 선택</span>
 	    <span class="step">STEP2. 예약정보 확인</span>

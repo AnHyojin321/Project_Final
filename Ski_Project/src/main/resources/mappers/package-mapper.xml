@@ -27,6 +27,9 @@
 		<result column="PACKAGE_NAME" property="packageName" />
 		<result column="PACKAGE_PRICE" property="packagePrice" />
 		<result column="PAY_DATE" property="payDate" />
+		<result column="AVAILABLE_START_DATE" property="availableStartDate" />
+		<result column="AVAILABLE_END_DATE" property="availableEndDate" />
+		<result column="PRODUCT_COMPOSIT" property="productComposit" />
 	</resultMap>
 	
 
@@ -46,7 +49,6 @@
               , PACK_CHANGE_NAME
               , PACK_IMG_PATH
 		FROM PACKAGE_INFO
-		WHERE PACKAGE_STATUS = 'Y'
 		ORDER BY PACKAGE_NO DESC
 	</select>
 	
@@ -202,5 +204,19 @@
 		WHERE PACKAGE_RESERV_NO = #{packageReserveNo}
 		AND PREFUND_STATUS = 'N'
 	</update>
+	
+	<!-- 패키지 티켓 조회 -->
+	<select id="selectTicket" parameterType="_int" resultMap="packagepayResultSet">
+		SELECT PACKAGE_RESERV_NO
+			 , PACKAGE_NAME
+			 , PRODUCT_COMPOSIT
+			 , AVAILABLE_START_DATE
+			 , AVAILABLE_END_DATE
+		FROM PACKAGE_RESERV A
+        JOIN PACKAGE_INFO B ON (A.PACKAGE_NO = B.PACKAGE_NO)
+		WHERE PACKAGE_RESERV_NO = #{packageReservNo}
+			 
+	</select>
+
 
 </mapper>
