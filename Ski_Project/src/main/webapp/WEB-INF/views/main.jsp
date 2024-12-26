@@ -418,12 +418,10 @@ p {
 }
 
   #widget {
-    	width:10px;
-    	height:30px;
-    	bottom:30px;
-    	left:30px;
-    	color:black;
+    	width:800px;
+    	height:100px;
     	position: relative;
+    	margin-top: 71vh;
     	
     }
 

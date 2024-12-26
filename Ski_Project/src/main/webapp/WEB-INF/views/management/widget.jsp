@@ -45,16 +45,20 @@
         transition: transform 0.5s ease-in-out; /* 슬라이드 애니메이션 */
         background-color : rgba(255, 255, 255, 0.4) ;
 		margin-left: 10px;
+		border-radius: 10px;
     }
     table:not(:first-of-type) {
         display: none; /* 기본적으로 숨겨진 테이블 */
     }
     th {
-        padding: 0px;
+        padding: 5px 0;
+        min-width:115px;
+        width:115px;
     }
     td {
-    	min-width:80px;
-        width: 80px;
+    	padding: 0px;
+    	min-width:115px;
+        width:115px;
         text-align: center;
         vertical-align: middle;
     }
@@ -69,7 +73,7 @@
     .fa-solid {
         cursor: pointer;
         transition: 0.3s;
-		font-size: 50px;
+		font-size: 60px;
 		margin-left: 5px;
     }
     .fa-solid::hover {
@@ -79,27 +83,30 @@
         margin: auto;
     }
 	.welcome-msg {
-	    font-size: 1.2em;
+	    font-size: 1.1em;
 	    color: #6c757d;
 	}
 	#btnOpenTd {
-		padding:0px;
-		height:35px;
-		font-weight: bolder;
-		
+	    padding: 0px;
+	    padding-bottom:2px;
+	    height: 35px;
+	    font-size: 19px;
+	    font-weight: 850;
+	    letter-spacing: 2px;
 	}
+
 	.icon {
+		padding: 0;
 	    width: 100%;  /* 이미지의 가로 크기를 50px로 설정 */
-	    height: auto; /* 세로 크기는 자동으로 비율에 맞춰 조정 */
+	    height: 85px; /* 세로 크기는 자동으로 비율에 맞춰 조정 */
 	}
 
 </style>
 <body>
 <div id="outer">
-
 		<c:forEach var="sro" items="${ requestScope.slopeIsOpenList }">
-		<table style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.2)'}; color: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};">
-			<tr><th colspan="2">${ sro.date } (${ sro.day })</th></tr>
+		<table style="background-color: ${sro.skiResortIsOpen == 'Y' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.3)'}; color: ${sro.skiResortIsOpen == 'Y' ? 'black' : 'white'};">
+			<tr><th colspan="2">${ sro.date }<br>${ sro.day }</th></tr>
 			<tr>
 				<td colspan="2">
 				    <svg class="icon">
@@ -128,29 +135,49 @@
 			    </td>
 			</tr>
 			<tr>
-		 		<td colspan="2">${ sro.description }</td>
+		 		<td>${ sro.description }</td>
 			</tr>
 			<tr>
-				<td>최고</td>
-				<td>최저</td>
+				<td style="display:none;">평균기온</td>
 			</tr>
 			<tr>
-				<td>${ sro.maxTemp } °C</td>
-				<td>${ sro.minTemp } °C</td>
+				<td class="maxTemp" style="display:none;">${ sro.maxTemp } °C</td>
+		        <td class="minTemp" style="display:none;">${ sro.minTemp } °C</td>
+		        <td class="avgTemp"></td>
 			</tr>
 			<tr>
-			    <td colspan="2" id="btnOpenTd">
+			    <td id="btnOpenTd">
 			        ${ sro.skiResortIsOpen == 'Y' ? 'OPEN' : 'CLOSE'}
 			    </td>
 			</tr>
 		</table>
 	</c:forEach>
 	<div id="nextBtnDiv">
-		<i id="nextBtn" class="fa-solid fa-caret-right fa-2xl" style="color: rgba(255, 255, 255, 0.5);"></i>
+		<i id="nextBtn" class="fa-solid fa-caret-right fa-2xl" style="color: rgba(255, 255, 255, 0.7);"></i>
 	</div>
 </div>
 <script>
-    let isExpanded = false;
+
+	//모든 행에서 평균 값을 계산
+	document.querySelectorAll("tr").forEach(row => {
+	    const maxTempCell = row.querySelector(".maxTemp");
+	    const minTempCell = row.querySelector(".minTemp");
+	    const avgTempCell = row.querySelector(".avgTemp");
+	
+	    if (maxTempCell && minTempCell && avgTempCell) {
+	        // " °C" 제거하고 숫자로 변환
+	        const maxTemp = parseFloat(maxTempCell.textContent);
+	        const minTemp = parseFloat(minTempCell.textContent);
+	
+	        // 평균 계산
+	        const avgTemp = ((maxTemp + minTemp) / 2).toFixed(1);
+	
+	        // 평균 값을 셀에 표시
+	        avgTempCell.textContent = `\${avgTemp} °C`;
+	    }
+	});
+	
+	let isExpanded = false;
 
 	document.getElementById("nextBtn").addEventListener("click", function () {
 		const button = this;
@@ -167,6 +194,7 @@
 				}, 500); // 애니메이션 시간 후에 숨김
 			});
 			button.className = "fa-solid fa-caret-right fa-2xl"; // 아이콘 변경
+			button.style.paddingLeft = "0px"; 
 			isExpanded = false;
 		} else {
 			tables.forEach((table, index) => {
@@ -178,6 +206,7 @@
 				}, index * 50); // 각 테이블이 순차적으로 나타나게 설정
 			});
 			button.className = "fa-solid fa-caret-left fa-2xl"; // 아이콘 변경
+			button.style.paddingLeft = "5px"; 
 			isExpanded = true;
 		}
 	});
