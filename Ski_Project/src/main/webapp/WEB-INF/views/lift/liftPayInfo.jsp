@@ -107,7 +107,7 @@ function serverAuth() {
     const memberId = "${list[0].memberId}";
     const totalPrice = ${totalPrice};
     const totalCount = ${totalCount};
-
+    console.log(memberId);
     $.ajax({
         url: 'storeSessionData.li',
         type: 'POST',

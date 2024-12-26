@@ -54,6 +54,7 @@ public class LiftController {
 	    session.setAttribute("memberId", memberId);
 	    session.setAttribute("totalCount", totalCount);
 	    session.setAttribute("totalPrice", totalPrice);
+	    System.out.println("세션에 담긴 아이디 : " + memberId);
 
 
 
@@ -71,9 +72,11 @@ public class LiftController {
 	                        Model model) {
 
 	    // 세션에서 데이터 가져오기
-	    String memberId = (String) session.getAttribute("memberNo");
+	    String memberId = (String) session.getAttribute("memberId");
 	    String totalCount = (String) session.getAttribute("totalCount");
 	    String totalPrice = (String) session.getAttribute("totalPrice");
+	    
+	    System.out.println("세션에서 꺼내온 아이디 : " + memberId);
 
 	    // 결제 결과 검증
 	    if ("0000".equals(authResultCode)) {
