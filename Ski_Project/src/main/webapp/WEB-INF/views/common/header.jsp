@@ -229,7 +229,7 @@
         <div class="menu-container">
             <div class="main-menu">
                 <ul>
-                    <li>Home</li>
+		<li onclick="location.href='${pageContext.request.contextPath}'">HOME</li>
                     <li>About</li>
                     <li>Works</li>
                     <li>Partner</li>
@@ -239,16 +239,16 @@
                 <ul>
                     <li>Project Request</li>
                     <li>Contact</li>
-                    <li>Threeway Homepage</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/lostList'">Lost</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">Notice</li>
-                    <li onclick="location.href='${pageContext.request.contextPath}/locker'">Locker</li>
+					<li onclick="location.href='${pageContext.request.contextPath}/list.le'">강습예약</li>
+                    <li onclick="location.href='${pageContext.request.contextPath}/lostList'">분실물</li>
+                    <li onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</li>
+                    <li onclick="location.href='${pageContext.request.contextPath}/locker'">락커예약</li>
                     <c:if test="${not empty sessionScope.loginMember}">
-                        <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">MyPage</li>
-                        <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">Logout</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/myPage.me'">마이페이지</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/logout.me'">로그아웃</li>
                     </c:if>
                     <c:if test="${empty sessionScope.loginMember}">
-                        <li onclick="location.href='${pageContext.request.contextPath}/login.me'">Login</li>
+                        <li onclick="location.href='${pageContext.request.contextPath}/login.me'">로그인</li>
                     </c:if>
                 </ul>
             </div>
