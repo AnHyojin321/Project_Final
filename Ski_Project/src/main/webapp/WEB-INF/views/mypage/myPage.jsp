@@ -742,7 +742,7 @@
         <nav class="nav">
             <a href="${pageContext.request.contextPath}/myPage.me">마이페이지</a>
             <a href="${pageContext.request.contextPath}/myLockerReservation">락커 예약</a>	
-            <a href="${pageContext.request.contextPath}/myPackage.me">패키지</a>
+            <a href="${pageContext.request.contextPath}/myPackage.me">패키지 구매</a>
             <a href="${pageContext.request.contextPath}/myLift.me">리프트권 구매</a>
             <a href="${pageContext.request.contextPath}/myRoom.me">객실 예약</a>
             <a href="${pageContext.request.contextPath}/list.le">강습 예약</a>
@@ -1199,7 +1199,8 @@ function openLiftDetailModal(liftOrderNo) {
                 var modalContent = "<p><strong>예약번호:</strong> " + (response.liftOrderNo || "없음") + "</p>" +
                     "<p><strong>리프트 번호:</strong> " + (response.liftNo || "없음") + "</p>" +
                     "<p><strong>수량:</strong> " + (response.liftCount || "없음") + "매</p>" +
-                    "<p><strong>총 금액:</strong> " + (response.liftTotalPrice || "0") + "원</p>";
+                    "<p><strong>총 금액:</strong> " + (response.liftTotalPrice || "0") + "원</p>"+
+                    "<p><a href='" + contextPath + "/myLift.me' class='btn-view'>자세히 보기</a></p>";
                 document.getElementById("liftModalContent").innerHTML = modalContent;
                 document.getElementById("liftDetailModal").style.display = "flex";
             } else {

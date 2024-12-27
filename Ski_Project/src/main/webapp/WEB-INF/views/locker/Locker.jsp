@@ -89,7 +89,7 @@ function serverAuth() {
             if (data.status === 'success') {
                 // 세션 저장 성공 후 결제 요청 실행
                 AUTHNICE.requestPay({
-                    clientId: 'S2_99ba9edee4764a5991018289cfd6308e',
+                    clientId: '',
                     method: 'card',
                     orderId: '02e16b8c-779d-497f-b54d-07521212175d',
                     amount: lockerTotalPrice,

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -157,8 +157,8 @@
 
         .snow-image {
             position: absolute;
-            top: 280px;
-            left: 14px;
+            top: 410px;
+            left: 18px;
             width: 30px;
             transform: rotate(280deg);
             margin-right: 95%;
@@ -559,16 +559,16 @@ p {
 	  
 	  </div>
             				   <img src="resources/images/whitetrack.png" 
-     style="width: 60px; position: absolute; left: 91%; top: 570px; z-index: 2; bottom: 30px; cursor: pointer;"
+     style="width: 60px; position: absolute; left: 91.5%; top: 810px; z-index: 2; bottom: 30px; cursor: pointer;"
      id="whitetrack">
                             <div class="background-circle"></div>
             
         <div style="display: flex; align-items: center; margin: 50px auto; position: relative; justify-content: center;">
     <img src="resources/images/question.png" 
-         style="width: 20px; position: absolute; left: 490px; bottom: 0; z-index: 2; bottom:30px;">
+         style="width: 20px; position: absolute; left: 650px; bottom: 0; z-index: 2; bottom:30px;">
     <button id="custom-kakao-channel-button" 
             style="background-color: #004AAD; color: white; border: none; 
-                   width: 130px; height: 40px; border-radius: 8px; font-size: 15px; left:160px; bottom:20px;
+                   width: 130px; height: 40px; border-radius: 8px; font-size: 15px; left:220px; bottom:20px;
                    position: relative; z-index: 1;">
         &nbsp;&nbsp;&nbsp;&nbsp;문의하기
     </button>
@@ -604,13 +604,13 @@ p {
     
     document.addEventListener("DOMContentLoaded", function () {
     	
-    	 Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+    	 Kakao.init('자바스크립트인증키'); // 실제 JavaScript 키로 대체
 
          // 커스텀 버튼 클릭 이벤트
          const customButton = document.getElementById('custom-kakao-channel-button');
          customButton.addEventListener('click', function () {
            Kakao.Channel.addChannel({
-             channelPublicId: '_PPxdxln' // 채널 고유 ID
+             channelPublicId: '채널고유아이디' // 채널 고유 ID
            });
          });
     	

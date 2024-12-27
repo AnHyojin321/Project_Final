@@ -225,6 +225,7 @@ public class LiftController {
 	    
 	    String memberId = loginMember.getMemberId();
 	    
+	    System.out.println("리프트내역 : " + memberId);
 	    Member m = liftService.selectMember(memberId);
 	    ArrayList<LiftPay> list = liftService.selectPurchasedLiftList(memberId);
 	    

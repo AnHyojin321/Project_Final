@@ -246,8 +246,11 @@ h2 {
     $(document).ready(function () {
     	
     	
+    	// QRCodeShowBtn 클릭 시 이미지 토글
     	$(".QRCodeShowBtn").on("click", function () {
-    	    $("#liftTicketDiv").toggle(); // #liftTicketDiv를 보이거나 숨김
+    	    var roomCard = $(this).closest(".room-card"); // 클릭된 버튼이 포함된 room-card 찾기
+    	    var liftTicketDiv = roomCard.find("#liftTicketDiv"); // 해당 room-card 내부의 liftTicketDiv 찾기
+    	    liftTicketDiv.toggle(); // 해당 liftTicketDiv를 보이거나 숨김
     	});
 
     	
@@ -316,10 +319,10 @@ h2 {
                 },
                 success: function (response) {
                     if (response === "success") {
-                        alert("예약이 취소되었습니다.");
+                        alert("환불이 완료되었습니다.");
                         location.reload(); // 페이지 새로고침
                     } else if (response === "fail") {
-                        alert("예약 취소에 실패했습니다.");
+                        alert("환불에 실패하였습니다.");
                     } else {
                         alert("예상치 못한 응답: " + response);
                     }

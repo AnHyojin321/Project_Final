@@ -15,7 +15,7 @@
         background-color: #f8f9fa;
     }
     #outer {
-        height: 900px;
+        height: 1000px;
         display: flex;
     }
     table {

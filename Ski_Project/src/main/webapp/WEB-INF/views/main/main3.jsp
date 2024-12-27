@@ -22,6 +22,7 @@
             overflow: hidden;
             /* 페이지 로드 시 부드럽게 나타나도록 설정 */
             opacity: 0;
+            
             animation: fadeIn 1s forwards; /* 화면이 부드럽게 나타나는 애니메이션 */
         }
 
@@ -154,8 +155,8 @@
 
         .snow-image {
             position: absolute;
-            top: 285px;
-            left: 23px;
+            top: 410px;
+            left: 30px;
             width: 30px;
             transform: rotate(280deg);
             margin-right: 95%;
@@ -383,69 +384,7 @@ p {
             object-fit: cover;
         }
 
-        .overlay1 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 280px;
-            background-color: rgba(29, 28, 28, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.5em;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        .overlay2 {
-            position: relative;
-            top: 170px;
-            left: 0;
-            width: 100%;
-            height: 380px;
-            background-color: rgba(29, 28, 28, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.5em;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        .overlay3 {
-            position: absolute;
-            top: 0px;
-            left: 0;
-            width: 100%;
-            height: 290px;
-            background-color: rgba(29, 28, 28, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.5em;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        
-        .overlay3:hover{
-            opacity: 0;
-        }
-
     
-
-     .overlay2:hover{
-            opacity: 0;
-        }
-
- .overlay1:hover{
-            opacity: 0;
-        }
-
   .main1back:hover{
     background-color: black;
   }
@@ -551,7 +490,7 @@ p {
     #menuBtn {
       position: fixed;
       top: 3px;
-      right: 3px;
+      left: 200px;
       z-index: 2000;
     }
 
@@ -661,10 +600,10 @@ p {
              </div>
             </div>
         <div class="text2" id="main2">
-    <img id="main2-img" src="resources/images/skimon.jpg" width="310px" height="300px" style="position: absolute;">
+    <img id="main2-img" src="resources/images/skimon.jpg" width="410px" height="300px" style="position: absolute;">
     <div class="overlay3"></div>
 
-    <div id="main2-half" style="background-color: rgb(55, 54, 54); width: 310px; height: 155px; top: 290px; position: relative;">
+    <div id="main2-half" style="background-color: rgb(55, 54, 54); width: 400px; height: 155px; top: 290px; position: relative;">
         <p style="color: white; font-size: 23px; position: relative; top: 50px; left: 40px; font-family: 'Roboto', sans-serif;">
             <b>Slope</b> <br> 미리보기
         </p>
@@ -688,7 +627,7 @@ p {
                 
               </div>
             <img src="resources/images/snow.png" class="snow-image"> 
-            <button id="btn1" style="font-size: 21px;">찾아오는 길&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길&nbsp;&nbsp;</a></button>
 
             <div id="top1" style="z-index: 3; color: white;">
                 <p style="font-size: 35px; ">[Adv:nture]</p> 
@@ -733,7 +672,7 @@ p {
                 position: relative;
                 transition: transform 0.2s ease, opacity 0.2s ease;">
             </button>
-            <div style="margin-left: 800px; color: white;"><b>MENU</b></div>
+            <div style="margin-left: 1000px; color: white;"><b>MENU</b></div>
             
             	  <div id="overlay">
 	    		<div class="overlay-content">
@@ -762,15 +701,15 @@ p {
             
             
             <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
-                <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 190px; bottom: 80px; z-index: 4;">
+                <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 390px; bottom: 80px; z-index: 4;">
                 <button id="custom-kakao-channel-button"   style="background-color: #0B3E74; color: white; border: none; 
-                    width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 180px; bottom: 70px; z-index: 3;">
+                    width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 380px; bottom: 70px; z-index: 3;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
                 </button>
             </div>   
 
             
-            <div class="text2" style="width: 350px; height: 600px; background-color: black; position: relative; bottom: 210px; border: 1px solid  rgb(77, 75, 75); left: 100px;">
+            <div class="text2" style="width: 450px; height: 600px; background-color: black; position: relative; bottom: 210px; border: 1px solid  rgb(77, 75, 75); left:40px;">
                 <p style="color: rgb(169, 169, 169); word-spacing: 4px; font-size: 15px; position: relative; top: 100px; left: 65px; font-family: 'Roboto', sans-serif;"> 
                    <b> The essential part of creativity is <br>
                     not being afraid to fail. <br><br>
@@ -778,20 +717,20 @@ p {
                     We not only create Activity, we <br>
                     create pride the most Activity <br>
                     and advanced group.</b>
-                    <img id="main3-img"  src="resources/images/skisky.jpg" width="348px" height="360px" style="position: absolute; right: 65px; top: 200px;">
+                    <img id="main3-img"  src="resources/images/skisky.jpg" width="448px" height="560px" style="position: absolute; right: 65px; top: 300px;">
                     <div class="overlay2"></div>
                 </p>
 
                
 
             </div>
-            <div  class="text2" style="width: 350px; height: 700px; background-color: black; position: relative; bottom: 810px; left: 450px; border: 1px solid  rgb(77, 75, 75);" >
+            <div  class="text2" style="width: 450px; height: 700px; background-color: black; position: relative; bottom: 810px; left: 490px; border: 1px solid  rgb(77, 75, 75);" >
                 <p style="color: white; font-size: 50px; position: relative; top: 470px; left: 190px; font-family: 'Roboto', sans-serif;"> 
-                    <img id="main4-img"   src="resources/images/contact.jpg" width="348px" height="280px" style="position: absolute; right: 190px; bottom: 370px;" >
+                    <img id="main4-img"   src="resources/images/contact.jpg" width="448px" height="280px" style="position: absolute; right: 190px; bottom: 370px;" >
                     
-                    <b>BACK<br>
-                    &nbsp;TO<br>
-                    &nbsp;TOP</p></b> 
+                    &nbsp; &nbsp; &nbsp;<b>BACK<br>
+                     &nbsp; &nbsp; &nbsp;TO<br>
+                     &nbsp; &nbsp; &nbsp;TOP</p></b> 
                     <div class="overlay1"></div>
 
                     <dotlottie-player src="https://lottie.host/cb2be985-0804-4d11-b8e7-5b305167b13e/ekPO1c0lRS.lottie" background="transparent" speed="1" 
@@ -807,13 +746,13 @@ p {
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         // 카카오 SDK 초기화
-        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+        Kakao.init('인증키'); // 실제 JavaScript 키로 대체
 
         // 커스텀 버튼 클릭 이벤트
         const customButton = document.getElementById('custom-kakao-channel-button');
         customButton.addEventListener('click', function () {
           Kakao.Channel.addChannel({
-            channelPublicId: '_PPxdxln' // 채널 고유 ID
+            channelPublicId: '고유키' // 채널 고유 ID
           });
         });
       });

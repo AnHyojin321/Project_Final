@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -206,7 +207,7 @@
 		        </li>
 		        <li>
 		            <span>이용기간</span>
-		            <span class="right">${p.availableStartDate} ~ ${p.availableEndDate}</span>
+		            <span class="right">${fn:substring(p.availableStartDate, 0, 10)} ~ ${fn:substring(p.availableEndDate, 0, 10)}</span>
 		        </li>
 		    </ul>
         </div>
@@ -238,7 +239,6 @@
                     당산 설레눈 리조트는 예약자에게 예약서비스를 제공하기 위하여 예약수립 및 실행과정에서 맡은 바 임무를 충실히 수행하여야 합니다.<br>
                     예약자는 안전하고 즐거운 여행을 위하여 당산 설레눈 리조트의 예약규정 및 질서 유지에 적극 협조하여야 합니다.
                 </p>
-                <p>... (추가 내용)</p>
             </div>
         </div>
         <div class="agreement">

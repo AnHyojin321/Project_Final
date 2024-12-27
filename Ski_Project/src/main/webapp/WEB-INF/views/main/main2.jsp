@@ -131,7 +131,7 @@
 
         .snow-image {
             position: absolute;
-            top: 285px;
+            top: 415px;
             left: 10px;
             width: 30px;
             transform: rotate(280deg);
@@ -484,11 +484,11 @@ p {
             <div class="text-container">
              
                 
-                <div style="color: black; right: 180px; top: 90px; position: relative; z-index: 2;" id="moreImages">More Images</div>
+                <div style="color: black; right: 180px; top: 120px; position: relative; z-index: 2;" id="moreImages">More Images</div>
                 <div class="background-circle2"></div>
-                <img src="resources/images/arrow1.png" style="width: 30px; z-index: 2; 
-                position: relative; transform: rotate(180deg); right: 44px; top: 75px;">
-                <img src="resources/images/arrow1.png" style="width: 30px; top: 75px; z-index: 2; position: relative; right: 9px;">
+                <img src="resources/images/arrow1.png" style="width: 30px; z-index: 2; right:50px; 
+                position: relative; transform: rotate(180deg); right: 44px; top: 105px;">
+                <img src="resources/images/arrow1.png" style="width: 30px; top: 105px; z-index: 2; position: relative; right: 9px;">
 
                 <div class="background-circle"></div>
                 <div class="background-circle1"></div>``
@@ -496,7 +496,7 @@ p {
                 <p>Premium Adventure Shop</p>
               </div>
             <img src="resources/images/snow.png" class="snow-image"> 
-            <button id="btn1" style="font-size: 21px;">찾아오는 길&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길&nbsp;&nbsp;</a></button>
             
             <div id="top1">
                 <p style="font-size: 35px;">[Adv:nture]</p> 
@@ -567,9 +567,9 @@ p {
             
             
             <div style="display: flex; align-items: center; margin-left: 450px; margin-bottom: 50px; position: relative;">
-                <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 190px; top: 40px; z-index: 2;">
+                <img src="resources/images/question.png" style="width: 20px; position: absolute; left: 410px; top: 40px; z-index: 2;">
                 <button id="custom-kakao-channel-button"   style="background-color: black; color: white; border: none; 
-                    width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 180px; top: 30px;">
+                    width: 130px; height: 40px; border-radius: 8px; font-size: 15px; position: relative; left: 400px; top: 30px;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문의하기
                 </button>
             </div>
@@ -577,7 +577,7 @@ p {
             <div id="moveimg"> 
 				<a href="liftList.li">			
 	                <div class="image-container">
-	                    <img src="resources/images/ski1.png" style="width: 430px; ">
+	                    <img src="resources/images/ski1.png" style="width: 550px; ">
 	                    <div class="overlay-text">
 	                        <p style="font-weight: bold; font-size: 40px;">LIFT-PASS</p>
 	                        <br>
@@ -591,7 +591,7 @@ p {
 	                </div>
 				</a>
                 <div class="image-container" onclick="location.href='list.ro';" style="cursor: pointer; position: relative;">
-                    <img src="resources/images/room.png" style="width: 430px;">
+                    <img src="resources/images/room.png" style="width: 550px;">
                     <div class="overlay-text">
 
                         <p style="font-weight: bold; font-size: 40px;">COMFORT
@@ -619,13 +619,13 @@ p {
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         // 카카오 SDK 초기화
-        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+        Kakao.init('인증키'); // 실제 JavaScript 키로 대체
 
         // 커스텀 버튼 클릭 이벤트
         const customButton = document.getElementById('custom-kakao-channel-button');
         customButton.addEventListener('click', function () {
           Kakao.Channel.addChannel({
-            channelPublicId: '_PPxdxln' // 채널 고유 ID
+            channelPublicId: '고유아이디' // 채널 고유 ID
           });
         });
       });

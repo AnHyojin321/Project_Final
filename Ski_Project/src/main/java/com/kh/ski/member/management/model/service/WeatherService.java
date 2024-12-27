@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherService {
 
     private final String API_URL = "https://api.openweathermap.org/data/2.5/forecast";
-    private final String API_KEY = "8d4d7d5c9b577b0a766194424087c55f"; // OpenWeatherMap에서 발급받은 API 키
+    private final String API_KEY = "고유키들어갈자리"; // OpenWeatherMap에서 발급받은 API 키
 
     // API 호출 메서드
     public String getWeather(String city) {

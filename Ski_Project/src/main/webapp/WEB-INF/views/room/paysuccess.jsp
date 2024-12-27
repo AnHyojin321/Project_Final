@@ -92,7 +92,7 @@
             <span onclick="location.href='${pageContext.request.contextPath}/'">홈으로</span>
         </button>
         <button class="btn">
-            <span onclick="location.href='${pageContext.request.contextPath}/myPackage.me'">예약내역보기</span>
+            <span onclick="location.href='${pageContext.request.contextPath}/myRoom.me'">예약내역보기</span>
         </button>
     </div>
     

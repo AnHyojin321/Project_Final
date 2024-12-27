@@ -78,7 +78,7 @@
     }
 
 
-        .btn-contact .icon {
+        .btn-contact #custom-kakao-channel-button {
         width: 20px;
         height: 20px;
         margin-right: 8px;
@@ -357,7 +357,7 @@
 
         <div class="header-right">
             <button class="btn-contact">
-                <img src="resources/images/question.png" alt="돋보기 아이콘" class="icon"> 문의하기
+                <img src="resources/images/question.png" alt="돋보기 아이콘" id="custom-kakao-channel-button"> 문의하기
             </button>
             <div class="menu-icon" id="menuIcon">
                 <span>&nbsp;&nbsp;&nbsp;MENU</span>
@@ -415,7 +415,23 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 카카오 SDK 초기화
+        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+
+        // 커스텀 버튼 클릭 이벤트
+        const customButton = document.getElementById('custom-kakao-channel-button');
+        customButton.addEventListener('click', function () {
+          Kakao.Channel.addChannel({
+            channelPublicId: '_PPxdxln' // 채널 고유 ID
+          });
+        });
+      });
+    
+    
     
     const mainMenuItems = document.querySelectorAll('.main-menu ul li');
     const subMenus = document.querySelectorAll('.sub-menu');

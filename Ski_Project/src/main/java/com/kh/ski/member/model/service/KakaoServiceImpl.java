@@ -14,7 +14,7 @@ import com.kh.ski.member.model.vo.KakaoUserInfo;
 @Service
 public class KakaoServiceImpl implements KakaoService {
 
-    private static final String CLIENT_ID = "f2efc5913b287d02f1ca471e0572580f"; // 카카오 REST API 키
+    private static final String CLIENT_ID = ""; // 카카오 REST API 키
     private static final String REDIRECT_URI = "http://localhost:8090/ski/kakao/callback"; // 리다이렉트 URI
 
     @Override

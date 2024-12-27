@@ -218,7 +218,7 @@
     </style>
 </head>
 <body>
-    <jsp:include page="../common/header.jsp" />
+    <jsp:include page="../common/header2.jsp" />
     
     <h1 class="page-title">🎿 스키 강습 예약 수정</h1>
 

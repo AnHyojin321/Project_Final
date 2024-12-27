@@ -38,7 +38,6 @@ body {
 
 .status {
     font-size: 1rem;
-    color: green;
     font-weight: bold;
     margin-left: 10px;
 }

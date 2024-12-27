@@ -164,7 +164,7 @@ function saveDropdownState(event) {
                     <div class="dropdown" id="rooms" onclick="toggleDropdown(event); saveDropdownState(event)">객실 관리</div>
                     <ul>
                         <li><a href="${pageContext.request.contextPath}/list.ro">객실 관리</a></li>
-                        <li><a href="packReservList.pk">객실 예약 조회</a></li>
+                        <li><a href="roomReservation.se">객실 예약 조회</a></li>
                     </ul>
                 </li>
 

@@ -360,7 +360,7 @@
         
 .fixed-reserve-button {
     position: fixed;
-    top: 620px; /* 화면 하단에 고정 */
+    top: 885px; /* 화면 하단에 고정 */
     left: 0;
     width: 100%; /* 전체 화면 너비 */
     margin: 20px auto; /* 가운데 정렬 */

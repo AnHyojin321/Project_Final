@@ -432,7 +432,7 @@ p {
             <div class="text-container">
               </div>
             <img src="resources/images/snow.png" class="snow-image" style=" right: 15px;"> 
-            <button id="btn1" style="font-size: 21px;">찾아오는 길&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <button id="btn1" style="font-size: 21px;"><a href="search.map" style="color:white; text-decoration:none">찾아오는 길&nbsp;&nbsp;</a></button>
             
             <div id="top1" style="z-index: 3; color: white;">
                 <p style="font-size: 35px; ">[Adv:nture]</p> 
@@ -557,13 +557,13 @@ p {
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         // 카카오 SDK 초기화
-        Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 실제 JavaScript 키로 대체
+        Kakao.init(''); // 실제 JavaScript 키로 대체
 
         // 커스텀 버튼 클릭 이벤트
         const customButton = document.getElementById('custom-kakao-channel-button');
         customButton.addEventListener('click', function () {
           Kakao.Channel.addChannel({
-            channelPublicId: '_PPxdxln' // 채널 고유 ID
+            channelPublicId: '' // 채널 고유 ID
           });
         });
       });

@@ -14,8 +14,8 @@ import com.kh.ski.member.model.vo.NaverUserInfo;
 @Service
 public class NaverServiceImpl implements NaverService {
 
-    private static final String CLIENT_ID = "vub5C3pN6qHfnOcclEXW"; // 네이버 Client ID
-    private static final String CLIENT_SECRET = "8Xk0NpwXlc"; // 네이버 Client Secret
+    private static final String CLIENT_ID = ""; // 네이버 Client ID
+    private static final String CLIENT_SECRET = ""; // 네이버 Client Secret
     private static final String REDIRECT_URI = "http://localhost:8090/ski/naver/callback"; // Redirect URI
 
     @Override

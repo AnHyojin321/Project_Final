@@ -10,7 +10,7 @@
     <style>
         html, body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             height: 100%;
             font-family: 'Roboto', sans-serif; 
             font-weight: lighter;    
@@ -40,6 +40,7 @@
             position: relative;
             z-index: 1;
             text-align: center;
+            top:100px;
             font-size: 2rem;
         }
 
@@ -87,7 +88,7 @@
 
 #top1 {
             position: absolute;
-            top: 15px;
+            top: -100px;
             color: black;
             left: 100px; /* 눈 이미지 오른쪽에 위치하게 조정 */
             
@@ -102,7 +103,7 @@
     .scroll-line {
         width: 100px;
         height: 2px;
-        top: 80px;
+        top: 250px;
         background-color: black;
         position: relative;
         margin-left: 60px;
@@ -262,7 +263,7 @@
     <div class="content">
 
 
-            <p style="font-size: 20px; color: rgb(55, 54, 54); bottom: 50px; position: relative;">
+            <p style="font-size: 40px; color: rgb(55, 54, 54); bottom: 50px; position: relative;">
                 <br><br><br>
                 편안함과 모험이 공존하는 공간에서, 진정한 여유를 느끼세요. <br>
                 탁월함을 디자인하는 우리의 가치,<br>
@@ -275,40 +276,40 @@
                 <div class="scroll-line">
                     <div class="moving-circle"></div>
                 </div>
-                <div style="color: black; top: 78px; position: relative;">&nbsp;&nbsp;&nbsp;SCROLL</div>
+                <div style="color: black; top: 250px; position: relative;">&nbsp;&nbsp;&nbsp;SCROLL</div>
                 </div>
                 
 
 
 	
                 <div id="top1" style="z-index: 3; color: rgb(79, 78, 78);font-family: 'Roboto', sans-serif;
-             font-weight: lighter; font-size: 33px;">
+             font-weight: lighter; font-size: 53px;">
                  [Adv:nture] <br>
                  <p style="font-size: 20px; right: 20px; position: relative;">MAKE YOUR </p> 
                 </div>
 
-                <div   class="text2" style=" color: black; right: 390px; position: relative; bottom: 10px;">
+                <div   class="text2" style=" color: black; right: 600px; position: relative; bottom: 10px;">
                 <img src="resources/images/main4-img1.png" width="90px"  >
                 <p>서비스</p>
-                <p style="font-size: 20px;">1st movement <br>
-                    <p style="font-size: 15px;">
+                <p style="font-size: 40px;">1st movement <br>
+                    <p style="font-size: 25px;">
                         완벽한 설질과 현대적인 시설 <br>고객 맞춤형 서비스로 진정한 휴식을 제공합니다. 
                 </p>
             </div>
 
-            <div  class="text2" style="color: black; bottom: 320px; position: relative; ">
+            <div  class="text2" style="color: black; bottom: 430px; position: relative; ">
                 <img src="resources/images/main4-img2.png" width="90px" >
                 <p>소통</p>
-                <p style="font-size: 20px;">2st movement <br>
-                    <p style="font-size: 15px;">
+                <p style="font-size: 40px;">2st movement <br>
+                    <p style="font-size: 25px;">
                          소통을 통해 더 나은 서비스를 <br>만들어가며 함께 공감하는 공간을 제공합니다.
                 </p>
             </div>
-            <div  class="text2" style="color: black;  left: 400px; position: relative; bottom: 625px;">
+            <div  class="text2" style="color: black;  left: 570px; position: relative; bottom: 815px;">
                 <img src="resources/images/main4-img3.png" width="90px" >
                 <p>케어</p>
-                <p style="font-size: 20px;">3st movement <br>
-                    <p style="font-size: 15px;">
+                <p style="font-size: 40px;">3st movement <br>
+                    <p style="font-size: 25px;">
                         차별화된 시설과 독창적인 <br>프로그램으로 당신의 겨울을 한층 더 빛나게 합니다. 
                 </p>
             </div>

@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
     <title>드래그 가능한 마커 생성하기</title>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46c2f0e67117540d92e2963bf703cce5"></script>    
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=고유키들어갈자리"></script>    
 	<style>
 		body {
 			margin : 0px;

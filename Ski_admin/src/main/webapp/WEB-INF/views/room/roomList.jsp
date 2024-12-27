@@ -334,16 +334,6 @@ h2 {
 	<main class="content">
     <h1>객실 리스트</h1>
     
-    <div class="filter-container">
-	    <label for="roomTypeFilter" class="filter-label">객실 타입:</label>
-	    <select id="roomTypeFilter" class="filter-select">
-	        <option value="">전체</option>
-	        <option value="Standard">스탠다드</option>
-	        <option value="Deluxe">디럭스</option>
-	        <option value="Suite">스위트</option>
-	    </select>
-	    <button id="filterButton" class="filter-button">필터 적용</button>
-	</div>
     
     
     <table border="1">

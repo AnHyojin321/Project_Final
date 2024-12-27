@@ -652,7 +652,7 @@ $(".cancel-button").on("click", function (e) {
 			            );  
 			            
 			            // 바코드 이미지 경로 생성
-			            var barcodeImagePath = "${pageContext.request.contextPath}/resources/uploadFiles/barcode/" + p.packageReservNo + ".png";
+			            var barcodeImagePath = "${pageContext.request.contextPath}/resources/uploadFiles/barcode/2.png";
 			            console.log("바코드 경로 : ", barcodeImagePath);  // 경로 확인용 로그
 
 			            // 티켓 뒷면에 바코드 이미지를 동적으로 추가

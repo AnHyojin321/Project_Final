@@ -104,7 +104,7 @@ h2 {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
-Kakao.init('dc02060907b4ccb8c6417c5af8b8a228'); // 발급받은 JavaScript 키 입력
+Kakao.init('자바스크립트인증키'); // 발급받은 JavaScript 키 입력
 console.log("카카오 초기화 완료: " + Kakao.isInitialized());
 function shareLockerInfo(lockerReservNo, lockerStartDate, lockerEndDate, lockerTotalPrice) {
     console.log("Debug - 예약 번호:", lockerReservNo);
